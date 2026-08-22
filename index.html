@@ -780,6 +780,24 @@
     <div class="status-line" id="todayStatus"></div>
     <div class="today-list" id="todayList"></div>
     <input type="hidden" id="apiKey" value="4ad03debafa3b6262e9248abf7932e10">
+
+    <details class="settings">
+      <summary>Reforço football-data.org (opcional)</summary>
+      <div class="settings-body">
+        <div>
+          <label for="fdApiKey">API Key da football-data.org</label>
+          <input type="text" id="fdApiKey" placeholder="Cole aqui sua key gratuita">
+        </div>
+        <button type="button" class="btn-primary" id="btnSaveFdKey">Salvar</button>
+      </div>
+      <div class="settings-note" id="fdKeyStatus">
+        Usada só como reforço pra Série A, quando a API-Football não retornar os
+        últimos 5 jogos de um time (restrição de temporada no plano gratuito).
+        Sem essa key o site funciona normal, só sem esse reforço.
+        Pegue a sua de graça em <code>football-data.org</code> (cadastro por e-mail, sem cartão)
+        e cole aqui — ela fica salva só neste navegador.
+      </div>
+    </details>
   </section>
 
   </div><!-- /view-jogos -->
@@ -872,7 +890,7 @@
     <div class="panel-head">
       <div>
         <div class="detail-title" style="font-size:16px;">Times -2 Gols no 1º Tempo</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times dos jogos de hoje que NÃO fizeram 2 gols no 1º tempo — ou seja, marcaram MENOS de 2 no 1ºT em CADA UM dos últimos 5 jogos.</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times do Brasileirão Série A que jogam hoje e que NÃO fizeram 2 gols no 1º tempo — ou seja, marcaram MENOS de 2 no 1ºT em CADA UM dos últimos 5 jogos.</div>
       </div>
     </div>
     <div class="status-line" id="frios1tStatus"></div>
@@ -937,7 +955,29 @@
   // no código-fonte para qualquer visitante do site (View Source / DevTools).
   // Troque a chave caso perceba uso indevido/consumo de cota fora do esperado.
   const el = id => document.getElementById(id);
-  const state = { apiKey: (el('apiKey') && el('apiKey').value.trim()) || '4ad03debafa3b6262e9248abf7932e10' };
+  const state = {
+    apiKey: (el('apiKey') && el('apiKey').value.trim()) || '4ad03debafa3b6262e9248abf7932e10',
+    // Key da football-data.org: fica só no localStorage deste navegador (o usuário cola a dele).
+    fdApiKey: ''
+  };
+
+  try{ state.fdApiKey = localStorage.getItem('fanEsporte_fdApiKey') || 'dcdae95c58964b80bf9fc468a5d42e97'; }catch(err){ state.fdApiKey = 'dcdae95c58964b80bf9fc468a5d42e97'; }
+  if(el('fdApiKey')) el('fdApiKey').value = state.fdApiKey;
+
+  if(el('btnSaveFdKey')){
+    el('btnSaveFdKey').addEventListener('click', () => {
+      const v = el('fdApiKey').value.trim();
+      state.fdApiKey = v;
+      const statusEl = el('fdKeyStatus');
+      try{
+        if(v) localStorage.setItem('fanEsporte_fdApiKey', v);
+        else localStorage.removeItem('fanEsporte_fdApiKey');
+        if(statusEl) statusEl.previousElementSibling; // no-op, mantém o texto fixo
+      }catch(err){
+        console.warn('Não foi possível salvar a key da football-data.org:', err.message);
+      }
+    });
+  }
 
   /* ---------------- widget flutuante de sugestões ---------------- */
   // Site estático (sem backend): as sugestões ficam guardadas só na memória
@@ -1209,21 +1249,120 @@
     }));
   }
 
-  async function pullTeamFixtures(teamName, key, knownId){
-    if(!key){
-      return { fixtures: null, source:'unavailable', error: 'Nenhuma API key informada' };
+  /* ---------------- fallback: football-data.org (só Série A do Brasil) ---------------- */
+  // Reaproveita o mesmo cache diário (mesma função cacheGet/cacheSet), só com prefixo
+  // 'FD:' na chave pra não colidir com os paths da API-Football. Tem fila própria de
+  // requisições porque o limite de 10/min é da football-data.org, separado do limite
+  // da API-Football.
+  const FD_API_BASE = 'https://api.football-data.org/v4';
+  const FD_COMPETITION = 'BSA'; // código da Série A do Brasil na football-data.org
+  const FD_MIN_INTERVAL_MS = 6500;
+  let lastFdCallAt = 0;
+  let fdQueueTail = Promise.resolve();
+
+  function scheduleFdApiCall(fn){
+    const runPromise = fdQueueTail.then(async () => {
+      const wait = Math.max(0, lastFdCallAt + FD_MIN_INTERVAL_MS - Date.now());
+      if(wait > 0) await new Promise(r => setTimeout(r, wait));
+      lastFdCallAt = Date.now();
+      return fn();
+    });
+    fdQueueTail = runPromise.catch(() => {});
+    return runPromise;
+  }
+
+  async function fdApiGet(path, key){
+    const cacheKey = 'FD:' + path;
+    const cached = cacheGet(cacheKey);
+    if(cached){
+      cacheStats.hits++;
+      return cached;
     }
+    cacheStats.misses++;
+    return scheduleFdApiCall(async () => {
+      const res = await fetch(FD_API_BASE + path, { headers: { 'X-Auth-Token': key } });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      cacheSet(cacheKey, data);
+      return data;
+    });
+  }
+
+  // Remove acentos/pontuação pra comparar nomes de time entre as duas APIs
+  // (elas não usam os mesmos IDs nem exatamente o mesmo nome).
+  function normalizeTeamName(str){
+    return (str || '')
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]/g, '');
+  }
+
+  async function findFdTeamId(teamName, key){
+    // Lista de times da Série A é cacheada por dia (1 request cobre todos os times).
+    const data = await fdApiGet('/competitions/' + FD_COMPETITION + '/teams', key);
+    const teams = data.teams || [];
+    const target = normalizeTeamName(teamName);
+    let found = teams.find(t => normalizeTeamName(t.name) === target || normalizeTeamName(t.shortName) === target);
+    if(!found) found = teams.find(t => normalizeTeamName(t.name).includes(target) || target.includes(normalizeTeamName(t.shortName || '')));
+    if(!found) throw new Error('Time não encontrado na football-data.org: ' + teamName);
+    return found.id;
+  }
+
+  async function fetchFdLastFixtures(teamId, key){
+    const path = '/teams/' + teamId + '/matches?competitions=' + FD_COMPETITION +
+      '&season=' + TARGET_SEASON + '&status=FINISHED&limit=' + GAMES_LIMIT;
+    const data = await fdApiGet(path, key);
+    const matches = (data.matches || [])
+      .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))
+      .slice(0, GAMES_LIMIT);
+
+    return matches.map(m => {
+      const isHome = m.homeTeam.id === teamId;
+      const ht = m.score.halfTime || {};
+      const ft = m.score.fullTime || {};
+      const gf_ht = isHome ? (ht.home ?? 0) : (ht.away ?? 0);
+      const ga_ht = isHome ? (ht.away ?? 0) : (ht.home ?? 0);
+      const gf_ft = isHome ? (ft.home ?? 0) : (ft.away ?? 0);
+      const ga_ft = isHome ? (ft.away ?? 0) : (ft.home ?? 0);
+      const opponent = isHome ? m.awayTeam.name : m.homeTeam.name;
+      // football-data.org (plano free) não retorna minuto exato do gol — fica sem esse
+      // dado (a lista de jogos mostra "marcou/não marcou" com base no placar do 1ºT/2ºT).
+      return { fixtureId: 'fd-' + m.id, gf_ht, ga_ht, gf_ft, ga_ft, date: m.utcDate, opponent, isHome, minutesScored: null };
+    });
+  }
+
+  async function pullFdTeamFixtures(teamName, key){
+    if(!key) return { fixtures: null, error: 'Nenhuma key da football-data.org informada' };
     try{
-      const id = knownId || await findTeamId(teamName, key);
-      let fixtures = await fetchLastFixtures(id, key);
-      if(!fixtures.length) throw new Error('Sem partidas finalizadas encontradas na temporada ' + TARGET_SEASON + ' para este plano');
-      fixtures = await attachGoalMinutes(fixtures, id, key);
-      return { fixtures, source:'api', gamesFound: fixtures.length };
+      const id = await findFdTeamId(teamName, key);
+      const fixtures = await fetchFdLastFixtures(id, key);
+      if(!fixtures.length) throw new Error('sem jogos finalizados na football-data.org para a temporada ' + TARGET_SEASON);
+      return { fixtures, error: null };
     }catch(err){
-      // dado real indisponível: NÃO usa mais fallback fictício, fica sem dado mesmo
-      console.warn('Falha na API-Football, sem dado real disponível:', err.message);
-      return { fixtures: null, source:'unavailable', error: err.message };
+      console.warn('Falha no fallback football-data.org:', err.message);
+      return { fixtures: null, error: err.message };
     }
+  }
+
+  async function pullTeamFixtures(teamName, key, knownId){
+    if(key){
+      try{
+        const id = knownId || await findTeamId(teamName, key);
+        let fixtures = await fetchLastFixtures(id, key);
+        if(!fixtures.length) throw new Error('Sem partidas finalizadas encontradas na temporada ' + TARGET_SEASON + ' para este plano');
+        fixtures = await attachGoalMinutes(fixtures, id, key);
+        return { fixtures, source:'api', gamesFound: fixtures.length };
+      }catch(err){
+        console.warn('Falha na API-Football, tentando reforço football-data.org:', err.message);
+        const fd = await pullFdTeamFixtures(teamName, state.fdApiKey);
+        if(fd.fixtures) return { fixtures: fd.fixtures, source:'football-data', gamesFound: fd.fixtures.length };
+        return { fixtures: null, source:'unavailable', error: err.message + ' | football-data.org: ' + fd.error };
+      }
+    }
+    // Sem key da API-Football: tenta direto o reforço, se houver key da football-data.org.
+    const fd = await pullFdTeamFixtures(teamName, state.fdApiKey);
+    if(fd.fixtures) return { fixtures: fd.fixtures, source:'football-data', gamesFound: fd.fixtures.length };
+    return { fixtures: null, source:'unavailable', error: 'Nenhuma API key informada | football-data.org: ' + fd.error };
   }
 
   function formatGameDate(iso){
@@ -1416,14 +1555,16 @@
       detailStatus.classList.add('err');
     } else if(usedMock){
       const motivo = homeRes.error || awayRes.error || 'verifique a chave/limite diário';
-      detailStatus.textContent = 'A API-Football não retornou dado real para um ou os dois times (' + motivo + ') — mostrando só o que tiver dado de verdade, sem exemplos fictícios.';
+      detailStatus.textContent = 'Nenhuma das duas fontes retornou dado real para um ou os dois times. Motivo: ' + motivo;
       detailStatus.classList.add('err');
     } else {
       const menorAmostra = Math.min(homeRes.gamesFound, awayRes.gamesFound);
       const aviso = menorAmostra < GAMES_LIMIT
         ? ' (apenas ' + menorAmostra + ' jogos finalizados encontrados na temporada ' + TARGET_SEASON + ' para este plano)'
         : '';
-      detailStatus.textContent = 'Estatísticas puxadas com sucesso da API-Football.' + aviso + cacheNote;
+      const usouFd = homeRes.source === 'football-data' || awayRes.source === 'football-data';
+      const fonteNote = usouFd ? ' (reforço football-data.org usado pra pelo menos um dos times)' : '';
+      detailStatus.textContent = 'Estatísticas puxadas com sucesso.' + fonteNote + aviso + cacheNote;
       detailStatus.classList.add('ok');
     }
   }
@@ -1432,15 +1573,11 @@
   /* Só jogos dessas competições aparecem em "Jogos de hoje".
      Para liberar mais ligas no futuro, é só adicionar um novo objeto no array abaixo
      (name: nome pra exibir; test: como reconhecer a liga pelo nome/país que a API retorna). */
+  // Por pedido do usuário: só o Brasileirão Série A entra em "Jogos de hoje" e na aba
+  // "-2 Gols no 1ºT". Pra voltar a incluir outras divisões/copas no futuro, é só
+  // adicionar de novo os outros objetos aqui (mesmo formato de antes).
   const ALLOWED_LEAGUES = [
-    { name: 'Série A',              test: (n,c) => c === 'Brazil' && /\bserie\s*a\b/i.test(n) },
-    { name: 'Série B',              test: (n,c) => c === 'Brazil' && /\bserie\s*b\b/i.test(n) },
-    { name: 'Série C',              test: (n,c) => c === 'Brazil' && /\bserie\s*c\b/i.test(n) },
-    { name: 'Copa do Brasil',       test: (n,c) => c === 'Brazil' && /copa do brasil/i.test(n) && !/super/i.test(n) },
-    { name: 'Supercopa do Brasil',  test: (n,c) => c === 'Brazil' && /super.*copa do brasil|supercopa/i.test(n) },
-    { name: 'Copa Libertadores',    test: (n)   => /libertadores/i.test(n) },
-    { name: 'Copa Sul-Americana',   test: (n)   => /sudamericana|sul-?americana/i.test(n) && !/recopa/i.test(n) },
-    { name: 'Recopa Sul-Americana', test: (n)   => /recopa/i.test(n) },
+    { name: 'Série A', test: (n,c) => c === 'Brazil' && /\bserie\s*a\b/i.test(n) },
   ];
 
   function matchAllowedLeague(leagueName, leagueCountry){
@@ -1600,8 +1737,12 @@
           if(!fixtures.length) throw new Error('sem jogos finalizados na temporada ' + TARGET_SEASON);
           result = { ...entry, fixtures };
         }catch(err){
-          // dado real indisponível: NÃO usa mock aqui, o time simplesmente fica de fora
-          result = { ...entry, fixtures: null, error: err.message };
+          // API-Football falhou (ex: restrição de temporada no plano free) — tenta o
+          // reforço football-data.org antes de desistir do time.
+          const fd = await pullFdTeamFixtures(entry.name, state.fdApiKey);
+          result = fd.fixtures
+            ? { ...entry, fixtures: fd.fixtures }
+            : { ...entry, fixtures: null, error: err.message + ' | football-data.org: ' + fd.error };
         }
       }
       done++;
@@ -1621,7 +1762,11 @@
     renderFrios1tList(qualified);
 
     const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
-    const semDadoNote = semDado ? ' (' + semDado + ' time(s) ficaram de fora por falta de dado real da API)' : '';
+    const semDadoDetalhe = allResults
+      .filter(r => !r.fixtures && r.error)
+      .map(r => r.name + ': ' + r.error)
+      .join(' · ');
+    const semDadoNote = semDado ? ' (' + semDado + ' time(s) ficaram de fora: ' + semDadoDetalhe + ')' : '';
     statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos 5 jogos.' + semDadoNote + cacheNote;
     statusEl.classList.add(semDado ? 'err' : 'ok');
   }
