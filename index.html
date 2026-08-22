@@ -762,7 +762,7 @@
   <nav class="tabs">
     <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
     <button class="tab-btn" data-view="analise">Análise</button>
-    <button class="tab-btn" data-view="frios1t">Frios no 1ºT</button>
+    <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
   </nav>
 
   <!-- ===== VIEW: JOGOS DO DIA ===== -->
@@ -871,8 +871,8 @@
   <section class="panel">
     <div class="panel-head">
       <div>
-        <div class="detail-title" style="font-size:16px;">Times sem 2+ gols no 1º tempo</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Analisa automaticamente os times dos jogos de hoje: entram aqui só os que fizeram MENOS de 2 gols no 1º tempo em CADA UM dos últimos 5 jogos.</div>
+        <div class="detail-title" style="font-size:16px;">Times -2 Gols no 1º Tempo</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times dos jogos de hoje que NÃO fizeram 2 gols no 1º tempo — ou seja, marcaram MENOS de 2 no 1ºT em CADA UM dos últimos 5 jogos.</div>
       </div>
     </div>
     <div class="status-line" id="frios1tStatus"></div>
@@ -1100,7 +1100,7 @@
   // Só entra nessa fila quando o dado NÃO está no cache (cache não gasta cota nem
   // passa pela fila). Espaça as chamadas de verdade pra não estourar o limite por
   // minuto da API-Football, que causava falha em quase todas as consultas quando
-  // vários times eram buscados ao mesmo tempo (ex: aba "Frios no 1ºT").
+  // vários times eram buscados ao mesmo tempo (ex: aba "-2 Gols no 1ºT").
   const MIN_INTERVAL_MS = 6500; // ~9 chamadas/min, com folga do limite de 10/min
   let lastApiCallAt = 0;
   let apiQueueTail = Promise.resolve();
