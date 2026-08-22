@@ -412,12 +412,12 @@
     gap:6px;
   }
   details.settings summary::-webkit-details-marker{ display:none; }
+  details.settings[open] summary:before{ transform:rotate(90deg); }
   details.settings summary:before{
     content:"▸";
     color:var(--muted-2);
     transition:transform .15s ease;
   }
-  details.settings[open] summary:before{ transform:rotate(90deg); }
   .settings-body{
     margin-top:14px;
     display:grid;
@@ -1134,7 +1134,6 @@
       cacheSet(path, data);
       return data;
     });
-    return data;
   }
 
   async function findTeamId(name, key){
@@ -1593,7 +1592,11 @@
         result = { ...entry, fixtures: null };
       } else {
         try{
-          const fixtures = await fetchLastFixtures(entry.id, TARGET_SEASON, state.apiKey);
+          // CORRIGIDO: fetchLastFixtures espera (teamId, key) — antes estava sendo
+          // chamada com 3 argumentos (entry.id, TARGET_SEASON, state.apiKey), o que
+          // fazia TARGET_SEASON (2026) ser usado no lugar da key de verdade e a
+          // requisição falhar silenciosamente para qualquer time ainda não cacheado.
+          const fixtures = await fetchLastFixtures(entry.id, state.apiKey);
           if(!fixtures.length) throw new Error('sem jogos finalizados na temporada ' + TARGET_SEASON);
           result = { ...entry, fixtures };
         }catch(err){
