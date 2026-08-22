@@ -1096,6 +1096,27 @@
       .forEach(k => localStorage.removeItem(k));
   }
 
+  // ---- fila com espaçamento entre chamadas reais (plano gratuito = 10 req/min) ----
+  // Só entra nessa fila quando o dado NÃO está no cache (cache não gasta cota nem
+  // passa pela fila). Espaça as chamadas de verdade pra não estourar o limite por
+  // minuto da API-Football, que causava falha em quase todas as consultas quando
+  // vários times eram buscados ao mesmo tempo (ex: aba "Frios no 1ºT").
+  const MIN_INTERVAL_MS = 6500; // ~9 chamadas/min, com folga do limite de 10/min
+  let lastApiCallAt = 0;
+  let apiQueueTail = Promise.resolve();
+
+  function scheduleApiCall(fn){
+    const runPromise = apiQueueTail.then(async () => {
+      const wait = Math.max(0, lastApiCallAt + MIN_INTERVAL_MS - Date.now());
+      if(wait > 0) await new Promise(r => setTimeout(r, wait));
+      lastApiCallAt = Date.now();
+      return fn();
+    });
+    // nunca deixa uma falha de uma chamada travar as próximas da fila
+    apiQueueTail = runPromise.catch(() => {});
+    return runPromise;
+  }
+
   async function apiGet(path, key){
     const cached = cacheGet(path);
     if(cached){
@@ -1103,13 +1124,16 @@
       return cached;
     }
     cacheStats.misses++;
-    const res = await fetch(API_BASE + path, { headers: { 'x-apisports-key': key } });
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    if(data.errors && Object.keys(data.errors).length){
-      throw new Error(JSON.stringify(data.errors));
-    }
-    cacheSet(path, data);
+    return scheduleApiCall(async () => {
+      const res = await fetch(API_BASE + path, { headers: { 'x-apisports-key': key } });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if(data.errors && Object.keys(data.errors).length){
+        throw new Error(JSON.stringify(data.errors));
+      }
+      cacheSet(path, data);
+      return data;
+    });
     return data;
   }
 
@@ -1188,7 +1212,7 @@
 
   async function pullTeamFixtures(teamName, key, knownId){
     if(!key){
-      return { fixtures: generateMockFixtures(teamName), source:'mock' };
+      return { fixtures: null, source:'unavailable', error: 'Nenhuma API key informada' };
     }
     try{
       const id = knownId || await findTeamId(teamName, key);
@@ -1197,8 +1221,9 @@
       fixtures = await attachGoalMinutes(fixtures, id, key);
       return { fixtures, source:'api', gamesFound: fixtures.length };
     }catch(err){
-      console.warn('Falha na API-Football, usando fallback mockado:', err.message);
-      return { fixtures: generateMockFixtures(teamName), source:'mock', error: err.message };
+      // dado real indisponível: NÃO usa mais fallback fictício, fica sem dado mesmo
+      console.warn('Falha na API-Football, sem dado real disponível:', err.message);
+      return { fixtures: null, source:'unavailable', error: err.message };
     }
   }
 
@@ -1208,10 +1233,10 @@
     return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
   }
 
-  function renderGamesList(listId, fixtures){
+  function renderGamesList(listId, fixtures, emptyMessage){
     const target = el(listId);
     if(!fixtures || !fixtures.length){
-      target.innerHTML = '<div class="empty-note" style="padding:12px;">Nenhum jogo carregado ainda.</div>';
+      target.innerHTML = '<div class="empty-note" style="padding:12px;">' + (emptyMessage || 'Nenhum jogo carregado ainda.') + '</div>';
       return;
     }
     target.innerHTML = fixtures.map((f, i) => {
@@ -1281,6 +1306,8 @@
   const venueState = { home: [], away: [], selected: { home: 'home', away: 'home' } };
   // Seleção do filtro Geral/Casa/Fora aplicado à LISTA dos últimos 5 jogos de 2026 (embaixo).
   const listVenueState = { selected: { home: 'geral', away: 'geral' } };
+  // Marca quando não há dado REAL da API pro time (não confundir com "ainda não carregou").
+  const noDataFlag = { home: false, away: false };
 
   function filterFixturesByVenue(fixtures, venue){
     if(venue === 'geral') return fixtures || [];
@@ -1288,6 +1315,12 @@
   }
 
   function applyVenueStats(prefix){
+    if(noDataFlag[prefix]){
+      el(prefix + 'AvgTotal').textContent = '—';
+      el(prefix + 'AvgHT').textContent = '—';
+      el(prefix + 'AvgST').textContent = '—';
+      return;
+    }
     const filtered = filterFixturesByVenue(venueState[prefix], venueState.selected[prefix]);
     const avg = computeGoalAverages(filtered);
     el(prefix + 'AvgTotal').textContent = avg.avgTotal;
@@ -1296,6 +1329,12 @@
   }
 
   function applyGamesListFilter(prefix){
+    if(noDataFlag[prefix]){
+      renderGamesList(prefix + 'GamesList', [], 'Sem dado real disponível para este time — a API não retornou os últimos jogos.');
+      const countEl = el(prefix + 'GamesCount');
+      if(countEl) countEl.textContent = 'sem dado';
+      return;
+    }
     const filtered = filterFixturesByVenue(venueState[prefix], listVenueState.selected[prefix]);
     renderGamesList(prefix + 'GamesList', filtered);
     const countEl = el(prefix + 'GamesCount');
@@ -1303,6 +1342,7 @@
   }
 
   function renderAverages(prefix, teamName, fixtures){
+    noDataFlag[prefix] = !fixtures;
     venueState[prefix] = fixtures || [];
     el(prefix + 'AvgLabel').textContent = teamName;
     applyVenueStats(prefix);
@@ -1371,13 +1411,13 @@
     renderAverages('away', g.away.name, awayRes.fixtures);
     el('avgGrid').style.display = 'grid';
 
-    const usedMock = homeRes.source==='mock' || awayRes.source==='mock';
+    const usedMock = homeRes.source==='unavailable' || awayRes.source==='unavailable';
     if(!state.apiKey){
-      detailStatus.textContent = 'Nenhuma API key informada — mostrando dados mockados de demonstração.';
-      detailStatus.classList.add('ok');
+      detailStatus.textContent = 'Nenhuma API key informada — sem dados reais disponíveis pra análise.';
+      detailStatus.classList.add('err');
     } else if(usedMock){
-      const motivo = homeRes.error || awayRes.error || 'verifique a chave/CORS/limite diário';
-      detailStatus.textContent = 'A API-Football não retornou dados válidos (' + motivo + ') — usando fallback mockado.';
+      const motivo = homeRes.error || awayRes.error || 'verifique a chave/limite diário';
+      detailStatus.textContent = 'A API-Football não retornou dado real para um ou os dois times (' + motivo + ') — mostrando só o que tiver dado de verdade, sem exemplos fictícios.';
       detailStatus.classList.add('err');
     } else {
       const menorAmostra = Math.min(homeRes.gamesFound, awayRes.gamesFound);
@@ -1509,8 +1549,12 @@
       return;
     }
 
-    listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Analisando os últimos 5 jogos de cada time…</div>';
-    statusEl.textContent = 'Analisando o 1º tempo dos últimos 5 jogos de cada time dos jogos de hoje…';
+    if(!state.apiKey){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra analisar aqui (essa aba não usa exemplos fictícios).</div>';
+      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      statusEl.classList.add('err');
+      return;
+    }
 
     // times únicos entre casa/fora de todos os jogos de hoje
     const teamsMap = new Map();
@@ -1521,39 +1565,62 @@
       });
     });
 
+    const entries = Array.from(teamsMap.values());
+    const total = entries.length;
+    let done = 0;
+
     cacheStats.hits = 0;
     cacheStats.misses = 0;
 
-    const results = await Promise.all(Array.from(teamsMap.values()).map(async entry => {
-      if(!state.apiKey || entry.id == null){
-        return { ...entry, fixtures: generateMockFixtures(entry.name), source: 'mock' };
+    // Contador ao vivo: atualiza a cada time verificado, já que a fila de
+    // requisições espera ~6,5s entre chamadas reais (limite de 10/min do plano
+    // gratuito), então isso pode demorar — o usuário precisa ver que está andando.
+    function updateProgress(){
+      listEl.innerHTML =
+        '<div class="empty-note" style="padding:8px 4px;">' +
+          'Aguarde, analisando os últimos 5 jogos de cada time… ' +
+          '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
+          'Pode levar alguns minutos por causa do limite de requisições por minuto do plano gratuito.' +
+        '</div>';
+      statusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+    }
+    updateProgress();
+
+    const allResults = await Promise.all(entries.map(async entry => {
+      let result;
+      // sem id de time (jogo de exemplo/mock) não dá pra consultar a API de verdade
+      if(entry.id == null){
+        result = { ...entry, fixtures: null };
+      } else {
+        try{
+          const fixtures = await fetchLastFixtures(entry.id, TARGET_SEASON, state.apiKey);
+          if(!fixtures.length) throw new Error('sem jogos finalizados na temporada ' + TARGET_SEASON);
+          result = { ...entry, fixtures };
+        }catch(err){
+          // dado real indisponível: NÃO usa mock aqui, o time simplesmente fica de fora
+          result = { ...entry, fixtures: null, error: err.message };
+        }
       }
-      try{
-        const fixtures = await fetchLastFixtures(entry.id, TARGET_SEASON, state.apiKey);
-        if(!fixtures.length) throw new Error('sem jogos finalizados na temporada ' + TARGET_SEASON);
-        return { ...entry, fixtures, source: 'api' };
-      }catch(err){
-        return { ...entry, fixtures: generateMockFixtures(entry.name), source: 'mock', error: err.message };
-      }
+      done++;
+      updateProgress();
+      return result;
     }));
 
-    const qualified = results.filter(r =>
+    // só entram times com dado real de verdade (nada fictício nesta aba)
+    const usable = allResults.filter(r => r.fixtures);
+    const semDado = allResults.length - usable.length;
+
+    const qualified = usable.filter(r =>
       r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ht < 2)
     );
     qualified.sort((a, b) => a.game.time.localeCompare(b.game.time));
 
     renderFrios1tList(qualified);
 
-    const usedMock = results.some(r => r.source === 'mock');
     const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
-    if(!state.apiKey){
-      statusEl.textContent = 'Nenhuma API key informada — mostrando exemplo com dados mockados.';
-      statusEl.classList.add('ok');
-    } else {
-      statusEl.textContent = qualified.length + ' de ' + results.length + ' times analisados não fizeram 2+ gols no 1º tempo em nenhum dos últimos 5 jogos.' +
-        (usedMock ? ' (alguns times sem dado real da API entraram como exemplo)' : '') + cacheNote;
-      statusEl.classList.add(usedMock ? 'err' : 'ok');
-    }
+    const semDadoNote = semDado ? ' (' + semDado + ' time(s) ficaram de fora por falta de dado real da API)' : '';
+    statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos 5 jogos.' + semDadoNote + cacheNote;
+    statusEl.classList.add(semDado ? 'err' : 'ok');
   }
 
   function renderFrios1tList(items){
