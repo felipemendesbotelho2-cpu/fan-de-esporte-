@@ -762,6 +762,7 @@
   <nav class="tabs">
     <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
     <button class="tab-btn" data-view="analise">Análise</button>
+    <button class="tab-btn" data-view="frios1t">Frios no 1ºT</button>
   </nav>
 
   <!-- ===== VIEW: JOGOS DO DIA ===== -->
@@ -771,11 +772,14 @@
   <section class="panel">
     <div class="panel-head">
       <div></div>
-      <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-ghost" id="btnForceRefresh" title="Ignora o cache de hoje e busca de novo na API (gasta cota)">Forçar nova busca</button>
+        <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
+      </div>
     </div>
     <div class="status-line" id="todayStatus"></div>
     <div class="today-list" id="todayList"></div>
-    <input type="hidden" id="apiKey" value="e6df6ba127529fe4c3a4b28b13a9dee8">
+    <input type="hidden" id="apiKey" value="4ad03debafa3b6262e9248abf7932e10">
   </section>
 
   </div><!-- /view-jogos -->
@@ -861,6 +865,22 @@
 
   </div><!-- /view-analise -->
 
+  <!-- ===== VIEW: FRIOS NO 1º TEMPO ===== -->
+  <div class="view" id="view-frios1t">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Times sem 2+ gols no 1º tempo</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Analisa automaticamente os times dos jogos de hoje: entram aqui só os que fizeram MENOS de 2 gols no 1º tempo em CADA UM dos últimos 5 jogos.</div>
+      </div>
+    </div>
+    <div class="status-line" id="frios1tStatus"></div>
+    <div class="today-list" id="frios1tList"></div>
+  </section>
+
+  </div><!-- /view-frios1t -->
+
   <footer>Fan de Esporte · uso analítico — não constitui recomendação financeira</footer>
 </div>
 
@@ -917,7 +937,7 @@
   // no código-fonte para qualquer visitante do site (View Source / DevTools).
   // Troque a chave caso perceba uso indevido/consumo de cota fora do esperado.
   const el = id => document.getElementById(id);
-  const state = { apiKey: (el('apiKey') && el('apiKey').value.trim()) || 'e6df6ba127529fe4c3a4b28b13a9dee8' };
+  const state = { apiKey: (el('apiKey') && el('apiKey').value.trim()) || '4ad03debafa3b6262e9248abf7932e10' };
 
   /* ---------------- widget flutuante de sugestões ---------------- */
   // Site estático (sem backend): as sugestões ficam guardadas só na memória
@@ -1036,13 +1056,60 @@
   /* ---------------- API-Football ---------------- */
   const API_BASE = 'https://v3.football.api-sports.io';
 
+  // ---- cache diário em localStorage ----
+  // Objetivo: gastar as requisições da API (limite de 100/dia no plano gratuito)
+  // só na primeira vez que cada endpoint é chamado no dia. As próximas chamadas
+  // ao MESMO endpoint no MESMO dia usam o dado já salvo, sem gastar cota.
+  // O cache expira sozinho quando o dia vira (compara com a data de hoje).
+  const CACHE_PREFIX = 'fanEsporte_apiCache_';
+  const cacheStats = { hits: 0, misses: 0 };
+
+  function todayKey(){
+    return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  }
+
+  function cacheGet(path){
+    try{
+      const raw = localStorage.getItem(CACHE_PREFIX + path);
+      if(!raw) return null;
+      const saved = JSON.parse(raw);
+      if(saved.day !== todayKey()) return null; // expirou (virou o dia)
+      return saved.data;
+    }catch(err){
+      return null; // localStorage indisponível/corrompido: ignora o cache
+    }
+  }
+
+  function cacheSet(path, data){
+    try{
+      localStorage.setItem(CACHE_PREFIX + path, JSON.stringify({ day: todayKey(), data }));
+    }catch(err){
+      // localStorage cheio ou bloqueado (ex: modo anônimo) — segue sem cache
+      console.warn('Não foi possível salvar no cache local:', err.message);
+    }
+  }
+
+  // Apaga só as entradas de cache da API (não mexe em outros dados do site).
+  function clearApiCache(){
+    Object.keys(localStorage)
+      .filter(k => k.startsWith(CACHE_PREFIX))
+      .forEach(k => localStorage.removeItem(k));
+  }
+
   async function apiGet(path, key){
+    const cached = cacheGet(path);
+    if(cached){
+      cacheStats.hits++;
+      return cached;
+    }
+    cacheStats.misses++;
     const res = await fetch(API_BASE + path, { headers: { 'x-apisports-key': key } });
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     if(data.errors && Object.keys(data.errors).length){
       throw new Error(JSON.stringify(data.errors));
     }
+    cacheSet(path, data);
     return data;
   }
 
@@ -1289,10 +1356,13 @@
     detailStatus.className = 'status-line';
     detailStatus.textContent = 'Buscando últimos 5 jogos de 2026 de ' + g.home.name + ' e ' + g.away.name + '…';
 
+    cacheStats.hits = 0;
+    cacheStats.misses = 0;
     const [homeRes, awayRes] = await Promise.all([
       pullTeamFixtures(g.home.name, state.apiKey, g.home.id),
       pullTeamFixtures(g.away.name, state.apiKey, g.away.id)
     ]);
+    const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
 
     el('gamesGrid').style.display = 'grid';
     el('gamesLegend').style.display = 'flex';
@@ -1314,7 +1384,7 @@
       const aviso = menorAmostra < GAMES_LIMIT
         ? ' (apenas ' + menorAmostra + ' jogos finalizados encontrados na temporada ' + TARGET_SEASON + ' para este plano)'
         : '';
-      detailStatus.textContent = 'Estatísticas puxadas com sucesso da API-Football.' + aviso;
+      detailStatus.textContent = 'Estatísticas puxadas com sucesso da API-Football.' + aviso + cacheNote;
       detailStatus.classList.add('ok');
     }
   }
@@ -1422,6 +1492,93 @@
     return map;
   }
 
+  /* ---------------- times frios no 1º tempo (nova aba) ---------------- */
+  // Roda sozinho sempre que os jogos de hoje são (re)carregados. Critério:
+  // dentre os times que jogam hoje, mostra só os que fizeram MENOS de 2 gols
+  // no 1º tempo em CADA UM dos últimos 5 jogos finalizados da temporada.
+  // Reaproveita o mesmo cache diário da aba "Análise" (mesmo endpoint/path),
+  // então times já checados lá não gastam cota de novo aqui, e vice-versa.
+  async function scanLowFirstHalfTeams(games){
+    const statusEl = el('frios1tStatus');
+    const listEl = el('frios1tList');
+    statusEl.className = 'status-line';
+
+    if(!games || !games.length){
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Nenhum jogo carregado ainda.';
+      return;
+    }
+
+    listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Analisando os últimos 5 jogos de cada time…</div>';
+    statusEl.textContent = 'Analisando o 1º tempo dos últimos 5 jogos de cada time dos jogos de hoje…';
+
+    // times únicos entre casa/fora de todos os jogos de hoje
+    const teamsMap = new Map();
+    games.forEach(g => {
+      [['home', g.home, g], ['away', g.away, g]].forEach(([side, team, game]) => {
+        const key = team.id != null ? ('id:' + team.id) : ('name:' + team.name);
+        if(!teamsMap.has(key)) teamsMap.set(key, { id: team.id, name: team.name, side, game });
+      });
+    });
+
+    cacheStats.hits = 0;
+    cacheStats.misses = 0;
+
+    const results = await Promise.all(Array.from(teamsMap.values()).map(async entry => {
+      if(!state.apiKey || entry.id == null){
+        return { ...entry, fixtures: generateMockFixtures(entry.name), source: 'mock' };
+      }
+      try{
+        const fixtures = await fetchLastFixtures(entry.id, TARGET_SEASON, state.apiKey);
+        if(!fixtures.length) throw new Error('sem jogos finalizados na temporada ' + TARGET_SEASON);
+        return { ...entry, fixtures, source: 'api' };
+      }catch(err){
+        return { ...entry, fixtures: generateMockFixtures(entry.name), source: 'mock', error: err.message };
+      }
+    }));
+
+    const qualified = results.filter(r =>
+      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ht < 2)
+    );
+    qualified.sort((a, b) => a.game.time.localeCompare(b.game.time));
+
+    renderFrios1tList(qualified);
+
+    const usedMock = results.some(r => r.source === 'mock');
+    const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
+    if(!state.apiKey){
+      statusEl.textContent = 'Nenhuma API key informada — mostrando exemplo com dados mockados.';
+      statusEl.classList.add('ok');
+    } else {
+      statusEl.textContent = qualified.length + ' de ' + results.length + ' times analisados não fizeram 2+ gols no 1º tempo em nenhum dos últimos 5 jogos.' +
+        (usedMock ? ' (alguns times sem dado real da API entraram como exemplo)' : '') + cacheNote;
+      statusEl.classList.add(usedMock ? 'err' : 'ok');
+    }
+  }
+
+  function renderFrios1tList(items){
+    const listEl = el('frios1tList');
+    if(!items.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum time dos jogos de hoje se encaixou nesse padrão.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map((it, i) => {
+      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+      return (
+        '<button type="button" class="today-row" data-frios-idx="' + i + '">' +
+          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">0/5 c/ 2+ no 1ºT</span></span>' +
+          '<span class="today-cta">ver análise →</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    listEl.querySelectorAll('.today-row').forEach((row, i) => {
+      row.addEventListener('click', () => showGameDetail(items[i].game));
+    });
+  }
+
   async function loadTodayGames(){
     const todayStatus = el('todayStatus');
     el('btnLoadToday').disabled = true;
@@ -1429,19 +1586,25 @@
     todayStatus.textContent = 'Buscando jogos de hoje…';
 
     if(!state.apiKey){
-      renderTodayGames(generateMockTodayGames());
+      const games = generateMockTodayGames();
+      renderTodayGames(games);
       todayStatus.textContent = 'Nenhuma API key informada — mostrando jogos de exemplo.';
       todayStatus.classList.add('ok');
       el('btnLoadToday').disabled = false;
+      state.todayGames = games;
+      scanLowFirstHalfTeams(games);
       return;
     }
 
     try{
       const today = new Date().toISOString().slice(0,10);
+      cacheStats.hits = 0;
+      cacheStats.misses = 0;
       const [data, oddsMap] = await Promise.all([
         apiGet('/fixtures?date=' + today, state.apiKey),
         fetchOddsMapForDate(today, state.apiKey)
       ]);
+      const cacheNote = cacheStats.hits ? ' (dados de hoje reaproveitados do cache — sem gastar cota)' : '';
       const games = (data.response || [])
         .filter(fx => fx.fixture && fx.fixture.status && ['NS','1H','HT','2H','ET','P'].includes(fx.fixture.status.short))
         .filter(fx => matchAllowedLeague(fx.league && fx.league.name, fx.league && fx.league.country))
@@ -1463,18 +1626,27 @@
       renderTodayGames(games);
       const semOdds = games.filter(g => g.home.odd == null).length;
       todayStatus.textContent = games.length + ' jogos encontrados para hoje nas ligas selecionadas.' +
-        (semOdds ? ' (' + semOdds + ' sem odds disponíveis)' : '');
+        (semOdds ? ' (' + semOdds + ' sem odds disponíveis)' : '') + cacheNote;
       todayStatus.classList.add('ok');
+      state.todayGames = games;
+      scanLowFirstHalfTeams(games);
     }catch(err){
       console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', err.message);
-      renderTodayGames(generateMockTodayGames());
+      const games = generateMockTodayGames();
+      renderTodayGames(games);
       todayStatus.textContent = 'Não foi possível buscar jogos reais (' + err.message + ') — mostrando exemplos.';
       todayStatus.classList.add('err');
+      state.todayGames = games;
+      scanLowFirstHalfTeams(games);
     }
     el('btnLoadToday').disabled = false;
   }
 
   el('btnLoadToday').addEventListener('click', loadTodayGames);
+  el('btnForceRefresh').addEventListener('click', () => {
+    clearApiCache();
+    loadTodayGames();
+  });
 
   /* ---------------- carrega os jogos automaticamente ao abrir a página ---------------- */
   loadTodayGames();
