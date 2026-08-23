@@ -421,6 +421,27 @@
   .today-odds .odd-chip.empty{ color:var(--muted-2); font-style:italic; border-style:dashed; }
   .today-cta{ font-family:var(--mono); font-size:11px; color:var(--muted); }
 
+  .odd-chip.live-chip{
+    border-color:rgba(255,77,94,0.5);
+    color:var(--red);
+    background:rgba(255,77,94,0.08);
+    font-weight:700;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+  }
+  .live-dot{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--red);
+    display:inline-block;
+    animation:live-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes live-pulse{
+    0%, 100%{ opacity:1; }
+    50%{ opacity:0.25; }
+  }
+
   /* ---------- detalhe do confronto ---------- */
   .detail-head{
     display:flex;
@@ -539,6 +560,42 @@
   .games-legend b{ color:var(--muted); }
 
   .empty-note{ font-size:12.5px; color:var(--muted-2); font-style:italic; }
+
+  /* ---------- confrontos diretos ---------- */
+  .h2h-section .today-row{ cursor:default; grid-template-columns:90px 1fr auto; }
+
+  /* ---------- tabela de classificação ---------- */
+  .standings-table-wrap{
+    margin-top:10px;
+    overflow-x:auto;
+    border:1px solid var(--border);
+    border-radius:9px;
+  }
+  .standings-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12.5px;
+    min-width:480px;
+  }
+  .standings-table th, .standings-table td{
+    padding:8px 10px;
+    text-align:center;
+    border-bottom:1px solid var(--border-soft);
+    white-space:nowrap;
+  }
+  .standings-table th{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    background:var(--panel-2);
+  }
+  .standings-table td.standings-team{ text-align:left; color:var(--text); }
+  .standings-table tr:last-child td{ border-bottom:none; }
+  .standings-table tr.standings-highlight{ background:rgba(0,226,138,0.09); }
+  .standings-table tr.standings-highlight td.standings-team{ color:var(--accent); font-weight:600; }
+  .standings-table td.standings-rank{ font-family:var(--mono); color:var(--muted); }
 
   /* ---------- médias de gols ---------- */
   .avg-grid{
@@ -696,10 +753,8 @@
 
   <nav class="tabs">
     <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
-    <button class="tab-btn" data-view="analise">Análise</button>
+    <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
     <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
-    <button class="tab-btn" data-view="chutes">Chute de Jogadores</button>
-    <button class="tab-btn" data-view="finalizacoes">Finalizações de Jogadores</button>
   </nav>
 
   <!-- ===== VIEW: JOGOS DO DIA ===== -->
@@ -738,15 +793,11 @@
     </details>
   </section>
 
-  </div><!-- /view-jogos -->
-
-  <!-- ===== VIEW: ANÁLISE (análise do jogo selecionado) ===== -->
-  <div class="view" id="view-analise">
-
-  <section class="panel" id="detailPanel">
+  <!-- ===== PAINEL DE ANÁLISE (abre inline abaixo do jogo clicado) ===== -->
+  <section class="panel" id="detailPanel" style="display:none;">
     <div class="detail-head">
       <div>
-        <div class="detail-title" id="detailTitle">Selecione um jogo em "Jogos do Dia"</div>
+        <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
         <div class="detail-sub" id="detailSub"></div>
       </div>
       <span class="today-odds" id="detailOdds"></span>
@@ -818,9 +869,41 @@
       <span style="color:var(--red);">vermelho</span> não ·
       <span style="color:var(--muted-2);">cinza</span> sem dado
     </div>
+
+    <div class="h2h-section" id="h2hSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Confrontos Diretos</div>
+      <div class="status-line" id="h2hStatus"></div>
+      <div class="today-list" id="h2hList" style="margin-top:10px;"></div>
+    </div>
+
+    <div class="standings-section" id="standingsSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Tabela de Classificação</div>
+      <div class="status-line" id="standingsStatus"></div>
+      <div class="standings-table-wrap" id="standingsTableWrap"></div>
+    </div>
   </section>
 
-  </div><!-- /view-analise -->
+  </div><!-- /view-jogos -->
+
+  <!-- ===== VIEW: AO VIVO ===== -->
+  <div class="view" id="view-aovivo">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Jogos Ao Vivo</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Jogos das ligas selecionadas que estão rolando agora, com placar e minuto atual. Atualiza sozinho a cada 3 minutos enquanto essa aba estiver aberta.</div>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-ghost" id="btnLoadLive">Atualizar</button>
+      </div>
+    </div>
+    <div class="status-line" id="liveStatus"></div>
+    <div class="error-box" id="liveErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="liveErrorText"></span></div>
+    <div class="today-list" id="liveList"></div>
+  </section>
+
+  </div><!-- /view-aovivo -->
 
   <!-- ===== VIEW: FRIOS NO 1º TEMPO ===== -->
   <div class="view" id="view-frios1t">
@@ -837,38 +920,6 @@
   </section>
 
   </div><!-- /view-frios1t -->
-
-  <!-- ===== VIEW: CHUTE DE JOGADORES ===== -->
-  <div class="view" id="view-chutes">
-
-  <section class="panel">
-    <div class="panel-head">
-      <div>
-        <div class="detail-title" style="font-size:16px;">Chute de Jogadores</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos jogadores dos times que jogam hoje que chutaram pelo menos 1 vez no gol em TODOS os últimos 10 jogos do time (10 de 10). Se nenhum jogador bater esse critério, a lista fica vazia.</div>
-      </div>
-    </div>
-    <div class="status-line" id="chutesStatus"></div>
-    <div class="today-list" id="chutesList"></div>
-  </section>
-
-  </div><!-- /view-chutes -->
-
-  <!-- ===== VIEW: FINALIZAÇÕES DE JOGADORES ===== -->
-  <div class="view" id="view-finalizacoes">
-
-  <section class="panel">
-    <div class="panel-head">
-      <div>
-        <div class="detail-title" style="font-size:16px;">Finalizações de Jogadores</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos jogadores dos times que jogam hoje que finalizaram (chute total, no gol ou não) pelo menos 1 vez em TODOS os últimos 10 jogos do time (10 de 10). Se nenhum jogador bater esse critério, a lista fica vazia.</div>
-      </div>
-    </div>
-    <div class="status-line" id="finalizacoesStatus"></div>
-    <div class="today-list" id="finalizacoesList"></div>
-  </section>
-
-  </div><!-- /view-finalizacoes -->
 
   <footer>Fan de Esporte · uso analítico — não constitui recomendação financeira</footer>
 </div>
@@ -911,11 +962,34 @@
   setInterval(tickClock, 1000);
 
   /* ---------------- abas ---------------- */
+  const LIVE_REFRESH_INTERVAL_MS = 3 * 60 * 1000; // 3 minutos
+  let liveRefreshTimer = null;
+
+  function startLiveAutoRefresh(){
+    if(liveRefreshTimer) return;
+    loadLiveGames();
+    liveRefreshTimer = setInterval(() => {
+      if(!document.hidden) loadLiveGames();
+    }, LIVE_REFRESH_INTERVAL_MS);
+  }
+
+  function stopLiveAutoRefresh(){
+    if(liveRefreshTimer){
+      clearInterval(liveRefreshTimer);
+      liveRefreshTimer = null;
+    }
+  }
+
   function showView(name){
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('view-' + name).classList.add('active');
     document.querySelector('.tab-btn[data-view="' + name + '"]').classList.add('active');
+    if(name === 'aovivo'){
+      startLiveAutoRefresh();
+    } else {
+      stopLiveAutoRefresh();
+    }
   }
   document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.addEventListener('click', () => showView(btn.dataset.view));
@@ -924,11 +998,12 @@
   /* ---------------- state ---------------- */
   const el = id => document.getElementById(id);
   const state = {
-    apiKey: (el('apiKey') && el('apiKey').value.trim()) || 'c560ef176bae087f0790b36849a6adf0',
-    fdApiKey: ''
+    apiKey: (el('apiKey') && el('apiKey').value.trim()) || '',
+    fdApiKey: '',
+    preloaded: null
   };
 
-  try{ state.fdApiKey = localStorage.getItem('fanEsporte_fdApiKey') || 'dcdae95c58964b80bf9fc468a5d42e97'; }catch(err){ state.fdApiKey = 'dcdae95c58964b80bf9fc468a5d42e97'; }
+  try{ state.fdApiKey = localStorage.getItem('fanEsporte_fdApiKey') || ''; }catch(err){ state.fdApiKey = ''; }
   if(el('fdApiKey')) el('fdApiKey').value = state.fdApiKey;
 
   if(el('btnSaveFdKey')){
@@ -1087,12 +1162,20 @@
     return new Date().toISOString().slice(0, 10);
   }
 
+  // Dado de uma partida que JÁ TERMINOU nunca muda (o minuto do gol e os chutes
+  // de cada jogador daquele jogo vão ser sempre os mesmos). Por isso, pra esses
+  // dois endpoints, o cache não expira por dia — fica guardado de vez, economizando
+  // crédito de API em cliques futuros no mesmo jogo (mesmo dias depois).
+  function isPermanentCachePath(path){
+    return path.startsWith('/fixtures/events?fixture=') || path.startsWith('/fixtures/players?fixture=');
+  }
+
   function cacheGet(path){
     try{
       const raw = localStorage.getItem(CACHE_PREFIX + path);
       if(!raw) return null;
       const saved = JSON.parse(raw);
-      if(saved.day !== todayKey()) return null;
+      if(!isPermanentCachePath(path) && saved.day !== todayKey()) return null;
       return saved.data;
     }catch(err){
       return null;
@@ -1179,6 +1262,29 @@
         throw apiError('API retornou erro em ' + path + ': ' + JSON.stringify(data.errors));
       }
       cacheSet(path, data);
+      return data;
+    });
+  }
+
+  // Igual ao apiGet, mas nunca lê nem grava no cache do dia — usado pra dados
+  // ao vivo (placar/minuto mudam a cada segundo, não podem ficar "presos" no cache).
+  async function apiGetNoCache(path, key){
+    return scheduleApiCall(async () => {
+      let res;
+      try{
+        res = await fetch(API_BASE + path, { headers: { 'x-apisports-key': key } });
+      }catch(networkErr){
+        throw apiError('Falha de rede ao chamar ' + path + ': ' + networkErr.message);
+      }
+      if(!res.ok){
+        let bodyText = '';
+        try{ bodyText = await res.text(); }catch(_e){}
+        throw apiError('HTTP ' + res.status + ' em ' + path + (bodyText ? ' — resposta: ' + bodyText.slice(0,300) : ''));
+      }
+      const data = await res.json();
+      if(data.errors && Object.keys(data.errors).length){
+        throw apiError('API retornou erro em ' + path + ': ' + JSON.stringify(data.errors));
+      }
       return data;
     });
   }
@@ -1350,6 +1456,10 @@
   // CORRIGIDO: Tratamento de exceções e checagem da chave secundária ajustados,
   // e agora o erro real (não mais uma mensagem genérica) é propagado pra tela.
   async function pullTeamFixtures(teamName, key, knownId){
+    if(knownId != null && state.preloaded && state.preloaded.teamStats && state.preloaded.teamStats[knownId]){
+      const fixtures = state.preloaded.teamStats[knownId].fixtures;
+      return { fixtures, source: 'preloaded', gamesFound: fixtures.length };
+    }
     if(key){
       try{
         const id = knownId || await findTeamId(teamName, key);
@@ -1512,10 +1622,26 @@
     });
   });
 
+  /* ---------------- abrir análise inline abaixo do jogo clicado ---------------- */
+  function openGameDetailInline(row, g){
+    const panel = el('detailPanel');
+    const jaAberto = row.classList.contains('selected') && panel.style.display !== 'none';
+
+    document.querySelectorAll('.today-row.selected').forEach(r => r.classList.remove('selected'));
+
+    if(jaAberto){
+      panel.style.display = 'none';
+      return;
+    }
+
+    row.classList.add('selected');
+    row.insertAdjacentElement('afterend', panel);
+    panel.style.display = 'block';
+    showGameDetail(g);
+  }
+
   /* ---------------- detalhe do confronto selecionado ---------------- */
   async function showGameDetail(g){
-    showView('analise');
-
     el('detailTitle').textContent = g.home.name + ' vs ' + g.away.name;
     el('detailSub').textContent = g.league + ' · ' + formatGameDate(g.date) + ' ' + g.time;
     el('detailOdds').innerHTML = oddChipsHTML(g);
@@ -1524,6 +1650,14 @@
     el('gamesGrid').style.display = 'none';
     el('avgGrid').style.display = 'none';
     el('gamesLegend').style.display = 'none';
+    el('h2hSection').style.display = 'none';
+    el('h2hList').innerHTML = '';
+    el('h2hStatus').textContent = '';
+    el('h2hStatus').className = 'status-line';
+    el('standingsSection').style.display = 'none';
+    el('standingsTableWrap').innerHTML = '';
+    el('standingsStatus').textContent = '';
+    el('standingsStatus').className = 'status-line';
     showErrorBox('detailErrorBox', 'detailErrorText', null);
 
     venueState.selected = { home: 'home', away: 'home' };
@@ -1553,10 +1687,8 @@
     el('avgGrid').style.display = 'grid';
 
     const usedMock = homeRes.source==='unavailable' || awayRes.source==='unavailable';
-    if(!state.apiKey){
-      detailStatus.textContent = 'Nenhuma API key informada — sem dados reais disponíveis pra análise.';
-      detailStatus.classList.add('err');
-    } else if(usedMock){
+    const usouPreloaded = homeRes.source === 'preloaded' && awayRes.source === 'preloaded';
+    if(usedMock){
       detailStatus.textContent = 'Nenhuma das duas fontes retornou dado real para um ou os dois times.';
       detailStatus.classList.add('err');
       const detalhes = [
@@ -1564,6 +1696,13 @@
         awayRes.source === 'unavailable' ? (g.away.name + ' → ' + awayRes.error) : null
       ].filter(Boolean).join('\n');
       showErrorBox('detailErrorBox', 'detailErrorText', detalhes);
+    } else if(usouPreloaded){
+      const updatedAt = formatUpdatedAt(state.preloaded && state.preloaded.updatedAt);
+      detailStatus.textContent = 'Estatísticas pré-carregadas' + (updatedAt ? ' (atualizadas às ' + updatedAt + ')' : '') + '.';
+      detailStatus.classList.add('ok');
+    } else if(!state.apiKey){
+      detailStatus.textContent = 'Nenhuma API key informada — sem dados reais disponíveis pra análise.';
+      detailStatus.classList.add('err');
     } else {
       const menorAmostra = Math.min(homeRes.gamesFound, awayRes.gamesFound);
       const aviso = menorAmostra < GAMES_LIMIT
@@ -1574,19 +1713,156 @@
       detailStatus.textContent = 'Estatísticas puxadas com sucesso.' + fonteNote + aviso + cacheNote;
       detailStatus.classList.add('ok');
     }
+
+    loadHeadToHead(g);
+    loadStandings(g);
+  }
+
+  /* ---------------- confrontos diretos ---------------- */
+  async function loadHeadToHead(g){
+    const section = el('h2hSection');
+    const statusEl = el('h2hStatus');
+    const listEl = el('h2hList');
+    statusEl.className = 'status-line';
+
+    if(g.home.id == null || g.away.id == null){
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = 'block';
+
+    if(!state.apiKey){
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Buscando confrontos diretos…</div>';
+    statusEl.textContent = 'Buscando histórico de confrontos…';
+
+    try{
+      const data = await apiGet('/fixtures/headtohead?h2h=' + g.home.id + '-' + g.away.id + '&last=10', state.apiKey);
+      const fixtures = (data.response || [])
+        .filter(fx => fx.fixture && fx.fixture.status && ['FT','AET','PEN'].includes(fx.fixture.status.short))
+        .sort((a, b) => new Date(b.fixture.date) - new Date(a.fixture.date));
+
+      renderH2HList(fixtures, g);
+      statusEl.textContent = fixtures.length + ' confronto(s) direto(s) encontrado(s) entre os dois times.';
+      statusEl.classList.add('ok');
+    }catch(err){
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Não foi possível buscar os confrontos diretos.';
+      statusEl.classList.add('err');
+    }
+  }
+
+  function renderH2HList(fixtures, g){
+    const listEl = el('h2hList');
+    if(!fixtures.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum confronto direto recente encontrado entre os dois times.</div>';
+      return;
+    }
+    listEl.innerHTML = fixtures.map(fx => {
+      const homeName = fx.teams.home.name;
+      const awayName = fx.teams.away.name;
+      const ft = fx.score.fulltime || {};
+      const gh = ft.home ?? 0;
+      const ga = ft.away ?? 0;
+      let resultLabel;
+      if(gh === ga){
+        resultLabel = 'Empate';
+      } else {
+        const homeWon = gh > ga;
+        const winnerIsG_home = (homeWon && fx.teams.home.id === g.home.id) || (!homeWon && fx.teams.away.id === g.home.id);
+        resultLabel = (winnerIsG_home ? g.home.name : g.away.name) + ' venceu';
+      }
+      return (
+        '<div class="today-row" style="cursor:default;">' +
+          '<span class="today-time-wrap"><span class="today-date">' + formatGameDate(fx.fixture.date) + '</span></span>' +
+          '<span class="today-teams">' + homeName + ' ' + gh + ' x ' + ga + ' ' + awayName + '</span>' +
+          '<span class="today-odds"><span class="odd-chip fav">' + resultLabel + '</span></span>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  /* ---------------- tabela de classificação ---------------- */
+  async function loadStandings(g){
+    const section = el('standingsSection');
+    const statusEl = el('standingsStatus');
+    const wrap = el('standingsTableWrap');
+    statusEl.className = 'status-line';
+
+    if(g.leagueId == null){
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = 'block';
+
+    if(!state.apiKey){
+      wrap.innerHTML = '';
+      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    wrap.innerHTML = '';
+    statusEl.textContent = 'Buscando tabela de classificação…';
+
+    try{
+      const season = g.leagueSeason || TARGET_SEASON;
+      const data = await apiGet('/standings?league=' + g.leagueId + '&season=' + season, state.apiKey);
+      const leagueData = ((data.response || [])[0] || {}).league || {};
+      const rows = (leagueData.standings && leagueData.standings[0]) || [];
+      if(!rows.length) throw apiError('A API respondeu OK, mas sem tabela de classificação pra essa liga/temporada.');
+
+      renderStandingsTable(rows, g);
+      statusEl.textContent = 'Classificação de ' + g.league + ' atualizada.';
+      statusEl.classList.add('ok');
+    }catch(err){
+      wrap.innerHTML = '';
+      statusEl.textContent = 'Não foi possível buscar a tabela de classificação.';
+      statusEl.classList.add('err');
+    }
+  }
+
+  function renderStandingsTable(rows, g){
+    const wrap = el('standingsTableWrap');
+    const trs = rows.map(r => {
+      const isMatch = r.team.id === g.home.id || r.team.id === g.away.id;
+      const all = r.all || {};
+      const goals = all.goals || {};
+      return (
+        '<tr class="' + (isMatch ? 'standings-highlight' : '') + '">' +
+          '<td class="standings-rank">' + r.rank + '</td>' +
+          '<td class="standings-team">' + r.team.name + '</td>' +
+          '<td>' + r.points + '</td>' +
+          '<td>' + (all.played ?? '—') + '</td>' +
+          '<td>' + (all.win ?? '—') + '</td>' +
+          '<td>' + (all.draw ?? '—') + '</td>' +
+          '<td>' + (all.lose ?? '—') + '</td>' +
+          '<td>' + (goals.for ?? '—') + '</td>' +
+          '<td>' + (goals.against ?? '—') + '</td>' +
+          '<td>' + (r.goalsDiff ?? '—') + '</td>' +
+        '</tr>'
+      );
+    }).join('');
+    wrap.innerHTML =
+      '<table class="standings-table">' +
+        '<thead><tr><th>#</th><th>Time</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th></tr></thead>' +
+        '<tbody>' + trs + '</tbody>' +
+      '</table>';
   }
 
   /* ---------------- jogos de hoje (painel principal) ---------------- */
   const ALLOWED_LEAGUES = [
     { name: 'Brasileirão Série A', test: (n,c) => c === 'Brazil' && /serie\s*a/i.test(n) },
     { name: 'Brasileirão Série B', test: (n,c) => c === 'Brazil' && /serie\s*b/i.test(n) },
-    { name: 'Primeira Liga (Portugal)', test: (n,c) => c === 'Portugal' && /primeira\s*liga/i.test(n) },
-    { name: 'La Liga (Espanha)', test: (n,c) => c === 'Spain' && /la\s*liga/i.test(n) },
+    { name: 'Brasileirão Série C', test: (n,c) => c === 'Brazil' && /serie\s*c/i.test(n) },
+    { name: 'Copa do Brasil', test: (n,c) => c === 'Brazil' && /copa\s*do\s*brasil/i.test(n) },
     { name: 'Copa Libertadores', test: (n,c) => /libertadores/i.test(n) },
     { name: 'Copa Sul-Americana', test: (n,c) => /sudamericana|sul[\s-]*americana/i.test(n) },
-    { name: 'Premier League (Inglaterra)', test: (n,c) => c === 'England' && /premier\s*league/i.test(n) },
-    { name: 'Ligue 1 (França)', test: (n,c) => c === 'France' && /ligue\s*1/i.test(n) },
-    { name: 'Serie A (Itália)', test: (n,c) => c === 'Italy' && /serie\s*a/i.test(n) },
   ];
 
   function matchAllowedLeague(leagueName, leagueCountry){
@@ -1644,10 +1920,8 @@
 
     list.querySelectorAll('.today-row').forEach(row=>{
       row.addEventListener('click', () => {
-        list.querySelectorAll('.today-row').forEach(r => r.classList.remove('selected'));
-        row.classList.add('selected');
         const g = games[Number(row.dataset.idx)];
-        showGameDetail(g);
+        openGameDetailInline(row, g);
       });
     });
   }
@@ -1778,170 +2052,147 @@
     }).join('');
 
     listEl.querySelectorAll('.today-row').forEach((row, i) => {
-      row.addEventListener('click', () => showGameDetail(items[i].game));
-    });
-  }
-
-  /* ---------------- chute / finalização de jogadores ---------------- */
-  const SHOTS_ON_TARGET_THRESHOLD = 1; // mínimo de chutes NO GOL exigido em CADA jogo
-  const MIN_GAMES_WITH_SHOTS = GAMES_LIMIT; // precisa bater o mínimo em TODOS os últimos jogos (10 de 10)
-  const SHOTS_TOTAL_THRESHOLD = 1; // mínimo de finalizações TOTAIS (no gol ou não) exigido em CADA jogo
-  const MIN_GAMES_WITH_FINISHES = GAMES_LIMIT; // precisa bater o mínimo em TODOS os últimos jogos (10 de 10)
-
-  async function fetchTeamPlayerStatsForFixture(fixtureId, teamId, key){
-    const data = await apiGet('/fixtures/players?fixture=' + fixtureId, key);
-    const teamEntry = (data.response || []).find(r => r.team && r.team.id === teamId);
-    if(!teamEntry) return [];
-    return (teamEntry.players || [])
-      .map(p => {
-        const stats = (p.statistics && p.statistics[0]) || {};
-        const minutes = stats.games && stats.games.minutes;
-        const shotsOn = (stats.shots && stats.shots.on != null) ? stats.shots.on : 0;
-        const shotsTotal = (stats.shots && stats.shots.total != null) ? stats.shots.total : 0;
-        return { id: p.player.id, name: p.player.name, minutes, shotsOn, shotsTotal };
-      })
-      .filter(p => p.minutes != null && p.minutes > 0);
-  }
-
-  async function fetchTeamPlayerMetricStats(teamId, key, metricField, threshold){
-    const fixtures = await fetchLastFixtures(teamId, key);
-    const perFixture = await Promise.all(
-      fixtures.map(f => fetchTeamPlayerStatsForFixture(f.fixtureId, teamId, key).catch(() => null))
-    );
-    const playerMap = new Map();
-    perFixture.forEach(players => {
-      if(!players) return;
-      players.forEach(p => {
-        if(!playerMap.has(p.id)) playerMap.set(p.id, { id: p.id, name: p.name, gamesChecked: 0, gamesWithThreshold: 0 });
-        const rec = playerMap.get(p.id);
-        rec.gamesChecked++;
-        if(p[metricField] >= threshold) rec.gamesWithThreshold++;
+      row.addEventListener('click', () => {
+        const game = items[i].game;
+        showView('jogos');
+        const idx = state.todayGames.indexOf(game);
+        const targetRow = idx !== -1
+          ? document.querySelector('#todayList .today-row[data-idx="' + idx + '"]')
+          : null;
+        if(targetRow){
+          openGameDetailInline(targetRow, game);
+          targetRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       });
     });
-    return Array.from(playerMap.values());
   }
 
-  async function scanPlayerMetric(games, config){
-    const statusEl = el(config.statusElId);
-    const listEl = el(config.listElId);
-    statusEl.className = 'status-line';
-
-    if(!games || !games.length){
-      listEl.innerHTML = '';
-      statusEl.textContent = 'Nenhum jogo carregado ainda.';
-      return;
+  /* ---------------- dados.json pré-gerado (pelo robô do GitHub Actions) ---------------- */
+  async function loadPreloadedData(){
+    try{
+      const res = await fetch('dados.json', { cache: 'no-store' });
+      if(!res.ok) return null;
+      const data = await res.json();
+      if(!data || !Array.isArray(data.games)) return null;
+      return data;
+    }catch(err){
+      return null;
     }
+  }
 
-    if(!state.apiKey){
-      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra analisar aqui.</div>';
-      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+  function formatUpdatedAt(iso){
+    if(!iso) return null;
+    const d = new Date(iso);
+    if(isNaN(d)) return null;
+    return d.toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function renderFrios1tFromPreloaded(section){
+    const statusEl = el('frios1tStatus');
+    const listEl = el('frios1tList');
+    statusEl.className = 'status-line';
+    showErrorBox('frios1tErrorBox', 'frios1tErrorText', null);
+    if(!section){
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Sem dados pré-carregados disponíveis ainda.';
       statusEl.classList.add('err');
       return;
     }
-
-    const teamsMap = new Map();
-    games.forEach(g => {
-      [['home', g.home, g], ['away', g.away, g]].forEach(([side, team, game]) => {
-        const key = team.id != null ? ('id:' + team.id) : ('name:' + team.name);
-        if(!teamsMap.has(key)) teamsMap.set(key, { id: team.id, name: team.name, side, game });
-      });
-    });
-
-    const entries = Array.from(teamsMap.values());
-    const total = entries.length;
-    let done = 0;
-
-    function updateProgress(){
-      listEl.innerHTML =
-        '<div class="empty-note" style="padding:8px 4px;">' +
-          'Aguarde, analisando as ' + config.progressLabel + ' dos últimos ' + GAMES_LIMIT + ' jogos de cada time… ' +
-          '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
-          'Isso pode levar um pouco mais de tempo por causa dos dados por jogador.' +
-        '</div>';
-      statusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
-    }
-    updateProgress();
-
-    const allResults = await Promise.all(entries.map(async entry => {
-      let result;
-      if(entry.id == null){
-        result = { ...entry, players: null };
-      } else {
-        try{
-          const players = await fetchTeamPlayerMetricStats(entry.id, state.apiKey, config.metricField, config.threshold);
-          result = { ...entry, players };
-        }catch(err){
-          result = { ...entry, players: null, error: describeError(err) };
-        }
-      }
-      done++;
-      updateProgress();
-      return result;
-    }));
-
-    const usable = allResults.filter(r => r.players);
-    const semDado = allResults.length - usable.length;
-
-    const qualified = [];
-    usable.forEach(r => {
-      r.players
-        .filter(p => p.gamesWithThreshold >= config.minGames)
-        .forEach(p => qualified.push({ ...p, teamName: r.name, side: r.side, game: r.game }));
-    });
-    qualified.sort((a, b) => b.gamesWithThreshold - a.gamesWithThreshold);
-
-    renderMetricList(config.listElId, qualified, config);
-
-    const semDadoNote = semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '';
-    statusEl.textContent = qualified.length + ' jogador(es) ' + config.actionLabel + ' ' + config.threshold + '+ vez(es) ' + config.metricLabel + ' em TODOS os últimos ' + GAMES_LIMIT + ' jogos do time.' + semDadoNote;
+    renderFrios1tList(section.qualified || []);
+    const semDado = section.totalTeams - section.usableTeams;
+    statusEl.textContent = (section.qualified || []).length + ' de ' + section.usableTeams + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos ' + FRIOS_GAMES_LIMIT + ' jogos.' +
+      (semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '');
     statusEl.classList.add(semDado ? 'err' : 'ok');
   }
 
-  function renderMetricList(listElId, items, config){
-    const listEl = el(listElId);
-    if(!items.length){
-      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogador dos jogos de hoje se encaixou nesse padrão.</div>';
+  function renderFromPreloaded(data){
+    const todayStatus = el('todayStatus');
+    const games = data.games || [];
+    renderTodayGames(games);
+    state.todayGames = games;
+
+    const updatedAt = formatUpdatedAt(data.updatedAt);
+    todayStatus.textContent = games.length + ' jogos encontrados para hoje nas ligas selecionadas.' +
+      (updatedAt ? ' (dados atualizados às ' + updatedAt + ')' : '');
+    todayStatus.classList.add('ok');
+
+    renderFrios1tFromPreloaded(data.frios1t);
+  }
+
+  /* ---------------- ao vivo ---------------- */
+  function liveStatusLabel(short){
+    const map = {
+      '1H': '1º Tempo', 'HT': 'Intervalo', '2H': '2º Tempo',
+      'ET': 'Prorrogação', 'BT': 'Intervalo (prorr.)', 'P': 'Pênaltis'
+    };
+    return map[short] || short;
+  }
+
+  function renderLiveGames(games){
+    const listEl = el('liveList');
+    if(!games.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogo ao vivo agora nas ligas selecionadas.</div>';
       return;
     }
-    listEl.innerHTML = items.map(it => {
-      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+    listEl.innerHTML = games.map(g => {
+      const minuto = g.elapsed != null ? (g.elapsed + "'") : '—';
       return (
         '<div class="today-row" style="cursor:default;">' +
-          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
-          '<span class="today-teams"><span class="lg">' + it.teamName + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
-          '<span class="today-odds"><span class="odd-chip fav">' + it.gamesWithThreshold + '/' + it.gamesChecked + ' c/ ' + config.threshold + '+ ' + config.chipSuffix + '</span></span>' +
+          '<span class="today-time-wrap"><span class="today-date">' + liveStatusLabel(g.statusShort) + '</span><span class="today-time">' + minuto + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + g.league + '</span>' + g.home.name + ' ' + (g.home.goals ?? 0) + ' x ' + (g.away.goals ?? 0) + ' ' + g.away.name + '</span>' +
+          '<span class="today-odds"><span class="odd-chip live-chip"><span class="live-dot"></span>AO VIVO</span></span>' +
         '</div>'
       );
     }).join('');
   }
 
-  function scanPlayerShots(games){
-    return scanPlayerMetric(games, {
-      statusElId: 'chutesStatus',
-      listElId: 'chutesList',
-      metricField: 'shotsOn',
-      threshold: SHOTS_ON_TARGET_THRESHOLD,
-      minGames: MIN_GAMES_WITH_SHOTS,
-      actionLabel: 'chutaram',
-      metricLabel: 'no gol',
-      progressLabel: 'finalizações no gol',
-      chipSuffix: 'chutes'
-    });
+  async function loadLiveGames(){
+    const statusEl = el('liveStatus');
+    const listEl = el('liveList');
+    el('btnLoadLive').disabled = true;
+    statusEl.className = 'status-line';
+    statusEl.textContent = 'Buscando jogos ao vivo…';
+    showErrorBox('liveErrorBox', 'liveErrorText', null);
+
+    if(!state.apiKey){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra mostrar jogos ao vivo.</div>';
+      statusEl.textContent = 'Nenhuma API key informada.';
+      statusEl.classList.add('err');
+      el('btnLoadLive').disabled = false;
+      return;
+    }
+
+    try{
+      const data = await apiGetNoCache('/fixtures?live=all', state.apiKey);
+      const games = (data.response || [])
+        .filter(fx => matchAllowedLeague(fx.league && fx.league.name, fx.league && fx.league.country))
+        .map(fx => {
+          const allowed = matchAllowedLeague(fx.league.name, fx.league.country);
+          const goals = fx.goals || {};
+          return {
+            league: allowed.name,
+            statusShort: fx.fixture.status.short,
+            elapsed: fx.fixture.status.elapsed,
+            home: { name: fx.teams.home.name, goals: goals.home },
+            away: { name: fx.teams.away.name, goals: goals.away }
+          };
+        })
+        .sort((a, b) => (b.elapsed || 0) - (a.elapsed || 0));
+
+      renderLiveGames(games);
+      statusEl.textContent = games.length + ' jogo(s) ao vivo agora nas ligas selecionadas.';
+      statusEl.classList.add('ok');
+    }catch(err){
+      const msg = describeError(err);
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Não foi possível buscar os jogos ao vivo.';
+      statusEl.classList.add('err');
+      showErrorBox('liveErrorBox', 'liveErrorText', msg);
+    }
+    el('btnLoadLive').disabled = false;
   }
 
-  function scanPlayerFinishes(games){
-    return scanPlayerMetric(games, {
-      statusElId: 'finalizacoesStatus',
-      listElId: 'finalizacoesList',
-      metricField: 'shotsTotal',
-      threshold: SHOTS_TOTAL_THRESHOLD,
-      minGames: MIN_GAMES_WITH_FINISHES,
-      actionLabel: 'finalizaram',
-      metricLabel: 'ao gol (total, contando as que foram pra fora)',
-      progressLabel: 'finalizações totais',
-      chipSuffix: 'finalizações'
-    });
-  }
+  el('btnLoadLive').addEventListener('click', loadLiveGames);
 
   async function loadTodayGames(){
     const todayStatus = el('todayStatus');
@@ -1950,16 +2201,23 @@
     todayStatus.textContent = 'Buscando jogos de hoje…';
     showErrorBox('todayErrorBox', 'todayErrorText', null);
 
+    const preloaded = await loadPreloadedData();
+    if(preloaded){
+      state.preloaded = preloaded;
+      renderFromPreloaded(preloaded);
+      el('btnLoadToday').disabled = false;
+      return;
+    }
+    state.preloaded = null;
+
     if(!state.apiKey){
       const games = generateMockTodayGames();
       renderTodayGames(games);
-      todayStatus.textContent = 'Nenhuma API key informada — mostrando jogos de exemplo.';
+      todayStatus.textContent = 'dados.json indisponível e nenhuma API key informada — mostrando jogos de exemplo.';
       todayStatus.classList.add('ok');
       el('btnLoadToday').disabled = false;
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
-      scanPlayerShots(games);
-      scanPlayerFinishes(games);
       return;
     }
 
@@ -1982,6 +2240,8 @@
             time: new Date(fx.fixture.date).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}),
             date: fx.fixture.date,
             league: allowed.name,
+            leagueId: fx.league.id,
+            leagueSeason: fx.league.season,
             home: { id: fx.teams.home.id, name: fx.teams.home.name, odd: odds ? odds.home : null },
             away: { id: fx.teams.away.id, name: fx.teams.away.name, odd: odds ? odds.away : null }
           };
@@ -1997,8 +2257,6 @@
       todayStatus.classList.add('ok');
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
-      scanPlayerShots(games);
-      scanPlayerFinishes(games);
     }catch(err){
       const msg = describeError(err);
       console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', msg);
@@ -2009,8 +2267,6 @@
       showErrorBox('todayErrorBox', 'todayErrorText', msg);
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
-      scanPlayerShots(games);
-      scanPlayerFinishes(games);
     }
     el('btnLoadToday').disabled = false;
   }
