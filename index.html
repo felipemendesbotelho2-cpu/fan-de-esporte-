@@ -546,6 +546,20 @@
   .g-meta-item.yes{ color:var(--green); }
   .g-meta-item.no{ color:var(--red); }
   .g-meta-item.unk{ color:var(--muted-2); font-style:italic; }
+  .g-corner-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:2px; }
+  .g-corner-item{
+    font-family:var(--mono);
+    font-size:9px;
+    letter-spacing:0.2px;
+    white-space:nowrap;
+    cursor:default;
+    padding:1px 5px;
+    border-radius:3px;
+    border:1px solid transparent;
+  }
+  .g-corner-item.high{ color:var(--green); border-color:rgba(0,226,138,0.35); background:rgba(0,226,138,0.06); }
+  .g-corner-item.low{ color:var(--red); border-color:rgba(255,77,94,0.35); background:rgba(255,77,94,0.06); }
+  .g-corner-item.unk{ color:var(--muted-2); font-style:italic; }
   .games-list::-webkit-scrollbar{ width:6px; }
   .games-list::-webkit-scrollbar-thumb{ background:var(--border); border-radius:6px; }
   .games-legend{
@@ -867,7 +881,8 @@
       <span><b>1ºT / 2ºT</b> marcou (com minuto do gol) ou não marcou em cada tempo</span>
       <span style="color:var(--green);">verde</span> sim ·
       <span style="color:var(--red);">vermelho</span> não ·
-      <span style="color:var(--muted-2);">cinza</span> sem dado
+      <span style="color:var(--muted-2);">cinza</span> sem dado ·
+      <span><b>Escanteios</b> total do jogo (a API não separa por tempo)</span>
     </div>
 
     <div class="h2h-section" id="h2hSection" style="display:none; margin-top:24px;">
@@ -1142,12 +1157,14 @@
       const minutesScored = [];
       for(let k=0;k<gf_ht;k++) minutesScored.push(1 + Math.floor(rand()*45));
       for(let k=0;k<gf_st;k++) minutesScored.push(46 + Math.floor(rand()*45));
+      const cornersTotal = 3 + Math.floor(rand()*8);
       fixtures.push({
         gf_ht, ga_ht, gf_ft, ga_ft,
         date: d.toISOString(),
         opponent: MOCK_OPPONENTS[i % MOCK_OPPONENTS.length],
         isHome: rand() < 0.5,
-        minutesScored
+        minutesScored,
+        cornersTotal
       });
     }
     return fixtures;
@@ -1167,7 +1184,9 @@
   // dois endpoints, o cache não expira por dia — fica guardado de vez, economizando
   // crédito de API em cliques futuros no mesmo jogo (mesmo dias depois).
   function isPermanentCachePath(path){
-    return path.startsWith('/fixtures/events?fixture=') || path.startsWith('/fixtures/players?fixture=');
+    return path.startsWith('/fixtures/events?fixture=') ||
+      path.startsWith('/fixtures/players?fixture=') ||
+      path.startsWith('/fixtures/statistics?fixture=');
   }
 
   function cacheGet(path){
@@ -1302,6 +1321,19 @@
       .map(ev => (ev.time && ev.time.elapsed || 0) + (ev.time && ev.time.extra || 0));
   }
 
+  // Escanteios: a API-Football só disponibiliza o TOTAL de escanteios do jogo
+  // inteiro (endpoint /fixtures/statistics), sem separar 1ºT de 2ºT como faz
+  // com os gols (que têm o minuto exato do evento). Por isso aqui é sempre o
+  // total do confronto, não um valor "por tempo".
+  async function fetchCornerTotal(fixtureId, teamId, key){
+    const data = await apiGet('/fixtures/statistics?fixture=' + fixtureId + '&team=' + teamId, key);
+    const stats = (data.response && data.response[0] && data.response[0].statistics) || [];
+    const cornerStat = stats.find(s => /corner/i.test(s.type || ''));
+    if(!cornerStat || cornerStat.value == null) return null;
+    const n = Number(cornerStat.value);
+    return isNaN(n) ? null : n;
+  }
+
   async function fetchFixturesBySeason(teamId, season, key){
     const data = await apiGet('/fixtures?team=' + teamId + '&season=' + season, key);
     return data.response || [];
@@ -1343,14 +1375,22 @@
   }
 
   // CORRIGIDO: Era 'fixtures.amp', corrigido para 'fixtures.map'
+  // Agora, além do minuto dos gols, também busca o total de escanteios de cada jogo.
   async function attachGoalMinutes(fixtures, teamId, key){
     return Promise.all(fixtures.map(async f => {
+      let minutesScored = null;
+      let cornersTotal = null;
       try{
-        const minutesScored = await fetchGoalMinutes(f.fixtureId, teamId, key);
-        return { ...f, minutesScored };
+        minutesScored = await fetchGoalMinutes(f.fixtureId, teamId, key);
       }catch(err){
-        return { ...f, minutesScored: null };
+        minutesScored = null;
       }
+      try{
+        cornersTotal = await fetchCornerTotal(f.fixtureId, teamId, key);
+      }catch(err){
+        cornersTotal = null;
+      }
+      return { ...f, minutesScored, cornersTotal };
     }));
   }
 
@@ -1436,7 +1476,8 @@
       const gf_ft = isHome ? (ft.home ?? 0) : (ft.away ?? 0);
       const ga_ft = isHome ? (ft.away ?? 0) : (ft.home ?? 0);
       const opponent = isHome ? m.awayTeam.name : m.homeTeam.name;
-      return { fixtureId: 'fd-' + m.id, gf_ht, ga_ht, gf_ft, ga_ft, date: m.utcDate, opponent, isHome, minutesScored: null };
+      // football-data.org não retorna minuto do gol nem estatística de escanteios.
+      return { fixtureId: 'fd-' + m.id, gf_ht, ga_ht, gf_ft, ga_ft, date: m.utcDate, opponent, isHome, minutesScored: null, cornersTotal: null };
     });
   }
 
@@ -1491,6 +1532,18 @@
     return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
   }
 
+  // Limiar visual pra colorir o total de escanteios (mesma pegada do sim/não dos gols):
+  // verde = jogo com bastante escanteio, vermelho = jogo com pouco escanteio.
+  const CORNER_HIGH_THRESHOLD = 5;
+
+  function buildCornerMsg(cornersTotal){
+    if(cornersTotal == null){
+      return '<span class="g-corner-item unk" title="Sem dado de escanteio disponível para este jogo">Escanteios: sem dado</span>';
+    }
+    const cls = cornersTotal >= CORNER_HIGH_THRESHOLD ? 'high' : 'low';
+    return '<span class="g-corner-item ' + cls + '" title="Total de escanteios do time nesse jogo (jogo inteiro, sem separar por tempo)">Escanteios: ' + cornersTotal + '</span>';
+  }
+
   function renderGamesList(listId, fixtures, emptyMessage){
     const target = el(listId);
     if(!fixtures || !fixtures.length){
@@ -1522,6 +1575,7 @@
       const stMinutes = f.minutesScored == null ? null : f.minutesScored.filter(m => m > 45).sort((a,b)=>a-b);
       const htMsg = buildHalfMsg('1ºT', f.gf_ht, htMinutes, '1º tempo');
       const stMsg = buildHalfMsg('2ºT', f.gf_ft - f.gf_ht, stMinutes, '2º tempo');
+      const cornerMsg = buildCornerMsg(f.cornersTotal);
 
       return (
         '<div class="game-row">' +
@@ -1530,6 +1584,7 @@
           '<span class="g-opp-wrap">' +
             '<span class="g-opp" title="' + opp + '">' + opp + '</span>' +
             '<span class="g-opp-meta">' + htMsg + '<span class="g-meta-divider">|</span>' + stMsg + '</span>' +
+            '<span class="g-corner-row">' + cornerMsg + '</span>' +
           '</span>' +
           '<span class="g-score">' + f.gf_ht + '-' + f.ga_ht + '<br><small>HT</small></span>' +
           '<span class="g-score">' + f.gf_ft + '-' + f.ga_ft + '<br><small>FT</small></span>' +
