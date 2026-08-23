@@ -888,6 +888,7 @@
     <div class="h2h-section" id="h2hSection" style="display:none; margin-top:24px;">
       <div class="detail-title" style="font-size:15px;">Confrontos Diretos</div>
       <div class="status-line" id="h2hStatus"></div>
+      <div class="error-box" id="h2hErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="h2hErrorText"></span></div>
       <div class="today-list" id="h2hList" style="margin-top:10px;"></div>
     </div>
 
@@ -1779,9 +1780,13 @@
     const statusEl = el('h2hStatus');
     const listEl = el('h2hList');
     statusEl.className = 'status-line';
+    showErrorBox('h2hErrorBox', 'h2hErrorText', null);
 
     if(g.home.id == null || g.away.id == null){
-      section.style.display = 'none';
+      section.style.display = 'block';
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Sem ID real de time (jogo de exemplo ou pré-carregado sem ID) — não dá pra buscar confronto direto na API.';
+      statusEl.classList.add('err');
       return;
     }
     section.style.display = 'block';
@@ -1806,9 +1811,11 @@
       statusEl.textContent = fixtures.length + ' confronto(s) direto(s) encontrado(s) entre os dois times.';
       statusEl.classList.add('ok');
     }catch(err){
+      const msg = describeError(err);
       listEl.innerHTML = '';
       statusEl.textContent = 'Não foi possível buscar os confrontos diretos.';
       statusEl.classList.add('err');
+      showErrorBox('h2hErrorBox', 'h2hErrorText', msg);
     }
   }
 
