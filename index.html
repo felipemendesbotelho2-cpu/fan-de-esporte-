@@ -9,19 +9,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0B0E14;
-    --panel:#121722;
-    --panel-2:#171D2B;
-    --border:#242B3D;
-    --border-soft:#1B2130;
-    --text:#E7E9EE;
-    --muted:#8992A8;
-    --muted-2:#5C6478;
-    --accent:#E8A33D;
-    --teal:#3ADDA3;
-    --green:#3ADDA3;
-    --yellow:#E8C23D;
-    --red:#E5555D;
+    --bg:#F4F6FA;
+    --panel:#FFFFFF;
+    --panel-2:#F0F2F7;
+    --border:#DDE2EC;
+    --border-soft:#E7EAF1;
+    --text:#1A1F2B;
+    --muted:#5C6478;
+    --muted-2:#8992A8;
+    --accent:#C9791D;
+    --teal:#12946B;
+    --green:#12946B;
+    --yellow:#A9791A;
+    --red:#C93B44;
     --mono:'JetBrains Mono', ui-monospace, monospace;
     --display:'Space Grotesk', sans-serif;
     --body:'Inter', sans-serif;
@@ -30,15 +30,15 @@
   html,body{margin:0;padding:0;}
   body{
     background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(232,163,61,0.07), transparent 60%),
-      radial-gradient(1000px 500px at 100% 0%, rgba(58,221,163,0.06), transparent 55%),
+      radial-gradient(1200px 600px at 15% -10%, rgba(201,121,29,0.07), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(18,148,107,0.06), transparent 55%),
       var(--bg);
     color:var(--text);
     font-family:var(--body);
     min-height:100vh;
     line-height:1.5;
   }
-  ::selection{ background:rgba(232,163,61,0.35); }
+  ::selection{ background:rgba(201,121,29,0.35); }
   a{color:var(--accent);}
 
   .wrap{
@@ -63,8 +63,8 @@
     border-radius:13px;
     display:flex;align-items:center;justify-content:center;
     background:
-      radial-gradient(120% 130% at 25% 15%, rgba(232,163,61,0.22), transparent 60%),
-      radial-gradient(120% 130% at 80% 90%, rgba(58,221,163,0.18), transparent 60%),
+      radial-gradient(120% 130% at 25% 15%, rgba(201,121,29,0.22), transparent 60%),
+      radial-gradient(120% 130% at 80% 90%, rgba(18,148,107,0.18), transparent 60%),
       var(--panel);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
     font-size:22px;
@@ -139,8 +139,8 @@
     padding:12px;
     border-radius:12px;
     background:
-      radial-gradient(160% 140% at 0% 0%, rgba(58,221,163,0.16), transparent 55%),
-      radial-gradient(140% 140% at 100% 100%, rgba(232,163,61,0.14), transparent 55%),
+      radial-gradient(160% 140% at 0% 0%, rgba(18,148,107,0.16), transparent 55%),
+      radial-gradient(140% 140% at 100% 100%, rgba(201,121,29,0.14), transparent 55%),
       var(--panel);
     border:1px solid var(--border);
     max-width:260px;
@@ -266,7 +266,7 @@
     outline:none;
     min-height:64px;
   }
-  .feedback-textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(232,163,61,0.15); }
+  .feedback-textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(201,121,29,0.15); }
   .feedback-textarea::placeholder{ color:var(--muted-2); }
   .feedback-send{ width:100%; margin-top:8px; padding:9px; font-size:12.5px; }
 
@@ -364,7 +364,7 @@
   }
   input:focus{
     border-color:var(--accent);
-    box-shadow:0 0 0 3px rgba(232,163,61,0.15);
+    box-shadow:0 0 0 3px rgba(201,121,29,0.15);
   }
   input::placeholder{ color:var(--muted-2); }
 
@@ -463,7 +463,7 @@
     transition:border-color .15s ease, background .15s ease;
     text-align:left;
   }
-  .today-row:hover, .today-row.selected{ border-color:var(--accent); background:rgba(232,163,61,0.06); }
+  .today-row:hover, .today-row.selected{ border-color:var(--accent); background:rgba(201,121,29,0.06); }
   .today-time-wrap{ display:flex; flex-direction:column; gap:2px; }
   .today-date{ font-family:var(--mono); font-size:9.5px; color:var(--muted-2); }
   .today-time{ font-family:var(--mono); font-size:13px; color:var(--accent); }
@@ -485,9 +485,9 @@
     color:var(--muted);
   }
   .today-odds .odd-chip.fav{
-    border-color:rgba(232,163,61,0.5);
+    border-color:rgba(201,121,29,0.5);
     color:var(--accent);
-    background:rgba(232,163,61,0.08);
+    background:rgba(201,121,29,0.08);
     font-weight:700;
   }
   .today-odds .odd-chip.empty{ color:var(--muted-2); font-style:italic; border-style:dashed; }
@@ -545,12 +545,12 @@
   .games-col.home .venue-btn.active{
     color:var(--accent);
     border-color:var(--accent);
-    background:rgba(232,163,61,0.1);
+    background:rgba(201,121,29,0.1);
   }
   .games-col.away .venue-btn.active{
     color:var(--teal);
     border-color:var(--teal);
-    background:rgba(58,221,163,0.1);
+    background:rgba(18,148,107,0.1);
   }
   .games-list{
     max-height:360px;
@@ -581,9 +581,9 @@
   .g-score{ color:var(--muted); text-align:center; }
   .g-score small{ color:var(--muted-2); font-size:8.5px; }
   .g-tag{ text-align:center; font-weight:700; border-radius:4px; padding:2px 0; font-size:10.5px; }
-  .g-tag.win{ background:rgba(58,221,163,0.15); color:var(--green); }
-  .g-tag.loss{ background:rgba(229,85,93,0.15); color:var(--red); }
-  .g-tag.draw{ background:rgba(232,194,61,0.15); color:var(--yellow); }
+  .g-tag.win{ background:rgba(18,148,107,0.15); color:var(--green); }
+  .g-tag.loss{ background:rgba(201,59,68,0.15); color:var(--red); }
+  .g-tag.draw{ background:rgba(169,121,26,0.15); color:var(--yellow); }
   .g-opp-wrap{ display:flex; flex-direction:column; gap:3px; overflow:hidden; min-width:0; }
   .g-opp-meta{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   .g-meta-divider{ color:var(--border); font-size:9px; }
@@ -659,12 +659,12 @@
   .avg-col.home .venue-btn.active{
     color:var(--accent);
     border-color:var(--accent);
-    background:rgba(232,163,61,0.1);
+    background:rgba(201,121,29,0.1);
   }
   .avg-col.away .venue-btn.active{
     color:var(--teal);
     border-color:var(--teal);
-    background:rgba(58,221,163,0.1);
+    background:rgba(18,148,107,0.1);
   }
   .avg-item{
     display:flex;
@@ -717,8 +717,8 @@
     display:none;
     margin-top:10px;
     padding:12px 14px;
-    border:1px solid rgba(229,85,93,0.4);
-    background:rgba(229,85,93,0.08);
+    border:1px solid rgba(201,59,68,0.4);
+    background:rgba(201,59,68,0.08);
     border-radius:8px;
     font-family:var(--mono);
     font-size:11.5px;
@@ -1616,7 +1616,15 @@
 
   /* ---------------- jogos de hoje (painel principal) ---------------- */
   const ALLOWED_LEAGUES = [
-    { name: 'Série A', test: (n,c) => c === 'Brazil' && /serie\s*a/i.test(n) },
+    { name: 'Brasileirão Série A', test: (n,c) => c === 'Brazil' && /serie\s*a/i.test(n) },
+    { name: 'Brasileirão Série B', test: (n,c) => c === 'Brazil' && /serie\s*b/i.test(n) },
+    { name: 'Primeira Liga (Portugal)', test: (n,c) => c === 'Portugal' && /primeira\s*liga/i.test(n) },
+    { name: 'La Liga (Espanha)', test: (n,c) => c === 'Spain' && /la\s*liga/i.test(n) },
+    { name: 'Copa Libertadores', test: (n,c) => /libertadores/i.test(n) },
+    { name: 'Copa Sul-Americana', test: (n,c) => /sudamericana|sul[\s-]*americana/i.test(n) },
+    { name: 'Premier League (Inglaterra)', test: (n,c) => c === 'England' && /premier\s*league/i.test(n) },
+    { name: 'Ligue 1 (França)', test: (n,c) => c === 'France' && /ligue\s*1/i.test(n) },
+    { name: 'Serie A (Itália)', test: (n,c) => c === 'Italy' && /serie\s*a/i.test(n) },
   ];
 
   function matchAllowedLeague(leagueName, leagueCountry){
