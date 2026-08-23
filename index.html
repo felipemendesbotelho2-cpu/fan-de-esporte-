@@ -699,6 +699,7 @@
     <button class="tab-btn" data-view="analise">Análise</button>
     <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
     <button class="tab-btn" data-view="chutes">Chute de Jogadores</button>
+    <button class="tab-btn" data-view="finalizacoes">Finalizações de Jogadores</button>
   </nav>
 
   <!-- ===== VIEW: JOGOS DO DIA ===== -->
@@ -852,6 +853,22 @@
   </section>
 
   </div><!-- /view-chutes -->
+
+  <!-- ===== VIEW: FINALIZAÇÕES DE JOGADORES ===== -->
+  <div class="view" id="view-finalizacoes">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Finalizações de Jogadores</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos jogadores dos times que jogam hoje que finalizaram (chute total, no gol ou não) pelo menos 1 vez em TODOS os últimos 10 jogos do time (10 de 10). Se nenhum jogador bater esse critério, a lista fica vazia.</div>
+      </div>
+    </div>
+    <div class="status-line" id="finalizacoesStatus"></div>
+    <div class="today-list" id="finalizacoesList"></div>
+  </section>
+
+  </div><!-- /view-finalizacoes -->
 
   <footer>Fan de Esporte · uso analítico — não constitui recomendação financeira</footer>
 </div>
@@ -1765,11 +1782,13 @@
     });
   }
 
-  /* ---------------- chute de jogadores ---------------- */
-  const SHOTS_ON_TARGET_THRESHOLD = 1; // mínimo de chutes no gol exigido em CADA jogo
+  /* ---------------- chute / finalização de jogadores ---------------- */
+  const SHOTS_ON_TARGET_THRESHOLD = 1; // mínimo de chutes NO GOL exigido em CADA jogo
   const MIN_GAMES_WITH_SHOTS = GAMES_LIMIT; // precisa bater o mínimo em TODOS os últimos jogos (10 de 10)
+  const SHOTS_TOTAL_THRESHOLD = 1; // mínimo de finalizações TOTAIS (no gol ou não) exigido em CADA jogo
+  const MIN_GAMES_WITH_FINISHES = GAMES_LIMIT; // precisa bater o mínimo em TODOS os últimos jogos (10 de 10)
 
-  async function fetchTeamPlayerShotsForFixture(fixtureId, teamId, key){
+  async function fetchTeamPlayerStatsForFixture(fixtureId, teamId, key){
     const data = await apiGet('/fixtures/players?fixture=' + fixtureId, key);
     const teamEntry = (data.response || []).find(r => r.team && r.team.id === teamId);
     if(!teamEntry) return [];
@@ -1778,15 +1797,16 @@
         const stats = (p.statistics && p.statistics[0]) || {};
         const minutes = stats.games && stats.games.minutes;
         const shotsOn = (stats.shots && stats.shots.on != null) ? stats.shots.on : 0;
-        return { id: p.player.id, name: p.player.name, minutes, shotsOn };
+        const shotsTotal = (stats.shots && stats.shots.total != null) ? stats.shots.total : 0;
+        return { id: p.player.id, name: p.player.name, minutes, shotsOn, shotsTotal };
       })
       .filter(p => p.minutes != null && p.minutes > 0);
   }
 
-  async function fetchTeamPlayerShotStats(teamId, key){
+  async function fetchTeamPlayerMetricStats(teamId, key, metricField, threshold){
     const fixtures = await fetchLastFixtures(teamId, key);
     const perFixture = await Promise.all(
-      fixtures.map(f => fetchTeamPlayerShotsForFixture(f.fixtureId, teamId, key).catch(() => null))
+      fixtures.map(f => fetchTeamPlayerStatsForFixture(f.fixtureId, teamId, key).catch(() => null))
     );
     const playerMap = new Map();
     perFixture.forEach(players => {
@@ -1795,15 +1815,15 @@
         if(!playerMap.has(p.id)) playerMap.set(p.id, { id: p.id, name: p.name, gamesChecked: 0, gamesWithThreshold: 0 });
         const rec = playerMap.get(p.id);
         rec.gamesChecked++;
-        if(p.shotsOn >= SHOTS_ON_TARGET_THRESHOLD) rec.gamesWithThreshold++;
+        if(p[metricField] >= threshold) rec.gamesWithThreshold++;
       });
     });
     return Array.from(playerMap.values());
   }
 
-  async function scanPlayerShots(games){
-    const statusEl = el('chutesStatus');
-    const listEl = el('chutesList');
+  async function scanPlayerMetric(games, config){
+    const statusEl = el(config.statusElId);
+    const listEl = el(config.listElId);
     statusEl.className = 'status-line';
 
     if(!games || !games.length){
@@ -1834,7 +1854,7 @@
     function updateProgress(){
       listEl.innerHTML =
         '<div class="empty-note" style="padding:8px 4px;">' +
-          'Aguarde, analisando os chutes dos últimos ' + GAMES_LIMIT + ' jogos de cada time… ' +
+          'Aguarde, analisando as ' + config.progressLabel + ' dos últimos ' + GAMES_LIMIT + ' jogos de cada time… ' +
           '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
           'Isso pode levar um pouco mais de tempo por causa dos dados por jogador.' +
         '</div>';
@@ -1848,7 +1868,7 @@
         result = { ...entry, players: null };
       } else {
         try{
-          const players = await fetchTeamPlayerShotStats(entry.id, state.apiKey);
+          const players = await fetchTeamPlayerMetricStats(entry.id, state.apiKey, config.metricField, config.threshold);
           result = { ...entry, players };
         }catch(err){
           result = { ...entry, players: null, error: describeError(err) };
@@ -1865,20 +1885,20 @@
     const qualified = [];
     usable.forEach(r => {
       r.players
-        .filter(p => p.gamesWithThreshold >= MIN_GAMES_WITH_SHOTS)
+        .filter(p => p.gamesWithThreshold >= config.minGames)
         .forEach(p => qualified.push({ ...p, teamName: r.name, side: r.side, game: r.game }));
     });
     qualified.sort((a, b) => b.gamesWithThreshold - a.gamesWithThreshold);
 
-    renderChutesList(qualified);
+    renderMetricList(config.listElId, qualified, config);
 
     const semDadoNote = semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '';
-    statusEl.textContent = qualified.length + ' jogador(es) chutaram ' + SHOTS_ON_TARGET_THRESHOLD + '+ vez(es) no gol em TODOS os últimos ' + GAMES_LIMIT + ' jogos do time.' + semDadoNote;
+    statusEl.textContent = qualified.length + ' jogador(es) ' + config.actionLabel + ' ' + config.threshold + '+ vez(es) ' + config.metricLabel + ' em TODOS os últimos ' + GAMES_LIMIT + ' jogos do time.' + semDadoNote;
     statusEl.classList.add(semDado ? 'err' : 'ok');
   }
 
-  function renderChutesList(items){
-    const listEl = el('chutesList');
+  function renderMetricList(listElId, items, config){
+    const listEl = el(listElId);
     if(!items.length){
       listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogador dos jogos de hoje se encaixou nesse padrão.</div>';
       return;
@@ -1889,10 +1909,38 @@
         '<div class="today-row" style="cursor:default;">' +
           '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
           '<span class="today-teams"><span class="lg">' + it.teamName + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
-          '<span class="today-odds"><span class="odd-chip fav">' + it.gamesWithThreshold + '/' + it.gamesChecked + ' c/ ' + SHOTS_ON_TARGET_THRESHOLD + '+ chutes</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">' + it.gamesWithThreshold + '/' + it.gamesChecked + ' c/ ' + config.threshold + '+ ' + config.chipSuffix + '</span></span>' +
         '</div>'
       );
     }).join('');
+  }
+
+  function scanPlayerShots(games){
+    return scanPlayerMetric(games, {
+      statusElId: 'chutesStatus',
+      listElId: 'chutesList',
+      metricField: 'shotsOn',
+      threshold: SHOTS_ON_TARGET_THRESHOLD,
+      minGames: MIN_GAMES_WITH_SHOTS,
+      actionLabel: 'chutaram',
+      metricLabel: 'no gol',
+      progressLabel: 'finalizações no gol',
+      chipSuffix: 'chutes'
+    });
+  }
+
+  function scanPlayerFinishes(games){
+    return scanPlayerMetric(games, {
+      statusElId: 'finalizacoesStatus',
+      listElId: 'finalizacoesList',
+      metricField: 'shotsTotal',
+      threshold: SHOTS_TOTAL_THRESHOLD,
+      minGames: MIN_GAMES_WITH_FINISHES,
+      actionLabel: 'finalizaram',
+      metricLabel: 'ao gol (total, contando as que foram pra fora)',
+      progressLabel: 'finalizações totais',
+      chipSuffix: 'finalizações'
+    });
   }
 
   async function loadTodayGames(){
@@ -1911,6 +1959,7 @@
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
       scanPlayerShots(games);
+      scanPlayerFinishes(games);
       return;
     }
 
@@ -1949,6 +1998,7 @@
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
       scanPlayerShots(games);
+      scanPlayerFinishes(games);
     }catch(err){
       const msg = describeError(err);
       console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', msg);
@@ -1960,6 +2010,7 @@
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
       scanPlayerShots(games);
+      scanPlayerFinishes(games);
     }
     el('btnLoadToday').disabled = false;
   }
