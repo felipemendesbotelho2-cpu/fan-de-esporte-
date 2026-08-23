@@ -506,6 +506,92 @@
     overflow-y:auto;
     padding:6px 8px;
   }
+
+  .lineup-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){ .lineup-grid{ grid-template-columns:1fr; } }
+  .lineup-col{
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--panel-2);
+    padding:14px;
+  }
+  .lineup-col.home{ border-top:2px solid var(--accent); }
+  .lineup-col.away{ border-top:2px solid var(--teal); }
+  .lineup-col-title{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .lineup-col.home .lineup-col-title{ color:var(--accent); }
+  .lineup-col.away .lineup-col-title{ color:var(--teal); }
+  .lineup-formation{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  .lineup-list{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    margin-bottom:14px;
+  }
+  .lineup-player{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    color:var(--text);
+    padding:3px 0;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .lineup-player:last-child{ border-bottom:none; }
+  .lineup-player .num{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted-2);
+    width:22px;
+    flex-shrink:0;
+  }
+  .lineup-player .pos{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--muted-2);
+    text-transform:uppercase;
+  }
+  .lineup-subtitle{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    margin-bottom:6px;
+    padding-top:4px;
+    border-top:1px solid var(--border-soft);
+  }
+  .lineup-injuries{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+  .lineup-injury-item{
+    font-size:12.5px;
+    color:var(--red);
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+  }
+  .lineup-injury-item .reason{
+    color:var(--muted);
+    font-size:11.5px;
+    text-align:right;
+  }
   .game-row{
     display:grid;
     grid-template-columns:18px 56px 1fr 40px 40px 20px;
@@ -667,15 +753,16 @@
   }
   .avg-item{
     display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:7px 0;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:3px;
+    padding:9px 0;
     border-bottom:1px solid var(--border-soft);
     font-size:12.5px;
   }
   .avg-item:last-child{ border-bottom:none; }
-  .avg-item span.lbl{ color:var(--muted); }
-  .avg-item span.val{ font-family:var(--mono); font-weight:700; color:var(--text); }
+  .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
+  .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); line-height:1.5; }
 
   .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
 
@@ -897,6 +984,29 @@
       <span style="color:var(--red);">vermelho</span> não ·
       <span style="color:var(--muted-2);">cinza</span> sem dado ·
       <span><b>Escanteios / Finalizações / Chutes no gol / Cartões / Faltas</b> total do jogo (a API não separa por tempo)</span>
+    </div>
+
+    <div class="lineup-section" id="lineupSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Escalação e Desfalques</div>
+      <div class="empty-note" style="margin-top:4px; max-width:640px;">A escalação oficial só costuma ser divulgada perto do horário do jogo. Os desfalques são os jogadores confirmados como fora (lesão, suspensão etc.) para essa partida específica.</div>
+      <div class="status-line" id="lineupStatus"></div>
+      <div class="error-box" id="lineupErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="lineupErrorText"></span></div>
+      <div class="lineup-grid" id="lineupGrid" style="display:none; margin-top:14px;">
+        <div class="lineup-col home">
+          <div class="lineup-col-title" id="lineupHomeTitle">Casa</div>
+          <div class="lineup-formation" id="lineupHomeFormation"></div>
+          <div class="lineup-list" id="lineupHomeXI"></div>
+          <div class="lineup-subtitle">Desfalques confirmados</div>
+          <div class="lineup-injuries" id="lineupHomeInjuries"></div>
+        </div>
+        <div class="lineup-col away">
+          <div class="lineup-col-title" id="lineupAwayTitle">Fora</div>
+          <div class="lineup-formation" id="lineupAwayFormation"></div>
+          <div class="lineup-list" id="lineupAwayXI"></div>
+          <div class="lineup-subtitle">Desfalques confirmados</div>
+          <div class="lineup-injuries" id="lineupAwayInjuries"></div>
+        </div>
+      </div>
     </div>
 
     <div class="h2h-section" id="h2hSection" style="display:none; margin-top:24px;">
@@ -1713,9 +1823,9 @@
     const htSum = sumStatOverGames(fixtures, f => f.gf_ht);
     const stSum = sumStatOverGames(fixtures, f => f.gf_ft - f.gf_ht);
     return {
-      avgTotal: formatStatSum(totalSum),
-      avgHT: formatStatSum(htSum),
-      avgST: formatStatSum(stSum)
+      avgTotal: formatStatSum(totalSum, 'gols'),
+      avgHT: formatStatSum(htSum, 'gols no 1º tempo'),
+      avgST: formatStatSum(stSum, 'gols no 2º tempo')
     };
   }
 
@@ -1739,8 +1849,10 @@
     };
   }
 
-  function formatStatSum(s){
-    return s.n ? (s.sum + ' em ' + s.n + ' jogos (méd. ' + s.avg.toFixed(2) + ')') : 'sem dado';
+  function formatStatSum(s, unit){
+    if(!s.n) return 'Sem dado disponível nos últimos jogos.';
+    const jogosWord = s.n === 1 ? 'jogo' : 'jogos';
+    return 'Nos últimos ' + s.n + ' ' + jogosWord + ' fez ' + s.sum + ' ' + unit + ', média de ' + s.avg.toFixed(2) + ' por jogo.';
   }
 
   const venueState = { home: [], away: [], selected: { home: 'home', away: 'home' } };
@@ -1772,15 +1884,15 @@
 
     const sums = computeStatSums(filtered);
     el(prefix + 'StatCornersLbl').textContent = 'Escanteios';
-    el(prefix + 'StatCorners').textContent = formatStatSum(sums.corners);
+    el(prefix + 'StatCorners').textContent = formatStatSum(sums.corners, 'escanteios');
     el(prefix + 'StatShotsLbl').textContent = 'Finalizações';
-    el(prefix + 'StatShots').textContent = formatStatSum(sums.shots);
+    el(prefix + 'StatShots').textContent = formatStatSum(sums.shots, 'finalizações');
     el(prefix + 'StatShotsOnGoalLbl').textContent = 'Chutes no gol';
-    el(prefix + 'StatShotsOnGoal').textContent = formatStatSum(sums.shotsOnGoal);
+    el(prefix + 'StatShotsOnGoal').textContent = formatStatSum(sums.shotsOnGoal, 'chutes no gol');
     el(prefix + 'StatCardsLbl').textContent = 'Cartões amarelos';
-    el(prefix + 'StatCards').textContent = formatStatSum(sums.cards);
+    el(prefix + 'StatCards').textContent = formatStatSum(sums.cards, 'cartões amarelos');
     el(prefix + 'StatFoulsLbl').textContent = 'Faltas';
-    el(prefix + 'StatFouls').textContent = formatStatSum(sums.fouls);
+    el(prefix + 'StatFouls').textContent = formatStatSum(sums.fouls, 'faltas');
   }
 
   function applyGamesListFilter(prefix){
@@ -1858,6 +1970,17 @@
     el('h2hList').innerHTML = '';
     el('h2hStatus').textContent = '';
     el('h2hStatus').className = 'status-line';
+    el('lineupSection').style.display = 'none';
+    el('lineupGrid').style.display = 'none';
+    el('lineupHomeXI').innerHTML = '';
+    el('lineupAwayXI').innerHTML = '';
+    el('lineupHomeInjuries').innerHTML = '';
+    el('lineupAwayInjuries').innerHTML = '';
+    el('lineupHomeFormation').textContent = '';
+    el('lineupAwayFormation').textContent = '';
+    el('lineupStatus').textContent = '';
+    el('lineupStatus').className = 'status-line';
+    showErrorBox('lineupErrorBox', 'lineupErrorText', null);
     el('standingsSection').style.display = 'none';
     el('standingsTableWrap').innerHTML = '';
     el('standingsStatus').textContent = '';
@@ -1920,6 +2043,7 @@
 
     loadHeadToHead(g);
     loadStandings(g);
+    loadLineupsAndInjuries(g);
   }
 
   /* ---------------- confrontos diretos ---------------- */
@@ -2063,6 +2187,122 @@
         '<thead><tr><th>#</th><th>Time</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th></tr></thead>' +
         '<tbody>' + trs + '</tbody>' +
       '</table>';
+  }
+
+  /* ---------------- escalação e desfalques confirmados ---------------- */
+  async function resolveFixtureId(g){
+    if(g.fixtureId != null) return g.fixtureId;
+    if(!state.apiKey || g.home.id == null || g.away.id == null) return null;
+    try{
+      const dateStr = (g.date || new Date().toISOString()).slice(0,10);
+      const data = await apiGet('/fixtures?date=' + dateStr + '&team=' + g.home.id, state.apiKey);
+      const match = (data.response || []).find(fx =>
+        fx.teams && fx.teams.home.id === g.home.id && fx.teams.away.id === g.away.id
+      );
+      return match ? match.fixture.id : null;
+    }catch(err){
+      return null;
+    }
+  }
+
+  function renderLineupColumn(prefix, teamId, lineupsResponse, injuriesResponse){
+    const formationEl = el('lineup' + prefix + 'Formation');
+    const xiEl = el('lineup' + prefix + 'XI');
+    const injuriesEl = el('lineup' + prefix + 'Injuries');
+
+    const teamLineup = (lineupsResponse || []).find(l => l.team && l.team.id === teamId);
+    if(teamLineup){
+      formationEl.textContent = teamLineup.formation ? ('Formação: ' + teamLineup.formation) : '';
+      const startXI = teamLineup.startXI || [];
+      xiEl.innerHTML = startXI.length
+        ? startXI.map(s => {
+            const p = s.player || {};
+            return (
+              '<div class="lineup-player">' +
+                '<span class="num">' + (p.number ?? '—') + '</span>' +
+                '<span>' + (p.name || 'Jogador') + '</span>' +
+                '<span class="pos">' + (p.pos || '') + '</span>' +
+              '</div>'
+            );
+          }).join('')
+        : '<div class="empty-note" style="padding:4px 0;">Escalação ainda não divulgada.</div>';
+    } else {
+      formationEl.textContent = '';
+      xiEl.innerHTML = '<div class="empty-note" style="padding:4px 0;">Escalação ainda não divulgada.</div>';
+    }
+
+    const teamInjuries = (injuriesResponse || []).filter(inj => inj.team && inj.team.id === teamId);
+    injuriesEl.innerHTML = teamInjuries.length
+      ? teamInjuries.map(inj => {
+          const p = inj.player || {};
+          const reason = p.reason || p.type || 'Desfalque confirmado';
+          return (
+            '<div class="lineup-injury-item">' +
+              '<span>' + (p.name || 'Jogador') + '</span>' +
+              '<span class="reason">' + reason + '</span>' +
+            '</div>'
+          );
+        }).join('')
+      : '<div class="empty-note" style="padding:4px 0;">Nenhum desfalque confirmado.</div>';
+  }
+
+  async function loadLineupsAndInjuries(g){
+    const section = el('lineupSection');
+    const grid = el('lineupGrid');
+    const statusEl = el('lineupStatus');
+    statusEl.className = 'status-line';
+    showErrorBox('lineupErrorBox', 'lineupErrorText', null);
+    section.style.display = 'block';
+    grid.style.display = 'none';
+
+    el('lineupHomeTitle').textContent = g.home.name;
+    el('lineupAwayTitle').textContent = g.away.name;
+
+    if(!state.apiKey){
+      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      statusEl.classList.add('err');
+      return;
+    }
+    if(g.home.id == null || g.away.id == null){
+      statusEl.textContent = 'Sem ID real de time (jogo de exemplo ou pré-carregado sem ID) — não dá pra buscar escalação/desfalques.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    statusEl.textContent = 'Localizando o jogo na API…';
+    const fixtureId = await resolveFixtureId(g);
+    if(fixtureId == null){
+      statusEl.textContent = 'Não foi possível localizar o ID exato do jogo na API pra buscar escalação e desfalques.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    statusEl.textContent = 'Buscando escalação e desfalques confirmados…';
+    try{
+      const [lineupsData, injuriesData] = await Promise.all([
+        apiGet('/fixtures/lineups?fixture=' + fixtureId, state.apiKey),
+        apiGet('/injuries?fixture=' + fixtureId, state.apiKey)
+      ]);
+
+      const lineupsResponse = lineupsData.response || [];
+      const injuriesResponse = injuriesData.response || [];
+
+      renderLineupColumn('Home', g.home.id, lineupsResponse, injuriesResponse);
+      renderLineupColumn('Away', g.away.id, lineupsResponse, injuriesResponse);
+      grid.style.display = 'grid';
+
+      const temEscalacao = lineupsResponse.length > 0;
+      statusEl.textContent = temEscalacao
+        ? 'Escalação oficial divulgada. ' + injuriesResponse.length + ' desfalque(s) confirmado(s) no total.'
+        : 'Escalação oficial ainda não divulgada (normalmente sai perto do horário do jogo). Desfalques confirmados abaixo, se houver.';
+      statusEl.classList.add(temEscalacao ? 'ok' : 'err');
+    }catch(err){
+      const msg = describeError(err);
+      grid.style.display = 'none';
+      statusEl.textContent = 'Não foi possível buscar escalação/desfalques.';
+      statusEl.classList.add('err');
+      showErrorBox('lineupErrorBox', 'lineupErrorText', msg);
+    }
   }
 
   /* ---------------- jogos de hoje (painel principal) ---------------- */
@@ -2552,6 +2792,7 @@
             league: allowed.name,
             leagueId: fx.league.id,
             leagueSeason: fx.league.season,
+            fixtureId: fx.fixture.id,
             home: { id: fx.teams.home.id, name: fx.teams.home.name, odd: odds ? odds.home : null },
             away: { id: fx.teams.away.id, name: fx.teams.away.name, odd: odds ? odds.away : null }
           };
