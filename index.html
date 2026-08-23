@@ -712,6 +712,31 @@
   .view{ display:none; }
   .view.active{ display:block; }
 
+  /* ---------- caixa de erro detalhado ---------- */
+  .error-box{
+    display:none;
+    margin-top:10px;
+    padding:12px 14px;
+    border:1px solid rgba(229,85,93,0.4);
+    background:rgba(229,85,93,0.08);
+    border-radius:8px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--red);
+    line-height:1.6;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .error-box.show{ display:block; }
+  .error-box .error-box-title{
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-size:10.5px;
+    margin-bottom:6px;
+    display:block;
+  }
+
   footer{
     margin-top:30px;
     text-align:center;
@@ -778,6 +803,7 @@
       </div>
     </div>
     <div class="status-line" id="todayStatus"></div>
+    <div class="error-box" id="todayErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="todayErrorText"></span></div>
     <div class="today-list" id="todayList"></div>
     <input type="hidden" id="apiKey" value="4ad03debafa3b6262e9248abf7932e10">
 
@@ -815,6 +841,7 @@
     </div>
 
     <div class="status-line" id="detailStatus"></div>
+    <div class="error-box" id="detailErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="detailErrorText"></span></div>
 
     <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
       <div class="avg-col home">
@@ -894,6 +921,7 @@
       </div>
     </div>
     <div class="status-line" id="frios1tStatus"></div>
+    <div class="error-box" id="frios1tErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="frios1tErrorText"></span></div>
     <div class="today-list" id="frios1tList"></div>
   </section>
 
@@ -973,6 +1001,28 @@
         console.warn('Não foi possível salvar a key da football-data.org:', err.message);
       }
     });
+  }
+
+  /* ---------------- caixas de erro detalhado (visíveis na tela) ---------------- */
+  function showErrorBox(boxId, textId, message){
+    const box = el(boxId);
+    const text = el(textId);
+    if(!box || !text) return;
+    if(!message){
+      box.classList.remove('show');
+      text.textContent = '';
+      return;
+    }
+    text.textContent = message;
+    box.classList.add('show');
+  }
+
+  /* Extrai a mensagem de erro mais útil possível de um objeto Error/response */
+  function describeError(err){
+    if(!err) return 'Erro desconhecido';
+    if(typeof err === 'string') return err;
+    if(err.message) return err.message;
+    try{ return JSON.stringify(err); }catch(_e){ return String(err); }
   }
 
   /* ---------------- widget flutuante de sugestões ---------------- */
@@ -1135,6 +1185,13 @@
     return runPromise;
   }
 
+  /* Erro tipado, guarda o corpo cru retornado pela API pra diagnóstico */
+  function apiError(message, extra){
+    const e = new Error(message);
+    if(extra) e.detail = extra;
+    return e;
+  }
+
   async function apiGet(path, key){
     const cached = cacheGet(path);
     if(cached){
@@ -1143,11 +1200,20 @@
     }
     cacheStats.misses++;
     return scheduleApiCall(async () => {
-      const res = await fetch(API_BASE + path, { headers: { 'x-apisports-key': key } });
-      if(!res.ok) throw new Error('HTTP ' + res.status);
+      let res;
+      try{
+        res = await fetch(API_BASE + path, { headers: { 'x-apisports-key': key } });
+      }catch(networkErr){
+        throw apiError('Falha de rede ao chamar ' + path + ': ' + networkErr.message);
+      }
+      if(!res.ok){
+        let bodyText = '';
+        try{ bodyText = await res.text(); }catch(_e){}
+        throw apiError('HTTP ' + res.status + ' em ' + path + (bodyText ? ' — resposta: ' + bodyText.slice(0,300) : ''));
+      }
       const data = await res.json();
       if(data.errors && Object.keys(data.errors).length){
-        throw new Error(JSON.stringify(data.errors));
+        throw apiError('API retornou erro em ' + path + ': ' + JSON.stringify(data.errors));
       }
       cacheSet(path, data);
       return data;
@@ -1156,7 +1222,7 @@
 
   async function findTeamId(name, key){
     const data = await apiGet('/teams?search=' + encodeURIComponent(name), key);
-    if(!data.response || !data.response.length) throw new Error('Time não encontrado: ' + name);
+    if(!data.response || !data.response.length) throw apiError('Time não encontrado na API-Football: ' + name);
     return data.response[0].team.id;
   }
 
@@ -1176,18 +1242,22 @@
   const GAMES_LIMIT = 5;
 
   async function fetchLastFixtures(teamId, key){
-    let all = [];
-    try{
-      all = await fetchFixturesBySeason(teamId, TARGET_SEASON, key);
-    }catch(err){
-      console.warn('Temporada ' + TARGET_SEASON + ' indisponível para este plano:', err.message);
-    }
+    // Deixa o erro real subir (sem mascarar com "indisponível para este plano"),
+    // pra quem chamar essa função poder mostrar o motivo verdadeiro na tela.
+    const all = await fetchFixturesBySeason(teamId, TARGET_SEASON, key);
 
     const finished = all.filter(fx =>
       fx.fixture && fx.fixture.status && ['FT','AET','PEN'].includes(fx.fixture.status.short)
     );
     finished.sort((a, b) => new Date(b.fixture.date) - new Date(a.fixture.date));
     const lastGames = finished.slice(0, GAMES_LIMIT);
+
+    if(!lastGames.length){
+      throw apiError(
+        'A API respondeu OK, mas nenhum jogo FINALIZADO (FT/AET/PEN) foi encontrado para a temporada ' +
+        TARGET_SEASON + ' deste time (total de jogos retornados pela API: ' + all.length + ').'
+      );
+    }
 
     return lastGames.map(fx=>{
       const isHome = fx.teams.home.id === teamId;
@@ -1241,8 +1311,17 @@
     }
     cacheStats.misses++;
     return scheduleFdApiCall(async () => {
-      const res = await fetch(FD_API_BASE + path, { headers: { 'X-Auth-Token': key } });
-      if(!res.ok) throw new Error('HTTP ' + res.status);
+      let res;
+      try{
+        res = await fetch(FD_API_BASE + path, { headers: { 'X-Auth-Token': key } });
+      }catch(networkErr){
+        throw apiError('Falha de rede ao chamar football-data.org ' + path + ': ' + networkErr.message);
+      }
+      if(!res.ok){
+        let bodyText = '';
+        try{ bodyText = await res.text(); }catch(_e){}
+        throw apiError('HTTP ' + res.status + ' em football-data.org ' + path + (bodyText ? ' — resposta: ' + bodyText.slice(0,300) : ''));
+      }
       const data = await res.json();
       cacheSet(cacheKey, data);
       return data;
@@ -1262,7 +1341,7 @@
     const target = normalizeTeamName(teamName);
     let found = teams.find(t => normalizeTeamName(t.name) === target || normalizeTeamName(t.shortName) === target);
     if(!found) found = teams.find(t => normalizeTeamName(t.name).includes(target) || target.includes(normalizeTeamName(t.shortName || '')));
-    if(!found) throw new Error('Time não encontrado na football-data.org: ' + teamName);
+    if(!found) throw apiError('Time não encontrado na football-data.org: ' + teamName);
     return found.id;
   }
 
@@ -1273,6 +1352,10 @@
     const matches = (data.matches || [])
       .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))
       .slice(0, GAMES_LIMIT);
+
+    if(!matches.length){
+      throw apiError('football-data.org respondeu OK, mas sem partidas FINISHED para a temporada ' + TARGET_SEASON + '.');
+    }
 
     return matches.map(m => {
       const isHome = m.homeTeam.id === teamId;
@@ -1292,35 +1375,38 @@
     try{
       const id = await findFdTeamId(teamName, key);
       const fixtures = await fetchFdLastFixtures(id, key);
-      if(!fixtures.length) throw new Error('sem jogos finalizados na football-data.org para a temporada ' + TARGET_SEASON);
       return { fixtures, error: null };
     }catch(err){
-      console.warn('Falha no fallback football-data.org:', err.message);
-      return { fixtures: null, error: err.message };
+      const msg = describeError(err);
+      console.warn('Falha no fallback football-data.org:', msg);
+      return { fixtures: null, error: msg };
     }
   }
 
-  // CORRIGIDO: Tratamento de exceções e checagem da chave secundária ajustados
+  // CORRIGIDO: Tratamento de exceções e checagem da chave secundária ajustados,
+  // e agora o erro real (não mais uma mensagem genérica) é propagado pra tela.
   async function pullTeamFixtures(teamName, key, knownId){
     if(key){
       try{
         const id = knownId || await findTeamId(teamName, key);
         let fixtures = await fetchLastFixtures(id, key);
-        if(!fixtures.length) throw new Error('Sem partidas finalizadas encontradas na temporada ' + TARGET_SEASON + ' para este plano');
         fixtures = await attachGoalMinutes(fixtures, id, key);
         return { fixtures, source:'api', gamesFound: fixtures.length };
       }catch(err){
-        console.warn('Falha na API-Football, tentando reforço football-data.org:', err.message);
+        const primaryMsg = describeError(err);
+        console.warn('Falha na API-Football, tentando reforço football-data.org:', primaryMsg);
         if (state.fdApiKey) {
           const fd = await pullFdTeamFixtures(teamName, state.fdApiKey);
           if(fd.fixtures) return { fixtures: fd.fixtures, source:'football-data', gamesFound: fd.fixtures.length };
+          return { fixtures: null, source:'unavailable', error: 'API-Football: ' + primaryMsg + ' | football-data.org: ' + fd.error };
         }
-        return { fixtures: null, source:'unavailable', error: err.message };
+        return { fixtures: null, source:'unavailable', error: 'API-Football: ' + primaryMsg + ' (sem key de reforço football-data.org configurada)' };
       }
     }
     if (state.fdApiKey) {
       const fd = await pullFdTeamFixtures(teamName, state.fdApiKey);
       if(fd.fixtures) return { fixtures: fd.fixtures, source:'football-data', gamesFound: fd.fixtures.length };
+      return { fixtures: null, source:'unavailable', error: 'football-data.org: ' + fd.error };
     }
     return { fixtures: null, source:'unavailable', error: 'Nenhuma API key informada' };
   }
@@ -1474,6 +1560,7 @@
     el('gamesGrid').style.display = 'none';
     el('avgGrid').style.display = 'none';
     el('gamesLegend').style.display = 'none';
+    showErrorBox('detailErrorBox', 'detailErrorText', null);
 
     venueState.selected = { home: 'home', away: 'home' };
     listVenueState.selected = { home: 'geral', away: 'geral' };
@@ -1506,9 +1593,13 @@
       detailStatus.textContent = 'Nenhuma API key informada — sem dados reais disponíveis pra análise.';
       detailStatus.classList.add('err');
     } else if(usedMock){
-      const motivo = homeRes.error || awayRes.error || 'verifique a chave/limite diário';
-      detailStatus.textContent = 'Nenhuma das duas fontes retornou dado real para um ou os dois times. Motivo: ' + motivo;
+      detailStatus.textContent = 'Nenhuma das duas fontes retornou dado real para um ou os dois times.';
       detailStatus.classList.add('err');
+      const detalhes = [
+        homeRes.source === 'unavailable' ? (g.home.name + ' → ' + homeRes.error) : null,
+        awayRes.source === 'unavailable' ? (g.away.name + ' → ' + awayRes.error) : null
+      ].filter(Boolean).join('\n');
+      showErrorBox('detailErrorBox', 'detailErrorText', detalhes);
     } else {
       const menorAmostra = Math.min(homeRes.gamesFound, awayRes.gamesFound);
       const aviso = menorAmostra < GAMES_LIMIT
@@ -1523,7 +1614,7 @@
 
   /* ---------------- jogos de hoje (painel principal) ---------------- */
   const ALLOWED_LEAGUES = [
-    { name: 'Série A', test: (n,c) => c === 'Brazil' && /serie\s*a/i.test(n) },
+    { name: 'Série A', test: (n,c) => c === 'Brazil' && /serie\s*a/i.test(n) },
   ];
 
   function matchAllowedLeague(leagueName, leagueCountry){
@@ -1607,7 +1698,7 @@
         }
       });
     }catch(err){
-      console.warn('Não foi possível buscar odds do dia:', err.message);
+      console.warn('Não foi possível buscar odds do dia:', describeError(err));
     }
     return map;
   }
@@ -1617,6 +1708,7 @@
     const statusEl = el('frios1tStatus');
     const listEl = el('frios1tList');
     statusEl.className = 'status-line';
+    showErrorBox('frios1tErrorBox', 'frios1tErrorText', null);
 
     if(!games || !games.length){
       listEl.innerHTML = '';
@@ -1665,13 +1757,13 @@
         try{
           // CORRIGIDO: Passagem correta dos argumentos (id e apiKey)
           const fixtures = await fetchLastFixtures(entry.id, state.apiKey);
-          if(!fixtures.length) throw new Error('sem jogos finalizados na temporada ' + TARGET_SEASON);
           result = { ...entry, fixtures };
         }catch(err){
+          const primaryMsg = describeError(err);
           const fd = await pullFdTeamFixtures(entry.name, state.fdApiKey);
           result = fd.fixtures
             ? { ...entry, fixtures: fd.fixtures }
-            : { ...entry, fixtures: null, error: err.message + ' | football-data.org: ' + fd.error };
+            : { ...entry, fixtures: null, error: 'API-Football: ' + primaryMsg + ' | football-data.org: ' + fd.error };
         }
       }
       done++;
@@ -1690,13 +1782,19 @@
     renderFrios1tList(qualified);
 
     const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
-    const semDadoDetalhe = allResults
+    const semDadoNamesOnly = allResults
       .filter(r => !r.fixtures && r.error)
-      .map(r => r.name + ': ' + r.error)
-      .join(' · ');
-    const semDadoNote = semDado ? ' (' + semDado + ' time(s) ficaram de fora: ' + semDadoDetalhe + ')' : '';
+      .map(r => r.name)
+      .join(', ');
+    const semDadoNote = semDado ? ' (' + semDado + ' time(s) ficaram de fora: ' + semDadoNamesOnly + ')' : '';
     statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos 5 jogos.' + semDadoNote + cacheNote;
     statusEl.classList.add(semDado ? 'err' : 'ok');
+
+    const detalhes = allResults
+      .filter(r => !r.fixtures && r.error)
+      .map(r => r.name + ' → ' + r.error)
+      .join('\n');
+    showErrorBox('frios1tErrorBox', 'frios1tErrorText', detalhes || null);
   }
 
   function renderFrios1tList(items){
@@ -1727,6 +1825,7 @@
     el('btnLoadToday').disabled = true;
     todayStatus.className = 'status-line';
     todayStatus.textContent = 'Buscando jogos de hoje…';
+    showErrorBox('todayErrorBox', 'todayErrorText', null);
 
     if(!state.apiKey){
       const games = generateMockTodayGames();
@@ -1765,7 +1864,7 @@
         .sort((a,b) => a.time.localeCompare(b.time))
         .slice(0, 40);
 
-      if(!games.length) throw new Error('Nenhum jogo das ligas selecionadas encontrado para hoje');
+      if(!games.length) throw apiError('Nenhum jogo das ligas selecionadas encontrado para hoje (a API respondeu OK, mas sem jogos de Série A na data de hoje).');
       renderTodayGames(games);
       const semOdds = games.filter(g => g.home.odd == null).length;
       todayStatus.textContent = games.length + ' jogos encontrados para hoje nas ligas selecionadas.' +
@@ -1774,11 +1873,13 @@
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
     }catch(err){
-      console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', err.message);
+      const msg = describeError(err);
+      console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', msg);
       const games = generateMockTodayGames();
       renderTodayGames(games);
-      todayStatus.textContent = 'Não foi possível buscar jogos reais (' + err.message + ') — mostrando exemplos.';
+      todayStatus.textContent = 'Não foi possível buscar jogos reais — mostrando exemplos.';
       todayStatus.classList.add('err');
+      showErrorBox('todayErrorBox', 'todayErrorText', msg);
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
     }
