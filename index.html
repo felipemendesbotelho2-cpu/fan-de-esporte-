@@ -828,7 +828,7 @@
     <div class="panel-head">
       <div>
         <div class="detail-title" style="font-size:16px;">Times -2 Gols no 1º Tempo</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times do Brasileirão Série A que jogam hoje e que NÃO fizeram 2 gols no 1º tempo — ou seja, marcaram MENOS de 2 no 1ºT em CADA UM dos últimos 10 jogos.</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times do Brasileirão Série A que jogam hoje e que NÃO fizeram 2 gols no 1º tempo — ou seja, marcaram MENOS de 2 no 1ºT em CADA UM dos últimos 5 jogos.</div>
       </div>
     </div>
     <div class="status-line" id="frios1tStatus"></div>
@@ -844,7 +844,7 @@
     <div class="panel-head">
       <div>
         <div class="detail-title" style="font-size:16px;">Chute de Jogadores</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos jogadores dos times que jogam hoje que chutaram 5 vezes ou mais no gol em pelo menos 2 dos últimos 10 jogos do time.</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos jogadores dos times que jogam hoje que chutaram pelo menos 1 vez no gol em TODOS os últimos 10 jogos do time (10 de 10). Se nenhum jogador bater esse critério, a lista fica vazia.</div>
       </div>
     </div>
     <div class="status-line" id="chutesStatus"></div>
@@ -1097,20 +1097,38 @@
   }
 
   // Plano Pró da API-Football permite 300 requisições/minuto (antes era 10/min no plano grátis).
-  // 300ms de intervalo = ~200 req/min, com folga segura dentro do limite.
-  const MIN_INTERVAL_MS = 300;
-  let lastApiCallAt = 0;
-  let apiQueueTail = Promise.resolve();
+  // Antes as chamadas rodavam 1 por vez (esperava terminar uma pra só então começar a
+  // próxima), o que deixava abas com muitas chamadas (ex: Chute de Jogadores) bem lentas.
+  // Agora várias chamadas rodam em paralelo (até MAX_CONCURRENT ao mesmo tempo), só
+  // limitando quantas NOVAS chamadas começam por segundo, pra não estourar a cota.
+  const MAX_CONCURRENT = 6;
+  const MIN_START_INTERVAL_MS = 210; // ~285 novas chamadas/min, com folga sob o limite de 300/min
+  let activeApiCalls = 0;
+  let lastApiStartAt = 0;
+  const apiCallQueue = [];
+
+  function pumpApiQueue(){
+    if(activeApiCalls >= MAX_CONCURRENT || !apiCallQueue.length) return;
+    const wait = Math.max(0, lastApiStartAt + MIN_START_INTERVAL_MS - Date.now());
+    if(wait > 0){
+      setTimeout(pumpApiQueue, wait);
+      return;
+    }
+    const task = apiCallQueue.shift();
+    lastApiStartAt = Date.now();
+    activeApiCalls++;
+    Promise.resolve()
+      .then(task.fn)
+      .then(res => { activeApiCalls--; task.resolve(res); pumpApiQueue(); })
+      .catch(err => { activeApiCalls--; task.reject(err); pumpApiQueue(); });
+    pumpApiQueue();
+  }
 
   function scheduleApiCall(fn){
-    const runPromise = apiQueueTail.then(async () => {
-      const wait = Math.max(0, lastApiCallAt + MIN_INTERVAL_MS - Date.now());
-      if(wait > 0) await new Promise(r => setTimeout(r, wait));
-      lastApiCallAt = Date.now();
-      return fn();
+    return new Promise((resolve, reject) => {
+      apiCallQueue.push({ fn, resolve, reject });
+      pumpApiQueue();
     });
-    apiQueueTail = runPromise.catch(() => {});
-    return runPromise;
   }
 
   /* Erro tipado, guarda o corpo cru retornado pela API pra diagnóstico */
@@ -1168,6 +1186,7 @@
 
   const TARGET_SEASON = 2026;
   const GAMES_LIMIT = 10;
+  const FRIOS_GAMES_LIMIT = 5; // a aba "-2 Gols no 1ºT" usa só os últimos 5 jogos, não 10
 
   async function fetchLastFixtures(teamId, key){
     // Deixa o erro real subir (sem mascarar com "indisponível para este plano"),
@@ -1677,7 +1696,7 @@
     function updateProgress(){
       listEl.innerHTML =
         '<div class="empty-note" style="padding:8px 4px;">' +
-          'Aguarde, analisando os últimos 10 jogos de cada time… ' +
+          'Aguarde, analisando os últimos ' + FRIOS_GAMES_LIMIT + ' jogos de cada time… ' +
           '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
           'Isso deve levar só alguns segundos com o plano atual.' +
         '</div>';
@@ -1711,7 +1730,7 @@
     const semDado = allResults.length - usable.length;
 
     const qualified = usable.filter(r =>
-      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ht < 2)
+      r.fixtures.length >= FRIOS_GAMES_LIMIT && r.fixtures.slice(0, FRIOS_GAMES_LIMIT).every(f => f.gf_ht < 2)
     );
     qualified.sort((a, b) => a.game.time.localeCompare(b.game.time));
 
@@ -1719,7 +1738,7 @@
 
     const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
     const semDadoNote = semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '';
-    statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos 10 jogos.' + semDadoNote + cacheNote;
+    statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos ' + FRIOS_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
     statusEl.classList.add(semDado ? 'err' : 'ok');
   }
 
@@ -1735,7 +1754,7 @@
         '<button type="button" class="today-row" data-frios-idx="' + i + '">' +
           '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
           '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
-          '<span class="today-odds"><span class="odd-chip fav">0/' + GAMES_LIMIT + ' c/ 2+ no 1ºT</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">0/' + FRIOS_GAMES_LIMIT + ' c/ 2+ no 1ºT</span></span>' +
           '<span class="today-cta">ver análise →</span>' +
         '</button>'
       );
@@ -1747,8 +1766,8 @@
   }
 
   /* ---------------- chute de jogadores ---------------- */
-  const SHOTS_ON_TARGET_THRESHOLD = 5;
-  const MIN_GAMES_WITH_SHOTS = 2;
+  const SHOTS_ON_TARGET_THRESHOLD = 1; // mínimo de chutes no gol exigido em CADA jogo
+  const MIN_GAMES_WITH_SHOTS = GAMES_LIMIT; // precisa bater o mínimo em TODOS os últimos jogos (10 de 10)
 
   async function fetchTeamPlayerShotsForFixture(fixtureId, teamId, key){
     const data = await apiGet('/fixtures/players?fixture=' + fixtureId, key);
@@ -1854,7 +1873,7 @@
     renderChutesList(qualified);
 
     const semDadoNote = semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '';
-    statusEl.textContent = qualified.length + ' jogador(es) chutaram ' + SHOTS_ON_TARGET_THRESHOLD + '+ vezes no gol em pelo menos ' + MIN_GAMES_WITH_SHOTS + ' dos últimos ' + GAMES_LIMIT + ' jogos do time.' + semDadoNote;
+    statusEl.textContent = qualified.length + ' jogador(es) chutaram ' + SHOTS_ON_TARGET_THRESHOLD + '+ vez(es) no gol em TODOS os últimos ' + GAMES_LIMIT + ' jogos do time.' + semDadoNote;
     statusEl.classList.add(semDado ? 'err' : 'ok');
   }
 
