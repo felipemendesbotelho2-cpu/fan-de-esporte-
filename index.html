@@ -9,19 +9,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F4F6FA;
-    --panel:#FFFFFF;
-    --panel-2:#F0F2F7;
-    --border:#DDE2EC;
-    --border-soft:#E7EAF1;
-    --text:#1A1F2B;
-    --muted:#5C6478;
-    --muted-2:#8992A8;
-    --accent:#C9791D;
-    --teal:#12946B;
-    --green:#12946B;
-    --yellow:#A9791A;
-    --red:#C93B44;
+    --bg:#080B10;
+    --panel:#10151D;
+    --panel-2:#161C26;
+    --border:#232B37;
+    --border-soft:#1B222C;
+    --text:#EAF1F5;
+    --muted:#8792A6;
+    --muted-2:#59637A;
+    --accent:#00E28A;
+    --teal:#00C2A8;
+    --green:#00E28A;
+    --yellow:#E2B93D;
+    --red:#FF4D5E;
     --mono:'JetBrains Mono', ui-monospace, monospace;
     --display:'Space Grotesk', sans-serif;
     --body:'Inter', sans-serif;
@@ -30,15 +30,15 @@
   html,body{margin:0;padding:0;}
   body{
     background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(201,121,29,0.07), transparent 60%),
-      radial-gradient(1000px 500px at 100% 0%, rgba(18,148,107,0.06), transparent 55%),
+      radial-gradient(1200px 600px at 15% -10%, rgba(0,226,138,0.07), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(0,194,168,0.06), transparent 55%),
       var(--bg);
     color:var(--text);
     font-family:var(--body);
     min-height:100vh;
     line-height:1.5;
   }
-  ::selection{ background:rgba(201,121,29,0.35); }
+  ::selection{ background:rgba(0,226,138,0.35); }
   a{color:var(--accent);}
 
   .wrap{
@@ -63,8 +63,8 @@
     border-radius:13px;
     display:flex;align-items:center;justify-content:center;
     background:
-      radial-gradient(120% 130% at 25% 15%, rgba(201,121,29,0.22), transparent 60%),
-      radial-gradient(120% 130% at 80% 90%, rgba(18,148,107,0.18), transparent 60%),
+      radial-gradient(120% 130% at 25% 15%, rgba(0,226,138,0.22), transparent 60%),
+      radial-gradient(120% 130% at 80% 90%, rgba(0,194,168,0.18), transparent 60%),
       var(--panel);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
     font-size:22px;
@@ -134,78 +134,6 @@
     text-decoration:none;
   }
 
-  .sponsor-example{
-    margin-top:8px;
-    padding:12px;
-    border-radius:12px;
-    background:
-      radial-gradient(160% 140% at 0% 0%, rgba(18,148,107,0.16), transparent 55%),
-      radial-gradient(140% 140% at 100% 100%, rgba(201,121,29,0.14), transparent 55%),
-      var(--panel);
-    border:1px solid var(--border);
-    max-width:260px;
-    margin-left:auto;
-    position:relative;
-    overflow:hidden;
-  }
-  .sponsor-example .sponsor-example-tag{
-    display:block;
-    font-family:var(--mono);
-    font-size:8.5px;
-    letter-spacing:1.2px;
-    text-transform:uppercase;
-    color:var(--muted-2);
-    margin-bottom:8px;
-  }
-  .sponsor-example .sponsor-example-body{
-    display:flex;
-    align-items:center;
-    gap:12px;
-  }
-  .sponsor-example .sponsor-example-jersey{
-    width:52px;height:52px;
-    flex-shrink:0;
-  }
-  .sponsor-example .sponsor-example-info{ flex:1; min-width:0; }
-  .sponsor-example .sponsor-example-promo{
-    font-family:var(--display);
-    font-size:13px;
-    font-weight:700;
-    color:var(--text);
-    line-height:1.25;
-  }
-  .sponsor-example .sponsor-example-promo b{
-    background:linear-gradient(90deg, var(--accent), var(--teal));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .sponsor-example .sponsor-example-price{
-    display:inline-block;
-    margin-top:5px;
-    font-family:var(--mono);
-    font-size:11px;
-    color:var(--green);
-    font-weight:600;
-  }
-  .sponsor-example .sponsor-example-cta{
-    display:block;
-    margin-top:99px;
-    width:100%;
-    text-align:center;
-    padding:8px;
-    font-size:11.5px;
-    text-decoration:none;
-  }
-  .sponsor-example .sponsor-example-store{
-    display:block;
-    margin-top:7px;
-    font-family:var(--mono);
-    font-size:9.5px;
-    color:var(--muted-2);
-    text-align:center;
-  }
-
   /* ---------- widget flutuante de sugestões ---------- */
   .feedback-widget{
     position:fixed;
@@ -218,7 +146,7 @@
     width:54px;height:54px;
     border-radius:50%;
     background:var(--accent);
-    color:#191204;
+    color:#04170D;
     border:none;
     font-size:23px;
     cursor:pointer;
@@ -266,7 +194,7 @@
     outline:none;
     min-height:64px;
   }
-  .feedback-textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(201,121,29,0.15); }
+  .feedback-textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,226,138,0.15); }
   .feedback-textarea::placeholder{ color:var(--muted-2); }
   .feedback-send{ width:100%; margin-top:8px; padding:9px; font-size:12.5px; }
 
@@ -364,7 +292,7 @@
   }
   input:focus{
     border-color:var(--accent);
-    box-shadow:0 0 0 3px rgba(201,121,29,0.15);
+    box-shadow:0 0 0 3px rgba(0,226,138,0.15);
   }
   input::placeholder{ color:var(--muted-2); }
 
@@ -379,7 +307,7 @@
     transition:transform .08s ease, filter .15s ease, background .15s ease;
   }
   button:active{ transform:translateY(1px); }
-  .btn-primary{ background:var(--accent); color:#191204; }
+  .btn-primary{ background:var(--accent); color:#04170D; }
   .btn-primary:hover{ filter:brightness(1.08); }
   .btn-primary:disabled{ opacity:.55; cursor:progress; filter:none; }
   .btn-ghost{ background:transparent; border-color:var(--border); color:var(--muted); }
@@ -463,7 +391,7 @@
     transition:border-color .15s ease, background .15s ease;
     text-align:left;
   }
-  .today-row:hover, .today-row.selected{ border-color:var(--accent); background:rgba(201,121,29,0.06); }
+  .today-row:hover, .today-row.selected{ border-color:var(--accent); background:rgba(0,226,138,0.06); }
   .today-time-wrap{ display:flex; flex-direction:column; gap:2px; }
   .today-date{ font-family:var(--mono); font-size:9.5px; color:var(--muted-2); }
   .today-time{ font-family:var(--mono); font-size:13px; color:var(--accent); }
@@ -485,9 +413,9 @@
     color:var(--muted);
   }
   .today-odds .odd-chip.fav{
-    border-color:rgba(201,121,29,0.5);
+    border-color:rgba(0,226,138,0.5);
     color:var(--accent);
-    background:rgba(201,121,29,0.08);
+    background:rgba(0,226,138,0.08);
     font-weight:700;
   }
   .today-odds .odd-chip.empty{ color:var(--muted-2); font-style:italic; border-style:dashed; }
@@ -545,12 +473,12 @@
   .games-col.home .venue-btn.active{
     color:var(--accent);
     border-color:var(--accent);
-    background:rgba(201,121,29,0.1);
+    background:rgba(0,226,138,0.1);
   }
   .games-col.away .venue-btn.active{
     color:var(--teal);
     border-color:var(--teal);
-    background:rgba(18,148,107,0.1);
+    background:rgba(0,194,168,0.1);
   }
   .games-list{
     max-height:360px;
@@ -581,7 +509,7 @@
   .g-score{ color:var(--muted); text-align:center; }
   .g-score small{ color:var(--muted-2); font-size:8.5px; }
   .g-tag{ text-align:center; font-weight:700; border-radius:4px; padding:2px 0; font-size:10.5px; }
-  .g-tag.win{ background:rgba(18,148,107,0.15); color:var(--green); }
+  .g-tag.win{ background:rgba(0,194,168,0.15); color:var(--green); }
   .g-tag.loss{ background:rgba(201,59,68,0.15); color:var(--red); }
   .g-tag.draw{ background:rgba(169,121,26,0.15); color:var(--yellow); }
   .g-opp-wrap{ display:flex; flex-direction:column; gap:3px; overflow:hidden; min-width:0; }
@@ -659,12 +587,12 @@
   .avg-col.home .venue-btn.active{
     color:var(--accent);
     border-color:var(--accent);
-    background:rgba(201,121,29,0.1);
+    background:rgba(0,226,138,0.1);
   }
   .avg-col.away .venue-btn.active{
     color:var(--teal);
     border-color:var(--teal);
-    background:rgba(18,148,107,0.1);
+    background:rgba(0,194,168,0.1);
   }
   .avg-item{
     display:flex;
@@ -763,24 +691,6 @@
         <span class="sponsor-text">Seja patrocinador<br>Coloque sua empresa aqui</span>
         <a class="btn-primary sponsor-link" href="https://wa.me/5563992088796" target="_blank" rel="noopener">Entrar em contato</a>
       </div>
-      <div class="sponsor-example">
-        <span class="sponsor-example-tag">Exemplo de anúncio</span>
-        <div class="sponsor-example-body">
-          <svg class="sponsor-example-jersey" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 6 L8 16 L14 26 L20 22 L20 58 L44 58 L44 22 L50 26 L56 16 L44 6 L38 10 C38 13 35 15 32 15 C29 15 26 13 26 10 Z" fill="#3ADDA3"/>
-            <path d="M20 6 L8 16 L14 26 L20 22 Z" fill="#E8C23D"/>
-            <path d="M44 6 L56 16 L50 26 L44 22 Z" fill="#E8C23D"/>
-            <circle cx="32" cy="34" r="7" fill="#0B0E14" opacity="0.18"/>
-            <text x="32" y="39" font-family="Space Grotesk, sans-serif" font-size="11" font-weight="700" fill="#0B0E14" text-anchor="middle" opacity="0.55">10</text>
-          </svg>
-          <div class="sponsor-example-info">
-            <div class="sponsor-example-promo">Camisa do <b>Brasil</b> em destaque</div>
-            <span class="sponsor-example-price">Camisas de time por R$ 100 no atacado</span>
-          </div>
-        </div>
-        <a class="btn-primary sponsor-example-cta" href="#" target="_blank" rel="noopener">Clique aqui</a>
-        <span class="sponsor-example-store">Camisas no Atacado</span>
-      </div>
     </div>
   </header>
 
@@ -788,6 +698,7 @@
     <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
     <button class="tab-btn" data-view="analise">Análise</button>
     <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
+    <button class="tab-btn" data-view="chutes">Chute de Jogadores</button>
   </nav>
 
   <!-- ===== VIEW: JOGOS DO DIA ===== -->
@@ -818,7 +729,7 @@
       </div>
       <div class="settings-note" id="fdKeyStatus">
         Usada só como reforço pra Série A, quando a API-Football não retornar os
-        últimos 5 jogos de um time (restrição de temporada no plano gratuito).
+        últimos 10 jogos de um time (restrição de temporada no plano gratuito).
         Sem essa key o site funciona normal, só sem esse reforço.
         Pegue a sua de graça em <code>football-data.org</code> (cadastro por e-mail, sem cartão)
         e cole aqui — ela fica salva só neste navegador.
@@ -875,7 +786,7 @@
         <div class="games-col-title">
           <span id="homeGamesLabel">Casa</span>
           <div class="games-col-controls">
-            <span class="games-count" id="homeGamesCount">5 jogos</span>
+            <span class="games-count" id="homeGamesCount">10 jogos</span>
             <div class="venue-toggle">
               <button type="button" class="venue-btn active" data-list-prefix="home" data-venue="geral">Geral</button>
               <button type="button" class="venue-btn" data-list-prefix="home" data-venue="home">Casa</button>
@@ -889,7 +800,7 @@
         <div class="games-col-title">
           <span id="awayGamesLabel">Fora</span>
           <div class="games-col-controls">
-            <span class="games-count" id="awayGamesCount">5 jogos</span>
+            <span class="games-count" id="awayGamesCount">10 jogos</span>
             <div class="venue-toggle">
               <button type="button" class="venue-btn active" data-list-prefix="away" data-venue="geral">Geral</button>
               <button type="button" class="venue-btn" data-list-prefix="away" data-venue="home">Casa</button>
@@ -917,15 +828,30 @@
     <div class="panel-head">
       <div>
         <div class="detail-title" style="font-size:16px;">Times -2 Gols no 1º Tempo</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times do Brasileirão Série A que jogam hoje e que NÃO fizeram 2 gols no 1º tempo — ou seja, marcaram MENOS de 2 no 1ºT em CADA UM dos últimos 5 jogos.</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times do Brasileirão Série A que jogam hoje e que NÃO fizeram 2 gols no 1º tempo — ou seja, marcaram MENOS de 2 no 1ºT em CADA UM dos últimos 10 jogos.</div>
       </div>
     </div>
     <div class="status-line" id="frios1tStatus"></div>
-    <div class="error-box" id="frios1tErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="frios1tErrorText"></span></div>
     <div class="today-list" id="frios1tList"></div>
   </section>
 
   </div><!-- /view-frios1t -->
+
+  <!-- ===== VIEW: CHUTE DE JOGADORES ===== -->
+  <div class="view" id="view-chutes">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Chute de Jogadores</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos jogadores dos times que jogam hoje que chutaram 5 vezes ou mais no gol em pelo menos 2 dos últimos 10 jogos do time.</div>
+      </div>
+    </div>
+    <div class="status-line" id="chutesStatus"></div>
+    <div class="today-list" id="chutesList"></div>
+  </section>
+
+  </div><!-- /view-chutes -->
 
   <footer>Fan de Esporte · uso analítico — não constitui recomendação financeira</footer>
 </div>
@@ -1241,7 +1167,7 @@
   }
 
   const TARGET_SEASON = 2026;
-  const GAMES_LIMIT = 5;
+  const GAMES_LIMIT = 10;
 
   async function fetchLastFixtures(teamId, key){
     // Deixa o erro real subir (sem mascarar com "indisponível para este plano"),
@@ -1573,7 +1499,7 @@
 
     const detailStatus = el('detailStatus');
     detailStatus.className = 'status-line';
-    detailStatus.textContent = 'Buscando últimos 5 jogos de 2026 de ' + g.home.name + ' e ' + g.away.name + '…';
+    detailStatus.textContent = 'Buscando últimos 10 jogos de 2026 de ' + g.home.name + ' e ' + g.away.name + '…';
 
     cacheStats.hits = 0;
     cacheStats.misses = 0;
@@ -1676,7 +1602,7 @@
         '<span class="today-time-wrap"><span class="today-date">' + formatGameDate(g.date) + '</span><span class="today-time">' + g.time + '</span></span>' +
         '<span class="today-teams"><span class="lg">' + g.league + '</span>' + g.home.name + ' vs ' + g.away.name + '</span>' +
         '<span class="today-odds">' + oddChipsHTML(g) + '</span>' +
-        '<span class="today-cta">ver últimos 5 →</span>' +
+        '<span class="today-cta">ver últimos 10 →</span>' +
       '</button>'
     ).join('');
 
@@ -1751,7 +1677,7 @@
     function updateProgress(){
       listEl.innerHTML =
         '<div class="empty-note" style="padding:8px 4px;">' +
-          'Aguarde, analisando os últimos 5 jogos de cada time… ' +
+          'Aguarde, analisando os últimos 10 jogos de cada time… ' +
           '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
           'Isso deve levar só alguns segundos com o plano atual.' +
         '</div>';
@@ -1792,19 +1718,9 @@
     renderFrios1tList(qualified);
 
     const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
-    const semDadoNamesOnly = allResults
-      .filter(r => !r.fixtures && r.error)
-      .map(r => r.name)
-      .join(', ');
-    const semDadoNote = semDado ? ' (' + semDado + ' time(s) ficaram de fora: ' + semDadoNamesOnly + ')' : '';
-    statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos 5 jogos.' + semDadoNote + cacheNote;
+    const semDadoNote = semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '';
+    statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos 10 jogos.' + semDadoNote + cacheNote;
     statusEl.classList.add(semDado ? 'err' : 'ok');
-
-    const detalhes = allResults
-      .filter(r => !r.fixtures && r.error)
-      .map(r => r.name + ' → ' + r.error)
-      .join('\n');
-    showErrorBox('frios1tErrorBox', 'frios1tErrorText', detalhes || null);
   }
 
   function renderFrios1tList(items){
@@ -1819,7 +1735,7 @@
         '<button type="button" class="today-row" data-frios-idx="' + i + '">' +
           '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
           '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
-          '<span class="today-odds"><span class="odd-chip fav">0/5 c/ 2+ no 1ºT</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">0/' + GAMES_LIMIT + ' c/ 2+ no 1ºT</span></span>' +
           '<span class="today-cta">ver análise →</span>' +
         '</button>'
       );
@@ -1828,6 +1744,136 @@
     listEl.querySelectorAll('.today-row').forEach((row, i) => {
       row.addEventListener('click', () => showGameDetail(items[i].game));
     });
+  }
+
+  /* ---------------- chute de jogadores ---------------- */
+  const SHOTS_ON_TARGET_THRESHOLD = 5;
+  const MIN_GAMES_WITH_SHOTS = 2;
+
+  async function fetchTeamPlayerShotsForFixture(fixtureId, teamId, key){
+    const data = await apiGet('/fixtures/players?fixture=' + fixtureId, key);
+    const teamEntry = (data.response || []).find(r => r.team && r.team.id === teamId);
+    if(!teamEntry) return [];
+    return (teamEntry.players || [])
+      .map(p => {
+        const stats = (p.statistics && p.statistics[0]) || {};
+        const minutes = stats.games && stats.games.minutes;
+        const shotsOn = (stats.shots && stats.shots.on != null) ? stats.shots.on : 0;
+        return { id: p.player.id, name: p.player.name, minutes, shotsOn };
+      })
+      .filter(p => p.minutes != null && p.minutes > 0);
+  }
+
+  async function fetchTeamPlayerShotStats(teamId, key){
+    const fixtures = await fetchLastFixtures(teamId, key);
+    const perFixture = await Promise.all(
+      fixtures.map(f => fetchTeamPlayerShotsForFixture(f.fixtureId, teamId, key).catch(() => null))
+    );
+    const playerMap = new Map();
+    perFixture.forEach(players => {
+      if(!players) return;
+      players.forEach(p => {
+        if(!playerMap.has(p.id)) playerMap.set(p.id, { id: p.id, name: p.name, gamesChecked: 0, gamesWithThreshold: 0 });
+        const rec = playerMap.get(p.id);
+        rec.gamesChecked++;
+        if(p.shotsOn >= SHOTS_ON_TARGET_THRESHOLD) rec.gamesWithThreshold++;
+      });
+    });
+    return Array.from(playerMap.values());
+  }
+
+  async function scanPlayerShots(games){
+    const statusEl = el('chutesStatus');
+    const listEl = el('chutesList');
+    statusEl.className = 'status-line';
+
+    if(!games || !games.length){
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Nenhum jogo carregado ainda.';
+      return;
+    }
+
+    if(!state.apiKey){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra analisar aqui.</div>';
+      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    const teamsMap = new Map();
+    games.forEach(g => {
+      [['home', g.home, g], ['away', g.away, g]].forEach(([side, team, game]) => {
+        const key = team.id != null ? ('id:' + team.id) : ('name:' + team.name);
+        if(!teamsMap.has(key)) teamsMap.set(key, { id: team.id, name: team.name, side, game });
+      });
+    });
+
+    const entries = Array.from(teamsMap.values());
+    const total = entries.length;
+    let done = 0;
+
+    function updateProgress(){
+      listEl.innerHTML =
+        '<div class="empty-note" style="padding:8px 4px;">' +
+          'Aguarde, analisando os chutes dos últimos ' + GAMES_LIMIT + ' jogos de cada time… ' +
+          '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
+          'Isso pode levar um pouco mais de tempo por causa dos dados por jogador.' +
+        '</div>';
+      statusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+    }
+    updateProgress();
+
+    const allResults = await Promise.all(entries.map(async entry => {
+      let result;
+      if(entry.id == null){
+        result = { ...entry, players: null };
+      } else {
+        try{
+          const players = await fetchTeamPlayerShotStats(entry.id, state.apiKey);
+          result = { ...entry, players };
+        }catch(err){
+          result = { ...entry, players: null, error: describeError(err) };
+        }
+      }
+      done++;
+      updateProgress();
+      return result;
+    }));
+
+    const usable = allResults.filter(r => r.players);
+    const semDado = allResults.length - usable.length;
+
+    const qualified = [];
+    usable.forEach(r => {
+      r.players
+        .filter(p => p.gamesWithThreshold >= MIN_GAMES_WITH_SHOTS)
+        .forEach(p => qualified.push({ ...p, teamName: r.name, side: r.side, game: r.game }));
+    });
+    qualified.sort((a, b) => b.gamesWithThreshold - a.gamesWithThreshold);
+
+    renderChutesList(qualified);
+
+    const semDadoNote = semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '';
+    statusEl.textContent = qualified.length + ' jogador(es) chutaram ' + SHOTS_ON_TARGET_THRESHOLD + '+ vezes no gol em pelo menos ' + MIN_GAMES_WITH_SHOTS + ' dos últimos ' + GAMES_LIMIT + ' jogos do time.' + semDadoNote;
+    statusEl.classList.add(semDado ? 'err' : 'ok');
+  }
+
+  function renderChutesList(items){
+    const listEl = el('chutesList');
+    if(!items.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogador dos jogos de hoje se encaixou nesse padrão.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map(it => {
+      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+      return (
+        '<div class="today-row" style="cursor:default;">' +
+          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + it.teamName + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">' + it.gamesWithThreshold + '/' + it.gamesChecked + ' c/ ' + SHOTS_ON_TARGET_THRESHOLD + '+ chutes</span></span>' +
+        '</div>'
+      );
+    }).join('');
   }
 
   async function loadTodayGames(){
@@ -1845,6 +1891,7 @@
       el('btnLoadToday').disabled = false;
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
+      scanPlayerShots(games);
       return;
     }
 
@@ -1882,6 +1929,7 @@
       todayStatus.classList.add('ok');
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
+      scanPlayerShots(games);
     }catch(err){
       const msg = describeError(err);
       console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', msg);
@@ -1892,6 +1940,7 @@
       showErrorBox('todayErrorBox', 'todayErrorText', msg);
       state.todayGames = games;
       scanLowFirstHalfTeams(games);
+      scanPlayerShots(games);
     }
     el('btnLoadToday').disabled = false;
   }
