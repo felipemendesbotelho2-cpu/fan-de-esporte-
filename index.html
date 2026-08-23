@@ -1170,7 +1170,9 @@
       .forEach(k => localStorage.removeItem(k));
   }
 
-  const MIN_INTERVAL_MS = 6500;
+  // Plano Pró da API-Football permite 300 requisições/minuto (antes era 10/min no plano grátis).
+  // 300ms de intervalo = ~200 req/min, com folga segura dentro do limite.
+  const MIN_INTERVAL_MS = 300;
   let lastApiCallAt = 0;
   let apiQueueTail = Promise.resolve();
 
@@ -1743,7 +1745,7 @@
         '<div class="empty-note" style="padding:8px 4px;">' +
           'Aguarde, analisando os últimos 5 jogos de cada time… ' +
           '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
-          'Pode levar alguns minutos por causa do limite de requisições por minuto do plano gratuito.' +
+          'Isso deve levar só alguns segundos com o plano atual.' +
         '</div>';
       statusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
     }
