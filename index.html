@@ -682,6 +682,7 @@
   /* ---------- abas ---------- */
   .tabs{
     display:flex;
+    flex-wrap:wrap;
     gap:4px;
     margin-bottom:20px;
     border:1px solid var(--border);
@@ -689,6 +690,7 @@
     padding:4px;
     background:var(--panel);
     width:fit-content;
+    max-width:100%;
   }
   .tab-btn{
     font-family:var(--mono);
@@ -769,6 +771,8 @@
     <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
     <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
     <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
+    <button class="tab-btn" data-view="invictos">Invictos (10)</button>
+    <button class="tab-btn" data-view="zero1t">0 Gols no 1ºT (10)</button>
   </nav>
 
   <!-- ===== VIEW: JOGOS DO DIA ===== -->
@@ -829,9 +833,14 @@
             <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
           </div>
         </div>
-        <div class="avg-item"><span class="lbl">Média de gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Média de gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Média de gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span></div>
       </div>
       <div class="avg-col away">
         <div class="avg-col-title">
@@ -841,9 +850,14 @@
             <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
           </div>
         </div>
-        <div class="avg-item"><span class="lbl">Média de gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Média de gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Média de gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span></div>
       </div>
     </div>
 
@@ -882,7 +896,7 @@
       <span style="color:var(--green);">verde</span> sim ·
       <span style="color:var(--red);">vermelho</span> não ·
       <span style="color:var(--muted-2);">cinza</span> sem dado ·
-      <span><b>Escanteios</b> total do jogo (a API não separa por tempo)</span>
+      <span><b>Escanteios / Finalizações / Chutes no gol / Cartões / Faltas</b> total do jogo (a API não separa por tempo)</span>
     </div>
 
     <div class="h2h-section" id="h2hSection" style="display:none; margin-top:24px;">
@@ -908,10 +922,10 @@
     <div class="panel-head">
       <div>
         <div class="detail-title" style="font-size:16px;">Jogos Ao Vivo</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Jogos das ligas selecionadas que estão rolando agora, com placar e minuto atual. Atualiza sozinho a cada 3 minutos enquanto essa aba estiver aberta.</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Recurso temporariamente desativado.</div>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="btn-ghost" id="btnLoadLive">Atualizar</button>
+        <button class="btn-ghost" id="btnLoadLive" disabled>Atualizar</button>
       </div>
     </div>
     <div class="status-line" id="liveStatus"></div>
@@ -936,6 +950,40 @@
   </section>
 
   </div><!-- /view-frios1t -->
+
+  <!-- ===== VIEW: INVICTOS (10) ===== -->
+  <div class="view" id="view-invictos">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Times Invictos nos Últimos 10</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO perderam nenhum dos últimos 10 jogos — ou seja, só venceram ou empataram em CADA UM dos últimos 10 jogos.</div>
+      </div>
+    </div>
+    <div class="status-line" id="invictosStatus"></div>
+    <div class="error-box" id="invictosErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="invictosErrorText"></span></div>
+    <div class="today-list" id="invictosList"></div>
+  </section>
+
+  </div><!-- /view-invictos -->
+
+  <!-- ===== VIEW: 0 GOLS NO 1ºT (10) ===== -->
+  <div class="view" id="view-zero1t">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Times 0 Gols no 1º Tempo (10 jogos)</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO marcaram nenhum gol no 1º tempo em NENHUM dos últimos 10 jogos — mais rígido que a aba "-2 Gols no 1ºT", aqui não pode ter feito nem 1 gol no 1ºT.</div>
+      </div>
+    </div>
+    <div class="status-line" id="zero1tStatus"></div>
+    <div class="error-box" id="zero1tErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="zero1tErrorText"></span></div>
+    <div class="today-list" id="zero1tList"></div>
+  </section>
+
+  </div><!-- /view-zero1t -->
 
   <footer>Fan de Esporte · uso analítico — não constitui recomendação financeira</footer>
 </div>
@@ -1001,11 +1049,8 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('view-' + name).classList.add('active');
     document.querySelector('.tab-btn[data-view="' + name + '"]').classList.add('active');
-    if(name === 'aovivo'){
-      startLiveAutoRefresh();
-    } else {
-      stopLiveAutoRefresh();
-    }
+    // Ao Vivo desativado: nunca inicia o auto-refresh, mesmo abrindo essa aba.
+    stopLiveAutoRefresh();
   }
   document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.addEventListener('click', () => showView(btn.dataset.view));
@@ -1159,13 +1204,23 @@
       for(let k=0;k<gf_ht;k++) minutesScored.push(1 + Math.floor(rand()*45));
       for(let k=0;k<gf_st;k++) minutesScored.push(46 + Math.floor(rand()*45));
       const cornersTotal = 3 + Math.floor(rand()*8);
+      const totalShots = 6 + Math.floor(rand()*14);
+      const shotsOnGoal = Math.min(totalShots, 2 + Math.floor(rand()*7));
+      const yellowCards = Math.floor(rand()*5);
+      const redCards = rand() < 0.08 ? 1 : 0;
+      const foulsCommitted = 5 + Math.floor(rand()*14);
       fixtures.push({
         gf_ht, ga_ht, gf_ft, ga_ft,
         date: d.toISOString(),
         opponent: MOCK_OPPONENTS[i % MOCK_OPPONENTS.length],
         isHome: rand() < 0.5,
         minutesScored,
-        cornersTotal
+        cornersTotal,
+        totalShots,
+        shotsOnGoal,
+        yellowCards,
+        redCards,
+        foulsCommitted
       });
     }
     return fixtures;
@@ -1322,17 +1377,29 @@
       .map(ev => (ev.time && ev.time.elapsed || 0) + (ev.time && ev.time.extra || 0));
   }
 
-  // Escanteios: a API-Football só disponibiliza o TOTAL de escanteios do jogo
-  // inteiro (endpoint /fixtures/statistics), sem separar 1ºT de 2ºT como faz
-  // com os gols (que têm o minuto exato do evento). Por isso aqui é sempre o
-  // total do confronto, não um valor "por tempo".
-  async function fetchCornerTotal(fixtureId, teamId, key){
+  // Estatísticas do jogo (escanteios, finalizações totais, chutes no gol):
+  // a API-Football só disponibiliza o TOTAL de cada uma pro jogo inteiro
+  // (endpoint /fixtures/statistics), sem separar 1ºT de 2ºT como faz com os
+  // gols (que têm o minuto exato do evento). Por isso aqui é sempre o total
+  // do confronto, não um valor "por tempo".
+  function findStatValue(stats, regex){
+    const found = stats.find(s => regex.test(s.type || ''));
+    if(!found || found.value == null) return null;
+    const n = Number(found.value);
+    return isNaN(n) ? null : n;
+  }
+
+  async function fetchMatchStats(fixtureId, teamId, key){
     const data = await apiGet('/fixtures/statistics?fixture=' + fixtureId + '&team=' + teamId, key);
     const stats = (data.response && data.response[0] && data.response[0].statistics) || [];
-    const cornerStat = stats.find(s => /corner/i.test(s.type || ''));
-    if(!cornerStat || cornerStat.value == null) return null;
-    const n = Number(cornerStat.value);
-    return isNaN(n) ? null : n;
+    return {
+      cornersTotal: findStatValue(stats, /corner/i),
+      totalShots: findStatValue(stats, /^total\s*shots$/i),
+      shotsOnGoal: findStatValue(stats, /shots\s*on\s*goal/i),
+      yellowCards: findStatValue(stats, /yellow\s*cards/i),
+      redCards: findStatValue(stats, /red\s*cards/i),
+      foulsCommitted: findStatValue(stats, /^fouls$/i)
+    };
   }
 
   async function fetchFixturesBySeason(teamId, season, key){
@@ -1380,18 +1447,18 @@
   async function attachGoalMinutes(fixtures, teamId, key){
     return Promise.all(fixtures.map(async f => {
       let minutesScored = null;
-      let cornersTotal = null;
+      let matchStats = { cornersTotal: null, totalShots: null, shotsOnGoal: null, yellowCards: null, redCards: null, foulsCommitted: null };
       try{
         minutesScored = await fetchGoalMinutes(f.fixtureId, teamId, key);
       }catch(err){
         minutesScored = null;
       }
       try{
-        cornersTotal = await fetchCornerTotal(f.fixtureId, teamId, key);
+        matchStats = await fetchMatchStats(f.fixtureId, teamId, key);
       }catch(err){
-        cornersTotal = null;
+        matchStats = { cornersTotal: null, totalShots: null, shotsOnGoal: null, yellowCards: null, redCards: null, foulsCommitted: null };
       }
-      return { ...f, minutesScored, cornersTotal };
+      return { ...f, minutesScored, ...matchStats };
     }));
   }
 
@@ -1477,8 +1544,8 @@
       const gf_ft = isHome ? (ft.home ?? 0) : (ft.away ?? 0);
       const ga_ft = isHome ? (ft.away ?? 0) : (ft.home ?? 0);
       const opponent = isHome ? m.awayTeam.name : m.homeTeam.name;
-      // football-data.org não retorna minuto do gol nem estatística de escanteios.
-      return { fixtureId: 'fd-' + m.id, gf_ht, ga_ht, gf_ft, ga_ft, date: m.utcDate, opponent, isHome, minutesScored: null, cornersTotal: null };
+      // football-data.org não retorna minuto do gol nem estatísticas de escanteios/finalizações/chutes no gol/cartões/faltas.
+      return { fixtureId: 'fd-' + m.id, gf_ht, ga_ht, gf_ft, ga_ft, date: m.utcDate, opponent, isHome, minutesScored: null, cornersTotal: null, totalShots: null, shotsOnGoal: null, yellowCards: null, redCards: null, foulsCommitted: null };
     });
   }
 
@@ -1533,16 +1600,56 @@
     return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
   }
 
-  // Limiar visual pra colorir o total de escanteios (mesma pegada do sim/não dos gols):
-  // verde = jogo com bastante escanteio, vermelho = jogo com pouco escanteio.
+  // Limiares visuais pra colorir os totais do jogo (mesma pegada do sim/não dos gols):
+  // verde = jogo com volume "alto" daquela estatística, vermelho = "baixo".
   const CORNER_HIGH_THRESHOLD = 5;
+  const SHOTS_HIGH_THRESHOLD = 10;      // finalizações totais
+  const SHOTS_ON_GOAL_HIGH_THRESHOLD = 4; // chutes no gol (a gol)
+  const FOULS_HIGH_THRESHOLD = 12;      // faltas cometidas
+  const CARDS_HIGH_THRESHOLD = 3;       // cartões amarelos
+
+  function buildStatMsg(label, value, threshold, tooltip){
+    if(value == null){
+      return '<span class="g-corner-item unk" title="Sem dado disponível para este jogo">' + label + ': sem dado</span>';
+    }
+    const cls = value >= threshold ? 'high' : 'low';
+    return '<span class="g-corner-item ' + cls + '" title="' + tooltip + '">' + label + ': ' + value + '</span>';
+  }
 
   function buildCornerMsg(cornersTotal){
-    if(cornersTotal == null){
-      return '<span class="g-corner-item unk" title="Sem dado de escanteio disponível para este jogo">Escanteios: sem dado</span>';
+    return buildStatMsg('Escanteios', cornersTotal, CORNER_HIGH_THRESHOLD,
+      'Total de escanteios do time nesse jogo (jogo inteiro, sem separar por tempo)');
+  }
+
+  function buildShotsMsg(totalShots){
+    return buildStatMsg('Finalizações', totalShots, SHOTS_HIGH_THRESHOLD,
+      'Total de finalizações (chutes) do time nesse jogo, dentro ou fora do gol');
+  }
+
+  function buildShotsOnGoalMsg(shotsOnGoal){
+    return buildStatMsg('Chutes no gol', shotsOnGoal, SHOTS_ON_GOAL_HIGH_THRESHOLD,
+      'Total de chutes no gol (a gol) do time nesse jogo');
+  }
+
+  function buildFoulsMsg(foulsCommitted){
+    return buildStatMsg('Faltas', foulsCommitted, FOULS_HIGH_THRESHOLD,
+      'Total de faltas cometidas pelo time nesse jogo');
+  }
+
+  // Cartões: mostra amarelos e, se houve, destaca vermelho separado (sempre em
+  // vermelho quando >0, já que 1 cartão vermelho já é um evento relevante).
+  function buildCardsMsg(yellowCards, redCards){
+    if(yellowCards == null && redCards == null){
+      return '<span class="g-corner-item unk" title="Sem dado de cartões disponível para este jogo">Cartões: sem dado</span>';
     }
-    const cls = cornersTotal >= CORNER_HIGH_THRESHOLD ? 'high' : 'low';
-    return '<span class="g-corner-item ' + cls + '" title="Total de escanteios do time nesse jogo (jogo inteiro, sem separar por tempo)">Escanteios: ' + cornersTotal + '</span>';
+    const y = yellowCards ?? 0;
+    const r = redCards ?? 0;
+    const parts = [];
+    parts.push('<span class="g-corner-item ' + (y >= CARDS_HIGH_THRESHOLD ? 'high' : 'low') + '" title="Cartões amarelos do time nesse jogo">' + y + ' amarelo(s)</span>');
+    if(r > 0){
+      parts.push('<span class="g-corner-item low" title="Cartões vermelhos do time nesse jogo">' + r + ' vermelho(s)</span>');
+    }
+    return parts.join('');
   }
 
   function renderGamesList(listId, fixtures, emptyMessage){
@@ -1577,6 +1684,10 @@
       const htMsg = buildHalfMsg('1ºT', f.gf_ht, htMinutes, '1º tempo');
       const stMsg = buildHalfMsg('2ºT', f.gf_ft - f.gf_ht, stMinutes, '2º tempo');
       const cornerMsg = buildCornerMsg(f.cornersTotal);
+      const shotsMsg = buildShotsMsg(f.totalShots);
+      const shotsOnGoalMsg = buildShotsOnGoalMsg(f.shotsOnGoal);
+      const cardsMsg = buildCardsMsg(f.yellowCards, f.redCards);
+      const foulsMsg = buildFoulsMsg(f.foulsCommitted);
 
       return (
         '<div class="game-row">' +
@@ -1585,7 +1696,8 @@
           '<span class="g-opp-wrap">' +
             '<span class="g-opp" title="' + opp + '">' + opp + '</span>' +
             '<span class="g-opp-meta">' + htMsg + '<span class="g-meta-divider">|</span>' + stMsg + '</span>' +
-            '<span class="g-corner-row">' + cornerMsg + '</span>' +
+            '<span class="g-corner-row">' + cornerMsg + shotsMsg + shotsOnGoalMsg + '</span>' +
+            '<span class="g-corner-row">' + cardsMsg + foulsMsg + '</span>' +
           '</span>' +
           '<span class="g-score">' + f.gf_ht + '-' + f.ga_ht + '<br><small>HT</small></span>' +
           '<span class="g-score">' + f.gf_ft + '-' + f.ga_ft + '<br><small>FT</small></span>' +
@@ -1597,19 +1709,38 @@
 
   /* ---------------- médias de gols ---------------- */
   function computeGoalAverages(fixtures){
-    if(!fixtures || !fixtures.length){
-      return { avgTotal: 0, avgHT: 0, avgST: 0 };
-    }
-    const n = fixtures.length;
-    const sumTotal = fixtures.reduce((s,f) => s + f.gf_ft, 0);
-    const sumHT = fixtures.reduce((s,f) => s + f.gf_ht, 0);
-    const sumST = fixtures.reduce((s,f) => s + (f.gf_ft - f.gf_ht), 0);
-
+    const totalSum = sumStatOverGames(fixtures, f => f.gf_ft);
+    const htSum = sumStatOverGames(fixtures, f => f.gf_ht);
+    const stSum = sumStatOverGames(fixtures, f => f.gf_ft - f.gf_ht);
     return {
-      avgTotal: (sumTotal / n).toFixed(2),
-      avgHT: (sumHT / n).toFixed(2),
-      avgST: (sumST / n).toFixed(2)
+      avgTotal: formatStatSum(totalSum),
+      avgHT: formatStatSum(htSum),
+      avgST: formatStatSum(stSum)
     };
+  }
+
+  // Em vez de médias, esses 5 mercados mostram "em quantos dos últimos jogos com
+  // dado disponível o time bateu o limiar" (mesmos limiares usados na lista de jogos).
+  // Em vez de médias, esses 5 mercados mostram o total feito nos últimos jogos
+  // com dado disponível, mais a média por jogo — ex: "30 em 10 jogos (méd. 3.00)".
+  function sumStatOverGames(fixtures, getValue){
+    const withData = (fixtures || []).filter(f => getValue(f) != null);
+    const sum = withData.reduce((s,f) => s + getValue(f), 0);
+    return { sum, n: withData.length, avg: withData.length ? (sum / withData.length) : 0 };
+  }
+
+  function computeStatSums(fixtures){
+    return {
+      corners: sumStatOverGames(fixtures, f => f.cornersTotal),
+      shots: sumStatOverGames(fixtures, f => f.totalShots),
+      shotsOnGoal: sumStatOverGames(fixtures, f => f.shotsOnGoal),
+      cards: sumStatOverGames(fixtures, f => f.yellowCards),
+      fouls: sumStatOverGames(fixtures, f => f.foulsCommitted)
+    };
+  }
+
+  function formatStatSum(s){
+    return s.n ? (s.sum + ' em ' + s.n + ' jogos (méd. ' + s.avg.toFixed(2) + ')') : 'sem dado';
   }
 
   const venueState = { home: [], away: [], selected: { home: 'home', away: 'home' } };
@@ -1626,6 +1757,11 @@
       el(prefix + 'AvgTotal').textContent = '—';
       el(prefix + 'AvgHT').textContent = '—';
       el(prefix + 'AvgST').textContent = '—';
+      el(prefix + 'StatCorners').textContent = '—';
+      el(prefix + 'StatShots').textContent = '—';
+      el(prefix + 'StatShotsOnGoal').textContent = '—';
+      el(prefix + 'StatCards').textContent = '—';
+      el(prefix + 'StatFouls').textContent = '—';
       return;
     }
     const filtered = filterFixturesByVenue(venueState[prefix], venueState.selected[prefix]);
@@ -1633,6 +1769,18 @@
     el(prefix + 'AvgTotal').textContent = avg.avgTotal;
     el(prefix + 'AvgHT').textContent = avg.avgHT;
     el(prefix + 'AvgST').textContent = avg.avgST;
+
+    const sums = computeStatSums(filtered);
+    el(prefix + 'StatCornersLbl').textContent = 'Escanteios';
+    el(prefix + 'StatCorners').textContent = formatStatSum(sums.corners);
+    el(prefix + 'StatShotsLbl').textContent = 'Finalizações';
+    el(prefix + 'StatShots').textContent = formatStatSum(sums.shots);
+    el(prefix + 'StatShotsOnGoalLbl').textContent = 'Chutes no gol';
+    el(prefix + 'StatShotsOnGoal').textContent = formatStatSum(sums.shotsOnGoal);
+    el(prefix + 'StatCardsLbl').textContent = 'Cartões amarelos';
+    el(prefix + 'StatCards').textContent = formatStatSum(sums.cards);
+    el(prefix + 'StatFoulsLbl').textContent = 'Faltas';
+    el(prefix + 'StatFouls').textContent = formatStatSum(sums.fouls);
   }
 
   function applyGamesListFilter(prefix){
@@ -2012,22 +2160,51 @@
   }
 
   /* ---------------- times frios no 1º tempo ---------------- */
-  async function scanLowFirstHalfTeams(games){
-    const statusEl = el('frios1tStatus');
-    const listEl = el('frios1tList');
-    statusEl.className = 'status-line';
-    showErrorBox('frios1tErrorBox', 'frios1tErrorText', null);
+  // Função única que busca os últimos jogos de cada time UMA vez (com cache) e
+  // calcula as 3 abas de padrão (-2 Gols no 1ºT, Invictos, 0 Gols no 1ºT) a partir
+  // do mesmo resultado, pra não gastar cota de API em triplicidade.
+  async function scanTeamStreaks(games, opts){
+    opts = opts || {};
+    const skipFrios = !!opts.skipFrios;
+
+    const frios1tStatusEl = el('frios1tStatus');
+    const frios1tListEl = el('frios1tList');
+    const invictosStatusEl = el('invictosStatus');
+    const invictosListEl = el('invictosList');
+    const zero1tStatusEl = el('zero1tStatus');
+    const zero1tListEl = el('zero1tList');
+
+    if(!skipFrios){
+      frios1tStatusEl.className = 'status-line';
+      showErrorBox('frios1tErrorBox', 'frios1tErrorText', null);
+    }
+    invictosStatusEl.className = 'status-line';
+    showErrorBox('invictosErrorBox', 'invictosErrorText', null);
+    zero1tStatusEl.className = 'status-line';
+    showErrorBox('zero1tErrorBox', 'zero1tErrorText', null);
 
     if(!games || !games.length){
-      listEl.innerHTML = '';
-      statusEl.textContent = 'Nenhum jogo carregado ainda.';
+      if(!skipFrios){ frios1tListEl.innerHTML = ''; frios1tStatusEl.textContent = 'Nenhum jogo carregado ainda.'; }
+      invictosListEl.innerHTML = '';
+      invictosStatusEl.textContent = 'Nenhum jogo carregado ainda.';
+      zero1tListEl.innerHTML = '';
+      zero1tStatusEl.textContent = 'Nenhum jogo carregado ainda.';
       return;
     }
 
     if(!state.apiKey){
-      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra analisar aqui.</div>';
-      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
-      statusEl.classList.add('err');
+      const noKeyMsg = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra analisar aqui.</div>';
+      if(!skipFrios){
+        frios1tListEl.innerHTML = noKeyMsg;
+        frios1tStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+        frios1tStatusEl.classList.add('err');
+      }
+      invictosListEl.innerHTML = noKeyMsg;
+      invictosStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      invictosStatusEl.classList.add('err');
+      zero1tListEl.innerHTML = noKeyMsg;
+      zero1tStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      zero1tStatusEl.classList.add('err');
       return;
     }
 
@@ -2047,13 +2224,20 @@
     cacheStats.misses = 0;
 
     function updateProgress(){
-      listEl.innerHTML =
+      const progressMsg =
         '<div class="empty-note" style="padding:8px 4px;">' +
-          'Aguarde, analisando os últimos ' + FRIOS_GAMES_LIMIT + ' jogos de cada time… ' +
+          'Aguarde, analisando os últimos ' + GAMES_LIMIT + ' jogos de cada time… ' +
           '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
           'Isso deve levar só alguns segundos com o plano atual.' +
         '</div>';
-      statusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+      if(!skipFrios){
+        frios1tListEl.innerHTML = progressMsg;
+        frios1tStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+      }
+      invictosListEl.innerHTML = progressMsg;
+      invictosStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+      zero1tListEl.innerHTML = progressMsg;
+      zero1tStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
     }
     updateProgress();
 
@@ -2081,18 +2265,46 @@
 
     const usable = allResults.filter(r => r.fixtures);
     const semDado = allResults.length - usable.length;
-
-    const qualified = usable.filter(r =>
-      r.fixtures.length >= FRIOS_GAMES_LIMIT && r.fixtures.slice(0, FRIOS_GAMES_LIMIT).every(f => f.gf_ht < 2)
-    );
-    qualified.sort((a, b) => a.game.time.localeCompare(b.game.time));
-
-    renderFrios1tList(qualified);
-
     const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
     const semDadoNote = semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '';
-    statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos ' + FRIOS_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
-    statusEl.classList.add(semDado ? 'err' : 'ok');
+
+    if(!skipFrios){
+      const qualifiedFrios = usable.filter(r =>
+        r.fixtures.length >= FRIOS_GAMES_LIMIT && r.fixtures.slice(0, FRIOS_GAMES_LIMIT).every(f => f.gf_ht < 2)
+      );
+      qualifiedFrios.sort((a, b) => a.game.time.localeCompare(b.game.time));
+      renderFrios1tList(qualifiedFrios);
+      frios1tStatusEl.textContent = qualifiedFrios.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos ' + FRIOS_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+      frios1tStatusEl.classList.add(semDado ? 'err' : 'ok');
+    }
+
+    const qualifiedInvictos = usable.filter(r =>
+      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ft >= f.ga_ft)
+    );
+    qualifiedInvictos.sort((a, b) => a.game.time.localeCompare(b.game.time));
+    renderInvictosList(qualifiedInvictos);
+    invictosStatusEl.textContent = qualifiedInvictos.length + ' de ' + usable.length + ' times com dado real não perderam nenhum dos últimos ' + GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    invictosStatusEl.classList.add(semDado ? 'err' : 'ok');
+
+    const qualifiedZero1t = usable.filter(r =>
+      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ht === 0)
+    );
+    qualifiedZero1t.sort((a, b) => a.game.time.localeCompare(b.game.time));
+    renderZero1tList(qualifiedZero1t);
+    zero1tStatusEl.textContent = qualifiedZero1t.length + ' de ' + usable.length + ' times com dado real não marcaram nenhum gol no 1º tempo em nenhum dos últimos ' + GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    zero1tStatusEl.classList.add(semDado ? 'err' : 'ok');
+  }
+
+  function goToGameFromList(game){
+    showView('jogos');
+    const idx = state.todayGames.indexOf(game);
+    const targetRow = idx !== -1
+      ? document.querySelector('#todayList .today-row[data-idx="' + idx + '"]')
+      : null;
+    if(targetRow){
+      openGameDetailInline(targetRow, game);
+      targetRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   function renderFrios1tList(items){
@@ -2114,18 +2326,53 @@
     }).join('');
 
     listEl.querySelectorAll('.today-row').forEach((row, i) => {
-      row.addEventListener('click', () => {
-        const game = items[i].game;
-        showView('jogos');
-        const idx = state.todayGames.indexOf(game);
-        const targetRow = idx !== -1
-          ? document.querySelector('#todayList .today-row[data-idx="' + idx + '"]')
-          : null;
-        if(targetRow){
-          openGameDetailInline(targetRow, game);
-          targetRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
+      row.addEventListener('click', () => goToGameFromList(items[i].game));
+    });
+  }
+
+  function renderInvictosList(items){
+    const listEl = el('invictosList');
+    if(!items.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum time dos jogos de hoje se encaixou nesse padrão.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map((it, i) => {
+      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+      return (
+        '<button type="button" class="today-row" data-invictos-idx="' + i + '">' +
+          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">invicto há ' + GAMES_LIMIT + '</span></span>' +
+          '<span class="today-cta">ver análise →</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    listEl.querySelectorAll('.today-row').forEach((row, i) => {
+      row.addEventListener('click', () => goToGameFromList(items[i].game));
+    });
+  }
+
+  function renderZero1tList(items){
+    const listEl = el('zero1tList');
+    if(!items.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum time dos jogos de hoje se encaixou nesse padrão.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map((it, i) => {
+      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+      return (
+        '<button type="button" class="today-row" data-zero1t-idx="' + i + '">' +
+          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">0/' + GAMES_LIMIT + ' c/ gol no 1ºT</span></span>' +
+          '<span class="today-cta">ver análise →</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    listEl.querySelectorAll('.today-row').forEach((row, i) => {
+      row.addEventListener('click', () => goToGameFromList(items[i].game));
     });
   }
 
@@ -2179,6 +2426,7 @@
     todayStatus.classList.add('ok');
 
     renderFrios1tFromPreloaded(data.frios1t);
+    scanTeamStreaks(games, { skipFrios: true });
   }
 
   /* ---------------- ao vivo ---------------- */
@@ -2279,7 +2527,7 @@
       todayStatus.classList.add('ok');
       el('btnLoadToday').disabled = false;
       state.todayGames = games;
-      scanLowFirstHalfTeams(games);
+      scanTeamStreaks(games);
       return;
     }
 
@@ -2318,7 +2566,7 @@
         (semOdds ? ' (' + semOdds + ' sem odds disponíveis)' : '') + cacheNote;
       todayStatus.classList.add('ok');
       state.todayGames = games;
-      scanLowFirstHalfTeams(games);
+      scanTeamStreaks(games);
     }catch(err){
       const msg = describeError(err);
       console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', msg);
@@ -2328,7 +2576,7 @@
       todayStatus.classList.add('err');
       showErrorBox('todayErrorBox', 'todayErrorText', msg);
       state.todayGames = games;
-      scanLowFirstHalfTeams(games);
+      scanTeamStreaks(games);
     }
     el('btnLoadToday').disabled = false;
   }
