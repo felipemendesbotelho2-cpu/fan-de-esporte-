@@ -632,8 +632,7 @@
   .g-meta-item.yes{ color:var(--green); }
   .g-meta-item.no{ color:var(--red); }
   .g-meta-item.unk{ color:var(--muted-2); font-style:italic; }
-  .g-corner-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:2px; }
-  .g-corner-item{
+  .g-corner-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:2px; }  .g-corner-item{
     font-family:var(--mono);
     font-size:9px;
     letter-spacing:0.2px;
@@ -646,6 +645,31 @@
   .g-corner-item.high{ color:var(--green); border-color:rgba(0,226,138,0.35); background:rgba(0,226,138,0.06); }
   .g-corner-item.low{ color:var(--red); border-color:rgba(255,77,94,0.35); background:rgba(255,77,94,0.06); }
   .g-corner-item.unk{ color:var(--muted-2); font-style:italic; }
+
+  /* Celular: a grade de 6 colunas fica apertada demais e espreme os nomes/
+     estatísticas. Vira um cartão empilhado: linha de topo (nº, data, placares,
+     resultado) e, embaixo, o adversário com as estatísticas em ordem fixa e
+     com fonte maior, mais fácil de ler. */
+  @media (max-width:600px){
+    .game-row{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:4px 10px;
+      padding:10px 6px;
+    }
+    .g-idx{ order:1; font-size:10.5px; }
+    .g-date{ order:2; font-size:10.5px; }
+    .g-score{ order:4; font-size:11px; }
+    .g-tag{ order:5; margin-left:auto; padding:2px 8px; }
+    .g-opp-wrap{ order:6; flex:1 1 100%; gap:5px; margin-top:2px; }
+    .g-opp{ font-size:13.5px; white-space:normal; }
+    .g-opp-meta{ gap:10px; }
+    .g-meta-item{ font-size:11px; }
+    .g-corner-row{ gap:7px; }
+    .g-corner-item{ font-size:10.5px; padding:2px 6px; }
+  }
+
   .games-list::-webkit-scrollbar{ width:6px; }
   .games-list::-webkit-scrollbar-thumb{ background:var(--border); border-radius:6px; }
   .games-legend{
@@ -727,6 +751,7 @@
   .avg-col.home .avg-col-title{ color:var(--accent); }
   .avg-col.away .avg-col-title{ color:var(--teal); }
   .venue-toggle{ display:flex; gap:4px; }
+
   .venue-btn{
     font-family:var(--mono);
     font-size:10px;
@@ -763,6 +788,25 @@
   .avg-item:last-child{ border-bottom:none; }
   .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
   .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); line-height:1.5; }
+
+  /* Celular: nome do time + botões Geral/Casa/Fora ficavam espremidos numa
+     linha só e pareciam "gigantes" pro espaço disponível. Empilha o nome
+     em cima, botões embaixo ocupando a largura toda, e encolhe um pouco o
+     texto das frases de estatística pra caber melhor na tela. */
+  @media (max-width:600px){
+    .avg-col{ padding:12px 14px; }
+    .avg-col-title{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:8px;
+      font-size:10px;
+    }
+    .venue-toggle{ width:100%; }
+    .venue-toggle .venue-btn{ flex:1; text-align:center; padding:6px 4px; }
+    .avg-item span.lbl{ font-size:10px; }
+    .avg-item span.val{ font-size:12px; line-height:1.45; }
+  }
+
 
   .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
 
@@ -916,7 +960,8 @@
         <div class="avg-col-title">
           <span id="homeAvgLabel">Casa</span>
           <div class="venue-toggle">
-            <button type="button" class="venue-btn active" data-prefix="home" data-venue="home">Casa</button>
+            <button type="button" class="venue-btn active" data-prefix="home" data-venue="geral">Geral</button>
+            <button type="button" class="venue-btn" data-prefix="home" data-venue="home">Casa</button>
             <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
           </div>
         </div>
@@ -933,7 +978,8 @@
         <div class="avg-col-title">
           <span id="awayAvgLabel">Fora</span>
           <div class="venue-toggle">
-            <button type="button" class="venue-btn active" data-prefix="away" data-venue="home">Casa</button>
+            <button type="button" class="venue-btn active" data-prefix="away" data-venue="geral">Geral</button>
+            <button type="button" class="venue-btn" data-prefix="away" data-venue="home">Casa</button>
             <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
           </div>
         </div>
@@ -1806,8 +1852,7 @@
           '<span class="g-opp-wrap">' +
             '<span class="g-opp" title="' + opp + '">' + opp + '</span>' +
             '<span class="g-opp-meta">' + htMsg + '<span class="g-meta-divider">|</span>' + stMsg + '</span>' +
-            '<span class="g-corner-row">' + cornerMsg + shotsMsg + shotsOnGoalMsg + '</span>' +
-            '<span class="g-corner-row">' + cardsMsg + foulsMsg + '</span>' +
+            '<span class="g-corner-row">' + cornerMsg + shotsMsg + shotsOnGoalMsg + cardsMsg + foulsMsg + '</span>' +
           '</span>' +
           '<span class="g-score">' + f.gf_ht + '-' + f.ga_ht + '<br><small>HT</small></span>' +
           '<span class="g-score">' + f.gf_ft + '-' + f.ga_ft + '<br><small>FT</small></span>' +
@@ -1855,7 +1900,7 @@
     return 'Nos últimos ' + s.n + ' ' + jogosWord + ' fez ' + s.sum + ' ' + unit + ', média de ' + s.avg.toFixed(2) + ' por jogo.';
   }
 
-  const venueState = { home: [], away: [], selected: { home: 'home', away: 'home' } };
+  const venueState = { home: [], away: [], selected: { home: 'geral', away: 'geral' } };
   const listVenueState = { selected: { home: 'geral', away: 'geral' } };
   const noDataFlag = { home: false, away: false };
 
@@ -1987,10 +2032,10 @@
     el('standingsStatus').className = 'status-line';
     showErrorBox('detailErrorBox', 'detailErrorText', null);
 
-    venueState.selected = { home: 'home', away: 'home' };
+    venueState.selected = { home: 'geral', away: 'geral' };
     listVenueState.selected = { home: 'geral', away: 'geral' };
     document.querySelectorAll('.venue-btn[data-prefix]').forEach(b =>
-      b.classList.toggle('active', b.dataset.venue === 'home'));
+      b.classList.toggle('active', b.dataset.venue === 'geral'));
     document.querySelectorAll('.venue-btn[data-list-prefix]').forEach(b =>
       b.classList.toggle('active', b.dataset.venue === 'geral'));
 
