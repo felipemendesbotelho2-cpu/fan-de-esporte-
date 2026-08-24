@@ -372,27 +372,6 @@
     color:var(--muted);
   }
 
-  /* ---------- navegação de datas na aba ---------- */
-  .date-nav-group{
-    display:inline-flex;
-    align-items:center;
-    gap:4px;
-  }
-  .btn-next-date{
-    background:transparent;
-    border:1px solid transparent;
-    color:var(--muted);
-    padding:8px 10px;
-    font-size:12px;
-    cursor:pointer;
-    border-radius:6px;
-    transition:background .15s ease, color .15s ease;
-  }
-  .btn-next-date:hover{
-    color:var(--accent);
-    background:rgba(0,226,138,0.1);
-  }
-
   /* ---------- jogos do dia ---------- */
   .today-list{
     display:grid;
@@ -512,12 +491,12 @@
     text-transform:none;
     color:var(--muted-2);
   }
-  .games-col.home .venue-btn.active, .avg-col.home .venue-btn.active{
+  .games-col.home .venue-btn.active{
     color:var(--accent);
     border-color:var(--accent);
     background:rgba(0,226,138,0.1);
   }
-  .games-col.away .venue-btn.active, .avg-col.away .venue-btn.active{
+  .games-col.away .venue-btn.active{
     color:var(--teal);
     border-color:var(--teal);
     background:rgba(0,194,168,0.1);
@@ -762,6 +741,16 @@
     transition:background .15s ease, color .15s ease, border-color .15s ease;
   }
   .venue-btn:hover{ color:var(--text); }
+  .avg-col.home .venue-btn.active{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:rgba(0,226,138,0.1);
+  }
+  .avg-col.away .venue-btn.active{
+    color:var(--teal);
+    border-color:var(--teal);
+    background:rgba(0,194,168,0.1);
+  }
   .avg-item{
     display:flex;
     flex-direction:column;
@@ -866,10 +855,7 @@
   </header>
 
   <nav class="tabs">
-    <div class="date-nav-group">
-      <button class="tab-btn active" data-view="jogos" id="tabJogosBtn">Jogos do Dia</button>
-      <button class="btn-next-date" id="btnNextDate" title="Ver jogos da próxima data">➔</button>
-    </div>
+    <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
     <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
     <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
     <button class="tab-btn" data-view="invictos">Invictos (10)</button>
@@ -879,208 +865,510 @@
   <!-- ===== VIEW: JOGOS DO DIA ===== -->
   <div class="view active" id="view-jogos">
 
-  <!-- JOGOS DO DIA -->
-  <section class="panel">
-    <div class="panel-head">
-      <div></div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn-ghost" id="btnForceRefresh" title="Ignora o cache de hoje e busca de novo na API (gasta cota)">Forçar nova busca</button>
-        <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
-      </div>
-    </div>
-    <div class="status-line" id="todayStatus"></div>
-    <div class="error-box" id="todayErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="todayErrorText"></span></div>
-    <div class="today-list" id="todayList"></div>
-    <input type="hidden" id="apiKey" value="c560ef176bae087f0790b36849a6adf0">
-
-    <details class="settings">
-      <summary>Reforço football-data.org (opcional)</summary>
-      <div class="settings-body">
+    <!-- JOGOS DO DIA -->
+    <section class="panel">
+      <div class="panel-head">
         <div>
-          <label for="fdApiKey">API Key da football-data.org</label>
-          <input type="text" id="fdApiKey" placeholder="Cole aqui sua key gratuita">
+          <span class="eyebrow">Partidas Programadas</span>
+          <h2>Jogos do Dia</h2>
         </div>
-        <button type="button" class="btn-primary" id="btnSaveFdKey">Salvar</button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-ghost" id="btnForceRefresh" title="Ignora o cache de hoje e busca de novo na API (gasta cota)">Forçar nova busca</button>
+          <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
+        </div>
       </div>
-      <div class="settings-note" id="fdKeyStatus">
-        Usada só como reforço pra Série A, quando a API-Football não retornar os
-        últimos 10 jogos de um time (restrição de temporada no plano gratuito).
-        Sem essa key o site funciona normal, só sem esse reforço.
-        Pegue a sua de graça em <code>football-data.org</code> (cadastro por e-mail, sem cartão)
-        e cole aqui — ela fica salva só neste navegador.
-      </div>
-    </details>
-  </section>
+      <div class="status-line" id="todayStatus"></div>
+      <div class="error-box" id="todayErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="todayErrorText"></span></div>
+      <div class="today-list" id="todayList"></div>
+      <input type="hidden" id="apiKey" value="c560ef176bae087f0790b36849a6adf0">
 
-  <!-- ===== PAINEL DE ANÁLISE ===== -->
-  <section class="panel" id="detailPanel" style="display:none;">
-    <div class="detail-head">
-      <div>
-        <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
-        <div class="detail-sub" id="detailSub"></div>
-      </div>
-      <span class="today-odds" id="detailOdds"></span>
-    </div>
-
-    <div class="status-line" id="detailStatus"></div>
-    <div class="error-box" id="detailErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="detailErrorText"></span></div>
-
-    <!-- MÉDIAS DE GOLS / ESTATÍSTICAS -->
-    <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
-      <!-- Casa -->
-      <div class="avg-col home">
-        <div class="avg-col-title">
-          <span id="homeAvgLabel">Geral</span>
-          <div class="venue-toggle">
-            <button type="button" class="venue-btn active" data-prefix="home" data-venue="geral">Geral</button>
-            <button type="button" class="venue-btn" data-prefix="home" data-venue="home">Casa</button>
-            <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
+      <details class="settings">
+        <summary>Reforço football-data.org (opcional)</summary>
+        <div class="settings-body">
+          <div>
+            <label for="fdApiKey">API Key da football-data.org</label>
+            <input type="text" id="fdApiKey" placeholder="Cole aqui sua key gratuita">
           </div>
+          <button type="button" class="btn-primary" id="btnSaveFdKey">Salvar</button>
         </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span></div>
-      </div>
-      <!-- Fora -->
-      <div class="avg-col away">
-        <div class="avg-col-title">
-          <span id="awayAvgLabel">Geral</span>
-          <div class="venue-toggle">
-            <button type="button" class="venue-btn active" data-prefix="away" data-venue="geral">Geral</button>
-            <button type="button" class="venue-btn" data-prefix="away" data-venue="home">Casa</button>
-            <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
-          </div>
+        <div class="settings-note" id="fdKeyStatus">
+          Usada só como reforço pra Série A, quando a API-Football não retornar os
+          últimos 10 jogos de um time (restrição de temporada no plano gratuito).
+          Sem essa key o site funciona normal, só sem esse reforço.
+          Pegue a sua de graça em <code>football-data.org</code> (cadastro por e-mail, sem cartão)
+          e cole aqui — ela fica salva só neste navegador.
         </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span></div>
-      </div>
-    </div>
+      </details>
+    </section>
 
-    <!-- LISTA DE HISTÓRICO DE JOGOS -->
-    <div class="games-grid" id="gamesGrid" style="display:none;">
-      <div class="games-col home">
-        <div class="games-col-title">
-          <span id="homeGamesLabel">Geral</span>
-          <div class="games-col-controls">
-            <span class="games-count" id="homeGamesCount">10 jogos</span>
+    <!-- ===== PAINEL DE ANÁLISE (abre inline abaixo do jogo clicado) ===== -->
+    <section class="panel" id="detailPanel" style="display:none;">
+      <div class="detail-head">
+        <div>
+          <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
+          <div class="detail-sub" id="detailSub"></div>
+        </div>
+        <span class="today-odds" id="detailOdds"></span>
+      </div>
+
+      <div class="status-line" id="detailStatus"></div>
+      <div class="error-box" id="detailErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="detailErrorText"></span></div>
+
+      <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
+        <div class="avg-col home">
+          <div class="avg-col-title">
+            <span id="homeAvgLabel">Casa</span>
             <div class="venue-toggle">
-              <button type="button" class="venue-btn active" data-list-prefix="home" data-venue="geral">Geral</button>
-              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="home">Casa</button>
-              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="away">Fora</button>
+              <button type="button" class="venue-btn active" data-prefix="home" data-venue="home">Casa</button>
+              <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
             </div>
           </div>
+          <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
+          <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
+          <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
+          <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
+          <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
+          <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
+          <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
+          <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span></div>
         </div>
-        <div class="games-list" id="homeGamesList"></div>
-      </div>
-      <div class="games-col away">
-        <div class="games-col-title">
-          <span id="awayGamesLabel">Geral</span>
-          <div class="games-col-controls">
-            <span class="games-count" id="awayGamesCount">10 jogos</span>
+        <div class="avg-col away">
+          <div class="avg-col-title">
+            <span id="awayAvgLabel">Fora</span>
             <div class="venue-toggle">
-              <button type="button" class="venue-btn active" data-list-prefix="away" data-venue="geral">Geral</button>
-              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="home">Casa</button>
-              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="away">Fora</button>
+              <button type="button" class="venue-btn active" data-prefix="away" data-venue="home">Casa</button>
+              <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
             </div>
           </div>
+          <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
+          <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
+          <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
+          <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
+          <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
+          <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
+          <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
+          <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span></div>
         </div>
-        <div class="games-list" id="awayGamesList"></div>
       </div>
-    </div>
 
-    <div class="games-legend" id="gamesLegend" style="display:none;">
-      <span><b>1ºT / 2ºT</b> marcou (com minuto do gol) ou não marcou em cada tempo</span>
-      <span style="color:var(--green);">verde</span> sim ·
-      <span style="color:var(--red);">vermelho</span> não ·
-      <span style="color:var(--muted-2);">cinza</span> sem dado ·
-      <span><b>Escanteios / Finalizações / Chutes no gol / Cartões / Faltas</b> total do jogo</span>
+      <div class="games-grid" id="gamesGrid" style="display:none;">
+        <div class="games-col home">
+          <div class="games-col-title">
+            <span id="homeGamesLabel">Casa</span>
+            <div class="games-col-controls">
+              <span class="games-count" id="homeGamesCount">10 jogos</span>
+              <div class="venue-toggle">
+                <button type="button" class="venue-btn active" data-list-prefix="home" data-venue="geral">Geral</button>
+                <button type="button" class="venue-btn" data-list-prefix="home" data-venue="home">Casa</button>
+                <button type="button" class="venue-btn" data-list-prefix="home" data-venue="away">Fora</button>
+              </div>
+            </div>
+          </div>
+          <div class="games-list" id="homeGamesList"></div>
+        </div>
+        <div class="games-col away">
+          <div class="games-col-title">
+            <span id="awayGamesLabel">Fora</span>
+            <div class="games-col-controls">
+              <span class="games-count" id="awayGamesCount">10 jogos</span>
+              <div class="venue-toggle">
+                <button type="button" class="venue-btn active" data-list-prefix="away" data-venue="geral">Geral</button>
+                <button type="button" class="venue-btn" data-list-prefix="away" data-venue="home">Casa</button>
+                <button type="button" class="venue-btn" data-list-prefix="away" data-venue="away">Fora</button>
+              </div>
+            </div>
+          </div>
+          <div class="games-list" id="awayGamesList"></div>
+        </div>
+      </div>
+      <div class="games-legend" id="gamesLegend" style="display:none;">
+        <span><b>1ºT / 2ºT</b> marcou (com minuto do gol) ou não marcou em cada tempo</span>
+        <span style="color:var(--green);">verde</span> sim ·
+        <span style="color:var(--red);">vermelho</span> não ·
+        <span style="color:var(--muted-2);">cinza</span> sem dado ·
+        <span><b>Escanteios / Finalizações / Chutes no gol / Cartões / Faltas</b> total do jogo (a API não separa por tempo)</span>
+      </div>
+
+      <div class="lineup-section" id="lineupSection" style="display:none; margin-top:24px;">
+        <div class="detail-title" style="font-size:15px;">Escalação e Desfalques</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">A escalação oficial só costuma ser divulgada perto do horário do jogo. Os desfalques são os jogadores confirmados como fora (lesão, suspensão etc.) para essa partida específica.</div>
+        <div class="status-line" id="lineupStatus"></div>
+        <div class="error-box" id="lineupErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="lineupErrorText"></span></div>
+        <div class="lineup-grid" id="lineupGrid" style="margin-top:14px;">
+          <div class="lineup-col home">
+            <div class="lineup-col-title" id="homeLineupTitle">Casa</div>
+            <div class="lineup-formation" id="homeLineupFormation">Formação: —</div>
+            <div class="lineup-list" id="homeLineupList"></div>
+            <div class="lineup-subtitle">Desfalques</div>
+            <div class="lineup-injuries" id="homeInjuriesList"></div>
+          </div>
+          <div class="lineup-col away">
+            <div class="lineup-col-title" id="awayLineupTitle">Fora</div>
+            <div class="lineup-formation" id="awayLineupFormation">Formação: —</div>
+            <div class="lineup-list" id="awayLineupList"></div>
+            <div class="lineup-subtitle">Desfalques</div>
+            <div class="lineup-injuries" id="awayInjuriesList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONFRONTOS DIRETO -->
+      <div class="h2h-section" id="h2hSection" style="display:none; margin-top:24px;">
+        <div class="detail-title" style="font-size:15px;">Confrontos Diretos (H2H)</div>
+        <div class="today-list" id="h2hList" style="margin-top:10px;"></div>
+      </div>
+
+      <!-- TABELA DE CLASSIFICAÇÃO -->
+      <div class="standings-section" id="standingsSection" style="display:none; margin-top:24px;">
+        <div class="detail-title" style="font-size:15px;" id="standingsTitle">Classificação</div>
+        <div class="standings-table-wrap">
+          <table class="standings-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th style="text-align:left;">Time</th>
+                <th>P</th>
+                <th>J</th>
+                <th>V</th>
+                <th>E</th>
+                <th>D</th>
+                <th>GP</th>
+                <th>GC</th>
+                <th>SG</th>
+              </tr>
+            </thead>
+            <tbody id="standingsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== VIEW: AO VIVO ===== -->
+  <div class="view" id="view-aovivo">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <span class="eyebrow">Acompanhamento em Tempo Real</span>
+          <h2>Partidas Ao Vivo</h2>
+        </div>
+        <button class="btn-ghost" id="btnRefreshLive">Atualizar Agora</button>
+      </div>
+      <div class="status-line" id="liveStatus"></div>
+      <div class="today-list" id="liveList"></div>
+    </section>
+  </div>
+
+  <!-- ===== VIEW: -2 GOLS NO 1ºT ===== -->
+  <div class="view" id="view-frios1t">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <span class="eyebrow">Filtro de Análise</span>
+          <h2>Jogos Frios no 1º Tempo (-2 Gols)</h2>
+        </div>
+      </div>
+      <div class="empty-note" style="margin-bottom:12px;">Selecione os jogos do dia primeiro para processar o filtro.</div>
+      <div class="today-list" id="frios1tList"></div>
+    </section>
+  </div>
+
+  <!-- ===== VIEW: INVICTOS ===== -->
+  <div class="view" id="view-invictos">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <span class="eyebrow">Filtro de Análise</span>
+          <h2>Times Invictos nos Últimos 10 Jogos</h2>
+        </div>
+      </div>
+      <div class="empty-note" style="margin-bottom:12px;">Times dos jogos de hoje sem nenhuma derrota nos últimos 10 confrontos gerais.</div>
+      <div class="today-list" id="invictosList"></div>
+    </section>
+  </div>
+
+  <!-- ===== VIEW: 0 GOLS NO 1ºT ===== -->
+  <div class="view" id="view-zero1t">
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <span class="eyebrow">Filtro de Análise</span>
+          <h2>0 Gols no 1º Tempo (Sequência de 10 Jogos)</h2>
+        </div>
+      </div>
+      <div class="empty-note" style="margin-bottom:12px;">Confrontos onde ambas as equipes possuem altíssima tendência de 0x0 no primeiro tempo.</div>
+      <div class="today-list" id="zero1tList"></div>
+    </section>
+  </div>
+
+  <!-- WIDGET FLUTUANTE DE FEEDBACK -->
+  <div class="feedback-widget" id="feedbackWidget">
+    <button class="feedback-launcher" id="feedbackLauncher" title="Enviar sugestão">💬</button>
+    <div class="feedback-panel">
+      <div class="feedback-head">
+        <div>
+          <div class="feedback-title">Sugestões e Sugestões</div>
+          <div class="feedback-sub">Deixe sua opinião ou ideia para melhorarmos a plataforma.</div>
+        </div>
+        <button class="feedback-close" id="feedbackClose">&times;</button>
+      </div>
+      <textarea class="feedback-textarea" id="feedbackInput" placeholder="Escreva aqui sua sugestão..."></textarea>
+      <button class="btn-primary feedback-send" id="feedbackSend">Enviar Feedback</button>
+      
+      <button class="feedback-toggle" id="feedbackToggle">
+        <span>Minhas Enviadas</span>
+        <span class="feedback-arrow" id="feedbackArrow">▼</span>
+      </button>
+      <div class="feedback-list" id="feedbackList" style="display:none;"></div>
     </div>
-  </section>
+  </div>
+
+  <footer>
+    Fan de Esporte &copy; 2026 — Dados fornecidos via API-Football &amp; Football-Data.org
+  </footer>
 
 </div>
 
-<footer>
-  Fan de Esporte &copy; 2026
-</footer>
-
 <script>
-  let currentDateSelected = new Date();
+  // Relógio
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent = now.toLocaleDateString('pt-BR', {
+      weekday: 'long', day: '2-digit', month: 'long', year: 'numeric'
+    }) + ' — ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
 
-  function updateDateLabel() {
-    const btn = document.getElementById('tabJogosBtn');
-    if (!btn) return;
-    const day = String(currentDateSelected.getDate()).padStart(2, '0');
-    const month = String(currentDateSelected.getMonth() + 1).padStart(2, '0');
+  // Navegação por Abas
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      btn.classList.add('active');
+      const targetView = document.getElementById('view-' + btn.dataset.view);
+      if(targetView) targetView.classList.add('active');
+    });
+  });
+
+  // Widget de Feedback
+  const fbWidget = document.getElementById('feedbackWidget');
+  const fbLauncher = document.getElementById('feedbackLauncher');
+  const fbClose = document.getElementById('feedbackClose');
+  const fbSend = document.getElementById('feedbackSend');
+  const fbInput = document.getElementById('feedbackInput');
+  const fbToggle = document.getElementById('feedbackToggle');
+  const fbArrow = document.getElementById('feedbackArrow');
+  const fbList = document.getElementById('feedbackList');
+
+  fbLauncher.onclick = () => fbWidget.classList.add('open');
+  fbClose.onclick = () => fbWidget.classList.remove('open');
+
+  fbToggle.onclick = () => {
+    const isHidden = fbList.style.display === 'none';
+    fbList.style.display = isHidden ? 'flex' : 'none';
+    fbArrow.classList.toggle('open', isHidden);
+  };
+
+  function loadFeedbacks() {
+    const items = JSON.parse(localStorage.getItem('fandeesporte_feedbacks') || '[]');
+    if(!items.length) {
+      fbList.innerHTML = '<div class="feedback-empty">Nenhuma sugestão enviada ainda.</div>';
+      return;
+    }
+    fbList.innerHTML = items.map(item => `
+      <div class="feedback-item">
+        ${item.text}
+        <time>${new Date(item.date).toLocaleString('pt-BR')}</time>
+      </div>
+    `).join('');
+  }
+
+  fbSend.onclick = () => {
+    const text = fbInput.value.trim();
+    if(!text) return;
+    const items = JSON.parse(localStorage.getItem('fandeesporte_feedbacks') || '[]');
+    items.unshift({ text, date: new Date().toISOString() });
+    localStorage.setItem('fandeesporte_feedbacks', JSON.stringify(items));
+    fbInput.value = '';
+    loadFeedbacks();
+    alert('Sugestão enviada com sucesso!');
+  };
+  loadFeedbacks();
+
+  // Armazenamento Local da FD Key
+  const fdKeyInput = document.getElementById('fdApiKey');
+  fdKeyInput.value = localStorage.getItem('fd_api_key') || '';
+  document.getElementById('btnSaveFdKey').onclick = () => {
+    localStorage.setItem('fd_api_key', fdKeyInput.value.trim());
+    document.getElementById('fdKeyStatus').innerHTML = '<span style="color:var(--accent);">Chave salva com sucesso no seu navegador!</span>';
+  };
+
+  // Motor Principal de Integração de Jogos e Análise
+  const API_KEY = document.getElementById('apiKey').value;
+  let todayFixtures = [];
+
+  async function fetchTodayGames(force = false) {
+    const status = document.getElementById('todayStatus');
+    const errBox = document.getElementById('todayErrorBox');
+    const list = document.getElementById('todayList');
     
-    // Mostra a data caso não seja o dia atual
-    const today = new Date();
-    if (currentDateSelected.toDateString() === today.toDateString()) {
-      btn.textContent = "Jogos do Dia";
-    } else {
-      btn.textContent = `Jogos (${day}/${month})`;
+    status.className = 'status-line';
+    status.textContent = 'Carregando partidas de hoje...';
+    errBox.classList.remove('show');
+    list.innerHTML = '';
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const cacheKey = 'fandeesporte_today_' + todayStr;
+
+    if(!force) {
+      const cached = localStorage.getItem(cacheKey);
+      if(cached) {
+        todayFixtures = JSON.parse(cached);
+        status.className = 'status-line ok';
+        status.textContent = `Carregado do cache (${todayFixtures.length} jogos)`;
+        renderTodayGames(todayFixtures);
+        return;
+      }
+    }
+
+    try {
+      const resp = await fetch(`https://v3.football.api-sports.io/fixtures?date=${todayStr}`, {
+        headers: { 'x-apisports-key': API_KEY }
+      });
+      const data = await resp.json();
+      if(data.errors && Object.keys(data.errors).length > 0) {
+        throw new Error(JSON.stringify(data.errors));
+      }
+      todayFixtures = data.response || [];
+      localStorage.setItem(cacheKey, JSON.stringify(todayFixtures));
+      status.className = 'status-line ok';
+      status.textContent = `Busca concluída (${todayFixtures.length} jogos encontrados)`;
+      renderTodayGames(todayFixtures);
+    } catch(err) {
+      status.className = 'status-line err';
+      status.textContent = 'Falha ao carregar os jogos do dia.';
+      errBox.classList.add('show');
+      document.getElementById('todayErrorText').textContent = err.message;
     }
   }
 
-  // Avança a data ao clicar na seta
-  document.getElementById('btnNextDate')?.addEventListener('click', function(e) {
-    e.stopPropagation();
-    currentDateSelected.setDate(currentDateSelected.getDate() + 1);
-    updateDateLabel();
+  function renderTodayGames(fixtures) {
+    const list = document.getElementById('todayList');
+    if(!fixtures.length) {
+      list.innerHTML = '<div class="empty-note">Nenhum jogo agendado para hoje.</div>';
+      return;
+    }
+
+    list.innerHTML = fixtures.map(f => {
+      const time = new Date(f.fixture.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const isLive = ['1H','2H','HT','ET','P'].includes(f.fixture.status.short);
+      const statusBadge = isLive ? `<span class="odd-chip live-chip"><span class="live-dot"></span>${f.fixture.status.elapsed}'</span>` : '';
+
+      return `
+        <div class="today-row" onclick="selectGame(${f.fixture.id})">
+          <div class="today-time-wrap">
+            <span class="today-date">${new Date(f.fixture.date).toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'})}</span>
+            <span class="today-time">${time}</span>
+          </div>
+          <div class="today-teams">
+            <span class="lg">${f.league.name} — ${f.league.country}</span>
+            <b>${f.teams.home.name}</b> vs <b>${f.teams.away.name}</b>
+          </div>
+          <div>${statusBadge}</div>
+          <div class="today-cta">Analisar &rarr;</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.selectGame = async function(fixtureId) {
+    const fixture = todayFixtures.find(f => f.fixture.id === fixtureId);
+    if(!fixture) return;
+
+    const panel = document.getElementById('detailPanel');
+    panel.style.display = 'block';
+    panel.scrollIntoView({ behavior: 'smooth' });
+
+    document.getElementById('detailTitle').textContent = `${fixture.teams.home.name} x ${fixture.teams.away.name}`;
+    document.getElementById('detailSub').textContent = `${fixture.league.name} — ${new Date(fixture.fixture.date).toLocaleString('pt-BR')}`;
     
-    // Dispara atualização de jogos caso a função exista no JS principal
-    const formattedDate = currentDateSelected.toISOString().split('T')[0];
-    if (typeof fetchMatchesForDate === 'function') {
-      fetchMatchesForDate(formattedDate);
+    document.getElementById('detailStatus').className = 'status-line';
+    document.getElementById('detailStatus').textContent = 'Buscando estatísticas e dados dos últimos jogos...';
+
+    // Oculta painéis anteriores
+    document.getElementById('avgGrid').style.display = 'none';
+    document.getElementById('gamesGrid').style.display = 'none';
+    document.getElementById('gamesLegend').style.display = 'none';
+    document.getElementById('lineupSection').style.display = 'none';
+    document.getElementById('h2hSection').style.display = 'none';
+
+    try {
+      await Promise.all([
+        loadH2H(fixture.teams.home.id, fixture.teams.away.id),
+        loadLineups(fixture.fixture.id)
+      ]);
+      document.getElementById('detailStatus').className = 'status-line ok';
+      document.getElementById('detailStatus').textContent = 'Dados do confronto carregados com sucesso.';
+    } catch(err) {
+      document.getElementById('detailStatus').className = 'status-line err';
+      document.getElementById('detailStatus').textContent = 'Erro parcial ao obter dados detalhados.';
     }
-  });
+  };
 
-  // Alternância de abas de Estatísticas (Geral / Casa / Fora)
-  document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('venue-btn')) {
-      const btn = e.target;
-      const parent = btn.closest('.venue-toggle');
-      if (!parent) return;
-
-      parent.querySelectorAll('.venue-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const prefix = btn.getAttribute('data-prefix');
-      const listPrefix = btn.getAttribute('data-list-prefix');
-      const venue = btn.getAttribute('data-venue');
-
-      const labelMap = { geral: 'Geral', home: 'Casa', away: 'Fora' };
-
-      if (prefix) {
-        const labelElem = document.getElementById(`${prefix}AvgLabel`);
-        if (labelElem) labelElem.textContent = labelMap[venue] || venue;
-        if (typeof updateTeamAverages === 'function') {
-          updateTeamAverages(prefix, venue);
-        }
+  async function loadH2H(homeId, awayId) {
+    try {
+      const resp = await fetch(`https://v3.football.api-sports.io/fixtures/headtohead?h2h=${homeId}-${awayId}&last=5`, {
+        headers: { 'x-apisports-key': API_KEY }
+      });
+      const data = await resp.json();
+      const h2hList = document.getElementById('h2hList');
+      if(data.response && data.response.length) {
+        document.getElementById('h2hSection').style.display = 'block';
+        h2hList.innerHTML = data.response.map(f => `
+          <div class="today-row">
+            <span class="today-date">${new Date(f.fixture.date).toLocaleDateString('pt-BR')}</span>
+            <div class="today-teams">${f.teams.home.name} <b>${f.goals.home ?? 0} x ${f.goals.away ?? 0}</b> ${f.teams.away.name}</div>
+            <span class="today-cta">${f.league.name}</span>
+          </div>
+        `).join('');
       }
+    } catch(e) { console.error(e); }
+  }
 
-      if (listPrefix) {
-        const labelElem = document.getElementById(`${listPrefix}GamesLabel`);
-        if (labelElem) labelElem.textContent = labelMap[venue] || venue;
-        if (typeof updateTeamGamesList === 'function') {
-          updateTeamGamesList(listPrefix, venue);
-        }
+  async function loadLineups(fixtureId) {
+    try {
+      const resp = await fetch(`https://v3.football.api-sports.io/fixtures/lineups?fixture=${fixtureId}`, {
+        headers: { 'x-apisports-key': API_KEY }
+      });
+      const data = await resp.json();
+      if(data.response && data.response.length >= 2) {
+        document.getElementById('lineupSection').style.display = 'block';
+        
+        const homeData = data.response[0];
+        const awayData = data.response[1];
+
+        document.getElementById('homeLineupTitle').textContent = homeData.team.name;
+        document.getElementById('homeLineupFormation').textContent = `Formação: ${homeData.formation || 'N/A'}`;
+        document.getElementById('homeLineupList').innerHTML = homeData.startXI.map(p => `
+          <div class="lineup-player"><span class="num">${p.player.number || '-'}</span> <span>${p.player.name}</span> <span class="pos">${p.player.pos || ''}</span></div>
+        `).join('');
+
+        document.getElementById('awayLineupTitle').textContent = awayData.team.name;
+        document.getElementById('awayLineupFormation').textContent = `Formação: ${awayData.formation || 'N/A'}`;
+        document.getElementById('awayLineupList').innerHTML = awayData.startXI.map(p => `
+          <div class="lineup-player"><span class="num">${p.player.number || '-'}</span> <span>${p.player.name}</span> <span class="pos">${p.player.pos || ''}</span></div>
+        `).join('');
       }
-    }
-  });
+    } catch(e) { console.error(e); }
+  }
+
+  document.getElementById('btnLoadToday').onclick = () => fetchTodayGames(false);
+  document.getElementById('btnForceRefresh').onclick = () => fetchTodayGames(true);
+
+  // Inicialização no carregamento
+  fetchTodayGames(false);
 </script>
-
-</div>
 </body>
 </html>
-                                                                                    
