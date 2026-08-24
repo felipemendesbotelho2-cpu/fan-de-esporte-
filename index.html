@@ -378,6 +378,18 @@
     gap:8px;
     margin-top:14px;
   }
+  .league-group + .league-group{ margin-top:18px; }
+  .league-group-title{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.8px;
+    text-transform:uppercase;
+    color:var(--accent);
+    padding:4px 2px 8px;
+    border-bottom:1px solid var(--border-soft);
+    margin-bottom:8px;
+  }
+  .league-group .today-row + .today-row{ margin-top:8px; }
   .today-row{
     display:grid;
     grid-template-columns:82px 1fr auto auto;
@@ -686,7 +698,52 @@
   .empty-note{ font-size:12.5px; color:var(--muted-2); font-style:italic; }
 
   /* ---------- confrontos diretos ---------- */
-  .h2h-section .today-row{ cursor:default; grid-template-columns:90px 1fr auto; }
+  /* Confronto Direto: mesmo padrão de "caixa" do games-list (borda, fundo,
+     rolagem própria), mas com linhas simples — só data, placar e resultado,
+     sem as estatísticas extras (escanteios/cartões/etc não fazem sentido aqui). */
+  .h2h-list{
+    max-height:300px;
+    overflow-y:auto;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--panel-2);
+    padding:4px 8px;
+  }
+  .h2h-list::-webkit-scrollbar{ width:6px; }
+  .h2h-list::-webkit-scrollbar-thumb{ background:var(--border); border-radius:6px; }
+  .h2h-row{
+    display:grid;
+    grid-template-columns:64px 1fr auto;
+    gap:8px;
+    align-items:center;
+    padding:8px 4px;
+    font-family:var(--mono);
+    font-size:11px;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .h2h-row:last-child{ border-bottom:none; }
+  .h2h-date{ color:var(--muted); font-size:10.5px; }
+  .h2h-teams{
+    font-family:var(--body);
+    font-size:12px;
+    color:var(--text);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .h2h-result{
+    font-size:10px;
+    padding:2px 8px;
+    border-radius:5px;
+    background:var(--panel);
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  @media (max-width:600px){
+    .h2h-row{ grid-template-columns:1fr; gap:2px; padding:9px 4px; }
+    .h2h-teams{ font-size:12.5px; white-space:normal; }
+    .h2h-result{ justify-self:start; }
+  }
 
   /* ---------- tabela de classificação ---------- */
   .standings-table-wrap{
@@ -788,6 +845,17 @@
   .avg-item:last-child{ border-bottom:none; }
   .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
   .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); line-height:1.5; }
+  .goal-minute-chip{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--green);
+    background:rgba(0,226,138,0.08);
+    border:1px solid rgba(0,226,138,0.3);
+    border-radius:4px;
+    padding:1px 6px;
+    margin:2px 4px 2px 0;
+  }
 
   /* Celular: nome do time + botões Geral/Casa/Fora ficavam espremidos numa
      linha só e pareciam "gigantes" pro espaço disponível. Empilha o nome
@@ -949,7 +1017,6 @@
         <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
         <div class="detail-sub" id="detailSub"></div>
       </div>
-      <span class="today-odds" id="detailOdds"></span>
     </div>
 
     <div class="status-line" id="detailStatus"></div>
@@ -968,6 +1035,7 @@
         <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl">Minutos dos gols</span><span class="val" id="homeGoalMinutes">—</span></div>
         <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
         <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
         <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
@@ -986,6 +1054,7 @@
         <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl">Minutos dos gols</span><span class="val" id="awayGoalMinutes">—</span></div>
         <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
         <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
         <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
@@ -1059,7 +1128,7 @@
       <div class="detail-title" style="font-size:15px;">Confrontos Diretos</div>
       <div class="status-line" id="h2hStatus"></div>
       <div class="error-box" id="h2hErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="h2hErrorText"></span></div>
-      <div class="today-list" id="h2hList" style="margin-top:10px;"></div>
+      <div class="h2h-list" id="h2hList" style="margin-top:10px;"></div>
     </div>
 
     <div class="standings-section" id="standingsSection" style="display:none; margin-top:24px;">
@@ -1909,11 +1978,28 @@
     return (fixtures || []).filter(f => f.isHome === (venue === 'home'));
   }
 
+  function collectGoalMinutes(fixtures){
+    const mins = [];
+    (fixtures || []).forEach(f => {
+      if(f.minutesScored) f.minutesScored.forEach(m => mins.push(m));
+    });
+    return mins.sort((a, b) => a - b);
+  }
+
+  function renderGoalMinutes(prefix, filtered){
+    const el2 = el(prefix + 'GoalMinutes');
+    const minutes = collectGoalMinutes(filtered);
+    el2.innerHTML = minutes.length
+      ? minutes.map(m => '<span class="goal-minute-chip">' + m + "'</span>").join('')
+      : '<span style="font-weight:400; color:var(--muted-2); font-size:11.5px;">Nenhum gol com minuto disponível nos jogos filtrados.</span>';
+  }
+
   function applyVenueStats(prefix){
     if(noDataFlag[prefix]){
       el(prefix + 'AvgTotal').textContent = '—';
       el(prefix + 'AvgHT').textContent = '—';
       el(prefix + 'AvgST').textContent = '—';
+      el(prefix + 'GoalMinutes').textContent = '—';
       el(prefix + 'StatCorners').textContent = '—';
       el(prefix + 'StatShots').textContent = '—';
       el(prefix + 'StatShotsOnGoal').textContent = '—';
@@ -1926,6 +2012,7 @@
     el(prefix + 'AvgTotal').textContent = avg.avgTotal;
     el(prefix + 'AvgHT').textContent = avg.avgHT;
     el(prefix + 'AvgST').textContent = avg.avgST;
+    renderGoalMinutes(prefix, filtered);
 
     const sums = computeStatSums(filtered);
     el(prefix + 'StatCornersLbl').textContent = 'Escanteios';
@@ -2005,7 +2092,6 @@
   async function showGameDetail(g){
     el('detailTitle').textContent = g.home.name + ' vs ' + g.away.name;
     el('detailSub').textContent = g.league + ' · ' + formatGameDate(g.date) + ' ' + g.time;
-    el('detailOdds').innerHTML = oddChipsHTML(g);
     el('homeGamesLabel').textContent = g.home.name;
     el('awayGamesLabel').textContent = g.away.name;
     el('gamesGrid').style.display = 'none';
@@ -2157,10 +2243,10 @@
         resultLabel = (winnerIsG_home ? g.home.name : g.away.name) + ' venceu';
       }
       return (
-        '<div class="today-row" style="cursor:default;">' +
-          '<span class="today-time-wrap"><span class="today-date">' + formatGameDate(fx.fixture.date) + '</span></span>' +
-          '<span class="today-teams">' + homeName + ' ' + gh + ' x ' + ga + ' ' + awayName + '</span>' +
-          '<span class="today-odds"><span class="odd-chip fav">' + resultLabel + '</span></span>' +
+        '<div class="h2h-row">' +
+          '<span class="h2h-date">' + formatGameDate(fx.fixture.date) + '</span>' +
+          '<span class="h2h-teams">' + homeName + ' ' + gh + ' x ' + ga + ' ' + awayName + '</span>' +
+          '<span class="h2h-result">' + resultLabel + '</span>' +
         '</div>'
       );
     }).join('');
@@ -2250,6 +2336,63 @@
     }
   }
 
+  // A API devolve o motivo do desfalque em inglês (às vezes frases livres tipo
+  // "Knee Injury" ou "Suspended (Red Card)"). Traduz palavra por palavra o que
+  // reconhece; o que não reconhece, mantém como veio (melhor que sumir a info).
+  const INJURY_TERMS_PT = [
+    [/suspended\s*\(red card\)/gi, 'Suspenso (cartão vermelho)'],
+    [/suspended\s*\(yellow cards?\)/gi, 'Suspenso (cartões amarelos)'],
+    [/suspended/gi, 'Suspenso'],
+    [/knee injury/gi, 'Lesão no joelho'],
+    [/thigh injury/gi, 'Lesão na coxa'],
+    [/muscle injury/gi, 'Lesão muscular'],
+    [/muscular injury/gi, 'Lesão muscular'],
+    [/hamstring injury/gi, 'Lesão no posterior da coxa'],
+    [/hamstring/gi, 'Posterior da coxa'],
+    [/achilles/gi, 'Tendão de Aquiles'],
+    [/ankle injury/gi, 'Lesão no tornozelo'],
+    [/ankle/gi, 'Tornozelo'],
+    [/shoulder injury/gi, 'Lesão no ombro'],
+    [/shoulder/gi, 'Ombro'],
+    [/back injury/gi, 'Lesão nas costas'],
+    [/calf injury/gi, 'Lesão na panturrilha'],
+    [/calf/gi, 'Panturrilha'],
+    [/groin injury/gi, 'Lesão na virilha'],
+    [/groin/gi, 'Virilha'],
+    [/foot injury/gi, 'Lesão no pé'],
+    [/hand injury/gi, 'Lesão na mão'],
+    [/wrist injury/gi, 'Lesão no pulso'],
+    [/elbow injury/gi, 'Lesão no cotovelo'],
+    [/head injury/gi, 'Lesão na cabeça'],
+    [/concussion/gi, 'Concussão'],
+    [/fracture/gi, 'Fratura'],
+    [/torn ligament/gi, 'Ruptura de ligamento'],
+    [/sprain/gi, 'Entorse'],
+    [/strain/gi, 'Distensão'],
+    [/surgery/gi, 'Cirurgia'],
+    [/illness/gi, 'Doença'],
+    [/sick(ness)?/gi, 'Doente'],
+    [/personal reasons?/gi, 'Motivos pessoais'],
+    [/coach'?s? decision/gi, 'Decisão técnica'],
+    [/not in squad/gi, 'Fora do elenco'],
+    [/doubtful/gi, 'Dúvida'],
+    [/questionable/gi, 'Dúvida'],
+    [/missing fixture/gi, 'Fora da partida'],
+    [/fitness/gi, 'Condicionamento físico'],
+    [/rest(ed)?/gi, 'Descanso'],
+    [/national team/gi, 'Seleção'],
+    [/unknown/gi, 'Desconhecido'],
+    [/injury/gi, 'Lesão'],
+    [/injured/gi, 'Lesionado']
+  ];
+
+  function translateInjuryReason(text){
+    if(!text) return 'Desfalque confirmado';
+    let out = text;
+    INJURY_TERMS_PT.forEach(([pattern, pt]) => { out = out.replace(pattern, pt); });
+    return out;
+  }
+
   function renderLineupColumn(prefix, teamId, lineupsResponse, injuriesResponse){
     const formationEl = el('lineup' + prefix + 'Formation');
     const xiEl = el('lineup' + prefix + 'XI');
@@ -2280,7 +2423,7 @@
     injuriesEl.innerHTML = teamInjuries.length
       ? teamInjuries.map(inj => {
           const p = inj.player || {};
-          const reason = p.reason || p.type || 'Desfalque confirmado';
+          const reason = translateInjuryReason(p.reason || p.type);
           return (
             '<div class="lineup-injury-item">' +
               '<span>' + (p.name || 'Jogador') + '</span>' +
@@ -2373,29 +2516,14 @@
       ['Grêmio','Juventude'], ['Bahia','Vitória'], ['Corinthians','São Paulo']
     ];
     return pairs.map((p, i) => {
-      const rand = mulberry32(hashString(p[0] + p[1]));
-      const homeOdd = 1.30 + rand() * 3.2;
-      const awayOdd = 1.30 + rand() * 5.5;
       return {
         time: String(15 + i).padStart(2,'0') + ':00',
         date: new Date().toISOString(),
         league: demoLeagues[i % demoLeagues.length] + ' (exemplo)',
-        home: { id: null, name: p[0], odd: Number(homeOdd.toFixed(2)) },
-        away: { id: null, name: p[1], odd: Number(awayOdd.toFixed(2)) }
+        home: { id: null, name: p[0] },
+        away: { id: null, name: p[1] }
       };
     });
-  }
-
-  function oddChipsHTML(g){
-    const hasOdds = g.home.odd != null && g.away.odd != null;
-    if(!hasOdds){
-      return '<span class="odd-chip empty">sem odds</span>';
-    }
-    const homeFav = g.home.odd <= g.away.odd;
-    return (
-      '<span class="odd-chip' + (homeFav ? ' fav' : '') + '">C ' + g.home.odd.toFixed(2) + '</span>' +
-      '<span class="odd-chip' + (!homeFav ? ' fav' : '') + '">F ' + g.away.odd.toFixed(2) + '</span>'
-    );
   }
 
   function renderTodayGames(games){
@@ -2404,14 +2532,42 @@
       list.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogo encontrado para hoje.</div>';
       return;
     }
-    list.innerHTML = games.map((g, i) =>
-      '<button type="button" class="today-row" data-idx="' + i + '">' +
-        '<span class="today-time-wrap"><span class="today-date">' + formatGameDate(g.date) + '</span><span class="today-time">' + g.time + '</span></span>' +
-        '<span class="today-teams"><span class="lg">' + g.league + '</span>' + g.home.name + ' vs ' + g.away.name + '</span>' +
-        '<span class="today-odds">' + oddChipsHTML(g) + '</span>' +
-        '<span class="today-cta">ver últimos 10 →</span>' +
-      '</button>'
-    ).join('');
+
+    // Agrupa por campeonato e, dentro de cada campeonato, ordena por horário —
+    // fica mais fácil de achar o jogo do que uma lista única fora de ordem.
+    const byLeague = new Map();
+    games.forEach(g => {
+      if(!byLeague.has(g.league)) byLeague.set(g.league, []);
+      byLeague.get(g.league).push(g);
+    });
+    byLeague.forEach(list => list.sort((a, b) => a.time.localeCompare(b.time)));
+    const leagueNames = Array.from(byLeague.keys()).sort((a, b) => {
+      const earliestA = byLeague.get(a)[0].time;
+      const earliestB = byLeague.get(b)[0].time;
+      return earliestA.localeCompare(earliestB);
+    });
+
+    // Mapa índice-original -> jogo, pra continuar usando data-idx nos cliques
+    // sem depender da ordem de exibição agrupada.
+    const idxOf = new Map();
+    games.forEach((g, i) => idxOf.set(g, i));
+
+    list.innerHTML = leagueNames.map(leagueName => {
+      const leagueGames = byLeague.get(leagueName);
+      const rows = leagueGames.map(g =>
+        '<button type="button" class="today-row" data-idx="' + idxOf.get(g) + '">' +
+          '<span class="today-time-wrap"><span class="today-date">' + formatGameDate(g.date) + '</span><span class="today-time">' + g.time + '</span></span>' +
+          '<span class="today-teams">' + g.home.name + ' vs ' + g.away.name + '</span>' +
+          '<span class="today-cta">ver últimos 10 →</span>' +
+        '</button>'
+      ).join('');
+      return (
+        '<div class="league-group">' +
+          '<div class="league-group-title">' + leagueName + '</div>' +
+          rows +
+        '</div>'
+      );
+    }).join('');
 
     list.querySelectorAll('.today-row').forEach(row=>{
       row.addEventListener('click', () => {
@@ -2419,29 +2575,6 @@
         openGameDetailInline(row, g);
       });
     });
-  }
-
-  async function fetchOddsMapForDate(dateStr, key){
-    const map = {};
-    try{
-      const data = await apiGet('/odds?date=' + dateStr, key);
-      (data.response || []).forEach(entry => {
-        const fixtureId = entry.fixture && entry.fixture.id;
-        if(!fixtureId) return;
-        const bookmaker = (entry.bookmakers || [])[0];
-        if(!bookmaker) return;
-        const bet = (bookmaker.bets || []).find(b => b.name === 'Match Winner' || b.id === 1);
-        if(!bet) return;
-        const homeVal = (bet.values || []).find(v => v.value === 'Home');
-        const awayVal = (bet.values || []).find(v => v.value === 'Away');
-        if(homeVal && awayVal){
-          map[fixtureId] = { home: Number(homeVal.odd), away: Number(awayVal.odd) };
-        }
-      });
-    }catch(err){
-      console.warn('Não foi possível buscar odds do dia:', describeError(err));
-    }
-    return map;
   }
 
   /* ---------------- times frios no 1º tempo ---------------- */
@@ -2820,16 +2953,12 @@
       const today = new Date().toISOString().slice(0,10);
       cacheStats.hits = 0;
       cacheStats.misses = 0;
-      const [data, oddsMap] = await Promise.all([
-        apiGet('/fixtures?date=' + today, state.apiKey),
-        fetchOddsMapForDate(today, state.apiKey)
-      ]);
+      const data = await apiGet('/fixtures?date=' + today, state.apiKey);
       const cacheNote = cacheStats.hits ? ' (dados de hoje reaproveitados do cache — sem gastar cota)' : '';
       const games = (data.response || [])
         .filter(fx => fx.fixture && fx.fixture.status && ['NS','1H','HT','2H','ET','P'].includes(fx.fixture.status.short))
         .filter(fx => matchAllowedLeague(fx.league && fx.league.name, fx.league && fx.league.country))
         .map(fx => {
-          const odds = oddsMap[fx.fixture.id];
           const allowed = matchAllowedLeague(fx.league.name, fx.league.country);
           return {
             time: new Date(fx.fixture.date).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}),
@@ -2838,8 +2967,8 @@
             leagueId: fx.league.id,
             leagueSeason: fx.league.season,
             fixtureId: fx.fixture.id,
-            home: { id: fx.teams.home.id, name: fx.teams.home.name, odd: odds ? odds.home : null },
-            away: { id: fx.teams.away.id, name: fx.teams.away.name, odd: odds ? odds.away : null }
+            home: { id: fx.teams.home.id, name: fx.teams.home.name },
+            away: { id: fx.teams.away.id, name: fx.teams.away.name }
           };
         })
         .sort((a,b) => a.time.localeCompare(b.time))
@@ -2847,9 +2976,7 @@
 
       if(!games.length) throw apiError('Nenhum jogo das ligas selecionadas encontrado para hoje (a API respondeu OK, mas sem jogos de Série A na data de hoje).');
       renderTodayGames(games);
-      const semOdds = games.filter(g => g.home.odd == null).length;
-      todayStatus.textContent = games.length + ' jogos encontrados para hoje nas ligas selecionadas.' +
-        (semOdds ? ' (' + semOdds + ' sem odds disponíveis)' : '') + cacheNote;
+      todayStatus.textContent = games.length + ' jogos encontrados para hoje nas ligas selecionadas.' + cacheNote;
       todayStatus.classList.add('ok');
       state.todayGames = games;
       scanTeamStreaks(games);
