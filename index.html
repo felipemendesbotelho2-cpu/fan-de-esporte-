@@ -8,986 +8,2406 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#080B10;
-    --panel:#10151D;
-    --panel-2:#161C26;
-    --border:#232B37;
-    --border-soft:#1B222C;
-    --text:#EAF1F5;
-    --muted:#8792A6;
-    --muted-2:#59637A;
-    --accent:#00E28A;
-    --teal:#00C2A8;
-    --green:#00E28A;
-    --yellow:#E2B93D;
-    --red:#FF4D5E;
-    --mono:'JetBrains Mono', ui-monospace, monospace;
-    --display:'Space Grotesk', sans-serif;
-    --body:'Inter', sans-serif;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(0,226,138,0.07), transparent 60%),
-      radial-gradient(1000px 500px at 100% 0%, rgba(0,194,168,0.06), transparent 55%),
-      var(--bg);
-    color:var(--text);
-    font-family:var(--body);
-    min-height:100vh;
-    line-height:1.5;
-  }
-  ::selection{ background:rgba(0,226,138,0.35); }
-  a{color:var(--accent);}
+  :root{
+    --bg:#080B10;
+    --panel:#10151D;
+    --panel-2:#161C26;
+    --border:#232B37;
+    --border-soft:#1B222C;
+    --text:#EAF1F5;
+    --muted:#8792A6;
+    --muted-2:#59637A;
+    --accent:#00E28A;
+    --teal:#00C2A8;
+    --green:#00E28A;
+    --yellow:#E2B93D;
+    --red:#FF4D5E;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --display:'Space Grotesk', sans-serif;
+    --body:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(0,226,138,0.07), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(0,194,168,0.06), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    min-height:100vh;
+    line-height:1.5;
+  }
+  ::selection{ background:rgba(0,226,138,0.35); }
+  a{color:var(--accent);}
 
-  .wrap{
-    max-width:1180px;
-    margin:0 auto;
-    padding:28px 20px 80px;
-  }
-  header.top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:20px;
-    border-bottom:1px solid var(--border-soft);
-    padding-bottom:20px;
-    margin-bottom:28px;
-    flex-wrap:wrap;
-  }
-  .brand{ display:flex; align-items:center; gap:14px; }
-  .brand .mark{
-    width:48px;height:48px;
-    border:1px solid var(--border);
-    border-radius:13px;
-    display:flex;align-items:center;justify-content:center;
-    background:
-      radial-gradient(120% 130% at 25% 15%, rgba(0,226,138,0.22), transparent 60%),
-      radial-gradient(120% 130% at 80% 90%, rgba(0,194,168,0.18), transparent 60%),
-      var(--panel);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
-    font-size:22px;
-    line-height:1;
-    flex-shrink:0;
-  }
-  .brand .welcome{
-    display:block;
-    font-family:var(--mono);
-    font-size:10.5px;
-    letter-spacing:1.8px;
-    text-transform:uppercase;
-    color:var(--muted-2);
-    margin-bottom:3px;
-  }
-  .brand h1{
-    font-family:var(--display);
-    font-size:23px;
-    font-weight:700;
-    margin:0;
-    letter-spacing:0.2px;
-    background:linear-gradient(90deg, var(--accent), var(--teal));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .brand p{
-    margin:2px 0 0;
-    font-size:12.5px;
-    color:var(--muted);
-    font-family:var(--mono);
-  }
-  .clock{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--muted-2);
-    text-align:right;
-    padding-top:4px;
-  }
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:28px 20px 80px;
+  }
+  header.top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:20px;
+    border-bottom:1px solid var(--border-soft);
+    padding-bottom:20px;
+    margin-bottom:28px;
+    flex-wrap:wrap;
+  }
+  .brand{ display:flex; align-items:center; gap:14px; }
+  .brand .mark{
+    width:48px;height:48px;
+    border:1px solid var(--border);
+    border-radius:13px;
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(120% 130% at 25% 15%, rgba(0,226,138,0.22), transparent 60%),
+      radial-gradient(120% 130% at 80% 90%, rgba(0,194,168,0.18), transparent 60%),
+      var(--panel);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+    font-size:22px;
+    line-height:1;
+    flex-shrink:0;
+  }
+  .brand .welcome{
+    display:block;
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:1.8px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    margin-bottom:3px;
+  }
+  .brand h1{
+    font-family:var(--display);
+    font-size:23px;
+    font-weight:700;
+    margin:0;
+    letter-spacing:0.2px;
+    background:linear-gradient(90deg, var(--accent), var(--teal));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .brand p{
+    margin:2px 0 0;
+    font-size:12.5px;
+    color:var(--muted);
+    font-family:var(--mono);
+  }
+  .clock{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted-2);
+    text-align:right;
+    padding-top:4px;
+  }
 
-  .sponsor-box{
-    margin-top:10px;
-    padding:10px 12px;
-    border:1px dashed var(--border);
-    border-radius:10px;
-    background:var(--panel);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    max-width:260px;
-    margin-left:auto;
-  }
-  .sponsor-box .sponsor-text{
-    font-family:var(--mono);
-    font-size:11px;
-    line-height:1.4;
-    color:var(--muted);
-    white-space:nowrap;
-  }
-  .sponsor-box .sponsor-link{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    padding:7px 12px;
-    font-size:11.5px;
-    white-space:nowrap;
-    text-decoration:none;
-  }
+  .sponsor-box{
+    margin-top:10px;
+    padding:10px 12px;
+    border:1px dashed var(--border);
+    border-radius:10px;
+    background:var(--panel);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    max-width:260px;
+    margin-left:auto;
+  }
+  .sponsor-box .sponsor-text{
+    font-family:var(--mono);
+    font-size:11px;
+    line-height:1.4;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  .sponsor-box .sponsor-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:7px 12px;
+    font-size:11.5px;
+    white-space:nowrap;
+    text-decoration:none;
+  }
 
-  /* ---------- widget flutuante de sugestões ---------- */
-  .feedback-widget{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    z-index:999;
-    font-family:var(--body);
-  }
-  .feedback-launcher{
-    width:54px;height:54px;
-    border-radius:50%;
-    background:var(--accent);
-    color:#04170D;
-    border:none;
-    font-size:23px;
-    cursor:pointer;
-    box-shadow:0 8px 24px rgba(0,0,0,0.4);
-    display:flex;align-items:center;justify-content:center;
-    transition:transform .15s ease, filter .15s ease;
-  }
-  .feedback-launcher:hover{ filter:brightness(1.08); transform:translateY(-2px); }
-  .feedback-widget.open .feedback-launcher{ display:none; }
+  /* ---------- widget flutuante de sugestões ---------- */
+  .feedback-widget{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:999;
+    font-family:var(--body);
+  }
+  .feedback-launcher{
+    width:54px;height:54px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#04170D;
+    border:none;
+    font-size:23px;
+    cursor:pointer;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, filter .15s ease;
+  }
+  .feedback-launcher:hover{ filter:brightness(1.08); transform:translateY(-2px); }
+  .feedback-widget.open .feedback-launcher{ display:none; }
 
-  .feedback-panel{
-    display:none;
-    position:absolute;
-    right:0;
-    bottom:66px;
-    width:305px;
-    max-width:calc(100vw - 32px);
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:16px;
-    box-shadow:0 16px 44px rgba(0,0,0,0.5);
-  }
-  .feedback-widget.open .feedback-panel{ display:block; }
+  .feedback-panel{
+    display:none;
+    position:absolute;
+    right:0;
+    bottom:66px;
+    width:305px;
+    max-width:calc(100vw - 32px);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 16px 44px rgba(0,0,0,0.5);
+  }
+  .feedback-widget.open .feedback-panel{ display:block; }
 
-  .feedback-head{ display:flex; justify-space-between; gap:10px; align-items:flex-start; margin-bottom:10px; }
-  .feedback-title{ font-family:var(--display); font-size:14px; font-weight:600; color:var(--text); }
-  .feedback-sub{ font-size:12px; color:var(--muted); margin-top:5px; line-height:1.45; }
-  .feedback-close{
-    background:transparent; border:none; color:var(--muted-2);
-    font-size:19px; line-height:1; cursor:pointer; padding:0 2px; flex-shrink:0;
-  }
-  .feedback-close:hover{ color:var(--text); }
+  .feedback-head{ display:flex; justify-space-between; gap:10px; align-items:flex-start; margin-bottom:10px; }
+  .feedback-title{ font-family:var(--display); font-size:14px; font-weight:600; color:var(--text); }
+  .feedback-sub{ font-size:12px; color:var(--muted); margin-top:5px; line-height:1.45; }
+  .feedback-close{
+    background:transparent; border:none; color:var(--muted-2);
+    font-size:19px; line-height:1; cursor:pointer; padding:0 2px; flex-shrink:0;
+  }
+  .feedback-close:hover{ color:var(--text); }
 
-  .feedback-textarea{
-    width:100%;
-    background:var(--panel-2);
-    border:1px solid var(--border);
-    color:var(--text);
-    font-family:var(--body);
-    font-size:13px;
-    padding:10px;
-    border-radius:7px;
-    resize:vertical;
-    outline:none;
-    min-height:64px;
-  }
-  .feedback-textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,226,138,0.15); }
-  .feedback-textarea::placeholder{ color:var(--muted-2); }
-  .feedback-send{ width:100%; margin-top:8px; padding:9px; font-size:12.5px; }
+  .feedback-textarea{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:13px;
+    padding:10px;
+    border-radius:7px;
+    resize:vertical;
+    outline:none;
+    min-height:64px;
+  }
+  .feedback-textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,226,138,0.15); }
+  .feedback-textarea::placeholder{ color:var(--muted-2); }
+  .feedback-send{ width:100%; margin-top:8px; padding:9px; font-size:12.5px; }
 
-  .feedback-toggle{
-    width:100%;
-    margin-top:14px;
-    padding-top:11px;
-    border-top:1px solid var(--border-soft);
-    background:transparent;
-    border-left:none; border-right:none; border-bottom:none;
-    color:var(--muted);
-    font-family:var(--mono);
-    font-size:11.5px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    cursor:pointer;
-  }
-  .feedback-toggle:hover{ color:var(--text); }
-  .feedback-arrow{ display:inline-block; transition:transform .15s ease; }
-  .feedback-arrow.open{ transform:rotate(180deg); }
+  .feedback-toggle{
+    width:100%;
+    margin-top:14px;
+    padding-top:11px;
+    border-top:1px solid var(--border-soft);
+    background:transparent;
+    border-left:none; border-right:none; border-bottom:none;
+    color:var(--muted);
+    font-family:var(--mono);
+    font-size:11.5px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+  }
+  .feedback-toggle:hover{ color:var(--text); }
+  .feedback-arrow{ display:inline-block; transition:transform .15s ease; }
+  .feedback-arrow.open{ transform:rotate(180deg); }
 
-  .feedback-list{
-    margin-top:10px;
-    max-height:190px;
-    overflow-y:auto;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-  }
-  .feedback-item{
-    background:var(--panel-2);
-    border:1px solid var(--border-soft);
-    border-radius:7px;
-    padding:8px 10px;
-    font-size:12px;
-    color:var(--text);
-    line-height:1.45;
-    word-break:break-word;
-  }
-  .feedback-item time{
-    display:block;
-    font-family:var(--mono);
-    font-size:9.5px;
-    color:var(--muted-2);
-    margin-top:4px;
-  }
-  .feedback-empty{ font-size:12px; color:var(--muted-2); font-style:italic; padding:6px 2px; }
+  .feedback-list{
+    margin-top:10px;
+    max-height:190px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .feedback-item{
+    background:var(--panel-2);
+    border:1px solid var(--border-soft);
+    border-radius:7px;
+    padding:8px 10px;
+    font-size:12px;
+    color:var(--text);
+    line-height:1.45;
+    word-break:break-word;
+  }
+  .feedback-item time{
+    display:block;
+    font-family:var(--mono);
+    font-size:9.5px;
+    color:var(--muted-2);
+    margin-top:4px;
+  }
+  .feedback-empty{ font-size:12px; color:var(--muted-2); font-style:italic; padding:6px 2px; }
 
-  @media (max-width:480px){
-    .feedback-widget{ right:14px; bottom:14px; }
-    .feedback-panel{ width:calc(100vw - 28px); }
-  }
+  @media (max-width:480px){
+    .feedback-widget{ right:14px; bottom:14px; }
+    .feedback-panel{ width:calc(100vw - 28px); }
+  }
 
-  .panel{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:20px;
-  }
-  .panel + .panel{ margin-top:18px; }
-  .panel-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:16px;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .panel-head .eyebrow{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    color:var(--muted-2);
-  }
-  .panel-head h2{
-    font-family:var(--display);
-    font-size:15px;
-    margin:2px 0 0;
-    font-weight:600;
-  }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:20px;
+  }
+  .panel + .panel{ margin-top:18px; }
+  .panel-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .panel-head .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+  }
+  .panel-head h2{
+    font-family:var(--display);
+    font-size:15px;
+    margin:2px 0 0;
+    font-weight:600;
+  }
 
-  input[type=text], input[type=password]{
-    width:100%;
-    background:var(--panel-2);
-    border:1px solid var(--border);
-    color:var(--text);
-    font-family:var(--body);
-    font-size:14px;
-    padding:11px 12px;
-    border-radius:7px;
-    outline:none;
-    transition:border-color .15s ease, box-shadow .15s ease;
-  }
-  input:focus{
-    border-color:var(--accent);
-    box-shadow:0 0 0 3px rgba(0,226,138,0.15);
-  }
-  input::placeholder{ color:var(--muted-2); }
+  input[type=text], input[type=password]{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:14px;
+    padding:11px 12px;
+    border-radius:7px;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(0,226,138,0.15);
+  }
+  input::placeholder{ color:var(--muted-2); }
 
-  button{
-    font-family:var(--body);
-    font-weight:600;
-    font-size:13.5px;
-    border-radius:7px;
-    border:1px solid transparent;
-    padding:11px 18px;
-    cursor:pointer;
-    transition:transform .08s ease, filter .15s ease, background .15s ease;
-  }
-  button:active{ transform:translateY(1px); }
-  .btn-primary{ background:var(--accent); color:#04170D; }
-  .btn-primary:hover{ filter:brightness(1.08); }
-  .btn-primary:disabled{ opacity:.55; cursor:progress; filter:none; }
-  .btn-ghost{ background:transparent; border-color:var(--border); color:var(--muted); }
-  .btn-ghost:hover{ border-color:var(--muted-2); color:var(--text); }
+  button{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:13.5px;
+    border-radius:7px;
+    border:1px solid transparent;
+    padding:11px 18px;
+    cursor:pointer;
+    transition:transform .08s ease, filter .15s ease, background .15s ease;
+  }
+  button:active{ transform:translateY(1px); }
+  .btn-primary{ background:var(--accent); color:#04170D; }
+  .btn-primary:hover{ filter:brightness(1.08); }
+  .btn-primary:disabled{ opacity:.55; cursor:progress; filter:none; }
+  .btn-ghost{ background:transparent; border-color:var(--border); color:var(--muted); }
+  .btn-ghost:hover{ border-color:var(--muted-2); color:var(--text); }
 
-  .status-line{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--muted);
-    margin-top:12px;
-    min-height:16px;
-  }
-  .status-line.err{ color:var(--red); }
-  .status-line.ok{ color:var(--teal); }
+  .status-line{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    margin-top:12px;
+    min-height:16px;
+  }
+  .status-line.err{ color:var(--red); }
+  .status-line.ok{ color:var(--teal); }
 
-  details.settings{
-    margin-top:16px;
-    border-top:1px solid var(--border-soft);
-    padding-top:14px;
-  }
-  details.settings summary{
-    cursor:pointer;
-    font-family:var(--mono);
-    font-size:11.5px;
-    color:var(--muted);
-    letter-spacing:0.5px;
-    list-style:none;
-    display:flex;
-    align-items:center;
-    gap:6px;
-  }
-  details.settings summary::-webkit-details-marker{ display:none; }
-  details.settings[open] summary:before{ transform:rotate(90deg); }
-  details.settings summary:before{
-    content:"▸";
-    color:var(--muted-2);
-    transition:transform .15s ease;
-  }
-  .settings-body{
-    margin-top:14px;
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:10px;
-    align-items:end;
-  }
-  .settings-body label{
-    display:block; font-family:var(--mono); font-size:10.5px;
-    letter-spacing:1.2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;
-  }
-  .settings-note{
-    font-size:12px;
-    color:var(--muted-2);
-    margin-top:8px;
-    line-height:1.6;
-  }
-  .settings-note code{
-    background:var(--panel-2);
-    border:1px solid var(--border);
-    border-radius:4px;
-    padding:1px 5px;
-    font-family:var(--mono);
-    color:var(--muted);
-  }
+  details.settings{
+    margin-top:16px;
+    border-top:1px solid var(--border-soft);
+    padding-top:14px;
+  }
+  details.settings summary{
+    cursor:pointer;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--muted);
+    letter-spacing:0.5px;
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  details.settings summary::-webkit-details-marker{ display:none; }
+  details.settings[open] summary:before{ transform:rotate(90deg); }
+  details.settings summary:before{
+    content:"▸";
+    color:var(--muted-2);
+    transition:transform .15s ease;
+  }
+  .settings-body{
+    margin-top:14px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px;
+    align-items:end;
+  }
+  .settings-body label{
+    display:block; font-family:var(--mono); font-size:10.5px;
+    letter-spacing:1.2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;
+  }
+  .settings-note{
+    font-size:12px;
+    color:var(--muted-2);
+    margin-top:8px;
+    line-height:1.6;
+  }
+  .settings-note code{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:1px 5px;
+    font-family:var(--mono);
+    color:var(--muted);
+  }
 
-  /* ---------- jogos do dia ---------- */
-  .today-list{
-    display:grid;
-    gap:8px;
-    margin-top:14px;
-  }
-  .today-row{
-    display:grid;
-    grid-template-columns:82px 1fr auto auto;
-    align-items:center;
-    gap:14px;
-    padding:12px 14px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    background:var(--panel-2);
-    cursor:pointer;
-    transition:border-color .15s ease, background .15s ease;
-    text-align:left;
-  }
-  .today-row:hover, .today-row.selected{ border-color:var(--accent); background:rgba(0,226,138,0.06); }
-  .today-time-wrap{ display:flex; flex-direction:column; gap:2px; }
-  .today-date{ font-family:var(--mono); font-size:9.5px; color:var(--muted-2); }
-  .today-time{ font-family:var(--mono); font-size:13px; color:var(--accent); }
-  .today-teams{ font-size:13.5px; color:var(--text); }
-  .today-teams .lg{
-    display:block;
-    font-family:var(--mono);
-    font-size:10px;
-    color:var(--muted-2);
-    text-transform:uppercase;
-    letter-spacing:0.5px;
-    margin-bottom:2px;
-  }
-  .today-odds{ display:flex; gap:6px; font-family:var(--mono); font-size:11.5px; white-space:nowrap; }
-  .today-odds .odd-chip{
-    padding:3px 8px;
-    border-radius:5px;
-    border:1px solid var(--border);
-    color:var(--muted);
-  }
-  .today-odds .odd-chip.fav{
-    border-color:rgba(0,226,138,0.5);
-    color:var(--accent);
-    background:rgba(0,226,138,0.08);
-    font-weight:700;
-  }
-  .today-odds .odd-chip.empty{ color:var(--muted-2); font-style:italic; border-style:dashed; }
-  .today-cta{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+  /* ---------- jogos do dia ---------- */
+  .today-list{
+    display:grid;
+    gap:8px;
+    margin-top:14px;
+  }
+  .today-row{
+    display:grid;
+    grid-template-columns:82px 1fr auto auto;
+    align-items:center;
+    gap:14px;
+    padding:12px 14px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--panel-2);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+    text-align:left;
+  }
+  .today-row:hover, .today-row.selected{ border-color:var(--accent); background:rgba(0,226,138,0.06); }
+  .today-time-wrap{ display:flex; flex-direction:column; gap:2px; }
+  .today-date{ font-family:var(--mono); font-size:9.5px; color:var(--muted-2); }
+  .today-time{ font-family:var(--mono); font-size:13px; color:var(--accent); }
+  .today-teams{ font-size:13.5px; color:var(--text); }
+  .today-teams .lg{
+    display:block;
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--muted-2);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    margin-bottom:2px;
+  }
+  .today-odds{ display:flex; gap:6px; font-family:var(--mono); font-size:11.5px; white-space:nowrap; }
+  .today-odds .odd-chip{
+    padding:3px 8px;
+    border-radius:5px;
+    border:1px solid var(--border);
+    color:var(--muted);
+  }
+  .today-odds .odd-chip.fav{
+    border-color:rgba(0,226,138,0.5);
+    color:var(--accent);
+    background:rgba(0,226,138,0.08);
+    font-weight:700;
+  }
+  .today-odds .odd-chip.empty{ color:var(--muted-2); font-style:italic; border-style:dashed; }
+  .today-cta{ font-family:var(--mono); font-size:11px; color:var(--muted); }
 
-  .odd-chip.live-chip{
-    border-color:rgba(255,77,94,0.5);
-    color:var(--red);
-    background:rgba(255,77,94,0.08);
-    font-weight:700;
-    display:inline-flex;
-    align-items:center;
-    gap:5px;
-  }
-  .live-dot{
-    width:6px; height:6px;
-    border-radius:50%;
-    background:var(--red);
-    display:inline-block;
-    animation:live-pulse 1.2s ease-in-out infinite;
-  }
-  @keyframes live-pulse{
-    0%, 100%{ opacity:1; }
-    50%{ opacity:0.25; }
-  }
+  .odd-chip.live-chip{
+    border-color:rgba(255,77,94,0.5);
+    color:var(--red);
+    background:rgba(255,77,94,0.08);
+    font-weight:700;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+  }
+  .live-dot{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--red);
+    display:inline-block;
+    animation:live-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes live-pulse{
+    0%, 100%{ opacity:1; }
+    50%{ opacity:0.25; }
+  }
 
-  /* ---------- detalhe do confronto ---------- */
-  .detail-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:12px;
-  }
-  .detail-title{ font-family:var(--display); font-size:17px; font-weight:600; }
-  .detail-sub{ font-family:var(--mono); font-size:11px; color:var(--muted-2); margin-top:3px; text-transform:uppercase; letter-spacing:0.5px; }
+  /* ---------- detalhe do confronto ---------- */
+  .detail-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .detail-title{ font-family:var(--display); font-size:17px; font-weight:600; }
+  .detail-sub{ font-family:var(--mono); font-size:11px; color:var(--muted-2); margin-top:3px; text-transform:uppercase; letter-spacing:0.5px; }
 
-  .games-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-    margin-top:18px;
-  }
-  @media (max-width:760px){ .games-grid{ grid-template-columns:1fr; } }
-  .games-col{
-    border:1px solid var(--border);
-    border-radius:9px;
-    background:var(--panel-2);
-    overflow:hidden;
-  }
-  .games-col.home{ border-top:2px solid var(--accent); }
-  .games-col.away{ border-top:2px solid var(--teal); }
-  .games-col-title{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    padding:12px 14px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .games-col.home .games-col-title{ color:var(--accent); }
-  .games-col.away .games-col-title{ color:var(--teal); }
-  .games-col-controls{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .games-count{
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:0;
-    text-transform:none;
-    color:var(--muted-2);
-  }
-  .games-col.home .venue-btn.active{
-    color:var(--accent);
-    border-color:var(--accent);
-    background:rgba(0,226,138,0.1);
-  }
-  .games-col.away .venue-btn.active{
-    color:var(--teal);
-    border-color:var(--teal);
-    background:rgba(0,194,168,0.1);
-  }
-  .games-list{
-    max-height:360px;
-    overflow-y:auto;
-    padding:6px 8px;
-  }
+  .games-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:18px;
+  }
+  @media (max-width:760px){ .games-grid{ grid-template-columns:1fr; } }
+  .games-col{
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--panel-2);
+    overflow:hidden;
+  }
+  .games-col.home{ border-top:2px solid var(--accent); }
+  .games-col.away{ border-top:2px solid var(--teal); }
+  .games-col-title{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:12px 14px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .games-col.home .games-col-title{ color:var(--accent); }
+  .games-col.away .games-col-title{ color:var(--teal); }
+  .games-col-controls{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .games-count{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0;
+    text-transform:none;
+    color:var(--muted-2);
+  }
+  .games-col.home .venue-btn.active{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:rgba(0,226,138,0.1);
+  }
+  .games-col.away .venue-btn.active{
+    color:var(--teal);
+    border-color:var(--teal);
+    background:rgba(0,194,168,0.1);
+  }
+  .games-list{
+    max-height:360px;
+    overflow-y:auto;
+    padding:6px 8px;
+  }
+  .game-row{
+    display:grid;
+    grid-template-columns:18px 56px 1fr 40px 40px 20px;
+    gap:6px;
+    align-items:center;
+    padding:8px 6px;
+    font-family:var(--mono);
+    font-size:11px;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .game-row:last-child{ border-bottom:none; }
+  .g-idx{ color:var(--muted-2); }
+  .g-date{ color:var(--muted); }
+  .g-opp{
+    color:var(--text);
+    font-family:var(--body);
+    font-size:11.5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .g-score{ color:var(--muted); text-align:center; }
+  .g-score small{ color:var(--muted-2); font-size:8.5px; }
+  .g-tag{ text-align:center; font-weight:700; border-radius:4px; padding:2px 0; font-size:10.5px; }
+  .g-tag.win{ background:rgba(0,194,168,0.15); color:var(--green); }
+  .g-tag.loss{ background:rgba(201,59,68,0.15); color:var(--red); }
+  .g-tag.draw{ background:rgba(169,121,26,0.15); color:var(--yellow); }
+  .g-opp-wrap{ display:flex; flex-direction:column; gap:3px; overflow:hidden; min-width:0; }
+  .g-opp-meta{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .g-meta-divider{ color:var(--border); font-size:9px; }
+  .g-meta-item{
+    font-family:var(--mono);
+    font-size:9px;
+    letter-spacing:0.2px;
+    white-space:nowrap;
+    cursor:default;
+  }
+  .g-meta-item.yes{ color:var(--green); }
+  .g-meta-item.no{ color:var(--red); }
+  .g-meta-item.unk{ color:var(--muted-2); font-style:italic; }
+  .g-corner-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:2px; }
+  .g-corner-item{
+    font-family:var(--mono);
+    font-size:9px;
+    letter-spacing:0.2px;
+    white-space:nowrap;
+    cursor:default;
+    padding:1px 5px;
+    border-radius:3px;
+    border:1px solid transparent;
+  }
+  .g-corner-item.high{ color:var(--green); border-color:rgba(0,226,138,0.35); background:rgba(0,226,138,0.06); }
+  .g-corner-item.low{ color:var(--red); border-color:rgba(255,77,94,0.35); background:rgba(255,77,94,0.06); }
+  .g-corner-item.unk{ color:var(--muted-2); font-style:italic; }
+  .games-list::-webkit-scrollbar{ width:6px; }
+  .games-list::-webkit-scrollbar-thumb{ background:var(--border); border-radius:6px; }
+  .games-legend{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--muted-2);
+    margin-top:8px;
+  }
+  .games-legend b{ color:var(--muted); }
 
-  .lineup-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-  }
-  @media (max-width:760px){ .lineup-grid{ grid-template-columns:1fr; } }
-  .lineup-col{
-    border:1px solid var(--border);
-    border-radius:9px;
-    background:var(--panel-2);
-    padding:14px;
-  }
-  .lineup-col.home{ border-top:2px solid var(--accent); }
-  .lineup-col.away{ border-top:2px solid var(--teal); }
-  .lineup-col-title{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    margin-bottom:6px;
-  }
-  .lineup-col.home .lineup-col-title{ color:var(--accent); }
-  .lineup-col.away .lineup-col-title{ color:var(--teal); }
-  .lineup-formation{
-    font-family:var(--mono);
-    font-size:11.5px;
-    color:var(--muted);
-    margin-bottom:8px;
-  }
-  .lineup-list{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-    margin-bottom:14px;
-  }
-  .lineup-player{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:12.5px;
-    color:var(--text);
-    padding:3px 0;
-    border-bottom:1px solid var(--border-soft);
-  }
-  .lineup-player:last-child{ border-bottom:none; }
-  .lineup-player .num{
-    font-family:var(--mono);
-    font-size:11px;
-    color:var(--muted-2);
-    width:22px;
-    flex-shrink:0;
-  }
-  .lineup-player .pos{
-    font-family:var(--mono);
-    font-size:10px;
-    color:var(--muted-2);
-    text-transform:uppercase;
-  }
-  .lineup-subtitle{
-    font-family:var(--mono);
-    font-size:10.5px;
-    letter-spacing:0.6px;
-    text-transform:uppercase;
-    color:var(--muted-2);
-    margin-bottom:6px;
-    padding-top:4px;
-    border-top:1px solid var(--border-soft);
-  }
-  .lineup-injuries{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-  }
-  .lineup-injury-item{
-    font-size:12.5px;
-    color:var(--red);
-    display:flex;
-    justify-content:space-between;
-    gap:8px;
-  }
-  .lineup-injury-item .reason{
-    color:var(--muted);
-    font-size:11.5px;
-    text-align:right;
-  }
-  .game-row{
-    display:grid;
-    grid-template-columns:18px 56px 1fr 40px 40px 20px;
-    gap:6px;
-    align-items:center;
-    padding:8px 6px;
-    font-family:var(--mono);
-    font-size:11px;
-    border-bottom:1px solid var(--border-soft);
-  }
-  .game-row:last-child{ border-bottom:none; }
-  .g-idx{ color:var(--muted-2); }
-  .g-date{ color:var(--muted); }
-  .g-opp{
-    color:var(--text);
-    font-family:var(--body);
-    font-size:11.5px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .g-score{ color:var(--muted); text-align:center; }
-  .g-score small{ color:var(--muted-2); font-size:8.5px; }
-  .g-tag{ text-align:center; font-weight:700; border-radius:4px; padding:2px 0; font-size:10.5px; }
-  .g-tag.win{ background:rgba(0,194,168,0.15); color:var(--green); }
-  .g-tag.loss{ background:rgba(201,59,68,0.15); color:var(--red); }
-  .g-tag.draw{ background:rgba(169,121,26,0.15); color:var(--yellow); }
-  .g-opp-wrap{ display:flex; flex-direction:column; gap:3px; overflow:hidden; min-width:0; }
-  .g-opp-meta{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-  .g-meta-divider{ color:var(--border); font-size:9px; }
-  .g-meta-item{
-    font-family:var(--mono);
-    font-size:9px;
-    letter-spacing:0.2px;
-    white-space:nowrap;
-    cursor:default;
-  }
-  .g-meta-item.yes{ color:var(--green); }
-  .g-meta-item.no{ color:var(--red); }
-  .g-meta-item.unk{ color:var(--muted-2); font-style:italic; }
-  .g-corner-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:2px; }
-  .g-corner-item{
-    font-family:var(--mono);
-    font-size:9px;
-    letter-spacing:0.2px;
-    white-space:nowrap;
-    cursor:default;
-    padding:1px 5px;
-    border-radius:3px;
-    border:1px solid transparent;
-  }
-  .g-corner-item.high{ color:var(--green); border-color:rgba(0,226,138,0.35); background:rgba(0,226,138,0.06); }
-  .g-corner-item.low{ color:var(--red); border-color:rgba(255,77,94,0.35); background:rgba(255,77,94,0.06); }
-  .g-corner-item.unk{ color:var(--muted-2); font-style:italic; }
-  .games-list::-webkit-scrollbar{ width:6px; }
-  .games-list::-webkit-scrollbar-thumb{ background:var(--border); border-radius:6px; }
-  .games-legend{
-    display:flex;
-    gap:14px;
-    flex-wrap:wrap;
-    font-family:var(--mono);
-    font-size:10.5px;
-    color:var(--muted-2);
-    margin-top:8px;
-  }
-  .games-legend b{ color:var(--muted); }
+  .empty-note{ font-size:12.5px; color:var(--muted-2); font-style:italic; }
 
-  .empty-note{ font-size:12.5px; color:var(--muted-2); font-style:italic; }
+  /* ---------- confrontos diretos ---------- */
+  .h2h-section .today-row{ cursor:default; grid-template-columns:90px 1fr auto; }
 
-  /* ---------- confrontos diretos ---------- */
-  .h2h-section .today-row{ cursor:default; grid-template-columns:90px 1fr auto; }
+  /* ---------- tabela de classificação ---------- */
+  .standings-table-wrap{
+    margin-top:10px;
+    overflow-x:auto;
+    border:1px solid var(--border);
+    border-radius:9px;
+  }
+  .standings-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12.5px;
+    min-width:480px;
+  }
+  .standings-table th, .standings-table td{
+    padding:8px 10px;
+    text-align:center;
+    border-bottom:1px solid var(--border-soft);
+    white-space:nowrap;
+  }
+  .standings-table th{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    background:var(--panel-2);
+  }
+  .standings-table td.standings-team{ text-align:left; color:var(--text); }
+  .standings-table tr:last-child td{ border-bottom:none; }
+  .standings-table tr.standings-highlight{ background:rgba(0,226,138,0.09); }
+  .standings-table tr.standings-highlight td.standings-team{ color:var(--accent); font-weight:600; }
+  .standings-table td.standings-rank{ font-family:var(--mono); color:var(--muted); }
 
-  /* ---------- tabela de classificação ---------- */
-  .standings-table-wrap{
-    margin-top:10px;
-    overflow-x:auto;
-    border:1px solid var(--border);
-    border-radius:9px;
-  }
-  .standings-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:12.5px;
-    min-width:480px;
-  }
-  .standings-table th, .standings-table td{
-    padding:8px 10px;
-    text-align:center;
-    border-bottom:1px solid var(--border-soft);
-    white-space:nowrap;
-  }
-  .standings-table th{
-    font-family:var(--mono);
-    font-size:10.5px;
-    letter-spacing:0.5px;
-    text-transform:uppercase;
-    color:var(--muted-2);
-    background:var(--panel-2);
-  }
-  .standings-table td.standings-team{ text-align:left; color:var(--text); }
-  .standings-table tr:last-child td{ border-bottom:none; }
-  .standings-table tr.standings-highlight{ background:rgba(0,226,138,0.09); }
-  .standings-table tr.standings-highlight td.standings-team{ color:var(--accent); font-weight:600; }
-  .standings-table td.standings-rank{ font-family:var(--mono); color:var(--muted); }
+  /* ---------- médias de gols ---------- */
+  .avg-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){ .avg-grid{ grid-template-columns:1fr; } }
+  .avg-col{
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:14px 16px;
+    background:var(--panel-2);
+  }
+  .avg-col.home{ border-top:2px solid var(--accent); }
+  .avg-col.away{ border-top:2px solid var(--teal); }
+  .avg-col-title{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:10px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+  }
+  .avg-col.home .avg-col-title{ color:var(--accent); }
+  .avg-col.away .avg-col-title{ color:var(--teal); }
+  .venue-toggle{ display:flex; gap:4px; }
+  .venue-btn{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    padding:5px 11px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--muted);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .venue-btn:hover{ color:var(--text); }
+  .avg-col.home .venue-btn.active{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:rgba(0,226,138,0.1);
+  }
+  .avg-col.away .venue-btn.active{
+    color:var(--teal);
+    border-color:var(--teal);
+    background:rgba(0,194,168,0.1);
+  }
+  .avg-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:7px 0;
+    border-bottom:1px solid var(--border-soft);
+    font-size:12.5px;
+  }
+  .avg-item:last-child{ border-bottom:none; }
+  .avg-item span.lbl{ color:var(--muted); }
+  .avg-item span.val{ font-family:var(--mono); font-weight:700; color:var(--text); }
 
-  /* ---------- médias de gols ---------- */
-  .avg-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-  }
-  @media (max-width:760px){ .avg-grid{ grid-template-columns:1fr; } }
-  .avg-col{
-    border:1px solid var(--border);
-    border-radius:9px;
-    padding:14px 16px;
-    background:var(--panel-2);
-  }
-  .avg-col.home{ border-top:2px solid var(--accent); }
-  .avg-col.away{ border-top:2px solid var(--teal); }
-  .avg-col-title{
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    gap:10px;
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    margin-bottom:12px;
-    flex-wrap:wrap;
-  }
-  .avg-col.home .avg-col-title{ color:var(--accent); }
-  .avg-col.away .avg-col-title{ color:var(--teal); }
-  .venue-toggle{ display:flex; gap:4px; }
-  .venue-btn{
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:0.4px;
-    text-transform:uppercase;
-    padding:5px 11px;
-    border-radius:6px;
-    border:1px solid var(--border);
-    background:transparent;
-    color:var(--muted);
-    cursor:pointer;
-    transition:background .15s ease, color .15s ease, border-color .15s ease;
-  }
-  .venue-btn:hover{ color:var(--text); }
-  .avg-col.home .venue-btn.active{
-    color:var(--accent);
-    border-color:var(--accent);
-    background:rgba(0,226,138,0.1);
-  }
-  .avg-col.away .venue-btn.active{
-    color:var(--teal);
-    border-color:var(--teal);
-    background:rgba(0,194,168,0.1);
-  }
-  .avg-item{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:3px;
-    padding:9px 0;
-    border-bottom:1px solid var(--border-soft);
-    font-size:12.5px;
-  }
-  .avg-item:last-child{ border-bottom:none; }
-  .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
-  .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); line-height:1.5; }
+  .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
 
-  .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  /* ---------- abas ---------- */
+  .tabs{
+    display:flex;
+    gap:4px;
+    margin-bottom:20px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:4px;
+    background:var(--panel);
+    width:fit-content;
+  }
+  .tab-btn{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.5px;
+    color:var(--muted);
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:6px;
+    padding:9px 18px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover{ color:var(--text); }
+  .tab-btn.active{
+    background:var(--panel-2);
+    color:var(--accent);
+    border-color:var(--border);
+  }
+  .view{ display:none; }
+  .view.active{ display:block; }
 
-  /* ---------- abas ---------- */
-  .tabs{
-    display:flex;
-    flex-wrap:wrap;
-    gap:4px;
-    margin-bottom:20px;
-    border:1px solid var(--border);
-    border-radius:9px;
-    padding:4px;
-    background:var(--panel);
-    width:fit-content;
-    max-width:100%;
-  }
-  .tab-btn{
-    font-family:var(--mono);
-    font-size:12.5px;
-    letter-spacing:0.5px;
-    color:var(--muted);
-    background:transparent;
-    border:1px solid transparent;
-    border-radius:6px;
-    padding:9px 18px;
-    cursor:pointer;
-    transition:background .15s ease, color .15s ease;
-  }
-  .tab-btn:hover{ color:var(--text); }
-  .tab-btn.active{
-    background:var(--panel-2);
-    color:var(--accent);
-    border-color:var(--border);
-  }
-  .view{ display:none; }
-  .view.active{ display:block; }
+  /* ---------- caixa de erro detalhado ---------- */
+  .error-box{
+    display:none;
+    margin-top:10px;
+    padding:12px 14px;
+    border:1px solid rgba(201,59,68,0.4);
+    background:rgba(201,59,68,0.08);
+    border-radius:8px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--red);
+    line-height:1.6;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .error-box.show{ display:block; }
+  .error-box .error-box-title{
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-size:10.5px;
+    margin-bottom:6px;
+    display:block;
+  }
 
-  /* ---------- caixa de erro detalhado ---------- */
-  .error-box{
-    display:none;
-    margin-top:10px;
-    padding:12px 14px;
-    border:1px solid rgba(201,59,68,0.4);
-    background:rgba(201,59,68,0.08);
-    border-radius:8px;
-    font-family:var(--mono);
-    font-size:11.5px;
-    color:var(--red);
-    line-height:1.6;
-    white-space:pre-wrap;
-    word-break:break-word;
-  }
-  .error-box.show{ display:block; }
-  .error-box .error-box-title{
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.5px;
-    font-size:10.5px;
-    margin-bottom:6px;
-    display:block;
-  }
-
-  footer{
-    margin-top:30px;
-    text-align:center;
-    font-family:var(--mono);
-    font-size:11px;
-    color:var(--muted-2);
-  }
+  footer{
+    margin-top:30px;
+    text-align:center;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted-2);
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="top">
-    <div class="brand">
-      <div class="mark">⚽</div>
-      <div>
-        <span class="welcome">bem-vindo(a) ao</span>
-        <h1>Fan de Esporte</h1>
-      </div>
-    </div>
-    <div>
-      <div class="clock" id="clock">—</div>
-      <div class="sponsor-box">
-        <span class="sponsor-text">Seja patrocinador<br>Coloque sua empresa aqui</span>
-        <a class="btn-primary sponsor-link" href="https://wa.me/5563992088796" target="_blank" rel="noopener">Entrar em contato</a>
-      </div>
-    </div>
-  </header>
+  <header class="top">
+    <div class="brand">
+      <div class="mark">⚽</div>
+      <div>
+        <span class="welcome">bem-vindo(a) ao</span>
+        <h1>Fan de Esporte</h1>
+      </div>
+    </div>
+    <div>
+      <div class="clock" id="clock">—</div>
+      <div class="sponsor-box">
+        <span class="sponsor-text">Seja patrocinador<br>Coloque sua empresa aqui</span>
+        <a class="btn-primary sponsor-link" href="https://wa.me/5563992088796" target="_blank" rel="noopener">Entrar em contato</a>
+      </div>
+    </div>
+  </header>
 
-  <nav class="tabs">
-    <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
-    <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
-    <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
-    <button class="tab-btn" data-view="invictos">Invictos (10)</button>
-    <button class="tab-btn" data-view="zero1t">0 Gols no 1ºT (10)</button>
-  </nav>
+  <nav class="tabs">
+    <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
+    <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
+    <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
+  </nav>
 
-  <!-- ===== VIEW: JOGOS DO DIA ===== -->
-  <div class="view active" id="view-jogos">
+  <!-- ===== VIEW: JOGOS DO DIA ===== -->
+  <div class="view active" id="view-jogos">
 
-  <!-- JOGOS DO DIA -->
-  <section class="panel">
-    <div class="panel-head">
-      <div></div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn-ghost" id="btnForceRefresh" title="Ignora o cache de hoje e busca de novo na API (gasta cota)">Forçar nova busca</button>
-        <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
-      </div>
-    </div>
-    <div class="status-line" id="todayStatus"></div>
-    <div class="error-box" id="todayErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="todayErrorText"></span></div>
-    <div class="today-list" id="todayList"></div>
-    <input type="hidden" id="apiKey" value="c560ef176bae087f0790b36849a6adf0">
+  <!-- JOGOS DO DIA -->
+  <section class="panel">
+    <div class="panel-head">
+      <div></div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-ghost" id="btnForceRefresh" title="Ignora o cache de hoje e busca de novo na API (gasta cota)">Forçar nova busca</button>
+        <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
+      </div>
+    </div>
+    <div class="status-line" id="todayStatus"></div>
+    <div class="error-box" id="todayErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="todayErrorText"></span></div>
+    <div class="today-list" id="todayList"></div>
+    <input type="hidden" id="apiKey" value="c560ef176bae087f0790b36849a6adf0">
 
-    <details class="settings">
-      <summary>Reforço football-data.org (opcional)</summary>
-      <div class="settings-body">
-        <div>
-          <label for="fdApiKey">API Key da football-data.org</label>
-          <input type="text" id="fdApiKey" placeholder="Cole aqui sua key gratuita">
-        </div>
-        <button type="button" class="btn-primary" id="btnSaveFdKey">Salvar</button>
-      </div>
-      <div class="settings-note" id="fdKeyStatus">
-        Usada só como reforço pra Série A, quando a API-Football não retornar os
-        últimos 10 jogos de um time (restrição de temporada no plano gratuito).
-        Sem essa key o site funciona normal, só sem esse reforço.
-        Pegue a sua de graça em <code>football-data.org</code> (cadastro por e-mail, sem cartão)
-        e cole aqui — ela fica salva só neste navegador.
-      </div>
-    </details>
-  </section>
+    <details class="settings">
+      <summary>Reforço football-data.org (opcional)</summary>
+      <div class="settings-body">
+        <div>
+          <label for="fdApiKey">API Key da football-data.org</label>
+          <input type="text" id="fdApiKey" placeholder="Cole aqui sua key gratuita">
+        </div>
+        <button type="button" class="btn-primary" id="btnSaveFdKey">Salvar</button>
+      </div>
+      <div class="settings-note" id="fdKeyStatus">
+        Usada só como reforço pra Série A, quando a API-Football não retornar os
+        últimos 10 jogos de um time (restrição de temporada no plano gratuito).
+        Sem essa key o site funciona normal, só sem esse reforço.
+        Pegue a sua de graça em <code>football-data.org</code> (cadastro por e-mail, sem cartão)
+        e cole aqui — ela fica salva só neste navegador.
+      </div>
+    </details>
+  </section>
 
-  <!-- ===== PAINEL DE ANÁLISE (abre inline abaixo do jogo clicado) ===== -->
-  <section class="panel" id="detailPanel" style="display:none;">
-    <div class="detail-head">
-      <div>
-        <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
-        <div class="detail-sub" id="detailSub"></div>
-      </div>
-      <span class="today-odds" id="detailOdds"></span>
-    </div>
+  <!-- ===== PAINEL DE ANÁLISE (abre inline abaixo do jogo clicado) ===== -->
+  <section class="panel" id="detailPanel" style="display:none;">
+    <div class="detail-head">
+      <div>
+        <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
+        <div class="detail-sub" id="detailSub"></div>
+      </div>
+      <span class="today-odds" id="detailOdds"></span>
+    </div>
 
-    <div class="status-line" id="detailStatus"></div>
-    <div class="error-box" id="detailErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="detailErrorText"></span></div>
+    <div class="status-line" id="detailStatus"></div>
+    <div class="error-box" id="detailErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="detailErrorText"></span></div>
 
-    <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
-      <div class="avg-col home">
-        <div class="avg-col-title">
-          <span id="homeAvgLabel">Casa</span>
-          <div class="venue-toggle">
-            <button type="button" class="venue-btn active" data-prefix="home" data-venue="home">Casa</button>
-            <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
-          </div>
-        </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span></div>
-      </div>
-      <div class="avg-col away">
-        <div class="avg-col-title">
-          <span id="awayAvgLabel">Fora</span>
-          <div class="venue-toggle">
-            <button type="button" class="venue-btn active" data-prefix="away" data-venue="home">Casa</button>
-            <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
-          </div>
-        </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span></div>
-      </div>
-    </div>
+    <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
+      <div class="avg-col home">
+        <div class="avg-col-title">
+          <span id="homeAvgLabel">Casa</span>
+          <div class="venue-toggle">
+            <button type="button" class="venue-btn active" data-prefix="home" data-venue="home">Casa</button>
+            <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
+          </div>
+        </div>
+        <div class="avg-item"><span class="lbl">Média de gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Média de gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
+        <div class="avg-item"><span class="lbl">Média de gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
+      </div>
+      <div class="avg-col away">
+        <div class="avg-col-title">
+          <span id="awayAvgLabel">Fora</span>
+          <div class="venue-toggle">
+            <button type="button" class="venue-btn active" data-prefix="away" data-venue="home">Casa</button>
+            <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
+          </div>
+        </div>
+        <div class="avg-item"><span class="lbl">Média de gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Média de gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
+        <div class="avg-item"><span class="lbl">Média de gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
+      </div>
+    </div>
 
-    <div class="games-grid" id="gamesGrid" style="display:none;">
-      <div class="games-col home">
-        <div class="games-col-title">
-          <span id="homeGamesLabel">Casa</span>
-          <div class="games-col-controls">
-            <span class="games-count" id="homeGamesCount">10 jogos</span>
-            <div class="venue-toggle">
-              <button type="button" class="venue-btn active" data-list-prefix="home" data-venue="geral">Geral</button>
-              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="home">Casa</button>
-              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="away">Fora</button>
-            </div>
-          </div>
-        </div>
-        <div class="games-list" id="homeGamesList"></div>
-      </div>
-      <div class="games-col away">
-        <div class="games-col-title">
-          <span id="awayGamesLabel">Fora</span>
-          <div class="games-col-controls">
-            <span class="games-count" id="awayGamesCount">10 jogos</span>
-            <div class="venue-toggle">
-              <button type="button" class="venue-btn active" data-list-prefix="away" data-venue="geral">Geral</button>
-              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="home">Casa</button>
-              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="away">Fora</button>
-            </div>
-          </div>
-        </div>
-        <div class="games-list" id="awayGamesList"></div>
-      </div>
-    </div>
-    <div class="games-legend" id="gamesLegend" style="display:none;">
-      <span><b>1ºT / 2ºT</b> marcou (com minuto do gol) ou não marcou em cada tempo</span>
-      <span style="color:var(--green);">verde</span> sim ·
-      <span style="color:var(--red);">vermelho</span> não ·
-      <span style="color:var(--muted-2);">cinza</span> sem dado ·
-      <span><b>Escanteios / Finalizações / Chutes no gol / Cartões / Faltas</b> total do jogo (a API não separa por tempo)</span>
-    </div>
+    <div class="games-grid" id="gamesGrid" style="display:none;">
+      <div class="games-col home">
+        <div class="games-col-title">
+          <span id="homeGamesLabel">Casa</span>
+          <div class="games-col-controls">
+            <span class="games-count" id="homeGamesCount">10 jogos</span>
+            <div class="venue-toggle">
+              <button type="button" class="venue-btn active" data-list-prefix="home" data-venue="geral">Geral</button>
+              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="home">Casa</button>
+              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="away">Fora</button>
+            </div>
+          </div>
+        </div>
+        <div class="games-list" id="homeGamesList"></div>
+      </div>
+      <div class="games-col away">
+        <div class="games-col-title">
+          <span id="awayGamesLabel">Fora</span>
+          <div class="games-col-controls">
+            <span class="games-count" id="awayGamesCount">10 jogos</span>
+            <div class="venue-toggle">
+              <button type="button" class="venue-btn active" data-list-prefix="away" data-venue="geral">Geral</button>
+              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="home">Casa</button>
+              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="away">Fora</button>
+            </div>
+          </div>
+        </div>
+        <div class="games-list" id="awayGamesList"></div>
+      </div>
+    </div>
+    <div class="games-legend" id="gamesLegend" style="display:none;">
+      <span><b>1ºT / 2ºT</b> marcou (com minuto do gol) ou não marcou em cada tempo</span>
+      <span style="color:var(--green);">verde</span> sim ·
+      <span style="color:var(--red);">vermelho</span> não ·
+      <span style="color:var(--muted-2);">cinza</span> sem dado ·
+      <span><b>Escanteios / Finalizações / Chutes no gol / Cartões / Faltas</b> total do jogo (a API não separa por tempo)</span>
+    </div>
 
-    <div class="lineup-section" id="lineupSection" style="display:none; margin-top:24px;">
-      <div class="detail-title" style="font-size:15px;">Escalação e Desfalques</div>
-      <div class="empty-note" style="margin-top:4px; max-width:640px;">A escalação oficial só costuma ser divulgada perto do horário do jogo. Os desfalques são os jogadores confirmados como fora (lesão, suspensão etc.) para essa partida específica.</div>
-      <div class="status-line" id="lineupStatus"></div>
-      <div class="error-box" id="lineupErrorBox"><span class="error-box-title">Detalhe técnico<
+    <div class="h2h-section" id="h2hSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Confrontos Diretos</div>
+      <div class="status-line" id="h2hStatus"></div>
+      <div class="error-box" id="h2hErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="h2hErrorText"></span></div>
+      <div class="today-list" id="h2hList" style="margin-top:10px;"></div>
+    </div>
+
+    <div class="standings-section" id="standingsSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Tabela de Classificação</div>
+      <div class="status-line" id="standingsStatus"></div>
+      <div class="standings-table-wrap" id="standingsTableWrap"></div>
+    </div>
+  </section>
+
+  </div><!-- /view-jogos -->
+
+  <!-- ===== VIEW: AO VIVO ===== -->
+  <div class="view" id="view-aovivo">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Jogos Ao Vivo</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Jogos das ligas selecionadas que estão rolando agora, com placar e minuto atual. Atualiza sozinho a cada 3 minutos enquanto essa aba estiver aberta.</div>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-ghost" id="btnLoadLive">Atualizar</button>
+      </div>
+    </div>
+    <div class="status-line" id="liveStatus"></div>
+    <div class="error-box" id="liveErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="liveErrorText"></span></div>
+    <div class="today-list" id="liveList"></div>
+  </section>
+
+  </div><!-- /view-aovivo -->
+
+  <!-- ===== VIEW: FRIOS NO 1º TEMPO ===== -->
+  <div class="view" id="view-frios1t">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Times -2 Gols no 1º Tempo</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times do Brasileirão Série A que jogam hoje e que NÃO fizeram 2 gols no 1º tempo — ou seja, marcaram MENOS de 2 no 1ºT em CADA UM dos últimos 5 jogos.</div>
+      </div>
+    </div>
+    <div class="status-line" id="frios1tStatus"></div>
+    <div class="today-list" id="frios1tList"></div>
+  </section>
+
+  </div><!-- /view-frios1t -->
+
+  <footer>Fan de Esporte · uso analítico — não constitui recomendação financeira</footer>
+</div>
+
+<!-- ===== WIDGET FLUTUANTE DE SUGESTÕES ===== -->
+<div class="feedback-widget" id="feedbackWidget">
+  <button type="button" class="feedback-launcher" id="feedbackLauncher" aria-label="Abrir caixa de sugestões">💬</button>
+
+  <div class="feedback-panel" id="feedbackPanel">
+    <div class="feedback-head">
+      <div>
+        <div class="feedback-title">Site em construção 🚧</div>
+        <div class="feedback-sub">O que você gostaria de ver aqui? Conta pra gente sua opinião!</div>
+      </div>
+      <button type="button" class="feedback-close" id="feedbackClose" aria-label="Fechar">×</button>
+    </div>
+
+    <textarea id="feedbackInput" class="feedback-textarea" placeholder="Escreva sua sugestão..." rows="3"></textarea>
+    <button type="button" class="btn-primary feedback-send" id="feedbackSend">Enviar sugestão</button>
+    <div class="status-line" id="feedbackStatus"></div>
+
+    <button type="button" class="feedback-toggle" id="feedbackToggle">
+      <span id="feedbackToggleLabel">Ver sugestões (0)</span>
+      <span class="feedback-arrow" id="feedbackArrow">▾</span>
+    </button>
+    <div class="feedback-list" id="feedbackList" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  /* ---------------- clock ---------------- */
+  const clockEl = document.getElementById('clock');
+  function tickClock(){
+    const d = new Date();
+    clockEl.innerHTML = d.toLocaleDateString('pt-BR') + ' &nbsp;·&nbsp; ' + d.toLocaleTimeString('pt-BR');
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  /* ---------------- abas ---------------- */
+  const LIVE_REFRESH_INTERVAL_MS = 3 * 60 * 1000; // 3 minutos
+  let liveRefreshTimer = null;
+
+  function startLiveAutoRefresh(){
+    if(liveRefreshTimer) return;
+    loadLiveGames();
+    liveRefreshTimer = setInterval(() => {
+      if(!document.hidden) loadLiveGames();
+    }, LIVE_REFRESH_INTERVAL_MS);
+  }
+
+  function stopLiveAutoRefresh(){
+    if(liveRefreshTimer){
+      clearInterval(liveRefreshTimer);
+      liveRefreshTimer = null;
+    }
+  }
+
+  function showView(name){
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.querySelector('.tab-btn[data-view="' + name + '"]').classList.add('active');
+    if(name === 'aovivo'){
+      startLiveAutoRefresh();
+    } else {
+      stopLiveAutoRefresh();
+    }
+  }
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', () => showView(btn.dataset.view));
+  });
+
+  /* ---------------- state ---------------- */
+  const el = id => document.getElementById(id);
+  const state = {
+    apiKey: (el('apiKey') && el('apiKey').value.trim()) || '',
+    fdApiKey: '',
+    preloaded: null
+  };
+
+  try{ state.fdApiKey = localStorage.getItem('fanEsporte_fdApiKey') || ''; }catch(err){ state.fdApiKey = ''; }
+  if(el('fdApiKey')) el('fdApiKey').value = state.fdApiKey;
+
+  if(el('btnSaveFdKey')){
+    el('btnSaveFdKey').addEventListener('click', () => {
+      const v = el('fdApiKey').value.trim();
+      state.fdApiKey = v;
+      const statusEl = el('fdKeyStatus');
+      try{
+        if(v) localStorage.setItem('fanEsporte_fdApiKey', v);
+        else localStorage.removeItem('fanEsporte_fdApiKey');
+        if(statusEl) statusEl.previousElementSibling;
+      }catch(err){
+        console.warn('Não foi possível salvar a key da football-data.org:', err.message);
+      }
+    });
+  }
+
+  /* ---------------- caixas de erro detalhado (visíveis na tela) ---------------- */
+  function showErrorBox(boxId, textId, message){
+    const box = el(boxId);
+    const text = el(textId);
+    if(!box || !text) return;
+    if(!message){
+      box.classList.remove('show');
+      text.textContent = '';
+      return;
+    }
+    text.textContent = message;
+    box.classList.add('show');
+  }
+
+  /* Extrai a mensagem de erro mais útil possível de um objeto Error/response */
+  function describeError(err){
+    if(!err) return 'Erro desconhecido';
+    if(typeof err === 'string') return err;
+    if(err.message) return err.message;
+    try{ return JSON.stringify(err); }catch(_e){ return String(err); }
+  }
+
+  /* ---------------- widget flutuante de sugestões ---------------- */
+  const feedbackState = { items: [] };
+
+  const feedbackWidget = el('feedbackWidget');
+  const feedbackLauncher = el('feedbackLauncher');
+  const feedbackClose = el('feedbackClose');
+  const feedbackToggle = el('feedbackToggle');
+  const feedbackArrow = el('feedbackArrow');
+  const feedbackList = el('feedbackList');
+  const feedbackInput = el('feedbackInput');
+  const feedbackSend = el('feedbackSend');
+  const feedbackStatus = el('feedbackStatus');
+  const feedbackToggleLabel = el('feedbackToggleLabel');
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function renderFeedbackList(){
+    feedbackToggleLabel.textContent = 'Ver sugestões (' + feedbackState.items.length + ')';
+    if(!feedbackState.items.length){
+      feedbackList.innerHTML = '<div class="feedback-empty">Nenhuma sugestão ainda — seja o primeiro!</div>';
+      return;
+    }
+    feedbackList.innerHTML = feedbackState.items.map(item =>
+      '<div class="feedback-item">' + escapeHtml(item.text) +
+        '<time>' + item.time + '</time>' +
+      '</div>'
+    ).join('');
+  }
+  renderFeedbackList();
+
+  feedbackLauncher.addEventListener('click', () => feedbackWidget.classList.add('open'));
+  feedbackClose.addEventListener('click', () => feedbackWidget.classList.remove('open'));
+
+  feedbackToggle.addEventListener('click', () => {
+    const isOpen = feedbackList.style.display !== 'none';
+    feedbackList.style.display = isOpen ? 'none' : 'flex';
+    feedbackArrow.classList.toggle('open', !isOpen);
+  });
+
+  feedbackSend.addEventListener('click', () => {
+    const text = feedbackInput.value.trim();
+    if(!text){
+      feedbackStatus.textContent = 'Escreva algo antes de enviar.';
+      feedbackStatus.className = 'status-line err';
+      return;
+    }
+    feedbackState.items.unshift({
+      text,
+      time: new Date().toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'})
+    });
+    feedbackInput.value = '';
+    feedbackStatus.textContent = 'Valeu pela sugestão! 🙌';
+    feedbackStatus.className = 'status-line ok';
+    renderFeedbackList();
+    feedbackList.style.display = 'flex';
+    feedbackArrow.classList.add('open');
+  });
+
+  /* ---------------- seeded RNG ---------------- */
+  function hashString(str){
+    let h = 2166136261;
+    for(let i=0;i<str.length;i++){
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+  function mulberry32(seed){
+    return function(){
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  /* ---------------- mock data fallback ---------------- */
+  const MOCK_OPPONENTS = ['Atlético','União FC','Real Norte','Estrela Azul','Sport Vale','Clube Central','Aliança EC','Norte United','Vitória SC','Cidade FC','Nacional AC','Rio Verde EC','Ferroviário','Costa Alta FC','Serra Clube'];
+
+  function generateMockFixtures(teamName){
+    const rand = mulberry32(hashString(teamName || 'time'));
+    const fixtures = [];
+    const today = new Date();
+    for(let i=0;i<GAMES_LIMIT;i++){
+      const gf_ht = rand() < 0.55 ? Math.floor(rand()*2) : 0;
+      const gf_st = Math.floor(rand()*2.4);
+      const gf_ft = gf_ht + gf_st;
+      const ga_ht = rand() < 0.4 ? Math.floor(rand()*2) : 0;
+      const ga_st = Math.floor(rand()*2);
+      const ga_ft = ga_ht + ga_st;
+      const d = new Date(today);
+      d.setDate(d.getDate() - (i * 7 + Math.floor(rand()*3)));
+      const minutesScored = [];
+      for(let k=0;k<gf_ht;k++) minutesScored.push(1 + Math.floor(rand()*45));
+      for(let k=0;k<gf_st;k++) minutesScored.push(46 + Math.floor(rand()*45));
+      const cornersTotal = 3 + Math.floor(rand()*8);
+      const totalShots = 6 + Math.floor(rand()*14);
+      const shotsOnGoal = Math.min(totalShots, 2 + Math.floor(rand()*7));
+      const yellowCards = Math.floor(rand()*5);
+      const redCards = rand() < 0.08 ? 1 : 0;
+      const foulsCommitted = 5 + Math.floor(rand()*14);
+      fixtures.push({
+        gf_ht, ga_ht, gf_ft, ga_ft,
+        date: d.toISOString(),
+        opponent: MOCK_OPPONENTS[i % MOCK_OPPONENTS.length],
+        isHome: rand() < 0.5,
+        minutesScored,
+        cornersTotal,
+        totalShots,
+        shotsOnGoal,
+        yellowCards,
+        redCards,
+        foulsCommitted
+      });
+    }
+    return fixtures;
+  }
+
+  /* ---------------- API-Football ---------------- */
+  const API_BASE = 'https://v3.football.api-sports.io';
+  const CACHE_PREFIX = 'fanEsporte_apiCache_';
+  const cacheStats = { hits: 0, misses: 0 };
+
+  function todayKey(){
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  // Dado de uma partida que JÁ TERMINOU nunca muda (o minuto do gol e os chutes
+  // de cada jogador daquele jogo vão ser sempre os mesmos). Por isso, pra esses
+  // dois endpoints, o cache não expira por dia — fica guardado de vez, economizando
+  // crédito de API em cliques futuros no mesmo jogo (mesmo dias depois).
+  function isPermanentCachePath(path){
+    return path.startsWith('/fixtures/events?fixture=') ||
+      path.startsWith('/fixtures/players?fixture=') ||
+      path.startsWith('/fixtures/statistics?fixture=');
+  }
+
+  function cacheGet(path){
+    try{
+      const raw = localStorage.getItem(CACHE_PREFIX + path);
+      if(!raw) return null;
+      const saved = JSON.parse(raw);
+      if(!isPermanentCachePath(path) && saved.day !== todayKey()) return null;
+      return saved.data;
+    }catch(err){
+      return null;
+    }
+  }
+
+  function cacheSet(path, data){
+    try{
+      localStorage.setItem(CACHE_PREFIX + path, JSON.stringify({ day: todayKey(), data }));
+    }catch(err){
+      console.warn('Não foi possível salvar no cache local:', err.message);
+    }
+  }
+
+  function clearApiCache(){
+    Object.keys(localStorage)
+      .filter(k => k.startsWith(CACHE_PREFIX))
+      .forEach(k => localStorage.removeItem(k));
+  }
+
+  // Plano Pró da API-Football permite 300 requisições/minuto (antes era 10/min no plano grátis).
+  // Antes as chamadas rodavam 1 por vez (esperava terminar uma pra só então começar a
+  // próxima), o que deixava abas com muitas chamadas (ex: Chute de Jogadores) bem lentas.
+  // Agora várias chamadas rodam em paralelo (até MAX_CONCURRENT ao mesmo tempo), só
+  // limitando quantas NOVAS chamadas começam por segundo, pra não estourar a cota.
+  const MAX_CONCURRENT = 6;
+  const MIN_START_INTERVAL_MS = 210; // ~285 novas chamadas/min, com folga sob o limite de 300/min
+  let activeApiCalls = 0;
+  let lastApiStartAt = 0;
+  const apiCallQueue = [];
+
+  function pumpApiQueue(){
+    if(activeApiCalls >= MAX_CONCURRENT || !apiCallQueue.length) return;
+    const wait = Math.max(0, lastApiStartAt + MIN_START_INTERVAL_MS - Date.now());
+    if(wait > 0){
+      setTimeout(pumpApiQueue, wait);
+      return;
+    }
+    const task = apiCallQueue.shift();
+    lastApiStartAt = Date.now();
+    activeApiCalls++;
+    Promise.resolve()
+      .then(task.fn)
+      .then(res => { activeApiCalls--; task.resolve(res); pumpApiQueue(); })
+      .catch(err => { activeApiCalls--; task.reject(err); pumpApiQueue(); });
+    pumpApiQueue();
+  }
+
+  function scheduleApiCall(fn){
+    return new Promise((resolve, reject) => {
+      apiCallQueue.push({ fn, resolve, reject });
+      pumpApiQueue();
+    });
+  }
+
+  /* Erro tipado, guarda o corpo cru retornado pela API pra diagnóstico */
+  function apiError(message, extra){
+    const e = new Error(message);
+    if(extra) e.detail = extra;
+    return e;
+  }
+
+  async function apiGet(path, key){
+    const cached = cacheGet(path);
+    if(cached){
+      cacheStats.hits++;
+      return cached;
+    }
+    cacheStats.misses++;
+    return scheduleApiCall(async () => {
+      let res;
+      try{
+        res = await fetch(API_BASE + path, { headers: { 'x-apisports-key': key } });
+      }catch(networkErr){
+        throw apiError('Falha de rede ao chamar ' + path + ': ' + networkErr.message);
+      }
+      if(!res.ok){
+        let bodyText = '';
+        try{ bodyText = await res.text(); }catch(_e){}
+        throw apiError('HTTP ' + res.status + ' em ' + path + (bodyText ? ' — resposta: ' + bodyText.slice(0,300) : ''));
+      }
+      const data = await res.json();
+      if(data.errors && Object.keys(data.errors).length){
+        throw apiError('API retornou erro em ' + path + ': ' + JSON.stringify(data.errors));
+      }
+      cacheSet(path, data);
+      return data;
+    });
+  }
+
+  // Igual ao apiGet, mas nunca lê nem grava no cache do dia — usado pra dados
+  // ao vivo (placar/minuto mudam a cada segundo, não podem ficar "presos" no cache).
+  async function apiGetNoCache(path, key){
+    return scheduleApiCall(async () => {
+      let res;
+      try{
+        res = await fetch(API_BASE + path, { headers: { 'x-apisports-key': key } });
+      }catch(networkErr){
+        throw apiError('Falha de rede ao chamar ' + path + ': ' + networkErr.message);
+      }
+      if(!res.ok){
+        let bodyText = '';
+        try{ bodyText = await res.text(); }catch(_e){}
+        throw apiError('HTTP ' + res.status + ' em ' + path + (bodyText ? ' — resposta: ' + bodyText.slice(0,300) : ''));
+      }
+      const data = await res.json();
+      if(data.errors && Object.keys(data.errors).length){
+        throw apiError('API retornou erro em ' + path + ': ' + JSON.stringify(data.errors));
+      }
+      return data;
+    });
+  }
+
+  async function findTeamId(name, key){
+    const data = await apiGet('/teams?search=' + encodeURIComponent(name), key);
+    if(!data.response || !data.response.length) throw apiError('Time não encontrado na API-Football: ' + name);
+    return data.response[0].team.id;
+  }
+
+  async function fetchGoalMinutes(fixtureId, teamId, key){
+    const data = await apiGet('/fixtures/events?fixture=' + fixtureId, key);
+    return (data.response || [])
+      .filter(ev => ev.type === 'Goal' && ev.team && ev.team.id === teamId)
+      .map(ev => (ev.time && ev.time.elapsed || 0) + (ev.time && ev.time.extra || 0));
+  }
+
+  // Estatísticas do jogo (escanteios, finalizações totais, chutes no gol):
+  // a API-Football só disponibiliza o TOTAL de cada uma pro jogo inteiro
+  // (endpoint /fixtures/statistics), sem separar 1ºT de 2ºT como faz com os
+  // gols (que têm o minuto exato do evento). Por isso aqui é sempre o total
+  // do confronto, não um valor "por tempo".
+  function findStatValue(stats, regex){
+    const found = stats.find(s => regex.test(s.type || ''));
+    if(!found || found.value == null) return null;
+    const n = Number(found.value);
+    return isNaN(n) ? null : n;
+  }
+
+  async function fetchMatchStats(fixtureId, teamId, key){
+    const data = await apiGet('/fixtures/statistics?fixture=' + fixtureId + '&team=' + teamId, key);
+    const stats = (data.response && data.response[0] && data.response[0].statistics) || [];
+    return {
+      cornersTotal: findStatValue(stats, /corner/i),
+      totalShots: findStatValue(stats, /^total\s*shots$/i),
+      shotsOnGoal: findStatValue(stats, /shots\s*on\s*goal/i),
+      yellowCards: findStatValue(stats, /yellow\s*cards/i),
+      redCards: findStatValue(stats, /red\s*cards/i),
+      foulsCommitted: findStatValue(stats, /^fouls$/i)
+    };
+  }
+
+  async function fetchFixturesBySeason(teamId, season, key){
+    const data = await apiGet('/fixtures?team=' + teamId + '&season=' + season, key);
+    return data.response || [];
+  }
+
+  const TARGET_SEASON = 2026;
+  const GAMES_LIMIT = 10;
+  const FRIOS_GAMES_LIMIT = 5; // a aba "-2 Gols no 1ºT" usa só os últimos 5 jogos, não 10
+
+  async function fetchLastFixtures(teamId, key){
+    // Deixa o erro real subir (sem mascarar com "indisponível para este plano"),
+    // pra quem chamar essa função poder mostrar o motivo verdadeiro na tela.
+    const all = await fetchFixturesBySeason(teamId, TARGET_SEASON, key);
+
+    const finished = all.filter(fx =>
+      fx.fixture && fx.fixture.status && ['FT','AET','PEN'].includes(fx.fixture.status.short)
+    );
+    finished.sort((a, b) => new Date(b.fixture.date) - new Date(a.fixture.date));
+    const lastGames = finished.slice(0, GAMES_LIMIT);
+
+    if(!lastGames.length){
+      throw apiError(
+        'A API respondeu OK, mas nenhum jogo FINALIZADO (FT/AET/PEN) foi encontrado para a temporada ' +
+        TARGET_SEASON + ' deste time (total de jogos retornados pela API: ' + all.length + ').'
+      );
+    }
+
+    return lastGames.map(fx=>{
+      const isHome = fx.teams.home.id === teamId;
+      const ht = fx.score.halftime || {home:0, away:0};
+      const ft = fx.score.fulltime || {home:0, away:0};
+      const gf_ht = isHome ? (ht.home ?? 0) : (ht.away ?? 0);
+      const ga_ht = isHome ? (ht.away ?? 0) : (ht.home ?? 0);
+      const gf_ft = isHome ? (ft.home ?? 0) : (ft.away ?? 0);
+      const ga_ft = isHome ? (ft.away ?? 0) : (ft.home ?? 0);
+      const opponent = isHome ? fx.teams.away.name : fx.teams.home.name;
+      return { fixtureId: fx.fixture.id, gf_ht, ga_ht, gf_ft, ga_ft, date: fx.fixture.date, opponent, isHome };
+    });
+  }
+
+  // CORRIGIDO: Era 'fixtures.amp', corrigido para 'fixtures.map'
+  // Agora, além do minuto dos gols, também busca o total de escanteios de cada jogo.
+  async function attachGoalMinutes(fixtures, teamId, key){
+    return Promise.all(fixtures.map(async f => {
+      let minutesScored = null;
+      let matchStats = { cornersTotal: null, totalShots: null, shotsOnGoal: null, yellowCards: null, redCards: null, foulsCommitted: null };
+      try{
+        minutesScored = await fetchGoalMinutes(f.fixtureId, teamId, key);
+      }catch(err){
+        minutesScored = null;
+      }
+      try{
+        matchStats = await fetchMatchStats(f.fixtureId, teamId, key);
+      }catch(err){
+        matchStats = { cornersTotal: null, totalShots: null, shotsOnGoal: null, yellowCards: null, redCards: null, foulsCommitted: null };
+      }
+      return { ...f, minutesScored, ...matchStats };
+    }));
+  }
+
+  /* ---------------- fallback: football-data.org ---------------- */
+  const FD_API_BASE = 'https://api.football-data.org/v4';
+  const FD_COMPETITION = 'BSA';
+  const FD_MIN_INTERVAL_MS = 6500;
+  let lastFdCallAt = 0;
+  let fdQueueTail = Promise.resolve();
+
+  function scheduleFdApiCall(fn){
+    const runPromise = fdQueueTail.then(async () => {
+      const wait = Math.max(0, lastFdCallAt + FD_MIN_INTERVAL_MS - Date.now());
+      if(wait > 0) await new Promise(r => setTimeout(r, wait));
+      lastFdCallAt = Date.now();
+      return fn();
+    });
+    fdQueueTail = runPromise.catch(() => {});
+    return runPromise;
+  }
+
+  async function fdApiGet(path, key){
+    const cacheKey = 'FD:' + path;
+    const cached = cacheGet(cacheKey);
+    if(cached){
+      cacheStats.hits++;
+      return cached;
+    }
+    cacheStats.misses++;
+    return scheduleFdApiCall(async () => {
+      let res;
+      try{
+        res = await fetch(FD_API_BASE + path, { headers: { 'X-Auth-Token': key } });
+      }catch(networkErr){
+        throw apiError('Falha de rede ao chamar football-data.org ' + path + ': ' + networkErr.message);
+      }
+      if(!res.ok){
+        let bodyText = '';
+        try{ bodyText = await res.text(); }catch(_e){}
+        throw apiError('HTTP ' + res.status + ' em football-data.org ' + path + (bodyText ? ' — resposta: ' + bodyText.slice(0,300) : ''));
+      }
+      const data = await res.json();
+      cacheSet(cacheKey, data);
+      return data;
+    });
+  }
+
+  function normalizeTeamName(str){
+    return (str || '')
+      .toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]/g, '');
+  }
+
+  async function findFdTeamId(teamName, key){
+    const data = await fdApiGet('/competitions/' + FD_COMPETITION + '/teams', key);
+    const teams = data.teams || [];
+    const target = normalizeTeamName(teamName);
+    let found = teams.find(t => normalizeTeamName(t.name) === target || normalizeTeamName(t.shortName) === target);
+    if(!found) found = teams.find(t => normalizeTeamName(t.name).includes(target) || target.includes(normalizeTeamName(t.shortName || '')));
+    if(!found) throw apiError('Time não encontrado na football-data.org: ' + teamName);
+    return found.id;
+  }
+
+  async function fetchFdLastFixtures(teamId, key){
+    const path = '/teams/' + teamId + '/matches?competitions=' + FD_COMPETITION +
+      '&season=' + TARGET_SEASON + '&status=FINISHED&limit=' + GAMES_LIMIT;
+    const data = await fdApiGet(path, key);
+    const matches = (data.matches || [])
+      .sort((a, b) => new Date(b.utcDate) - new Date(a.utcDate))
+      .slice(0, GAMES_LIMIT);
+
+    if(!matches.length){
+      throw apiError('football-data.org respondeu OK, mas sem partidas FINISHED para a temporada ' + TARGET_SEASON + '.');
+    }
+
+    return matches.map(m => {
+      const isHome = m.homeTeam.id === teamId;
+      const ht = m.score.halfTime || {};
+      const ft = m.score.fullTime || {};
+      const gf_ht = isHome ? (ht.home ?? 0) : (ht.away ?? 0);
+      const ga_ht = isHome ? (ht.away ?? 0) : (ht.home ?? 0);
+      const gf_ft = isHome ? (ft.home ?? 0) : (ft.away ?? 0);
+      const ga_ft = isHome ? (ft.away ?? 0) : (ft.home ?? 0);
+      const opponent = isHome ? m.awayTeam.name : m.homeTeam.name;
+      // football-data.org não retorna minuto do gol nem estatísticas de escanteios/finalizações/chutes no gol/cartões/faltas.
+      return { fixtureId: 'fd-' + m.id, gf_ht, ga_ht, gf_ft, ga_ft, date: m.utcDate, opponent, isHome, minutesScored: null, cornersTotal: null, totalShots: null, shotsOnGoal: null, yellowCards: null, redCards: null, foulsCommitted: null };
+    });
+  }
+
+  async function pullFdTeamFixtures(teamName, key){
+    if(!key) return { fixtures: null, error: 'Nenhuma key da football-data.org informada' };
+    try{
+      const id = await findFdTeamId(teamName, key);
+      const fixtures = await fetchFdLastFixtures(id, key);
+      return { fixtures, error: null };
+    }catch(err){
+      const msg = describeError(err);
+      console.warn('Falha no fallback football-data.org:', msg);
+      return { fixtures: null, error: msg };
+    }
+  }
+
+  // CORRIGIDO: Tratamento de exceções e checagem da chave secundária ajustados,
+  // e agora o erro real (não mais uma mensagem genérica) é propagado pra tela.
+  async function pullTeamFixtures(teamName, key, knownId){
+    if(knownId != null && state.preloaded && state.preloaded.teamStats && state.preloaded.teamStats[knownId]){
+      const fixtures = state.preloaded.teamStats[knownId].fixtures;
+      return { fixtures, source: 'preloaded', gamesFound: fixtures.length };
+    }
+    if(key){
+      try{
+        const id = knownId || await findTeamId(teamName, key);
+        let fixtures = await fetchLastFixtures(id, key);
+        fixtures = await attachGoalMinutes(fixtures, id, key);
+        return { fixtures, source:'api', gamesFound: fixtures.length };
+      }catch(err){
+        const primaryMsg = describeError(err);
+        console.warn('Falha na API-Football, tentando reforço football-data.org:', primaryMsg);
+        if (state.fdApiKey) {
+          const fd = await pullFdTeamFixtures(teamName, state.fdApiKey);
+          if(fd.fixtures) return { fixtures: fd.fixtures, source:'football-data', gamesFound: fd.fixtures.length };
+          return { fixtures: null, source:'unavailable', error: 'API-Football: ' + primaryMsg + ' | football-data.org: ' + fd.error };
+        }
+        return { fixtures: null, source:'unavailable', error: 'API-Football: ' + primaryMsg + ' (sem key de reforço football-data.org configurada)' };
+      }
+    }
+    if (state.fdApiKey) {
+      const fd = await pullFdTeamFixtures(teamName, state.fdApiKey);
+      if(fd.fixtures) return { fixtures: fd.fixtures, source:'football-data', gamesFound: fd.fixtures.length };
+      return { fixtures: null, source:'unavailable', error: 'football-data.org: ' + fd.error };
+    }
+    return { fixtures: null, source:'unavailable', error: 'Nenhuma API key informada' };
+  }
+
+  function formatGameDate(iso){
+    const d = new Date(iso);
+    if(isNaN(d)) return '—';
+    return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+
+  // Limiares visuais pra colorir os totais do jogo (mesma pegada do sim/não dos gols):
+  // verde = jogo com volume "alto" daquela estatística, vermelho = "baixo".
+  const CORNER_HIGH_THRESHOLD = 5;
+  const SHOTS_HIGH_THRESHOLD = 10;      // finalizações totais
+  const SHOTS_ON_GOAL_HIGH_THRESHOLD = 4; // chutes no gol (a gol)
+  const FOULS_HIGH_THRESHOLD = 12;      // faltas cometidas
+
+  function buildStatMsg(label, value, threshold, tooltip){
+    if(value == null){
+      return '<span class="g-corner-item unk" title="Sem dado disponível para este jogo">' + label + ': sem dado</span>';
+    }
+    const cls = value >= threshold ? 'high' : 'low';
+    return '<span class="g-corner-item ' + cls + '" title="' + tooltip + '">' + label + ': ' + value + '</span>';
+  }
+
+  function buildCornerMsg(cornersTotal){
+    return buildStatMsg('Escanteios', cornersTotal, CORNER_HIGH_THRESHOLD,
+      'Total de escanteios do time nesse jogo (jogo inteiro, sem separar por tempo)');
+  }
+
+  function buildShotsMsg(totalShots){
+    return buildStatMsg('Finalizações', totalShots, SHOTS_HIGH_THRESHOLD,
+      'Total de finalizações (chutes) do time nesse jogo, dentro ou fora do gol');
+  }
+
+  function buildShotsOnGoalMsg(shotsOnGoal){
+    return buildStatMsg('Chutes no gol', shotsOnGoal, SHOTS_ON_GOAL_HIGH_THRESHOLD,
+      'Total de chutes no gol (a gol) do time nesse jogo');
+  }
+
+  function buildFoulsMsg(foulsCommitted){
+    return buildStatMsg('Faltas', foulsCommitted, FOULS_HIGH_THRESHOLD,
+      'Total de faltas cometidas pelo time nesse jogo');
+  }
+
+  // Cartões: mostra amarelos e, se houve, destaca vermelho separado (sempre em
+  // vermelho quando >0, já que 1 cartão vermelho já é um evento relevante).
+  function buildCardsMsg(yellowCards, redCards){
+    if(yellowCards == null && redCards == null){
+      return '<span class="g-corner-item unk" title="Sem dado de cartões disponível para este jogo">Cartões: sem dado</span>';
+    }
+    const y = yellowCards ?? 0;
+    const r = redCards ?? 0;
+    const parts = [];
+    parts.push('<span class="g-corner-item ' + (y >= 3 ? 'high' : 'low') + '" title="Cartões amarelos do time nesse jogo">' + y + ' amarelo(s)</span>');
+    if(r > 0){
+      parts.push('<span class="g-corner-item low" title="Cartões vermelhos do time nesse jogo">' + r + ' vermelho(s)</span>');
+    }
+    return parts.join('');
+  }
+
+  function renderGamesList(listId, fixtures, emptyMessage){
+    const target = el(listId);
+    if(!fixtures || !fixtures.length){
+      target.innerHTML = '<div class="empty-note" style="padding:12px;">' + (emptyMessage || 'Nenhum jogo carregado ainda.') + '</div>';
+      return;
+    }
+    target.innerHTML = fixtures.map((f, i) => {
+      const diff = f.gf_ft - f.ga_ft;
+      const tag = diff > 0 ? 'V' : diff < 0 ? 'D' : 'E';
+      const tagClass = diff > 0 ? 'win' : diff < 0 ? 'loss' : 'draw';
+      const mando = f.isHome === undefined ? '' : (f.isHome ? ' (C)' : ' (F)');
+      const opp = (f.opponent || 'Adversário') + mando;
+
+      function buildHalfMsg(label, halfGoals, halfMinutes, halfName){
+        if(halfMinutes == null){
+          if(halfGoals > 0){
+            return '<span class="g-meta-item yes" title="Marcou no ' + halfName + ' (minuto indisponível na API)">' + label + ': marcou</span>';
+          }
+          return '<span class="g-meta-item no" title="Não marcou no ' + halfName + '">' + label + ': não marcou</span>';
+        }
+        if(!halfMinutes.length){
+          return '<span class="g-meta-item no" title="Não marcou no ' + halfName + '">' + label + ': não marcou</span>';
+        }
+        const minsStr = halfMinutes.map(m => m + "'").join(', ');
+        return '<span class="g-meta-item yes" title="Minutos dos gols no ' + halfName + '">' + label + ': ' + minsStr + '</span>';
+      }
+
+      const htMinutes = f.minutesScored == null ? null : f.minutesScored.filter(m => m <= 45).sort((a,b)=>a-b);
+      const stMinutes = f.minutesScored == null ? null : f.minutesScored.filter(m => m > 45).sort((a,b)=>a-b);
+      const htMsg = buildHalfMsg('1ºT', f.gf_ht, htMinutes, '1º tempo');
+      const stMsg = buildHalfMsg('2ºT', f.gf_ft - f.gf_ht, stMinutes, '2º tempo');
+      const cornerMsg = buildCornerMsg(f.cornersTotal);
+      const shotsMsg = buildShotsMsg(f.totalShots);
+      const shotsOnGoalMsg = buildShotsOnGoalMsg(f.shotsOnGoal);
+      const cardsMsg = buildCardsMsg(f.yellowCards, f.redCards);
+      const foulsMsg = buildFoulsMsg(f.foulsCommitted);
+
+      return (
+        '<div class="game-row">' +
+          '<span class="g-idx">' + (i + 1) + '</span>' +
+          '<span class="g-date">' + formatGameDate(f.date) + '</span>' +
+          '<span class="g-opp-wrap">' +
+            '<span class="g-opp" title="' + opp + '">' + opp + '</span>' +
+            '<span class="g-opp-meta">' + htMsg + '<span class="g-meta-divider">|</span>' + stMsg + '</span>' +
+            '<span class="g-corner-row">' + cornerMsg + shotsMsg + shotsOnGoalMsg + '</span>' +
+            '<span class="g-corner-row">' + cardsMsg + foulsMsg + '</span>' +
+          '</span>' +
+          '<span class="g-score">' + f.gf_ht + '-' + f.ga_ht + '<br><small>HT</small></span>' +
+          '<span class="g-score">' + f.gf_ft + '-' + f.ga_ft + '<br><small>FT</small></span>' +
+          '<span class="g-tag ' + tagClass + '">' + tag + '</span>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  /* ---------------- médias de gols ---------------- */
+  function computeGoalAverages(fixtures){
+    if(!fixtures || !fixtures.length){
+      return { avgTotal: 0, avgHT: 0, avgST: 0 };
+    }
+    const n = fixtures.length;
+    const sumTotal = fixtures.reduce((s,f) => s + f.gf_ft, 0);
+    const sumHT = fixtures.reduce((s,f) => s + f.gf_ht, 0);
+    const sumST = fixtures.reduce((s,f) => s + (f.gf_ft - f.gf_ht), 0);
+
+    return {
+      avgTotal: (sumTotal / n).toFixed(2),
+      avgHT: (sumHT / n).toFixed(2),
+      avgST: (sumST / n).toFixed(2)
+    };
+  }
+
+  const venueState = { home: [], away: [], selected: { home: 'home', away: 'home' } };
+  const listVenueState = { selected: { home: 'geral', away: 'geral' } };
+  const noDataFlag = { home: false, away: false };
+
+  function filterFixturesByVenue(fixtures, venue){
+    if(venue === 'geral') return fixtures || [];
+    return (fixtures || []).filter(f => f.isHome === (venue === 'home'));
+  }
+
+  function applyVenueStats(prefix){
+    if(noDataFlag[prefix]){
+      el(prefix + 'AvgTotal').textContent = '—';
+      el(prefix + 'AvgHT').textContent = '—';
+      el(prefix + 'AvgST').textContent = '—';
+      return;
+    }
+    const filtered = filterFixturesByVenue(venueState[prefix], venueState.selected[prefix]);
+    const avg = computeGoalAverages(filtered);
+    el(prefix + 'AvgTotal').textContent = avg.avgTotal;
+    el(prefix + 'AvgHT').textContent = avg.avgHT;
+    el(prefix + 'AvgST').textContent = avg.avgST;
+  }
+
+  function applyGamesListFilter(prefix){
+    if(noDataFlag[prefix]){
+      renderGamesList(prefix + 'GamesList', [], 'Sem dado real disponível para este time — a API não retornou os últimos jogos.');
+      const countEl = el(prefix + 'GamesCount');
+      if(countEl) countEl.textContent = 'sem dado';
+      return;
+    }
+    const filtered = filterFixturesByVenue(venueState[prefix], listVenueState.selected[prefix]);
+    renderGamesList(prefix + 'GamesList', filtered);
+    const countEl = el(prefix + 'GamesCount');
+    if(countEl) countEl.textContent = filtered.length + (filtered.length === 1 ? ' jogo' : ' jogos');
+  }
+
+  function renderAverages(prefix, teamName, fixtures){
+    noDataFlag[prefix] = !fixtures;
+    venueState[prefix] = fixtures || [];
+    el(prefix + 'AvgLabel').textContent = teamName;
+    applyVenueStats(prefix);
+    applyGamesListFilter(prefix);
+  }
+
+  document.querySelectorAll('.venue-btn[data-prefix]').forEach(btn=>{
+    btn.addEventListener('click', () => {
+      const prefix = btn.dataset.prefix;
+      const venue = btn.dataset.venue;
+      document.querySelectorAll('.venue-btn[data-prefix="' + prefix + '"]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      venueState.selected[prefix] = venue;
+      applyVenueStats(prefix);
+    });
+  });
+
+  document.querySelectorAll('.venue-btn[data-list-prefix]').forEach(btn=>{
+    btn.addEventListener('click', () => {
+      const prefix = btn.dataset.listPrefix;
+      const venue = btn.dataset.venue;
+      document.querySelectorAll('.venue-btn[data-list-prefix="' + prefix + '"]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      listVenueState.selected[prefix] = venue;
+      applyGamesListFilter(prefix);
+    });
+  });
+
+  /* ---------------- abrir análise inline abaixo do jogo clicado ---------------- */
+  function openGameDetailInline(row, g){
+    const panel = el('detailPanel');
+    const jaAberto = row.classList.contains('selected') && panel.style.display !== 'none';
+
+    document.querySelectorAll('.today-row.selected').forEach(r => r.classList.remove('selected'));
+
+    if(jaAberto){
+      panel.style.display = 'none';
+      return;
+    }
+
+    row.classList.add('selected');
+    row.insertAdjacentElement('afterend', panel);
+    panel.style.display = 'block';
+    showGameDetail(g);
+  }
+
+  /* ---------------- detalhe do confronto selecionado ---------------- */
+  async function showGameDetail(g){
+    el('detailTitle').textContent = g.home.name + ' vs ' + g.away.name;
+    el('detailSub').textContent = g.league + ' · ' + formatGameDate(g.date) + ' ' + g.time;
+    el('detailOdds').innerHTML = oddChipsHTML(g);
+    el('homeGamesLabel').textContent = g.home.name;
+    el('awayGamesLabel').textContent = g.away.name;
+    el('gamesGrid').style.display = 'none';
+    el('avgGrid').style.display = 'none';
+    el('gamesLegend').style.display = 'none';
+    el('h2hSection').style.display = 'none';
+    el('h2hList').innerHTML = '';
+    el('h2hStatus').textContent = '';
+    el('h2hStatus').className = 'status-line';
+    el('standingsSection').style.display = 'none';
+    el('standingsTableWrap').innerHTML = '';
+    el('standingsStatus').textContent = '';
+    el('standingsStatus').className = 'status-line';
+    showErrorBox('detailErrorBox', 'detailErrorText', null);
+
+    venueState.selected = { home: 'home', away: 'home' };
+    listVenueState.selected = { home: 'geral', away: 'geral' };
+    document.querySelectorAll('.venue-btn[data-prefix]').forEach(b =>
+      b.classList.toggle('active', b.dataset.venue === 'home'));
+    document.querySelectorAll('.venue-btn[data-list-prefix]').forEach(b =>
+      b.classList.toggle('active', b.dataset.venue === 'geral'));
+
+    const detailStatus = el('detailStatus');
+    detailStatus.className = 'status-line';
+    detailStatus.textContent = 'Buscando últimos 10 jogos de 2026 de ' + g.home.name + ' e ' + g.away.name + '…';
+
+    cacheStats.hits = 0;
+    cacheStats.misses = 0;
+    const [homeRes, awayRes] = await Promise.all([
+      pullTeamFixtures(g.home.name, state.apiKey, g.home.id),
+      pullTeamFixtures(g.away.name, state.apiKey, g.away.id)
+    ]);
+    const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
+
+    el('gamesGrid').style.display = 'grid';
+    el('gamesLegend').style.display = 'flex';
+
+    renderAverages('home', g.home.name, homeRes.fixtures);
+    renderAverages('away', g.away.name, awayRes.fixtures);
+    el('avgGrid').style.display = 'grid';
+
+    const usedMock = homeRes.source==='unavailable' || awayRes.source==='unavailable';
+    const usouPreloaded = homeRes.source === 'preloaded' && awayRes.source === 'preloaded';
+    if(usedMock){
+      detailStatus.textContent = 'Nenhuma das duas fontes retornou dado real para um ou os dois times.';
+      detailStatus.classList.add('err');
+      const detalhes = [
+        homeRes.source === 'unavailable' ? (g.home.name + ' → ' + homeRes.error) : null,
+        awayRes.source === 'unavailable' ? (g.away.name + ' → ' + awayRes.error) : null
+      ].filter(Boolean).join('\n');
+      showErrorBox('detailErrorBox', 'detailErrorText', detalhes);
+    } else if(usouPreloaded){
+      const updatedAt = formatUpdatedAt(state.preloaded && state.preloaded.updatedAt);
+      detailStatus.textContent = 'Estatísticas pré-carregadas' + (updatedAt ? ' (atualizadas às ' + updatedAt + ')' : '') + '.';
+      detailStatus.classList.add('ok');
+    } else if(!state.apiKey){
+      detailStatus.textContent = 'Nenhuma API key informada — sem dados reais disponíveis pra análise.';
+      detailStatus.classList.add('err');
+    } else {
+      const menorAmostra = Math.min(homeRes.gamesFound, awayRes.gamesFound);
+      const aviso = menorAmostra < GAMES_LIMIT
+        ? ' (apenas ' + menorAmostra + ' jogos finalizados encontrados na temporada ' + TARGET_SEASON + ' para este plano)'
+        : '';
+      const usouFd = homeRes.source === 'football-data' || awayRes.source === 'football-data';
+      const fonteNote = usouFd ? ' (reforço football-data.org usado pra pelo menos um dos times)' : '';
+      detailStatus.textContent = 'Estatísticas puxadas com sucesso.' + fonteNote + aviso + cacheNote;
+      detailStatus.classList.add('ok');
+    }
+
+    loadHeadToHead(g);
+    loadStandings(g);
+  }
+
+  /* ---------------- confrontos diretos ---------------- */
+  async function loadHeadToHead(g){
+    const section = el('h2hSection');
+    const statusEl = el('h2hStatus');
+    const listEl = el('h2hList');
+    statusEl.className = 'status-line';
+    showErrorBox('h2hErrorBox', 'h2hErrorText', null);
+
+    if(g.home.id == null || g.away.id == null){
+      section.style.display = 'block';
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Sem ID real de time (jogo de exemplo ou pré-carregado sem ID) — não dá pra buscar confronto direto na API.';
+      statusEl.classList.add('err');
+      return;
+    }
+    section.style.display = 'block';
+
+    if(!state.apiKey){
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Buscando confrontos diretos…</div>';
+    statusEl.textContent = 'Buscando histórico de confrontos…';
+
+    try{
+      const data = await apiGet('/fixtures/headtohead?h2h=' + g.home.id + '-' + g.away.id + '&last=10', state.apiKey);
+      const fixtures = (data.response || [])
+        .filter(fx => fx.fixture && fx.fixture.status && ['FT','AET','PEN'].includes(fx.fixture.status.short))
+        .sort((a, b) => new Date(b.fixture.date) - new Date(a.fixture.date));
+
+      renderH2HList(fixtures, g);
+      statusEl.textContent = fixtures.length + ' confronto(s) direto(s) encontrado(s) entre os dois times.';
+      statusEl.classList.add('ok');
+    }catch(err){
+      const msg = describeError(err);
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Não foi possível buscar os confrontos diretos.';
+      statusEl.classList.add('err');
+      showErrorBox('h2hErrorBox', 'h2hErrorText', msg);
+    }
+  }
+
+  function renderH2HList(fixtures, g){
+    const listEl = el('h2hList');
+    if(!fixtures.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum confronto direto recente encontrado entre os dois times.</div>';
+      return;
+    }
+    listEl.innerHTML = fixtures.map(fx => {
+      const homeName = fx.teams.home.name;
+      const awayName = fx.teams.away.name;
+      const ft = fx.score.fulltime || {};
+      const gh = ft.home ?? 0;
+      const ga = ft.away ?? 0;
+      let resultLabel;
+      if(gh === ga){
+        resultLabel = 'Empate';
+      } else {
+        const homeWon = gh > ga;
+        const winnerIsG_home = (homeWon && fx.teams.home.id === g.home.id) || (!homeWon && fx.teams.away.id === g.home.id);
+        resultLabel = (winnerIsG_home ? g.home.name : g.away.name) + ' venceu';
+      }
+      return (
+        '<div class="today-row" style="cursor:default;">' +
+          '<span class="today-time-wrap"><span class="today-date">' + formatGameDate(fx.fixture.date) + '</span></span>' +
+          '<span class="today-teams">' + homeName + ' ' + gh + ' x ' + ga + ' ' + awayName + '</span>' +
+          '<span class="today-odds"><span class="odd-chip fav">' + resultLabel + '</span></span>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  /* ---------------- tabela de classificação ---------------- */
+  async function loadStandings(g){
+    const section = el('standingsSection');
+    const statusEl = el('standingsStatus');
+    const wrap = el('standingsTableWrap');
+    statusEl.className = 'status-line';
+
+    if(g.leagueId == null){
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = 'block';
+
+    if(!state.apiKey){
+      wrap.innerHTML = '';
+      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    wrap.innerHTML = '';
+    statusEl.textContent = 'Buscando tabela de classificação…';
+
+    try{
+      const season = g.leagueSeason || TARGET_SEASON;
+      const data = await apiGet('/standings?league=' + g.leagueId + '&season=' + season, state.apiKey);
+      const leagueData = ((data.response || [])[0] || {}).league || {};
+      const rows = (leagueData.standings && leagueData.standings[0]) || [];
+      if(!rows.length) throw apiError('A API respondeu OK, mas sem tabela de classificação pra essa liga/temporada.');
+
+      renderStandingsTable(rows, g);
+      statusEl.textContent = 'Classificação de ' + g.league + ' atualizada.';
+      statusEl.classList.add('ok');
+    }catch(err){
+      wrap.innerHTML = '';
+      statusEl.textContent = 'Não foi possível buscar a tabela de classificação.';
+      statusEl.classList.add('err');
+    }
+  }
+
+  function renderStandingsTable(rows, g){
+    const wrap = el('standingsTableWrap');
+    const trs = rows.map(r => {
+      const isMatch = r.team.id === g.home.id || r.team.id === g.away.id;
+      const all = r.all || {};
+      const goals = all.goals || {};
+      return (
+        '<tr class="' + (isMatch ? 'standings-highlight' : '') + '">' +
+          '<td class="standings-rank">' + r.rank + '</td>' +
+          '<td class="standings-team">' + r.team.name + '</td>' +
+          '<td>' + r.points + '</td>' +
+          '<td>' + (all.played ?? '—') + '</td>' +
+          '<td>' + (all.win ?? '—') + '</td>' +
+          '<td>' + (all.draw ?? '—') + '</td>' +
+          '<td>' + (all.lose ?? '—') + '</td>' +
+          '<td>' + (goals.for ?? '—') + '</td>' +
+          '<td>' + (goals.against ?? '—') + '</td>' +
+          '<td>' + (r.goalsDiff ?? '—') + '</td>' +
+        '</tr>'
+      );
+    }).join('');
+    wrap.innerHTML =
+      '<table class="standings-table">' +
+        '<thead><tr><th>#</th><th>Time</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th></tr></thead>' +
+        '<tbody>' + trs + '</tbody>' +
+      '</table>';
+  }
+
+  /* ---------------- jogos de hoje (painel principal) ---------------- */
+  const ALLOWED_LEAGUES = [
+    { name: 'Brasileirão Série A', test: (n,c) => c === 'Brazil' && /serie\s*a/i.test(n) },
+    { name: 'Brasileirão Série B', test: (n,c) => c === 'Brazil' && /serie\s*b/i.test(n) },
+    { name: 'Brasileirão Série C', test: (n,c) => c === 'Brazil' && /serie\s*c/i.test(n) },
+    { name: 'Copa do Brasil', test: (n,c) => c === 'Brazil' && /copa\s*do\s*brasil/i.test(n) },
+    { name: 'Copa Libertadores', test: (n,c) => /libertadores/i.test(n) },
+    { name: 'Copa Sul-Americana', test: (n,c) => /sudamericana|sul[\s-]*americana/i.test(n) },
+  ];
+
+  function matchAllowedLeague(leagueName, leagueCountry){
+    const n = leagueName || '';
+    const c = leagueCountry || '';
+    return ALLOWED_LEAGUES.find(l => l.test(n, c)) || null;
+  }
+
+  function generateMockTodayGames(){
+    const demoLeagues = ['Série A','Série B','Copa do Brasil','Copa Libertadores','Série C','Copa Sul-Americana'];
+    const pairs = [
+      ['Internacional','Remo'], ['Flamengo','Vasco'], ['Palmeiras','Santos'],
+      ['Grêmio','Juventude'], ['Bahia','Vitória'], ['Corinthians','São Paulo']
+    ];
+    return pairs.map((p, i) => {
+      const rand = mulberry32(hashString(p[0] + p[1]));
+      const homeOdd = 1.30 + rand() * 3.2;
+      const awayOdd = 1.30 + rand() * 5.5;
+      return {
+        time: String(15 + i).padStart(2,'0') + ':00',
+        date: new Date().toISOString(),
+        league: demoLeagues[i % demoLeagues.length] + ' (exemplo)',
+        home: { id: null, name: p[0], odd: Number(homeOdd.toFixed(2)) },
+        away: { id: null, name: p[1], odd: Number(awayOdd.toFixed(2)) }
+      };
+    });
+  }
+
+  function oddChipsHTML(g){
+    const hasOdds = g.home.odd != null && g.away.odd != null;
+    if(!hasOdds){
+      return '<span class="odd-chip empty">sem odds</span>';
+    }
+    const homeFav = g.home.odd <= g.away.odd;
+    return (
+      '<span class="odd-chip' + (homeFav ? ' fav' : '') + '">C ' + g.home.odd.toFixed(2) + '</span>' +
+      '<span class="odd-chip' + (!homeFav ? ' fav' : '') + '">F ' + g.away.odd.toFixed(2) + '</span>'
+    );
+  }
+
+  function renderTodayGames(games){
+    const list = el('todayList');
+    if(!games.length){
+      list.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogo encontrado para hoje.</div>';
+      return;
+    }
+    list.innerHTML = games.map((g, i) =>
+      '<button type="button" class="today-row" data-idx="' + i + '">' +
+        '<span class="today-time-wrap"><span class="today-date">' + formatGameDate(g.date) + '</span><span class="today-time">' + g.time + '</span></span>' +
+        '<span class="today-teams"><span class="lg">' + g.league + '</span>' + g.home.name + ' vs ' + g.away.name + '</span>' +
+        '<span class="today-odds">' + oddChipsHTML(g) + '</span>' +
+        '<span class="today-cta">ver últimos 10 →</span>' +
+      '</button>'
+    ).join('');
+
+    list.querySelectorAll('.today-row').forEach(row=>{
+      row.addEventListener('click', () => {
+        const g = games[Number(row.dataset.idx)];
+        openGameDetailInline(row, g);
+      });
+    });
+  }
+
+  async function fetchOddsMapForDate(dateStr, key){
+    const map = {};
+    try{
+      const data = await apiGet('/odds?date=' + dateStr, key);
+      (data.response || []).forEach(entry => {
+        const fixtureId = entry.fixture && entry.fixture.id;
+        if(!fixtureId) return;
+        const bookmaker = (entry.bookmakers || [])[0];
+        if(!bookmaker) return;
+        const bet = (bookmaker.bets || []).find(b => b.name === 'Match Winner' || b.id === 1);
+        if(!bet) return;
+        const homeVal = (bet.values || []).find(v => v.value === 'Home');
+        const awayVal = (bet.values || []).find(v => v.value === 'Away');
+        if(homeVal && awayVal){
+          map[fixtureId] = { home: Number(homeVal.odd), away: Number(awayVal.odd) };
+        }
+      });
+    }catch(err){
+      console.warn('Não foi possível buscar odds do dia:', describeError(err));
+    }
+    return map;
+  }
+
+  /* ---------------- times frios no 1º tempo ---------------- */
+  async function scanLowFirstHalfTeams(games){
+    const statusEl = el('frios1tStatus');
+    const listEl = el('frios1tList');
+    statusEl.className = 'status-line';
+    showErrorBox('frios1tErrorBox', 'frios1tErrorText', null);
+
+    if(!games || !games.length){
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Nenhum jogo carregado ainda.';
+      return;
+    }
+
+    if(!state.apiKey){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra analisar aqui.</div>';
+      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    const teamsMap = new Map();
+    games.forEach(g => {
+      [['home', g.home, g], ['away', g.away, g]].forEach(([side, team, game]) => {
+        const key = team.id != null ? ('id:' + team.id) : ('name:' + team.name);
+        if(!teamsMap.has(key)) teamsMap.set(key, { id: team.id, name: team.name, side, game });
+      });
+    });
+
+    const entries = Array.from(teamsMap.values());
+    const total = entries.length;
+    let done = 0;
+
+    cacheStats.hits = 0;
+    cacheStats.misses = 0;
+
+    function updateProgress(){
+      listEl.innerHTML =
+        '<div class="empty-note" style="padding:8px 4px;">' +
+          'Aguarde, analisando os últimos ' + FRIOS_GAMES_LIMIT + ' jogos de cada time… ' +
+          '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
+          'Isso deve levar só alguns segundos com o plano atual.' +
+        '</div>';
+      statusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+    }
+    updateProgress();
+
+    const allResults = await Promise.all(entries.map(async entry => {
+      let result;
+      if(entry.id == null){
+        result = { ...entry, fixtures: null };
+      } else {
+        try{
+          // CORRIGIDO: Passagem correta dos argumentos (id e apiKey)
+          const fixtures = await fetchLastFixtures(entry.id, state.apiKey);
+          result = { ...entry, fixtures };
+        }catch(err){
+          const primaryMsg = describeError(err);
+          const fd = await pullFdTeamFixtures(entry.name, state.fdApiKey);
+          result = fd.fixtures
+            ? { ...entry, fixtures: fd.fixtures }
+            : { ...entry, fixtures: null, error: 'API-Football: ' + primaryMsg + ' | football-data.org: ' + fd.error };
+        }
+      }
+      done++;
+      updateProgress();
+      return result;
+    }));
+
+    const usable = allResults.filter(r => r.fixtures);
+    const semDado = allResults.length - usable.length;
+
+    const qualified = usable.filter(r =>
+      r.fixtures.length >= FRIOS_GAMES_LIMIT && r.fixtures.slice(0, FRIOS_GAMES_LIMIT).every(f => f.gf_ht < 2)
+    );
+    qualified.sort((a, b) => a.game.time.localeCompare(b.game.time));
+
+    renderFrios1tList(qualified);
+
+    const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
+    const semDadoNote = semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '';
+    statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos ' + FRIOS_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    statusEl.classList.add(semDado ? 'err' : 'ok');
+  }
+
+  function renderFrios1tList(items){
+    const listEl = el('frios1tList');
+    if(!items.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum time dos jogos de hoje se encaixou nesse padrão.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map((it, i) => {
+      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+      return (
+        '<button type="button" class="today-row" data-frios-idx="' + i + '">' +
+          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">0/' + FRIOS_GAMES_LIMIT + ' c/ 2+ no 1ºT</span></span>' +
+          '<span class="today-cta">ver análise →</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    listEl.querySelectorAll('.today-row').forEach((row, i) => {
+      row.addEventListener('click', () => {
+        const game = items[i].game;
+        showView('jogos');
+        const idx = state.todayGames.indexOf(game);
+        const targetRow = idx !== -1
+          ? document.querySelector('#todayList .today-row[data-idx="' + idx + '"]')
+          : null;
+        if(targetRow){
+          openGameDetailInline(targetRow, game);
+          targetRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  }
+
+  /* ---------------- dados.json pré-gerado (pelo robô do GitHub Actions) ---------------- */
+  async function loadPreloadedData(){
+    try{
+      const res = await fetch('dados.json', { cache: 'no-store' });
+      if(!res.ok) return null;
+      const data = await res.json();
+      if(!data || !Array.isArray(data.games)) return null;
+      return data;
+    }catch(err){
+      return null;
+    }
+  }
+
+  function formatUpdatedAt(iso){
+    if(!iso) return null;
+    const d = new Date(iso);
+    if(isNaN(d)) return null;
+    return d.toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+  }
+
+  function renderFrios1tFromPreloaded(section){
+    const statusEl = el('frios1tStatus');
+    const listEl = el('frios1tList');
+    statusEl.className = 'status-line';
+    showErrorBox('frios1tErrorBox', 'frios1tErrorText', null);
+    if(!section){
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Sem dados pré-carregados disponíveis ainda.';
+      statusEl.classList.add('err');
+      return;
+    }
+    renderFrios1tList(section.qualified || []);
+    const semDado = section.totalTeams - section.usableTeams;
+    statusEl.textContent = (section.qualified || []).length + ' de ' + section.usableTeams + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos ' + FRIOS_GAMES_LIMIT + ' jogos.' +
+      (semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '');
+    statusEl.classList.add(semDado ? 'err' : 'ok');
+  }
+
+  function renderFromPreloaded(data){
+    const todayStatus = el('todayStatus');
+    const games = data.games || [];
+    renderTodayGames(games);
+    state.todayGames = games;
+
+    const updatedAt = formatUpdatedAt(data.updatedAt);
+    todayStatus.textContent = games.length + ' jogos encontrados para hoje nas ligas selecionadas.' +
+      (updatedAt ? ' (dados atualizados às ' + updatedAt + ')' : '');
+    todayStatus.classList.add('ok');
+
+    renderFrios1tFromPreloaded(data.frios1t);
+  }
+
+  /* ---------------- ao vivo ---------------- */
+  function liveStatusLabel(short){
+    const map = {
+      '1H': '1º Tempo', 'HT': 'Intervalo', '2H': '2º Tempo',
+      'ET': 'Prorrogação', 'BT': 'Intervalo (prorr.)', 'P': 'Pênaltis'
+    };
+    return map[short] || short;
+  }
+
+  function renderLiveGames(games){
+    const listEl = el('liveList');
+    if(!games.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogo ao vivo agora nas ligas selecionadas.</div>';
+      return;
+    }
+    listEl.innerHTML = games.map(g => {
+      const minuto = g.elapsed != null ? (g.elapsed + "'") : '—';
+      return (
+        '<div class="today-row" style="cursor:default;">' +
+          '<span class="today-time-wrap"><span class="today-date">' + liveStatusLabel(g.statusShort) + '</span><span class="today-time">' + minuto + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + g.league + '</span>' + g.home.name + ' ' + (g.home.goals ?? 0) + ' x ' + (g.away.goals ?? 0) + ' ' + g.away.name + '</span>' +
+          '<span class="today-odds"><span class="odd-chip live-chip"><span class="live-dot"></span>AO VIVO</span></span>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  async function loadLiveGames(){
+    const statusEl = el('liveStatus');
+    const listEl = el('liveList');
+    el('btnLoadLive').disabled = true;
+    statusEl.className = 'status-line';
+    statusEl.textContent = 'Buscando jogos ao vivo…';
+    showErrorBox('liveErrorBox', 'liveErrorText', null);
+
+    if(!state.apiKey){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra mostrar jogos ao vivo.</div>';
+      statusEl.textContent = 'Nenhuma API key informada.';
+      statusEl.classList.add('err');
+      el('btnLoadLive').disabled = false;
+      return;
+    }
+
+    try{
+      const data = await apiGetNoCache('/fixtures?live=all', state.apiKey);
+      const games = (data.response || [])
+        .filter(fx => matchAllowedLeague(fx.league && fx.league.name, fx.league && fx.league.country))
+        .map(fx => {
+          const allowed = matchAllowedLeague(fx.league.name, fx.league.country);
+          const goals = fx.goals || {};
+          return {
+            league: allowed.name,
+            statusShort: fx.fixture.status.short,
+            elapsed: fx.fixture.status.elapsed,
+            home: { name: fx.teams.home.name, goals: goals.home },
+            away: { name: fx.teams.away.name, goals: goals.away }
+          };
+        })
+        .sort((a, b) => (b.elapsed || 0) - (a.elapsed || 0));
+
+      renderLiveGames(games);
+      statusEl.textContent = games.length + ' jogo(s) ao vivo agora nas ligas selecionadas.';
+      statusEl.classList.add('ok');
+    }catch(err){
+      const msg = describeError(err);
+      listEl.innerHTML = '';
+      statusEl.textContent = 'Não foi possível buscar os jogos ao vivo.';
+      statusEl.classList.add('err');
+      showErrorBox('liveErrorBox', 'liveErrorText', msg);
+    }
+    el('btnLoadLive').disabled = false;
+  }
+
+  el('btnLoadLive').addEventListener('click', loadLiveGames);
+
+  async function loadTodayGames(){
+    const todayStatus = el('todayStatus');
+    el('btnLoadToday').disabled = true;
+    todayStatus.className = 'status-line';
+    todayStatus.textContent = 'Buscando jogos de hoje…';
+    showErrorBox('todayErrorBox', 'todayErrorText', null);
+
+    const preloaded = await loadPreloadedData();
+    if(preloaded){
+      state.preloaded = preloaded;
+      renderFromPreloaded(preloaded);
+      el('btnLoadToday').disabled = false;
+      return;
+    }
+    state.preloaded = null;
+
+    if(!state.apiKey){
+      const games = generateMockTodayGames();
+      renderTodayGames(games);
+      todayStatus.textContent = 'dados.json indisponível e nenhuma API key informada — mostrando jogos de exemplo.';
+      todayStatus.classList.add('ok');
+      el('btnLoadToday').disabled = false;
+      state.todayGames = games;
+      scanLowFirstHalfTeams(games);
+      return;
+    }
+
+    try{
+      const today = new Date().toISOString().slice(0,10);
+      cacheStats.hits = 0;
+      cacheStats.misses = 0;
+      const [data, oddsMap] = await Promise.all([
+        apiGet('/fixtures?date=' + today, state.apiKey),
+        fetchOddsMapForDate(today, state.apiKey)
+      ]);
+      const cacheNote = cacheStats.hits ? ' (dados de hoje reaproveitados do cache — sem gastar cota)' : '';
+      const games = (data.response || [])
+        .filter(fx => fx.fixture && fx.fixture.status && ['NS','1H','HT','2H','ET','P'].includes(fx.fixture.status.short))
+        .filter(fx => matchAllowedLeague(fx.league && fx.league.name, fx.league && fx.league.country))
+        .map(fx => {
+          const odds = oddsMap[fx.fixture.id];
+          const allowed = matchAllowedLeague(fx.league.name, fx.league.country);
+          return {
+            time: new Date(fx.fixture.date).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}),
+            date: fx.fixture.date,
+            league: allowed.name,
+            leagueId: fx.league.id,
+            leagueSeason: fx.league.season,
+            home: { id: fx.teams.home.id, name: fx.teams.home.name, odd: odds ? odds.home : null },
+            away: { id: fx.teams.away.id, name: fx.teams.away.name, odd: odds ? odds.away : null }
+          };
+        })
+        .sort((a,b) => a.time.localeCompare(b.time))
+        .slice(0, 40);
+
+      if(!games.length) throw apiError('Nenhum jogo das ligas selecionadas encontrado para hoje (a API respondeu OK, mas sem jogos de Série A na data de hoje).');
+      renderTodayGames(games);
+      const semOdds = games.filter(g => g.home.odd == null).length;
+      todayStatus.textContent = games.length + ' jogos encontrados para hoje nas ligas selecionadas.' +
+        (semOdds ? ' (' + semOdds + ' sem odds disponíveis)' : '') + cacheNote;
+      todayStatus.classList.add('ok');
+      state.todayGames = games;
+      scanLowFirstHalfTeams(games);
+    }catch(err){
+      const msg = describeError(err);
+      console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', msg);
+      const games = generateMockTodayGames();
+      renderTodayGames(games);
+      todayStatus.textContent = 'Não foi possível buscar jogos reais — mostrando exemplos.';
+      todayStatus.classList.add('err');
+      showErrorBox('todayErrorBox', 'todayErrorText', msg);
+      state.todayGames = games;
+      scanLowFirstHalfTeams(games);
+    }
+    el('btnLoadToday').disabled = false;
+  }
+
+  el('btnLoadToday').addEventListener('click', loadTodayGames);
+  el('btnForceRefresh').addEventListener('click', () => {
+    clearApiCache();
+    loadTodayGames();
+  });
+
+  loadTodayGames();
+
+})();
+</script>
+</body>
+</html>
