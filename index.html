@@ -8,551 +8,986 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#080B10;
-    --panel:#10151D;
-    --panel-2:#161C26;
-    --border:#232B37;
-    --border-soft:#1B222C;
-    --text:#EAF1F5;
-    --muted:#8792A6;
-    --muted-2:#59637A;
-    --accent:#00E28A;
-    --teal:#00C2A8;
-    --green:#00E28A;
-    --yellow:#E2B93D;
-    --red:#FF4D5E;
-    --mono:'JetBrains Mono', ui-monospace, monospace;
-    --display:'Space Grotesk', sans-serif;
-    --body:'Inter', sans-serif;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(0,226,138,0.07), transparent 60%),
-      radial-gradient(1000px 500px at 100% 0%, rgba(0,194,168,0.06), transparent 55%),
-      var(--bg);
-    color:var(--text);
-    font-family:var(--body);
-    min-height:100vh;
-    line-height:1.5;
-  }
-  ::selection{ background:rgba(0,226,138,0.35); }
-  a{color:var(--accent);}
+  :root{
+    --bg:#080B10;
+    --panel:#10151D;
+    --panel-2:#161C26;
+    --border:#232B37;
+    --border-soft:#1B222C;
+    --text:#EAF1F5;
+    --muted:#8792A6;
+    --muted-2:#59637A;
+    --accent:#00E28A;
+    --teal:#00C2A8;
+    --green:#00E28A;
+    --yellow:#E2B93D;
+    --red:#FF4D5E;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --display:'Space Grotesk', sans-serif;
+    --body:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(0,226,138,0.07), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(0,194,168,0.06), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    min-height:100vh;
+    line-height:1.5;
+  }
+  ::selection{ background:rgba(0,226,138,0.35); }
+  a{color:var(--accent);}
 
-  .wrap{
-    max-width:1180px;
-    margin:0 auto;
-    padding:28px 20px 80px;
-  }
-  header.top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:20px;
-    border-bottom:1px solid var(--border-soft);
-    padding-bottom:20px;
-    margin-bottom:28px;
-    flex-wrap:wrap;
-  }
-  .brand{ display:flex; align-items:center; gap:14px; }
-  .brand .mark{
-    width:48px;height:48px;
-    border:1px solid var(--border);
-    border-radius:13px;
-    display:flex;align-items:center;justify-content:center;
-    background:
-      radial-gradient(120% 130% at 25% 15%, rgba(0,226,138,0.22), transparent 60%),
-      radial-gradient(120% 130% at 80% 90%, rgba(0,194,168,0.18), transparent 60%),
-      var(--panel);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
-    font-size:22px;
-    line-height:1;
-    flex-shrink:0;
-  }
-  .brand .welcome{
-    display:block;
-    font-family:var(--mono);
-    font-size:10.5px;
-    letter-spacing:1.8px;
-    text-transform:uppercase;
-    color:var(--muted-2);
-    margin-bottom:3px;
-  }
-  .brand h1{
-    font-family:var(--display);
-    font-size:23px;
-    font-weight:700;
-    margin:0;
-    letter-spacing:0.2px;
-    background:linear-gradient(90deg, var(--accent), var(--teal));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .brand p{
-    margin:2px 0 0;
-    font-size:12.5px;
-    color:var(--muted);
-    font-family:var(--mono);
-  }
-  .clock{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--muted-2);
-    text-align:right;
-    padding-top:4px;
-  }
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:28px 20px 80px;
+  }
+  header.top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:20px;
+    border-bottom:1px solid var(--border-soft);
+    padding-bottom:20px;
+    margin-bottom:28px;
+    flex-wrap:wrap;
+  }
+  .brand{ display:flex; align-items:center; gap:14px; }
+  .brand .mark{
+    width:48px;height:48px;
+    border:1px solid var(--border);
+    border-radius:13px;
+    display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(120% 130% at 25% 15%, rgba(0,226,138,0.22), transparent 60%),
+      radial-gradient(120% 130% at 80% 90%, rgba(0,194,168,0.18), transparent 60%),
+      var(--panel);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+    font-size:22px;
+    line-height:1;
+    flex-shrink:0;
+  }
+  .brand .welcome{
+    display:block;
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:1.8px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    margin-bottom:3px;
+  }
+  .brand h1{
+    font-family:var(--display);
+    font-size:23px;
+    font-weight:700;
+    margin:0;
+    letter-spacing:0.2px;
+    background:linear-gradient(90deg, var(--accent), var(--teal));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .brand p{
+    margin:2px 0 0;
+    font-size:12.5px;
+    color:var(--muted);
+    font-family:var(--mono);
+  }
+  .clock{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted-2);
+    text-align:right;
+    padding-top:4px;
+  }
 
-  .sponsor-box{
-    margin-top:10px;
-    padding:10px 12px;
-    border:1px dashed var(--border);
-    border-radius:10px;
-    background:var(--panel);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    max-width:260px;
-    margin-left:auto;
-  }
-  .sponsor-box .sponsor-text{
-    font-family:var(--mono);
-    font-size:11px;
-    line-height:1.4;
-    color:var(--muted);
-    white-space:nowrap;
-  }
-  .sponsor-box .sponsor-link{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    padding:7px 12px;
-    font-size:11.5px;
-    white-space:nowrap;
-    text-decoration:none;
-  }
+  .sponsor-box{
+    margin-top:10px;
+    padding:10px 12px;
+    border:1px dashed var(--border);
+    border-radius:10px;
+    background:var(--panel);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    max-width:260px;
+    margin-left:auto;
+  }
+  .sponsor-box .sponsor-text{
+    font-family:var(--mono);
+    font-size:11px;
+    line-height:1.4;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+  .sponsor-box .sponsor-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:7px 12px;
+    font-size:11.5px;
+    white-space:nowrap;
+    text-decoration:none;
+  }
 
-  .panel{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:20px;
-  }
-  .panel + .panel{ margin-top:18px; }
-  .panel-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:16px;
-    gap:10px;
-    flex-wrap:wrap;
-  }
+  /* ---------- widget flutuante de sugestões ---------- */
+  .feedback-widget{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:999;
+    font-family:var(--body);
+  }
+  .feedback-launcher{
+    width:54px;height:54px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#04170D;
+    border:none;
+    font-size:23px;
+    cursor:pointer;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, filter .15s ease;
+  }
+  .feedback-launcher:hover{ filter:brightness(1.08); transform:translateY(-2px); }
+  .feedback-widget.open .feedback-launcher{ display:none; }
 
-  input[type=text], input[type=password]{
-    width:100%;
-    background:var(--panel-2);
-    border:1px solid var(--border);
-    color:var(--text);
-    font-family:var(--body);
-    font-size:14px;
-    padding:11px 12px;
-    border-radius:7px;
-    outline:none;
-    transition:border-color .15s ease, box-shadow .15s ease;
-  }
-  input:focus{
-    border-color:var(--accent);
-    box-shadow:0 0 0 3px rgba(0,226,138,0.15);
-  }
-  input::placeholder{ color:var(--muted-2); }
+  .feedback-panel{
+    display:none;
+    position:absolute;
+    right:0;
+    bottom:66px;
+    width:305px;
+    max-width:calc(100vw - 32px);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 16px 44px rgba(0,0,0,0.5);
+  }
+  .feedback-widget.open .feedback-panel{ display:block; }
 
-  button{
-    font-family:var(--body);
-    font-weight:600;
-    font-size:13.5px;
-    border-radius:7px;
-    border:1px solid transparent;
-    padding:11px 18px;
-    cursor:pointer;
-    transition:transform .08s ease, filter .15s ease, background .15s ease;
-  }
-  button:active{ transform:translateY(1px); }
-  .btn-primary{ background:var(--accent); color:#04170D; }
-  .btn-primary:hover{ filter:brightness(1.08); }
-  .btn-ghost{ background:transparent; border-color:var(--border); color:var(--muted); }
-  .btn-ghost:hover{ border-color:var(--muted-2); color:var(--text); }
+  .feedback-head{ display:flex; justify-space-between; gap:10px; align-items:flex-start; margin-bottom:10px; }
+  .feedback-title{ font-family:var(--display); font-size:14px; font-weight:600; color:var(--text); }
+  .feedback-sub{ font-size:12px; color:var(--muted); margin-top:5px; line-height:1.45; }
+  .feedback-close{
+    background:transparent; border:none; color:var(--muted-2);
+    font-size:19px; line-height:1; cursor:pointer; padding:0 2px; flex-shrink:0;
+  }
+  .feedback-close:hover{ color:var(--text); }
 
-  .status-line{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--muted);
-    margin-top:12px;
-    min-height:16px;
-  }
+  .feedback-textarea{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:13px;
+    padding:10px;
+    border-radius:7px;
+    resize:vertical;
+    outline:none;
+    min-height:64px;
+  }
+  .feedback-textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,226,138,0.15); }
+  .feedback-textarea::placeholder{ color:var(--muted-2); }
+  .feedback-send{ width:100%; margin-top:8px; padding:9px; font-size:12.5px; }
 
-  /* ---------- jogos do dia ---------- */
-  .today-list{
-    display:grid;
-    gap:8px;
-    margin-top:14px;
-  }
+  .feedback-toggle{
+    width:100%;
+    margin-top:14px;
+    padding-top:11px;
+    border-top:1px solid var(--border-soft);
+    background:transparent;
+    border-left:none; border-right:none; border-bottom:none;
+    color:var(--muted);
+    font-family:var(--mono);
+    font-size:11.5px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+  }
+  .feedback-toggle:hover{ color:var(--text); }
+  .feedback-arrow{ display:inline-block; transition:transform .15s ease; }
+  .feedback-arrow.open{ transform:rotate(180deg); }
 
-  /* ---------- detalhe do confronto ---------- */
-  .detail-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:12px;
-  }
-  .detail-title{ font-family:var(--display); font-size:17px; font-weight:600; }
-  .detail-sub{ font-family:var(--mono); font-size:11px; color:var(--muted-2); margin-top:3px; text-transform:uppercase; letter-spacing:0.5px; }
+  .feedback-list{
+    margin-top:10px;
+    max-height:190px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .feedback-item{
+    background:var(--panel-2);
+    border:1px solid var(--border-soft);
+    border-radius:7px;
+    padding:8px 10px;
+    font-size:12px;
+    color:var(--text);
+    line-height:1.45;
+    word-break:break-word;
+  }
+  .feedback-item time{
+    display:block;
+    font-family:var(--mono);
+    font-size:9.5px;
+    color:var(--muted-2);
+    margin-top:4px;
+  }
+  .feedback-empty{ font-size:12px; color:var(--muted-2); font-style:italic; padding:6px 2px; }
 
-  .games-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-    margin-top:18px;
-  }
-  @media (max-width:760px){ .games-grid{ grid-template-columns:1fr; } }
-  .games-col{
-    border:1px solid var(--border);
-    border-radius:9px;
-    background:var(--panel-2);
-    overflow:hidden;
-  }
-  .games-col.home{ border-top:2px solid var(--accent); }
-  .games-col.away{ border-top:2px solid var(--teal); }
-  .games-col-title{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    padding:12px 14px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .games-col.home .games-col-title{ color:var(--accent); }
-  .games-col.away .games-col-title{ color:var(--teal); }
-  .games-col-controls{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .games-count{
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:0;
-    text-transform:none;
-    color:var(--muted-2);
-  }
+  @media (max-width:480px){
+    .feedback-widget{ right:14px; bottom:14px; }
+    .feedback-panel{ width:calc(100vw - 28px); }
+  }
 
-  /* ---------- médias de gols ---------- */
-  .avg-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-  }
-  @media (max-width:760px){ .avg-grid{ grid-template-columns:1fr; } }
-  .avg-col{
-    border:1px solid var(--border);
-    border-radius:9px;
-    padding:14px 16px;
-    background:var(--panel-2);
-  }
-  .avg-col.home{ border-top:2px solid var(--accent); }
-  .avg-col.away{ border-top:2px solid var(--teal); }
-  .avg-col-title{
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    gap:10px;
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    margin-bottom:12px;
-    flex-wrap:wrap;
-  }
-  .avg-col.home .avg-col-title{ color:var(--accent); }
-  .avg-col.away .avg-col-title{ color:var(--teal); }
-  .venue-toggle{ display:flex; gap:4px; }
-  .venue-btn{
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:0.4px;
-    text-transform:uppercase;
-    padding:5px 11px;
-    border-radius:6px;
-    border:1px solid var(--border);
-    background:transparent;
-    color:var(--muted);
-    cursor:pointer;
-    transition:background .15s ease, color .15s ease, border-color .15s ease;
-  }
-  .venue-btn:hover{ color:var(--text); }
-  .avg-col.home .venue-btn.active, .games-col.home .venue-btn.active{
-    color:var(--accent);
-    border-color:var(--accent);
-    background:rgba(0,226,138,0.1);
-  }
-  .avg-col.away .venue-btn.active, .games-col.away .venue-btn.active{
-    color:var(--teal);
-    border-color:var(--teal);
-    background:rgba(0,194,168,0.1);
-  }
-  .avg-item{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:3px;
-    padding:9px 0;
-    border-bottom:1px solid var(--border-soft);
-    font-size:12.5px;
-  }
-  .avg-item:last-child{ border-bottom:none; }
-  .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
-  .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); line-height:1.5; }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:20px;
+  }
+  .panel + .panel{ margin-top:18px; }
+  .panel-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .panel-head .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+  }
+  .panel-head h2{
+    font-family:var(--display);
+    font-size:15px;
+    margin:2px 0 0;
+    font-weight:600;
+  }
 
-  /* ---------- abas ---------- */
-  .tabs{
-    display:flex;
-    flex-wrap:wrap;
-    gap:4px;
-    margin-bottom:20px;
-    border:1px solid var(--border);
-    border-radius:9px;
-    padding:4px;
-    background:var(--panel);
-    width:fit-content;
-    max-width:100%;
-  }
-  .tab-btn{
-    font-family:var(--mono);
-    font-size:12.5px;
-    letter-spacing:0.5px;
-    color:var(--muted);
-    background:transparent;
-    border:1px solid transparent;
-    border-radius:6px;
-    padding:9px 18px;
-    cursor:pointer;
-    transition:background .15s ease, color .15s ease;
-  }
-  .tab-btn:hover{ color:var(--text); }
-  .tab-btn.active{
-    background:var(--panel-2);
-    color:var(--accent);
-    border-color:var(--border);
-  }
-  .view{ display:none; }
-  .view.active{ display:block; }
+  input[type=text], input[type=password]{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:14px;
+    padding:11px 12px;
+    border-radius:7px;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(0,226,138,0.15);
+  }
+  input::placeholder{ color:var(--muted-2); }
 
-  .error-box{
-    display:none;
-    margin-top:10px;
-    padding:12px 14px;
-    border:1px solid rgba(201,59,68,0.4);
-    background:rgba(201,59,68,0.08);
-    border-radius:8px;
-    font-family:var(--mono);
-    font-size:11.5px;
-    color:var(--red);
-    line-height:1.6;
-    white-space:pre-wrap;
-    word-break:break-word;
-  }
-  .error-box.show{ display:block; }
+  button{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:13.5px;
+    border-radius:7px;
+    border:1px solid transparent;
+    padding:11px 18px;
+    cursor:pointer;
+    transition:transform .08s ease, filter .15s ease, background .15s ease;
+  }
+  button:active{ transform:translateY(1px); }
+  .btn-primary{ background:var(--accent); color:#04170D; }
+  .btn-primary:hover{ filter:brightness(1.08); }
+  .btn-primary:disabled{ opacity:.55; cursor:progress; filter:none; }
+  .btn-ghost{ background:transparent; border-color:var(--border); color:var(--muted); }
+  .btn-ghost:hover{ border-color:var(--muted-2); color:var(--text); }
 
-  footer{
-    margin-top:30px;
-    text-align:center;
-    font-family:var(--mono);
-    font-size:11px;
-    color:var(--muted-2);
-  }
+  .status-line{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    margin-top:12px;
+    min-height:16px;
+  }
+  .status-line.err{ color:var(--red); }
+  .status-line.ok{ color:var(--teal); }
+
+  details.settings{
+    margin-top:16px;
+    border-top:1px solid var(--border-soft);
+    padding-top:14px;
+  }
+  details.settings summary{
+    cursor:pointer;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--muted);
+    letter-spacing:0.5px;
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  details.settings summary::-webkit-details-marker{ display:none; }
+  details.settings[open] summary:before{ transform:rotate(90deg); }
+  details.settings summary:before{
+    content:"▸";
+    color:var(--muted-2);
+    transition:transform .15s ease;
+  }
+  .settings-body{
+    margin-top:14px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px;
+    align-items:end;
+  }
+  .settings-body label{
+    display:block; font-family:var(--mono); font-size:10.5px;
+    letter-spacing:1.2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;
+  }
+  .settings-note{
+    font-size:12px;
+    color:var(--muted-2);
+    margin-top:8px;
+    line-height:1.6;
+  }
+  .settings-note code{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:1px 5px;
+    font-family:var(--mono);
+    color:var(--muted);
+  }
+
+  /* ---------- jogos do dia ---------- */
+  .today-list{
+    display:grid;
+    gap:8px;
+    margin-top:14px;
+  }
+  .today-row{
+    display:grid;
+    grid-template-columns:82px 1fr auto auto;
+    align-items:center;
+    gap:14px;
+    padding:12px 14px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--panel-2);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+    text-align:left;
+  }
+  .today-row:hover, .today-row.selected{ border-color:var(--accent); background:rgba(0,226,138,0.06); }
+  .today-time-wrap{ display:flex; flex-direction:column; gap:2px; }
+  .today-date{ font-family:var(--mono); font-size:9.5px; color:var(--muted-2); }
+  .today-time{ font-family:var(--mono); font-size:13px; color:var(--accent); }
+  .today-teams{ font-size:13.5px; color:var(--text); }
+  .today-teams .lg{
+    display:block;
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--muted-2);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    margin-bottom:2px;
+  }
+  .today-odds{ display:flex; gap:6px; font-family:var(--mono); font-size:11.5px; white-space:nowrap; }
+  .today-odds .odd-chip{
+    padding:3px 8px;
+    border-radius:5px;
+    border:1px solid var(--border);
+    color:var(--muted);
+  }
+  .today-odds .odd-chip.fav{
+    border-color:rgba(0,226,138,0.5);
+    color:var(--accent);
+    background:rgba(0,226,138,0.08);
+    font-weight:700;
+  }
+  .today-odds .odd-chip.empty{ color:var(--muted-2); font-style:italic; border-style:dashed; }
+  .today-cta{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+
+  .odd-chip.live-chip{
+    border-color:rgba(255,77,94,0.5);
+    color:var(--red);
+    background:rgba(255,77,94,0.08);
+    font-weight:700;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+  }
+  .live-dot{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--red);
+    display:inline-block;
+    animation:live-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes live-pulse{
+    0%, 100%{ opacity:1; }
+    50%{ opacity:0.25; }
+  }
+
+  /* ---------- detalhe do confronto ---------- */
+  .detail-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .detail-title{ font-family:var(--display); font-size:17px; font-weight:600; }
+  .detail-sub{ font-family:var(--mono); font-size:11px; color:var(--muted-2); margin-top:3px; text-transform:uppercase; letter-spacing:0.5px; }
+
+  .games-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:18px;
+  }
+  @media (max-width:760px){ .games-grid{ grid-template-columns:1fr; } }
+  .games-col{
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--panel-2);
+    overflow:hidden;
+  }
+  .games-col.home{ border-top:2px solid var(--accent); }
+  .games-col.away{ border-top:2px solid var(--teal); }
+  .games-col-title{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:12px 14px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .games-col.home .games-col-title{ color:var(--accent); }
+  .games-col.away .games-col-title{ color:var(--teal); }
+  .games-col-controls{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .games-count{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0;
+    text-transform:none;
+    color:var(--muted-2);
+  }
+  .games-col.home .venue-btn.active{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:rgba(0,226,138,0.1);
+  }
+  .games-col.away .venue-btn.active{
+    color:var(--teal);
+    border-color:var(--teal);
+    background:rgba(0,194,168,0.1);
+  }
+  .games-list{
+    max-height:360px;
+    overflow-y:auto;
+    padding:6px 8px;
+  }
+
+  .lineup-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){ .lineup-grid{ grid-template-columns:1fr; } }
+  .lineup-col{
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--panel-2);
+    padding:14px;
+  }
+  .lineup-col.home{ border-top:2px solid var(--accent); }
+  .lineup-col.away{ border-top:2px solid var(--teal); }
+  .lineup-col-title{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .lineup-col.home .lineup-col-title{ color:var(--accent); }
+  .lineup-col.away .lineup-col-title{ color:var(--teal); }
+  .lineup-formation{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  .lineup-list{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    margin-bottom:14px;
+  }
+  .lineup-player{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    color:var(--text);
+    padding:3px 0;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .lineup-player:last-child{ border-bottom:none; }
+  .lineup-player .num{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted-2);
+    width:22px;
+    flex-shrink:0;
+  }
+  .lineup-player .pos{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--muted-2);
+    text-transform:uppercase;
+  }
+  .lineup-subtitle{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    margin-bottom:6px;
+    padding-top:4px;
+    border-top:1px solid var(--border-soft);
+  }
+  .lineup-injuries{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+  .lineup-injury-item{
+    font-size:12.5px;
+    color:var(--red);
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+  }
+  .lineup-injury-item .reason{
+    color:var(--muted);
+    font-size:11.5px;
+    text-align:right;
+  }
+  .game-row{
+    display:grid;
+    grid-template-columns:18px 56px 1fr 40px 40px 20px;
+    gap:6px;
+    align-items:center;
+    padding:8px 6px;
+    font-family:var(--mono);
+    font-size:11px;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .game-row:last-child{ border-bottom:none; }
+  .g-idx{ color:var(--muted-2); }
+  .g-date{ color:var(--muted); }
+  .g-opp{
+    color:var(--text);
+    font-family:var(--body);
+    font-size:11.5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .g-score{ color:var(--muted); text-align:center; }
+  .g-score small{ color:var(--muted-2); font-size:8.5px; }
+  .g-tag{ text-align:center; font-weight:700; border-radius:4px; padding:2px 0; font-size:10.5px; }
+  .g-tag.win{ background:rgba(0,194,168,0.15); color:var(--green); }
+  .g-tag.loss{ background:rgba(201,59,68,0.15); color:var(--red); }
+  .g-tag.draw{ background:rgba(169,121,26,0.15); color:var(--yellow); }
+  .g-opp-wrap{ display:flex; flex-direction:column; gap:3px; overflow:hidden; min-width:0; }
+  .g-opp-meta{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .g-meta-divider{ color:var(--border); font-size:9px; }
+  .g-meta-item{
+    font-family:var(--mono);
+    font-size:9px;
+    letter-spacing:0.2px;
+    white-space:nowrap;
+    cursor:default;
+  }
+  .g-meta-item.yes{ color:var(--green); }
+  .g-meta-item.no{ color:var(--red); }
+  .g-meta-item.unk{ color:var(--muted-2); font-style:italic; }
+  .g-corner-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:2px; }
+  .g-corner-item{
+    font-family:var(--mono);
+    font-size:9px;
+    letter-spacing:0.2px;
+    white-space:nowrap;
+    cursor:default;
+    padding:1px 5px;
+    border-radius:3px;
+    border:1px solid transparent;
+  }
+  .g-corner-item.high{ color:var(--green); border-color:rgba(0,226,138,0.35); background:rgba(0,226,138,0.06); }
+  .g-corner-item.low{ color:var(--red); border-color:rgba(255,77,94,0.35); background:rgba(255,77,94,0.06); }
+  .g-corner-item.unk{ color:var(--muted-2); font-style:italic; }
+  .games-list::-webkit-scrollbar{ width:6px; }
+  .games-list::-webkit-scrollbar-thumb{ background:var(--border); border-radius:6px; }
+  .games-legend{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--muted-2);
+    margin-top:8px;
+  }
+  .games-legend b{ color:var(--muted); }
+
+  .empty-note{ font-size:12.5px; color:var(--muted-2); font-style:italic; }
+
+  /* ---------- confrontos diretos ---------- */
+  .h2h-section .today-row{ cursor:default; grid-template-columns:90px 1fr auto; }
+
+  /* ---------- tabela de classificação ---------- */
+  .standings-table-wrap{
+    margin-top:10px;
+    overflow-x:auto;
+    border:1px solid var(--border);
+    border-radius:9px;
+  }
+  .standings-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12.5px;
+    min-width:480px;
+  }
+  .standings-table th, .standings-table td{
+    padding:8px 10px;
+    text-align:center;
+    border-bottom:1px solid var(--border-soft);
+    white-space:nowrap;
+  }
+  .standings-table th{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    background:var(--panel-2);
+  }
+  .standings-table td.standings-team{ text-align:left; color:var(--text); }
+  .standings-table tr:last-child td{ border-bottom:none; }
+  .standings-table tr.standings-highlight{ background:rgba(0,226,138,0.09); }
+  .standings-table tr.standings-highlight td.standings-team{ color:var(--accent); font-weight:600; }
+  .standings-table td.standings-rank{ font-family:var(--mono); color:var(--muted); }
+
+  /* ---------- médias de gols ---------- */
+  .avg-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){ .avg-grid{ grid-template-columns:1fr; } }
+  .avg-col{
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:14px 16px;
+    background:var(--panel-2);
+  }
+  .avg-col.home{ border-top:2px solid var(--accent); }
+  .avg-col.away{ border-top:2px solid var(--teal); }
+  .avg-col-title{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:10px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+  }
+  .avg-col.home .avg-col-title{ color:var(--accent); }
+  .avg-col.away .avg-col-title{ color:var(--teal); }
+  .venue-toggle{ display:flex; gap:4px; }
+  .venue-btn{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    padding:5px 11px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--muted);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .venue-btn:hover{ color:var(--text); }
+  .avg-col.home .venue-btn.active{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:rgba(0,226,138,0.1);
+  }
+  .avg-col.away .venue-btn.active{
+    color:var(--teal);
+    border-color:var(--teal);
+    background:rgba(0,194,168,0.1);
+  }
+  .avg-item{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:3px;
+    padding:9px 0;
+    border-bottom:1px solid var(--border-soft);
+    font-size:12.5px;
+  }
+  .avg-item:last-child{ border-bottom:none; }
+  .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
+  .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); line-height:1.5; }
+
+  .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+
+  /* ---------- abas ---------- */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+    margin-bottom:20px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:4px;
+    background:var(--panel);
+    width:fit-content;
+    max-width:100%;
+  }
+  .tab-btn{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.5px;
+    color:var(--muted);
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:6px;
+    padding:9px 18px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover{ color:var(--text); }
+  .tab-btn.active{
+    background:var(--panel-2);
+    color:var(--accent);
+    border-color:var(--border);
+  }
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  /* ---------- caixa de erro detalhado ---------- */
+  .error-box{
+    display:none;
+    margin-top:10px;
+    padding:12px 14px;
+    border:1px solid rgba(201,59,68,0.4);
+    background:rgba(201,59,68,0.08);
+    border-radius:8px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--red);
+    line-height:1.6;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .error-box.show{ display:block; }
+  .error-box .error-box-title{
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    font-size:10.5px;
+    margin-bottom:6px;
+    display:block;
+  }
+
+  footer{
+    margin-top:30px;
+    text-align:center;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted-2);
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <header class="top">
-    <div class="brand">
-      <div class="mark">⚽</div>
-      <div>
-        <span class="welcome">bem-vindo(a) ao</span>
-        <h1>Fan de Esporte</h1>
-      </div>
-    </div>
-    <div>
-      <div class="clock" id="clock">—</div>
-      <div class="sponsor-box">
-        <span class="sponsor-text">Seja patrocinador<br>Coloque sua empresa aqui</span>
-        <a class="btn-primary sponsor-link" href="https://wa.me/5563992088796" target="_blank" rel="noopener">Entrar em contato</a>
-      </div>
-    </div>
-  </header>
+  <header class="top">
+    <div class="brand">
+      <div class="mark">⚽</div>
+      <div>
+        <span class="welcome">bem-vindo(a) ao</span>
+        <h1>Fan de Esporte</h1>
+      </div>
+    </div>
+    <div>
+      <div class="clock" id="clock">—</div>
+      <div class="sponsor-box">
+        <span class="sponsor-text">Seja patrocinador<br>Coloque sua empresa aqui</span>
+        <a class="btn-primary sponsor-link" href="https://wa.me/5563992088796" target="_blank" rel="noopener">Entrar em contato</a>
+      </div>
+    </div>
+  </header>
 
-  <nav class="tabs">
-    <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
-    <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
-    <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
-    <button class="tab-btn" data-view="invictos">Invictos (10)</button>
-    <button class="tab-btn" data-view="zero1t">0 Gols no 1ºT (10)</button>
-  </nav>
+  <nav class="tabs">
+    <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
+    <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
+    <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
+    <button class="tab-btn" data-view="invictos">Invictos (10)</button>
+    <button class="tab-btn" data-view="zero1t">0 Gols no 1ºT (10)</button>
+  </nav>
 
-  <!-- ===== VIEW: JOGOS DO DIA ===== -->
-  <div class="view active" id="view-jogos">
+  <!-- ===== VIEW: JOGOS DO DIA ===== -->
+  <div class="view active" id="view-jogos">
 
-  <section class="panel">
-    <div class="panel-head">
-      <div></div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn-ghost" id="btnForceRefresh" title="Ignora o cache de hoje e busca de novo na API (gasta cota)">Forçar nova busca</button>
-        <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
-      </div>
-    </div>
-    <div class="status-line" id="todayStatus"></div>
-    <div class="error-box" id="todayErrorBox"><span class="error-box-title" style="font-weight:700; display:block; margin-bottom:6px;">Detalhe técnico</span><span id="todayErrorText"></span></div>
-    <div class="today-list" id="todayList"></div>
-    <input type="hidden" id="apiKey" value="c560ef176bae087f0790b36849a6adf0">
-  </section>
+  <!-- JOGOS DO DIA -->
+  <section class="panel">
+    <div class="panel-head">
+      <div></div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-ghost" id="btnForceRefresh" title="Ignora o cache de hoje e busca de novo na API (gasta cota)">Forçar nova busca</button>
+        <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
+      </div>
+    </div>
+    <div class="status-line" id="todayStatus"></div>
+    <div class="error-box" id="todayErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="todayErrorText"></span></div>
+    <div class="today-list" id="todayList"></div>
+    <input type="hidden" id="apiKey" value="c560ef176bae087f0790b36849a6adf0">
 
-  <!-- ===== PAINEL DE ANÁLISE ===== -->
-  <section class="panel" id="detailPanel" style="display:none;">
-    <div class="detail-head">
-      <div>
-        <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
-        <div class="detail-sub" id="detailSub"></div>
-      </div>
-      <span class="today-odds" id="detailOdds"></span>
-    </div>
+    <details class="settings">
+      <summary>Reforço football-data.org (opcional)</summary>
+      <div class="settings-body">
+        <div>
+          <label for="fdApiKey">API Key da football-data.org</label>
+          <input type="text" id="fdApiKey" placeholder="Cole aqui sua key gratuita">
+        </div>
+        <button type="button" class="btn-primary" id="btnSaveFdKey">Salvar</button>
+      </div>
+      <div class="settings-note" id="fdKeyStatus">
+        Usada só como reforço pra Série A, quando a API-Football não retornar os
+        últimos 10 jogos de um time (restrição de temporada no plano gratuito).
+        Sem essa key o site funciona normal, só sem esse reforço.
+        Pegue a sua de graça em <code>football-data.org</code> (cadastro por e-mail, sem cartão)
+        e cole aqui — ela fica salva só neste navegador.
+      </div>
+    </details>
+  </section>
 
-    <div class="status-line" id="detailStatus"></div>
-    <div class="error-box" id="detailErrorBox"><span class="error-box-title" style="font-weight:700; display:block; margin-bottom:6px;">Detalhe técnico</span><span id="detailErrorText"></span></div>
+  <!-- ===== PAINEL DE ANÁLISE (abre inline abaixo do jogo clicado) ===== -->
+  <section class="panel" id="detailPanel" style="display:none;">
+    <div class="detail-head">
+      <div>
+        <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
+        <div class="detail-sub" id="detailSub"></div>
+      </div>
+      <span class="today-odds" id="detailOdds"></span>
+    </div>
 
-    <!-- MÉDIAS DE GOLS / ESTATÍSTICAS -->
-    <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
-      <!-- Casa -->
-      <div class="avg-col home">
-        <div class="avg-col-title">
-          <span id="homeAvgLabel">Geral</span>
-          <div class="venue-toggle">
-            <button type="button" class="venue-btn active" data-prefix="home" data-venue="geral">Geral</button>
-            <button type="button" class="venue-btn" data-prefix="home" data-venue="home">Casa</button>
-            <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
-          </div>
-        </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span></div>
-      </div>
-      <!-- Fora -->
-      <div class="avg-col away">
-        <div class="avg-col-title">
-          <span id="awayAvgLabel">Geral</span>
-          <div class="venue-toggle">
-            <button type="button" class="venue-btn active" data-prefix="away" data-venue="geral">Geral</button>
-            <button type="button" class="venue-btn" data-prefix="away" data-venue="home">Casa</button>
-            <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
-          </div>
-        </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span></div>
-      </div>
-    </div>
+    <div class="status-line" id="detailStatus"></div>
+    <div class="error-box" id="detailErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="detailErrorText"></span></div>
 
-    <!-- LISTA DE HISTÓRICO DE JOGOS -->
-    <div class="games-grid" id="gamesGrid" style="display:none;">
-      <div class="games-col home">
-        <div class="games-col-title">
-          <span id="homeGamesLabel">Geral</span>
-          <div class="games-col-controls">
-            <span class="games-count" id="homeGamesCount">10 jogos</span>
-            <div class="venue-toggle">
-              <button type="button" class="venue-btn active" data-list-prefix="home" data-venue="geral">Geral</button>
-              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="home">Casa</button>
-              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="away">Fora</button>
-            </div>
-          </div>
-        </div>
-        <div class="games-list" id="homeGamesList"></div>
-      </div>
-      <div class="games-col away">
-        <div class="games-col-title">
-          <span id="awayGamesLabel">Geral</span>
-          <div class="games-col-controls">
-            <span class="games-count" id="awayGamesCount">10 jogos</span>
-            <div class="venue-toggle">
-              <button type="button" class="venue-btn active" data-list-prefix="away" data-venue="geral">Geral</button>
-              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="home">Casa</button>
-              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="away">Fora</button>
-            </div>
-          </div>
-        </div>
-        <div class="games-list" id="awayGamesList"></div>
-      </div>
-    </div>
-  </section>
+    <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
+      <div class="avg-col home">
+        <div class="avg-col-title">
+          <span id="homeAvgLabel">Casa</span>
+          <div class="venue-toggle">
+            <button type="button" class="venue-btn active" data-prefix="home" data-venue="home">Casa</button>
+            <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
+          </div>
+        </div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span></div>
+      </div>
+      <div class="avg-col away">
+        <div class="avg-col-title">
+          <span id="awayAvgLabel">Fora</span>
+          <div class="venue-toggle">
+            <button type="button" class="venue-btn active" data-prefix="away" data-venue="home">Casa</button>
+            <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
+          </div>
+        </div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span></div>
+      </div>
+    </div>
 
-</div>
+    <div class="games-grid" id="gamesGrid" style="display:none;">
+      <div class="games-col home">
+        <div class="games-col-title">
+          <span id="homeGamesLabel">Casa</span>
+          <div class="games-col-controls">
+            <span class="games-count" id="homeGamesCount">10 jogos</span>
+            <div class="venue-toggle">
+              <button type="button" class="venue-btn active" data-list-prefix="home" data-venue="geral">Geral</button>
+              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="home">Casa</button>
+              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="away">Fora</button>
+            </div>
+          </div>
+        </div>
+        <div class="games-list" id="homeGamesList"></div>
+      </div>
+      <div class="games-col away">
+        <div class="games-col-title">
+          <span id="awayGamesLabel">Fora</span>
+          <div class="games-col-controls">
+            <span class="games-count" id="awayGamesCount">10 jogos</span>
+            <div class="venue-toggle">
+              <button type="button" class="venue-btn active" data-list-prefix="away" data-venue="geral">Geral</button>
+              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="home">Casa</button>
+              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="away">Fora</button>
+            </div>
+          </div>
+        </div>
+        <div class="games-list" id="awayGamesList"></div>
+      </div>
+    </div>
+    <div class="games-legend" id="gamesLegend" style="display:none;">
+      <span><b>1ºT / 2ºT</b> marcou (com minuto do gol) ou não marcou em cada tempo</span>
+      <span style="color:var(--green);">verde</span> sim ·
+      <span style="color:var(--red);">vermelho</span> não ·
+      <span style="color:var(--muted-2);">cinza</span> sem dado ·
+      <span><b>Escanteios / Finalizações / Chutes no gol / Cartões / Faltas</b> total do jogo (a API não separa por tempo)</span>
+    </div>
 
-<footer>
-  Fan de Esporte &copy; 2026
-</footer>
-
-<script>
-// Manipulação dos Filtros (GERAL / CASA / FORA)
-document.addEventListener('click', function(e) {
-  if (e.target.classList.contains('venue-btn')) {
-    const btn = e.target;
-    const parent = btn.closest('.venue-toggle');
-    if (!parent) return;
-
-    parent.querySelectorAll('.venue-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const prefix = btn.getAttribute('data-prefix');
-    const listPrefix = btn.getAttribute('data-list-prefix');
-    const venue = btn.getAttribute('data-venue');
-
-    // Atualiza o título das Médias
-    if (prefix) {
-      const labelElem = document.getElementById(`${prefix}AvgLabel`);
-      if (labelElem) {
-        labelElem.textContent = venue === 'geral' ? 'Geral' : (venue === 'home' ? 'Casa' : 'Fora');
-      }
-      if (typeof updateTeamAverages === 'function') {
-        updateTeamAverages(prefix, venue);
-      }
-    }
-
-    // Atualiza o título das Listas de Jogos
-    if (listPrefix) {
-      const labelElem = document.getElementById(`${listPrefix}GamesLabel`);
-      if (labelElem) {
-        labelElem.textContent = venue === 'geral' ? 'Geral' : (venue === 'home' ? 'Casa' : 'Fora');
-      }
-      if (typeof updateTeamGamesList === 'function') {
-        updateTeamGamesList(listPrefix, venue);
-      }
-    }
-  }
-});
-</script>
-</div>
-</body>
-</html>
+    <div class="lineup-section" id="lineupSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Escalação e Desfalques</div>
+      <div class="empty-note" style="margin-top:4px; max-width:640px;">A escalação oficial só costuma ser divulgada perto do horário do jogo. Os desfalques são os jogadores confirmados como fora (lesão, suspensão etc.) para essa partida específica.</div>
+      <div class="status-line" id="lineupStatus"></div>
+      <div class="error-box" id="lineupErrorBox"><span class="error-box-title">Detalhe técnico<
