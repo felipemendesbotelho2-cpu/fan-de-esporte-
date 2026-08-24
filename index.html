@@ -506,6 +506,92 @@
     overflow-y:auto;
     padding:6px 8px;
   }
+
+  .lineup-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){ .lineup-grid{ grid-template-columns:1fr; } }
+  .lineup-col{
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--panel-2);
+    padding:14px;
+  }
+  .lineup-col.home{ border-top:2px solid var(--accent); }
+  .lineup-col.away{ border-top:2px solid var(--teal); }
+  .lineup-col-title{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .lineup-col.home .lineup-col-title{ color:var(--accent); }
+  .lineup-col.away .lineup-col-title{ color:var(--teal); }
+  .lineup-formation{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--muted);
+    margin-bottom:8px;
+  }
+  .lineup-list{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    margin-bottom:14px;
+  }
+  .lineup-player{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    color:var(--text);
+    padding:3px 0;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .lineup-player:last-child{ border-bottom:none; }
+  .lineup-player .num{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted-2);
+    width:22px;
+    flex-shrink:0;
+  }
+  .lineup-player .pos{
+    font-family:var(--mono);
+    font-size:10px;
+    color:var(--muted-2);
+    text-transform:uppercase;
+  }
+  .lineup-subtitle{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    margin-bottom:6px;
+    padding-top:4px;
+    border-top:1px solid var(--border-soft);
+  }
+  .lineup-injuries{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+  .lineup-injury-item{
+    font-size:12.5px;
+    color:var(--red);
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+  }
+  .lineup-injury-item .reason{
+    color:var(--muted);
+    font-size:11.5px;
+    text-align:right;
+  }
   .game-row{
     display:grid;
     grid-template-columns:18px 56px 1fr 40px 40px 20px;
@@ -667,21 +753,23 @@
   }
   .avg-item{
     display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:7px 0;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:3px;
+    padding:9px 0;
     border-bottom:1px solid var(--border-soft);
     font-size:12.5px;
   }
   .avg-item:last-child{ border-bottom:none; }
-  .avg-item span.lbl{ color:var(--muted); }
-  .avg-item span.val{ font-family:var(--mono); font-weight:700; color:var(--text); }
+  .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
+  .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); line-height:1.5; }
 
   .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
 
   /* ---------- abas ---------- */
   .tabs{
     display:flex;
+    flex-wrap:wrap;
     gap:4px;
     margin-bottom:20px;
     border:1px solid var(--border);
@@ -689,6 +777,7 @@
     padding:4px;
     background:var(--panel);
     width:fit-content;
+    max-width:100%;
   }
   .tab-btn{
     font-family:var(--mono);
@@ -769,6 +858,8 @@
     <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
     <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
     <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
+    <button class="tab-btn" data-view="invictos">Invictos (10)</button>
+    <button class="tab-btn" data-view="zero1t">0 Gols no 1ºT (10)</button>
   </nav>
 
   <!-- ===== VIEW: JOGOS DO DIA ===== -->
@@ -829,9 +920,14 @@
             <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
           </div>
         </div>
-        <div class="avg-item"><span class="lbl">Média de gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Média de gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Média de gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span></div>
       </div>
       <div class="avg-col away">
         <div class="avg-col-title">
@@ -841,9 +937,14 @@
             <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
           </div>
         </div>
-        <div class="avg-item"><span class="lbl">Média de gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
-        <div class="avg-item"><span class="lbl">Média de gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
-        <div class="avg-item"><span class="lbl">Média de gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span></div>
       </div>
     </div>
 
@@ -885,6 +986,29 @@
       <span><b>Escanteios / Finalizações / Chutes no gol / Cartões / Faltas</b> total do jogo (a API não separa por tempo)</span>
     </div>
 
+    <div class="lineup-section" id="lineupSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Escalação e Desfalques</div>
+      <div class="empty-note" style="margin-top:4px; max-width:640px;">A escalação oficial só costuma ser divulgada perto do horário do jogo. Os desfalques são os jogadores confirmados como fora (lesão, suspensão etc.) para essa partida específica.</div>
+      <div class="status-line" id="lineupStatus"></div>
+      <div class="error-box" id="lineupErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="lineupErrorText"></span></div>
+      <div class="lineup-grid" id="lineupGrid" style="display:none; margin-top:14px;">
+        <div class="lineup-col home">
+          <div class="lineup-col-title" id="lineupHomeTitle">Casa</div>
+          <div class="lineup-formation" id="lineupHomeFormation"></div>
+          <div class="lineup-list" id="lineupHomeXI"></div>
+          <div class="lineup-subtitle">Desfalques confirmados</div>
+          <div class="lineup-injuries" id="lineupHomeInjuries"></div>
+        </div>
+        <div class="lineup-col away">
+          <div class="lineup-col-title" id="lineupAwayTitle">Fora</div>
+          <div class="lineup-formation" id="lineupAwayFormation"></div>
+          <div class="lineup-list" id="lineupAwayXI"></div>
+          <div class="lineup-subtitle">Desfalques confirmados</div>
+          <div class="lineup-injuries" id="lineupAwayInjuries"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="h2h-section" id="h2hSection" style="display:none; margin-top:24px;">
       <div class="detail-title" style="font-size:15px;">Confrontos Diretos</div>
       <div class="status-line" id="h2hStatus"></div>
@@ -908,10 +1032,10 @@
     <div class="panel-head">
       <div>
         <div class="detail-title" style="font-size:16px;">Jogos Ao Vivo</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Jogos das ligas selecionadas que estão rolando agora, com placar e minuto atual. Atualiza sozinho a cada 3 minutos enquanto essa aba estiver aberta.</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Recurso temporariamente desativado.</div>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="btn-ghost" id="btnLoadLive">Atualizar</button>
+        <button class="btn-ghost" id="btnLoadLive" disabled>Atualizar</button>
       </div>
     </div>
     <div class="status-line" id="liveStatus"></div>
@@ -936,6 +1060,40 @@
   </section>
 
   </div><!-- /view-frios1t -->
+
+  <!-- ===== VIEW: INVICTOS (10) ===== -->
+  <div class="view" id="view-invictos">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Times Invictos nos Últimos 10</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO perderam nenhum dos últimos 10 jogos — ou seja, só venceram ou empataram em CADA UM dos últimos 10 jogos.</div>
+      </div>
+    </div>
+    <div class="status-line" id="invictosStatus"></div>
+    <div class="error-box" id="invictosErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="invictosErrorText"></span></div>
+    <div class="today-list" id="invictosList"></div>
+  </section>
+
+  </div><!-- /view-invictos -->
+
+  <!-- ===== VIEW: 0 GOLS NO 1ºT (10) ===== -->
+  <div class="view" id="view-zero1t">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Times 0 Gols no 1º Tempo (10 jogos)</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO marcaram nenhum gol no 1º tempo em NENHUM dos últimos 10 jogos — mais rígido que a aba "-2 Gols no 1ºT", aqui não pode ter feito nem 1 gol no 1ºT.</div>
+      </div>
+    </div>
+    <div class="status-line" id="zero1tStatus"></div>
+    <div class="error-box" id="zero1tErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="zero1tErrorText"></span></div>
+    <div class="today-list" id="zero1tList"></div>
+  </section>
+
+  </div><!-- /view-zero1t -->
 
   <footer>Fan de Esporte · uso analítico — não constitui recomendação financeira</footer>
 </div>
@@ -1001,11 +1159,8 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('view-' + name).classList.add('active');
     document.querySelector('.tab-btn[data-view="' + name + '"]').classList.add('active');
-    if(name === 'aovivo'){
-      startLiveAutoRefresh();
-    } else {
-      stopLiveAutoRefresh();
-    }
+    // Ao Vivo desativado: nunca inicia o auto-refresh, mesmo abrindo essa aba.
+    stopLiveAutoRefresh();
   }
   document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.addEventListener('click', () => showView(btn.dataset.view));
@@ -1561,6 +1716,7 @@
   const SHOTS_HIGH_THRESHOLD = 10;      // finalizações totais
   const SHOTS_ON_GOAL_HIGH_THRESHOLD = 4; // chutes no gol (a gol)
   const FOULS_HIGH_THRESHOLD = 12;      // faltas cometidas
+  const CARDS_HIGH_THRESHOLD = 3;       // cartões amarelos
 
   function buildStatMsg(label, value, threshold, tooltip){
     if(value == null){
@@ -1599,7 +1755,7 @@
     const y = yellowCards ?? 0;
     const r = redCards ?? 0;
     const parts = [];
-    parts.push('<span class="g-corner-item ' + (y >= 3 ? 'high' : 'low') + '" title="Cartões amarelos do time nesse jogo">' + y + ' amarelo(s)</span>');
+    parts.push('<span class="g-corner-item ' + (y >= CARDS_HIGH_THRESHOLD ? 'high' : 'low') + '" title="Cartões amarelos do time nesse jogo">' + y + ' amarelo(s)</span>');
     if(r > 0){
       parts.push('<span class="g-corner-item low" title="Cartões vermelhos do time nesse jogo">' + r + ' vermelho(s)</span>');
     }
@@ -1663,19 +1819,40 @@
 
   /* ---------------- médias de gols ---------------- */
   function computeGoalAverages(fixtures){
-    if(!fixtures || !fixtures.length){
-      return { avgTotal: 0, avgHT: 0, avgST: 0 };
-    }
-    const n = fixtures.length;
-    const sumTotal = fixtures.reduce((s,f) => s + f.gf_ft, 0);
-    const sumHT = fixtures.reduce((s,f) => s + f.gf_ht, 0);
-    const sumST = fixtures.reduce((s,f) => s + (f.gf_ft - f.gf_ht), 0);
-
+    const totalSum = sumStatOverGames(fixtures, f => f.gf_ft);
+    const htSum = sumStatOverGames(fixtures, f => f.gf_ht);
+    const stSum = sumStatOverGames(fixtures, f => f.gf_ft - f.gf_ht);
     return {
-      avgTotal: (sumTotal / n).toFixed(2),
-      avgHT: (sumHT / n).toFixed(2),
-      avgST: (sumST / n).toFixed(2)
+      avgTotal: formatStatSum(totalSum, 'gols'),
+      avgHT: formatStatSum(htSum, 'gols no 1º tempo'),
+      avgST: formatStatSum(stSum, 'gols no 2º tempo')
     };
+  }
+
+  // Em vez de médias, esses 5 mercados mostram "em quantos dos últimos jogos com
+  // dado disponível o time bateu o limiar" (mesmos limiares usados na lista de jogos).
+  // Em vez de médias, esses 5 mercados mostram o total feito nos últimos jogos
+  // com dado disponível, mais a média por jogo — ex: "30 em 10 jogos (méd. 3.00)".
+  function sumStatOverGames(fixtures, getValue){
+    const withData = (fixtures || []).filter(f => getValue(f) != null);
+    const sum = withData.reduce((s,f) => s + getValue(f), 0);
+    return { sum, n: withData.length, avg: withData.length ? (sum / withData.length) : 0 };
+  }
+
+  function computeStatSums(fixtures){
+    return {
+      corners: sumStatOverGames(fixtures, f => f.cornersTotal),
+      shots: sumStatOverGames(fixtures, f => f.totalShots),
+      shotsOnGoal: sumStatOverGames(fixtures, f => f.shotsOnGoal),
+      cards: sumStatOverGames(fixtures, f => f.yellowCards),
+      fouls: sumStatOverGames(fixtures, f => f.foulsCommitted)
+    };
+  }
+
+  function formatStatSum(s, unit){
+    if(!s.n) return 'Sem dado disponível nos últimos jogos.';
+    const jogosWord = s.n === 1 ? 'jogo' : 'jogos';
+    return 'Nos últimos ' + s.n + ' ' + jogosWord + ' fez ' + s.sum + ' ' + unit + ', média de ' + s.avg.toFixed(2) + ' por jogo.';
   }
 
   const venueState = { home: [], away: [], selected: { home: 'home', away: 'home' } };
@@ -1692,6 +1869,11 @@
       el(prefix + 'AvgTotal').textContent = '—';
       el(prefix + 'AvgHT').textContent = '—';
       el(prefix + 'AvgST').textContent = '—';
+      el(prefix + 'StatCorners').textContent = '—';
+      el(prefix + 'StatShots').textContent = '—';
+      el(prefix + 'StatShotsOnGoal').textContent = '—';
+      el(prefix + 'StatCards').textContent = '—';
+      el(prefix + 'StatFouls').textContent = '—';
       return;
     }
     const filtered = filterFixturesByVenue(venueState[prefix], venueState.selected[prefix]);
@@ -1699,6 +1881,18 @@
     el(prefix + 'AvgTotal').textContent = avg.avgTotal;
     el(prefix + 'AvgHT').textContent = avg.avgHT;
     el(prefix + 'AvgST').textContent = avg.avgST;
+
+    const sums = computeStatSums(filtered);
+    el(prefix + 'StatCornersLbl').textContent = 'Escanteios';
+    el(prefix + 'StatCorners').textContent = formatStatSum(sums.corners, 'escanteios');
+    el(prefix + 'StatShotsLbl').textContent = 'Finalizações';
+    el(prefix + 'StatShots').textContent = formatStatSum(sums.shots, 'finalizações');
+    el(prefix + 'StatShotsOnGoalLbl').textContent = 'Chutes no gol';
+    el(prefix + 'StatShotsOnGoal').textContent = formatStatSum(sums.shotsOnGoal, 'chutes no gol');
+    el(prefix + 'StatCardsLbl').textContent = 'Cartões amarelos';
+    el(prefix + 'StatCards').textContent = formatStatSum(sums.cards, 'cartões amarelos');
+    el(prefix + 'StatFoulsLbl').textContent = 'Faltas';
+    el(prefix + 'StatFouls').textContent = formatStatSum(sums.fouls, 'faltas');
   }
 
   function applyGamesListFilter(prefix){
@@ -1776,6 +1970,17 @@
     el('h2hList').innerHTML = '';
     el('h2hStatus').textContent = '';
     el('h2hStatus').className = 'status-line';
+    el('lineupSection').style.display = 'none';
+    el('lineupGrid').style.display = 'none';
+    el('lineupHomeXI').innerHTML = '';
+    el('lineupAwayXI').innerHTML = '';
+    el('lineupHomeInjuries').innerHTML = '';
+    el('lineupAwayInjuries').innerHTML = '';
+    el('lineupHomeFormation').textContent = '';
+    el('lineupAwayFormation').textContent = '';
+    el('lineupStatus').textContent = '';
+    el('lineupStatus').className = 'status-line';
+    showErrorBox('lineupErrorBox', 'lineupErrorText', null);
     el('standingsSection').style.display = 'none';
     el('standingsTableWrap').innerHTML = '';
     el('standingsStatus').textContent = '';
@@ -1838,6 +2043,7 @@
 
     loadHeadToHead(g);
     loadStandings(g);
+    loadLineupsAndInjuries(g);
   }
 
   /* ---------------- confrontos diretos ---------------- */
@@ -1983,6 +2189,122 @@
       '</table>';
   }
 
+  /* ---------------- escalação e desfalques confirmados ---------------- */
+  async function resolveFixtureId(g){
+    if(g.fixtureId != null) return g.fixtureId;
+    if(!state.apiKey || g.home.id == null || g.away.id == null) return null;
+    try{
+      const dateStr = (g.date || new Date().toISOString()).slice(0,10);
+      const data = await apiGet('/fixtures?date=' + dateStr + '&team=' + g.home.id, state.apiKey);
+      const match = (data.response || []).find(fx =>
+        fx.teams && fx.teams.home.id === g.home.id && fx.teams.away.id === g.away.id
+      );
+      return match ? match.fixture.id : null;
+    }catch(err){
+      return null;
+    }
+  }
+
+  function renderLineupColumn(prefix, teamId, lineupsResponse, injuriesResponse){
+    const formationEl = el('lineup' + prefix + 'Formation');
+    const xiEl = el('lineup' + prefix + 'XI');
+    const injuriesEl = el('lineup' + prefix + 'Injuries');
+
+    const teamLineup = (lineupsResponse || []).find(l => l.team && l.team.id === teamId);
+    if(teamLineup){
+      formationEl.textContent = teamLineup.formation ? ('Formação: ' + teamLineup.formation) : '';
+      const startXI = teamLineup.startXI || [];
+      xiEl.innerHTML = startXI.length
+        ? startXI.map(s => {
+            const p = s.player || {};
+            return (
+              '<div class="lineup-player">' +
+                '<span class="num">' + (p.number ?? '—') + '</span>' +
+                '<span>' + (p.name || 'Jogador') + '</span>' +
+                '<span class="pos">' + (p.pos || '') + '</span>' +
+              '</div>'
+            );
+          }).join('')
+        : '<div class="empty-note" style="padding:4px 0;">Escalação ainda não divulgada.</div>';
+    } else {
+      formationEl.textContent = '';
+      xiEl.innerHTML = '<div class="empty-note" style="padding:4px 0;">Escalação ainda não divulgada.</div>';
+    }
+
+    const teamInjuries = (injuriesResponse || []).filter(inj => inj.team && inj.team.id === teamId);
+    injuriesEl.innerHTML = teamInjuries.length
+      ? teamInjuries.map(inj => {
+          const p = inj.player || {};
+          const reason = p.reason || p.type || 'Desfalque confirmado';
+          return (
+            '<div class="lineup-injury-item">' +
+              '<span>' + (p.name || 'Jogador') + '</span>' +
+              '<span class="reason">' + reason + '</span>' +
+            '</div>'
+          );
+        }).join('')
+      : '<div class="empty-note" style="padding:4px 0;">Nenhum desfalque confirmado.</div>';
+  }
+
+  async function loadLineupsAndInjuries(g){
+    const section = el('lineupSection');
+    const grid = el('lineupGrid');
+    const statusEl = el('lineupStatus');
+    statusEl.className = 'status-line';
+    showErrorBox('lineupErrorBox', 'lineupErrorText', null);
+    section.style.display = 'block';
+    grid.style.display = 'none';
+
+    el('lineupHomeTitle').textContent = g.home.name;
+    el('lineupAwayTitle').textContent = g.away.name;
+
+    if(!state.apiKey){
+      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      statusEl.classList.add('err');
+      return;
+    }
+    if(g.home.id == null || g.away.id == null){
+      statusEl.textContent = 'Sem ID real de time (jogo de exemplo ou pré-carregado sem ID) — não dá pra buscar escalação/desfalques.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    statusEl.textContent = 'Localizando o jogo na API…';
+    const fixtureId = await resolveFixtureId(g);
+    if(fixtureId == null){
+      statusEl.textContent = 'Não foi possível localizar o ID exato do jogo na API pra buscar escalação e desfalques.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    statusEl.textContent = 'Buscando escalação e desfalques confirmados…';
+    try{
+      const [lineupsData, injuriesData] = await Promise.all([
+        apiGet('/fixtures/lineups?fixture=' + fixtureId, state.apiKey),
+        apiGet('/injuries?fixture=' + fixtureId, state.apiKey)
+      ]);
+
+      const lineupsResponse = lineupsData.response || [];
+      const injuriesResponse = injuriesData.response || [];
+
+      renderLineupColumn('Home', g.home.id, lineupsResponse, injuriesResponse);
+      renderLineupColumn('Away', g.away.id, lineupsResponse, injuriesResponse);
+      grid.style.display = 'grid';
+
+      const temEscalacao = lineupsResponse.length > 0;
+      statusEl.textContent = temEscalacao
+        ? 'Escalação oficial divulgada. ' + injuriesResponse.length + ' desfalque(s) confirmado(s) no total.'
+        : 'Escalação oficial ainda não divulgada (normalmente sai perto do horário do jogo). Desfalques confirmados abaixo, se houver.';
+      statusEl.classList.add(temEscalacao ? 'ok' : 'err');
+    }catch(err){
+      const msg = describeError(err);
+      grid.style.display = 'none';
+      statusEl.textContent = 'Não foi possível buscar escalação/desfalques.';
+      statusEl.classList.add('err');
+      showErrorBox('lineupErrorBox', 'lineupErrorText', msg);
+    }
+  }
+
   /* ---------------- jogos de hoje (painel principal) ---------------- */
   const ALLOWED_LEAGUES = [
     { name: 'Brasileirão Série A', test: (n,c) => c === 'Brazil' && /serie\s*a/i.test(n) },
@@ -2078,22 +2400,51 @@
   }
 
   /* ---------------- times frios no 1º tempo ---------------- */
-  async function scanLowFirstHalfTeams(games){
-    const statusEl = el('frios1tStatus');
-    const listEl = el('frios1tList');
-    statusEl.className = 'status-line';
-    showErrorBox('frios1tErrorBox', 'frios1tErrorText', null);
+  // Função única que busca os últimos jogos de cada time UMA vez (com cache) e
+  // calcula as 3 abas de padrão (-2 Gols no 1ºT, Invictos, 0 Gols no 1ºT) a partir
+  // do mesmo resultado, pra não gastar cota de API em triplicidade.
+  async function scanTeamStreaks(games, opts){
+    opts = opts || {};
+    const skipFrios = !!opts.skipFrios;
+
+    const frios1tStatusEl = el('frios1tStatus');
+    const frios1tListEl = el('frios1tList');
+    const invictosStatusEl = el('invictosStatus');
+    const invictosListEl = el('invictosList');
+    const zero1tStatusEl = el('zero1tStatus');
+    const zero1tListEl = el('zero1tList');
+
+    if(!skipFrios){
+      frios1tStatusEl.className = 'status-line';
+      showErrorBox('frios1tErrorBox', 'frios1tErrorText', null);
+    }
+    invictosStatusEl.className = 'status-line';
+    showErrorBox('invictosErrorBox', 'invictosErrorText', null);
+    zero1tStatusEl.className = 'status-line';
+    showErrorBox('zero1tErrorBox', 'zero1tErrorText', null);
 
     if(!games || !games.length){
-      listEl.innerHTML = '';
-      statusEl.textContent = 'Nenhum jogo carregado ainda.';
+      if(!skipFrios){ frios1tListEl.innerHTML = ''; frios1tStatusEl.textContent = 'Nenhum jogo carregado ainda.'; }
+      invictosListEl.innerHTML = '';
+      invictosStatusEl.textContent = 'Nenhum jogo carregado ainda.';
+      zero1tListEl.innerHTML = '';
+      zero1tStatusEl.textContent = 'Nenhum jogo carregado ainda.';
       return;
     }
 
     if(!state.apiKey){
-      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra analisar aqui.</div>';
-      statusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
-      statusEl.classList.add('err');
+      const noKeyMsg = '<div class="empty-note" style="padding:8px 4px;">Sem API key configurada — não há dado real da API pra analisar aqui.</div>';
+      if(!skipFrios){
+        frios1tListEl.innerHTML = noKeyMsg;
+        frios1tStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+        frios1tStatusEl.classList.add('err');
+      }
+      invictosListEl.innerHTML = noKeyMsg;
+      invictosStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      invictosStatusEl.classList.add('err');
+      zero1tListEl.innerHTML = noKeyMsg;
+      zero1tStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      zero1tStatusEl.classList.add('err');
       return;
     }
 
@@ -2113,13 +2464,20 @@
     cacheStats.misses = 0;
 
     function updateProgress(){
-      listEl.innerHTML =
+      const progressMsg =
         '<div class="empty-note" style="padding:8px 4px;">' +
-          'Aguarde, analisando os últimos ' + FRIOS_GAMES_LIMIT + ' jogos de cada time… ' +
+          'Aguarde, analisando os últimos ' + GAMES_LIMIT + ' jogos de cada time… ' +
           '<b style="color:var(--accent);">' + done + ' de ' + total + ' times verificados</b>. ' +
           'Isso deve levar só alguns segundos com o plano atual.' +
         '</div>';
-      statusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+      if(!skipFrios){
+        frios1tListEl.innerHTML = progressMsg;
+        frios1tStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+      }
+      invictosListEl.innerHTML = progressMsg;
+      invictosStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+      zero1tListEl.innerHTML = progressMsg;
+      zero1tStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
     }
     updateProgress();
 
@@ -2147,18 +2505,46 @@
 
     const usable = allResults.filter(r => r.fixtures);
     const semDado = allResults.length - usable.length;
-
-    const qualified = usable.filter(r =>
-      r.fixtures.length >= FRIOS_GAMES_LIMIT && r.fixtures.slice(0, FRIOS_GAMES_LIMIT).every(f => f.gf_ht < 2)
-    );
-    qualified.sort((a, b) => a.game.time.localeCompare(b.game.time));
-
-    renderFrios1tList(qualified);
-
     const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
     const semDadoNote = semDado ? ' (' + semDado + ' time(s) sem dado disponível)' : '';
-    statusEl.textContent = qualified.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos ' + FRIOS_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
-    statusEl.classList.add(semDado ? 'err' : 'ok');
+
+    if(!skipFrios){
+      const qualifiedFrios = usable.filter(r =>
+        r.fixtures.length >= FRIOS_GAMES_LIMIT && r.fixtures.slice(0, FRIOS_GAMES_LIMIT).every(f => f.gf_ht < 2)
+      );
+      qualifiedFrios.sort((a, b) => a.game.time.localeCompare(b.game.time));
+      renderFrios1tList(qualifiedFrios);
+      frios1tStatusEl.textContent = qualifiedFrios.length + ' de ' + usable.length + ' times com dado real não fizeram 2+ gols no 1º tempo em nenhum dos últimos ' + FRIOS_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+      frios1tStatusEl.classList.add(semDado ? 'err' : 'ok');
+    }
+
+    const qualifiedInvictos = usable.filter(r =>
+      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ft >= f.ga_ft)
+    );
+    qualifiedInvictos.sort((a, b) => a.game.time.localeCompare(b.game.time));
+    renderInvictosList(qualifiedInvictos);
+    invictosStatusEl.textContent = qualifiedInvictos.length + ' de ' + usable.length + ' times com dado real não perderam nenhum dos últimos ' + GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    invictosStatusEl.classList.add(semDado ? 'err' : 'ok');
+
+    const qualifiedZero1t = usable.filter(r =>
+      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ht === 0)
+    );
+    qualifiedZero1t.sort((a, b) => a.game.time.localeCompare(b.game.time));
+    renderZero1tList(qualifiedZero1t);
+    zero1tStatusEl.textContent = qualifiedZero1t.length + ' de ' + usable.length + ' times com dado real não marcaram nenhum gol no 1º tempo em nenhum dos últimos ' + GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    zero1tStatusEl.classList.add(semDado ? 'err' : 'ok');
+  }
+
+  function goToGameFromList(game){
+    showView('jogos');
+    const idx = state.todayGames.indexOf(game);
+    const targetRow = idx !== -1
+      ? document.querySelector('#todayList .today-row[data-idx="' + idx + '"]')
+      : null;
+    if(targetRow){
+      openGameDetailInline(targetRow, game);
+      targetRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   function renderFrios1tList(items){
@@ -2180,18 +2566,53 @@
     }).join('');
 
     listEl.querySelectorAll('.today-row').forEach((row, i) => {
-      row.addEventListener('click', () => {
-        const game = items[i].game;
-        showView('jogos');
-        const idx = state.todayGames.indexOf(game);
-        const targetRow = idx !== -1
-          ? document.querySelector('#todayList .today-row[data-idx="' + idx + '"]')
-          : null;
-        if(targetRow){
-          openGameDetailInline(targetRow, game);
-          targetRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
+      row.addEventListener('click', () => goToGameFromList(items[i].game));
+    });
+  }
+
+  function renderInvictosList(items){
+    const listEl = el('invictosList');
+    if(!items.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum time dos jogos de hoje se encaixou nesse padrão.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map((it, i) => {
+      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+      return (
+        '<button type="button" class="today-row" data-invictos-idx="' + i + '">' +
+          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">invicto há ' + GAMES_LIMIT + '</span></span>' +
+          '<span class="today-cta">ver análise →</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    listEl.querySelectorAll('.today-row').forEach((row, i) => {
+      row.addEventListener('click', () => goToGameFromList(items[i].game));
+    });
+  }
+
+  function renderZero1tList(items){
+    const listEl = el('zero1tList');
+    if(!items.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum time dos jogos de hoje se encaixou nesse padrão.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map((it, i) => {
+      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+      return (
+        '<button type="button" class="today-row" data-zero1t-idx="' + i + '">' +
+          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">0/' + GAMES_LIMIT + ' c/ gol no 1ºT</span></span>' +
+          '<span class="today-cta">ver análise →</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    listEl.querySelectorAll('.today-row').forEach((row, i) => {
+      row.addEventListener('click', () => goToGameFromList(items[i].game));
     });
   }
 
@@ -2245,6 +2666,7 @@
     todayStatus.classList.add('ok');
 
     renderFrios1tFromPreloaded(data.frios1t);
+    scanTeamStreaks(games, { skipFrios: true });
   }
 
   /* ---------------- ao vivo ---------------- */
@@ -2345,7 +2767,7 @@
       todayStatus.classList.add('ok');
       el('btnLoadToday').disabled = false;
       state.todayGames = games;
-      scanLowFirstHalfTeams(games);
+      scanTeamStreaks(games);
       return;
     }
 
@@ -2370,6 +2792,7 @@
             league: allowed.name,
             leagueId: fx.league.id,
             leagueSeason: fx.league.season,
+            fixtureId: fx.fixture.id,
             home: { id: fx.teams.home.id, name: fx.teams.home.name, odd: odds ? odds.home : null },
             away: { id: fx.teams.away.id, name: fx.teams.away.name, odd: odds ? odds.away : null }
           };
@@ -2384,7 +2807,7 @@
         (semOdds ? ' (' + semOdds + ' sem odds disponíveis)' : '') + cacheNote;
       todayStatus.classList.add('ok');
       state.todayGames = games;
-      scanLowFirstHalfTeams(games);
+      scanTeamStreaks(games);
     }catch(err){
       const msg = describeError(err);
       console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', msg);
@@ -2394,7 +2817,7 @@
       todayStatus.classList.add('err');
       showErrorBox('todayErrorBox', 'todayErrorText', msg);
       state.todayGames = games;
-      scanLowFirstHalfTeams(games);
+      scanTeamStreaks(games);
     }
     el('btnLoadToday').disabled = false;
   }
