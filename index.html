@@ -91,6 +91,12 @@
     background-clip:text;
     color:transparent;
   }
+  .brand p{
+    margin:2px 0 0;
+    font-size:12.5px;
+    color:var(--muted);
+    font-family:var(--mono);
+  }
   .clock{
     font-family:var(--mono);
     font-size:12px;
@@ -135,6 +141,32 @@
     padding:20px;
   }
   .panel + .panel{ margin-top:18px; }
+  .panel-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+
+  input[type=text], input[type=password]{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:14px;
+    padding:11px 12px;
+    border-radius:7px;
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(0,226,138,0.15);
+  }
+  input::placeholder{ color:var(--muted-2); }
 
   button{
     font-family:var(--body);
@@ -144,11 +176,80 @@
     border:1px solid transparent;
     padding:11px 18px;
     cursor:pointer;
+    transition:transform .08s ease, filter .15s ease, background .15s ease;
   }
+  button:active{ transform:translateY(1px); }
   .btn-primary{ background:var(--accent); color:#04170D; }
+  .btn-primary:hover{ filter:brightness(1.08); }
   .btn-ghost{ background:transparent; border-color:var(--border); color:var(--muted); }
+  .btn-ghost:hover{ border-color:var(--muted-2); color:var(--text); }
 
-  /* ---------- Médias & Estatísticas ---------- */
+  .status-line{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    margin-top:12px;
+    min-height:16px;
+  }
+
+  /* ---------- jogos do dia ---------- */
+  .today-list{
+    display:grid;
+    gap:8px;
+    margin-top:14px;
+  }
+
+  /* ---------- detalhe do confronto ---------- */
+  .detail-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .detail-title{ font-family:var(--display); font-size:17px; font-weight:600; }
+  .detail-sub{ font-family:var(--mono); font-size:11px; color:var(--muted-2); margin-top:3px; text-transform:uppercase; letter-spacing:0.5px; }
+
+  .games-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:18px;
+  }
+  @media (max-width:760px){ .games-grid{ grid-template-columns:1fr; } }
+  .games-col{
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--panel-2);
+    overflow:hidden;
+  }
+  .games-col.home{ border-top:2px solid var(--accent); }
+  .games-col.away{ border-top:2px solid var(--teal); }
+  .games-col-title{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:12px 14px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .games-col.home .games-col-title{ color:var(--accent); }
+  .games-col.away .games-col-title{ color:var(--teal); }
+  .games-col-controls{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .games-count{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0;
+    text-transform:none;
+    color:var(--muted-2);
+  }
+
+  /* ---------- médias de gols ---------- */
   .avg-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -173,6 +274,7 @@
     letter-spacing:1px;
     text-transform:uppercase;
     margin-bottom:12px;
+    flex-wrap:wrap;
   }
   .avg-col.home .avg-col-title{ color:var(--accent); }
   .avg-col.away .avg-col-title{ color:var(--teal); }
@@ -188,13 +290,15 @@
     background:transparent;
     color:var(--muted);
     cursor:pointer;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
   }
-  .avg-col.home .venue-btn.active{
+  .venue-btn:hover{ color:var(--text); }
+  .avg-col.home .venue-btn.active, .games-col.home .venue-btn.active{
     color:var(--accent);
     border-color:var(--accent);
     background:rgba(0,226,138,0.1);
   }
-  .avg-col.away .venue-btn.active{
+  .avg-col.away .venue-btn.active, .games-col.away .venue-btn.active{
     color:var(--teal);
     border-color:var(--teal);
     background:rgba(0,194,168,0.1);
@@ -209,8 +313,66 @@
     font-size:12.5px;
   }
   .avg-item:last-child{ border-bottom:none; }
-  .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; }
-  .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); }
+  .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
+  .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); line-height:1.5; }
+
+  /* ---------- abas ---------- */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+    margin-bottom:20px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:4px;
+    background:var(--panel);
+    width:fit-content;
+    max-width:100%;
+  }
+  .tab-btn{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.5px;
+    color:var(--muted);
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:6px;
+    padding:9px 18px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover{ color:var(--text); }
+  .tab-btn.active{
+    background:var(--panel-2);
+    color:var(--accent);
+    border-color:var(--border);
+  }
+  .view{ display:none; }
+  .view.active{ display:block; }
+
+  .error-box{
+    display:none;
+    margin-top:10px;
+    padding:12px 14px;
+    border:1px solid rgba(201,59,68,0.4);
+    background:rgba(201,59,68,0.08);
+    border-radius:8px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--red);
+    line-height:1.6;
+    white-space:pre-wrap;
+    word-break:break-word;
+  }
+  .error-box.show{ display:block; }
+
+  footer{
+    margin-top:30px;
+    text-align:center;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted-2);
+  }
 </style>
 </head>
 <body>
@@ -224,13 +386,56 @@
         <h1>Fan de Esporte</h1>
       </div>
     </div>
+    <div>
+      <div class="clock" id="clock">—</div>
+      <div class="sponsor-box">
+        <span class="sponsor-text">Seja patrocinador<br>Coloque sua empresa aqui</span>
+        <a class="btn-primary sponsor-link" href="https://wa.me/5563992088796" target="_blank" rel="noopener">Entrar em contato</a>
+      </div>
+    </div>
   </header>
 
-  <!-- ===== PAINEL DE MÉDIAS AJUSTADO ===== -->
+  <nav class="tabs">
+    <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
+    <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
+    <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
+    <button class="tab-btn" data-view="invictos">Invictos (10)</button>
+    <button class="tab-btn" data-view="zero1t">0 Gols no 1ºT (10)</button>
+  </nav>
+
+  <!-- ===== VIEW: JOGOS DO DIA ===== -->
+  <div class="view active" id="view-jogos">
+
   <section class="panel">
-    <div class="avg-grid" id="avgGrid">
-      
-      <!-- Time da Casa -->
+    <div class="panel-head">
+      <div></div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-ghost" id="btnForceRefresh" title="Ignora o cache de hoje e busca de novo na API (gasta cota)">Forçar nova busca</button>
+        <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
+      </div>
+    </div>
+    <div class="status-line" id="todayStatus"></div>
+    <div class="error-box" id="todayErrorBox"><span class="error-box-title" style="font-weight:700; display:block; margin-bottom:6px;">Detalhe técnico</span><span id="todayErrorText"></span></div>
+    <div class="today-list" id="todayList"></div>
+    <input type="hidden" id="apiKey" value="c560ef176bae087f0790b36849a6adf0">
+  </section>
+
+  <!-- ===== PAINEL DE ANÁLISE ===== -->
+  <section class="panel" id="detailPanel" style="display:none;">
+    <div class="detail-head">
+      <div>
+        <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
+        <div class="detail-sub" id="detailSub"></div>
+      </div>
+      <span class="today-odds" id="detailOdds"></span>
+    </div>
+
+    <div class="status-line" id="detailStatus"></div>
+    <div class="error-box" id="detailErrorBox"><span class="error-box-title" style="font-weight:700; display:block; margin-bottom:6px;">Detalhe técnico</span><span id="detailErrorText"></span></div>
+
+    <!-- MÉDIAS DE GOLS / ESTATÍSTICAS -->
+    <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
+      <!-- Casa -->
       <div class="avg-col home">
         <div class="avg-col-title">
           <span id="homeAvgLabel">Geral</span>
@@ -243,13 +448,13 @@
         <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
-        <div class="avg-item"><span class="lbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span></div>
       </div>
-
-      <!-- Time Visitante -->
+      <!-- Fora -->
       <div class="avg-col away">
         <div class="avg-col-title">
           <span id="awayAvgLabel">Geral</span>
@@ -262,46 +467,92 @@
         <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
-        <div class="avg-item"><span class="lbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span></div>
       </div>
+    </div>
 
+    <!-- LISTA DE HISTÓRICO DE JOGOS -->
+    <div class="games-grid" id="gamesGrid" style="display:none;">
+      <div class="games-col home">
+        <div class="games-col-title">
+          <span id="homeGamesLabel">Geral</span>
+          <div class="games-col-controls">
+            <span class="games-count" id="homeGamesCount">10 jogos</span>
+            <div class="venue-toggle">
+              <button type="button" class="venue-btn active" data-list-prefix="home" data-venue="geral">Geral</button>
+              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="home">Casa</button>
+              <button type="button" class="venue-btn" data-list-prefix="home" data-venue="away">Fora</button>
+            </div>
+          </div>
+        </div>
+        <div class="games-list" id="homeGamesList"></div>
+      </div>
+      <div class="games-col away">
+        <div class="games-col-title">
+          <span id="awayGamesLabel">Geral</span>
+          <div class="games-col-controls">
+            <span class="games-count" id="awayGamesCount">10 jogos</span>
+            <div class="venue-toggle">
+              <button type="button" class="venue-btn active" data-list-prefix="away" data-venue="geral">Geral</button>
+              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="home">Casa</button>
+              <button type="button" class="venue-btn" data-list-prefix="away" data-venue="away">Fora</button>
+            </div>
+          </div>
+        </div>
+        <div class="games-list" id="awayGamesList"></div>
+      </div>
     </div>
   </section>
 
 </div>
 
+<footer>
+  Fan de Esporte &copy; 2026
+</footer>
+
 <script>
-// Gerenciador dos Filtros de Mando (GERAL / CASA / FORA)
+// Manipulação dos Filtros (GERAL / CASA / FORA)
 document.addEventListener('click', function(e) {
   if (e.target.classList.contains('venue-btn')) {
     const btn = e.target;
     const parent = btn.closest('.venue-toggle');
     if (!parent) return;
 
-    // Alterna a classe ativa
     parent.querySelectorAll('.venue-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
     const prefix = btn.getAttribute('data-prefix');
+    const listPrefix = btn.getAttribute('data-list-prefix');
     const venue = btn.getAttribute('data-venue');
 
+    // Atualiza o título das Médias
     if (prefix) {
-      // Atualiza o texto do cabeçalho
       const labelElem = document.getElementById(`${prefix}AvgLabel`);
       if (labelElem) {
         labelElem.textContent = venue === 'geral' ? 'Geral' : (venue === 'home' ? 'Casa' : 'Fora');
       }
-
-      // Função que recalcula os dados (conecte com a sua função do backend/fetch)
       if (typeof updateTeamAverages === 'function') {
         updateTeamAverages(prefix, venue);
+      }
+    }
+
+    // Atualiza o título das Listas de Jogos
+    if (listPrefix) {
+      const labelElem = document.getElementById(`${listPrefix}GamesLabel`);
+      if (labelElem) {
+        labelElem.textContent = venue === 'geral' ? 'Geral' : (venue === 'home' ? 'Casa' : 'Fora');
+      }
+      if (typeof updateTeamGamesList === 'function') {
+        updateTeamGamesList(listPrefix, venue);
       }
     }
   }
 });
 </script>
+</div>
 </body>
 </html>
