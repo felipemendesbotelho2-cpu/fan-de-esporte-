@@ -604,82 +604,119 @@
     font-size:11.5px;
     text-align:right;
   }
+  /* Cartão de "último jogo": linha de topo com nº/data à esquerda e
+     placar+resultado à direita, faixa colorida na lateral conforme
+     V/D/E, e embaixo o adversário com as estatísticas em chips. */
   .game-row{
-    display:grid;
-    grid-template-columns:18px 56px 1fr 40px 40px 20px;
-    gap:6px;
+    display:flex;
+    flex-wrap:wrap;
     align-items:center;
-    padding:8px 6px;
+    gap:6px 10px;
+    padding:11px 14px;
+    margin-bottom:8px;
+    border:1px solid var(--border-soft);
+    border-left:3px solid var(--border);
+    border-radius:10px;
+    background:var(--panel);
     font-family:var(--mono);
     font-size:11px;
-    border-bottom:1px solid var(--border-soft);
+    transition:border-color .15s ease, transform .15s ease;
   }
-  .game-row:last-child{ border-bottom:none; }
-  .g-idx{ color:var(--muted-2); }
-  .g-date{ color:var(--muted); }
-  .g-opp{
-    color:var(--text);
-    font-family:var(--body);
-    font-size:11.5px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+  .game-row:last-child{ margin-bottom:0; }
+  .game-row:hover{ transform:translateX(2px); border-color:var(--border); }
+  .game-row:has(.g-tag.win){ border-left-color:var(--green); }
+  .game-row:has(.g-tag.loss){ border-left-color:var(--red); }
+  .game-row:has(.g-tag.draw){ border-left-color:var(--yellow); }
+  .g-idx{
+    order:1;
+    color:var(--muted-2);
+    font-size:10px;
+    width:18px; height:18px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
   }
-  .g-score{ color:var(--muted); text-align:center; }
-  .g-score small{ color:var(--muted-2); font-size:8.5px; }
-  .g-tag{ text-align:center; font-weight:700; border-radius:4px; padding:2px 0; font-size:10.5px; }
+  .g-date{ order:2; color:var(--muted); font-size:10.5px; }
+  .g-score{
+    order:3;
+    color:var(--muted);
+    text-align:center;
+    background:var(--panel-2);
+    border:1px solid var(--border-soft);
+    border-radius:7px;
+    padding:3px 8px;
+    line-height:1.3;
+  }
+  .g-score small{ display:block; color:var(--muted-2); font-size:8px; letter-spacing:0.4px; }
+  .g-tag{
+    order:4;
+    margin-left:auto;
+    text-align:center;
+    font-weight:700;
+    border-radius:20px;
+    padding:4px 12px;
+    font-size:10.5px;
+    letter-spacing:0.3px;
+  }
   .g-tag.win{ background:rgba(0,194,168,0.15); color:var(--green); }
   .g-tag.loss{ background:rgba(201,59,68,0.15); color:var(--red); }
   .g-tag.draw{ background:rgba(169,121,26,0.15); color:var(--yellow); }
-  .g-opp-wrap{ display:flex; flex-direction:column; gap:3px; overflow:hidden; min-width:0; }
-  .g-opp-meta{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-  .g-meta-divider{ color:var(--border); font-size:9px; }
+  .g-opp-wrap{
+    order:5;
+    flex:1 1 100%;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    overflow:hidden;
+    min-width:0;
+    margin-top:6px;
+    padding-top:9px;
+    border-top:1px solid var(--border-soft);
+  }
+  .g-opp{
+    color:var(--text);
+    font-family:var(--body);
+    font-weight:600;
+    font-size:13px;
+    white-space:normal;
+  }
+  .g-opp-meta{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .g-meta-divider{ display:none; }
   .g-meta-item{
     font-family:var(--mono);
-    font-size:9px;
+    font-size:10px;
     letter-spacing:0.2px;
     white-space:nowrap;
     cursor:default;
-  }
-  .g-meta-item.yes{ color:var(--green); }
-  .g-meta-item.no{ color:var(--red); }
-  .g-meta-item.unk{ color:var(--muted-2); font-style:italic; }
-  .g-corner-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:2px; }  .g-corner-item{
-    font-family:var(--mono);
-    font-size:9px;
-    letter-spacing:0.2px;
-    white-space:nowrap;
-    cursor:default;
-    padding:1px 5px;
-    border-radius:3px;
+    padding:2px 8px;
+    border-radius:6px;
     border:1px solid transparent;
+    background:var(--panel-2);
+  }
+  .g-meta-item.yes{ color:var(--green); border-color:rgba(0,226,138,0.3); background:rgba(0,226,138,0.06); }
+  .g-meta-item.no{ color:var(--red); border-color:rgba(255,77,94,0.25); background:rgba(255,77,94,0.05); }
+  .g-meta-item.unk{ color:var(--muted-2); font-style:italic; }
+  .g-corner-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:1px; }
+  .g-corner-item{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.2px;
+    white-space:nowrap;
+    cursor:default;
+    padding:2px 8px;
+    border-radius:6px;
+    border:1px solid transparent;
+    background:var(--panel-2);
   }
   .g-corner-item.high{ color:var(--green); border-color:rgba(0,226,138,0.35); background:rgba(0,226,138,0.06); }
   .g-corner-item.low{ color:var(--red); border-color:rgba(255,77,94,0.35); background:rgba(255,77,94,0.06); }
   .g-corner-item.unk{ color:var(--muted-2); font-style:italic; }
 
-  /* Celular: a grade de 6 colunas fica apertada demais e espreme os nomes/
-     estatísticas. Vira um cartão empilhado: linha de topo (nº, data, placares,
-     resultado) e, embaixo, o adversário com as estatísticas em ordem fixa e
-     com fonte maior, mais fácil de ler. */
   @media (max-width:600px){
-    .game-row{
-      display:flex;
-      flex-wrap:wrap;
-      align-items:center;
-      gap:4px 10px;
-      padding:10px 6px;
-    }
-    .g-idx{ order:1; font-size:10.5px; }
-    .g-date{ order:2; font-size:10.5px; }
-    .g-score{ order:4; font-size:11px; }
-    .g-tag{ order:5; margin-left:auto; padding:2px 8px; }
-    .g-opp-wrap{ order:6; flex:1 1 100%; gap:5px; margin-top:2px; }
-    .g-opp{ font-size:13.5px; white-space:normal; }
-    .g-opp-meta{ gap:10px; }
-    .g-meta-item{ font-size:11px; }
-    .g-corner-row{ gap:7px; }
-    .g-corner-item{ font-size:10.5px; padding:2px 6px; }
+    .game-row{ padding:10px 12px; }
+    .g-opp{ font-size:13.5px; }
+    .g-meta-item, .g-corner-item{ font-size:10.5px; }
   }
 
   .games-list::-webkit-scrollbar{ width:6px; }
@@ -787,13 +824,17 @@
   @media (max-width:760px){ .avg-grid{ grid-template-columns:1fr; } }
   .avg-col{
     border:1px solid var(--border);
-    border-radius:9px;
-    padding:14px 16px;
+    border-radius:12px;
+    padding:16px;
     background:var(--panel-2);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
   }
   .avg-col.home{ border-top:2px solid var(--accent); }
   .avg-col.away{ border-top:2px solid var(--teal); }
   .avg-col-title{
+    grid-column:1 / -1;
     display:flex;
     align-items:baseline;
     justify-content:space-between;
@@ -802,7 +843,7 @@
     font-size:11px;
     letter-spacing:1px;
     text-transform:uppercase;
-    margin-bottom:12px;
+    margin-bottom:2px;
     flex-wrap:wrap;
   }
   .avg-col.home .avg-col-title{ color:var(--accent); }
@@ -837,14 +878,20 @@
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    gap:3px;
-    padding:9px 0;
-    border-bottom:1px solid var(--border-soft);
+    gap:5px;
+    padding:11px 12px;
+    border-radius:10px;
+    background:var(--panel);
+    border:1px solid var(--border-soft);
     font-size:12.5px;
+    transition:transform .15s ease, border-color .15s ease;
   }
-  .avg-item:last-child{ border-bottom:none; }
-  .avg-item span.lbl{ color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.4px; }
-  .avg-item span.val{ font-family:var(--mono); font-weight:600; color:var(--text); line-height:1.5; }
+  .avg-col.home .avg-item:hover{ border-color:rgba(0,226,138,0.4); transform:translateY(-2px); }
+  .avg-col.away .avg-item:hover{ border-color:rgba(0,194,168,0.4); transform:translateY(-2px); }
+  .avg-item span.lbl{ color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:0.5px; }
+  .avg-item span.val{ font-family:var(--mono); font-weight:700; font-size:14px; color:var(--text); line-height:1.4; }
+  .avg-col.home .avg-item span.val{ color:var(--accent); }
+  .avg-col.away .avg-item span.val{ color:var(--teal); }
   .goal-minute-chip{
     display:inline-block;
     font-family:var(--mono);
@@ -862,17 +909,22 @@
      em cima, botões embaixo ocupando a largura toda, e encolhe um pouco o
      texto das frases de estatística pra caber melhor na tela. */
   @media (max-width:600px){
-    .avg-col{ padding:12px 14px; }
+    .avg-col{ padding:12px; gap:8px; }
     .avg-col-title{
       flex-direction:column;
       align-items:flex-start;
       gap:8px;
       font-size:10px;
+      margin-bottom:0;
     }
     .venue-toggle{ width:100%; }
     .venue-toggle .venue-btn{ flex:1; text-align:center; padding:6px 4px; }
-    .avg-item span.lbl{ font-size:10px; }
-    .avg-item span.val{ font-size:12px; line-height:1.45; }
+    .avg-item{ padding:9px 10px; }
+    .avg-item span.lbl{ font-size:9.5px; }
+    .avg-item span.val{ font-size:12.5px; line-height:1.4; }
+  }
+  @media (max-width:400px){
+    .avg-col{ grid-template-columns:1fr; }
   }
 
 
@@ -2501,6 +2553,12 @@
     { name: 'Copa do Brasil', test: (n,c) => c === 'Brazil' && /copa\s*do\s*brasil/i.test(n) },
     { name: 'Copa Libertadores', test: (n,c) => /libertadores/i.test(n) },
     { name: 'Copa Sul-Americana', test: (n,c) => /sudamericana|sul[\s-]*americana/i.test(n) },
+    { name: 'Série A (Itália)', test: (n,c) => c === 'Italy' && /^serie\s*a$/i.test(n) },
+    { name: 'Premier League', test: (n,c) => c === 'England' && /premier\s*league/i.test(n) },
+    { name: 'Eliteserien (Noruega)', test: (n,c) => c === 'Norway' && /eliteserien/i.test(n) },
+    { name: 'Premiership (Escócia)', test: (n,c) => c === 'Scotland' && /premiership/i.test(n) },
+    { name: 'Allsvenskan (Suécia)', test: (n,c) => c === 'Sweden' && /allsvenskan/i.test(n) },
+    { name: 'La Liga (Espanha)', test: (n,c) => c === 'Spain' && /^la\s*liga$/i.test(n) },
   ];
 
   function matchAllowedLeague(leagueName, leagueCountry){
