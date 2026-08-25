@@ -6,130 +6,194 @@
 <title>Fan de Esporte — Jogos do Dia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#080B10;
-    --panel:#10151D;
-    --panel-2:#161C26;
-    --border:#232B37;
-    --border-soft:#1B222C;
-    --text:#EAF1F5;
-    --muted:#8792A6;
-    --muted-2:#59637A;
-    --accent:#00E28A;
-    --teal:#00C2A8;
-    --green:#00E28A;
-    --yellow:#E2B93D;
-    --red:#FF4D5E;
+    --bg:#F3F4F8;
+    --panel:#FFFFFF;
+    --panel-2:#F7F8FB;
+    --border:#E7E9F0;
+    --border-soft:#EFF1F5;
+    --text:#1E2233;
+    --muted:#6B7280;
+    --muted-2:#9CA3AF;
+    --accent:#FF7A1A;
+    --accent-dark:#E8650A;
+    --accent-soft:#FFF1E4;
+    --teal:#0EA5A4;
+    --teal-soft:#E4F8F7;
+    --green:#16A34A;
+    --yellow:#D97706;
+    --red:#E11D48;
+    --topbar:#2B2E38;
     --mono:'JetBrains Mono', ui-monospace, monospace;
-    --display:'Space Grotesk', sans-serif;
+    --display:'Poppins', sans-serif;
     --body:'Inter', sans-serif;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(0,226,138,0.07), transparent 60%),
-      radial-gradient(1000px 500px at 100% 0%, rgba(0,194,168,0.06), transparent 55%),
-      var(--bg);
+    background:var(--bg);
     color:var(--text);
     font-family:var(--body);
     min-height:100vh;
     line-height:1.5;
   }
-  ::selection{ background:rgba(0,226,138,0.35); }
-  a{color:var(--accent);}
+  ::selection{ background:rgba(255,122,26,0.22); }
+  a{color:var(--accent-dark);}
 
-  .wrap{
-    max-width:1180px;
-    margin:0 auto;
-    padding:28px 20px 80px;
-  }
-  header.top{
+  /* ---------- estrutura geral: sidebar + conteúdo ---------- */
+  .app-shell{
     display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:20px;
-    border-bottom:1px solid var(--border-soft);
-    padding-bottom:20px;
-    margin-bottom:28px;
-    flex-wrap:wrap;
+    align-items:stretch;
+    min-height:100vh;
   }
-  .brand{ display:flex; align-items:center; gap:14px; }
-  .brand .mark{
-    width:48px;height:48px;
-    border:1px solid var(--border);
+  .sidebar{
+    width:232px;
+    flex-shrink:0;
+    background:var(--panel);
+    border-right:1px solid var(--border);
+    padding:22px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+  }
+  .sidebar-brand{ display:flex; align-items:center; gap:12px; padding:0 4px 4px; }
+  .sidebar-brand .mark{
+    width:44px;height:44px;
     border-radius:13px;
     display:flex;align-items:center;justify-content:center;
-    background:
-      radial-gradient(120% 130% at 25% 15%, rgba(0,226,138,0.22), transparent 60%),
-      radial-gradient(120% 130% at 80% 90%, rgba(0,194,168,0.18), transparent 60%),
-      var(--panel);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
-    font-size:22px;
+    background:linear-gradient(135deg, var(--accent), #FFA857);
+    box-shadow:0 6px 16px rgba(255,122,26,0.30);
+    font-size:21px;
     line-height:1;
     flex-shrink:0;
   }
-  .brand .welcome{
-    display:block;
-    font-family:var(--mono);
-    font-size:10.5px;
-    letter-spacing:1.8px;
-    text-transform:uppercase;
-    color:var(--muted-2);
-    margin-bottom:3px;
-  }
-  .brand h1{
+  .sidebar-brand h1{
     font-family:var(--display);
-    font-size:23px;
+    font-size:16.5px;
     font-weight:700;
     margin:0;
-    letter-spacing:0.2px;
-    background:linear-gradient(90deg, var(--accent), var(--teal));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
+    color:var(--text);
+    letter-spacing:0.1px;
   }
-  .brand p{
+  .sidebar-brand p{
     margin:2px 0 0;
-    font-size:12.5px;
+    font-size:11.5px;
     color:var(--muted);
-    font-family:var(--mono);
+    font-family:var(--body);
   }
-  .clock{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--muted-2);
-    text-align:right;
-    padding-top:4px;
-  }
-
-  .sponsor-box{
-    margin-top:10px;
-    padding:10px 12px;
-    border:1px dashed var(--border);
-    border-radius:10px;
-    background:var(--panel);
+  .side-nav{ display:flex; flex-direction:column; gap:3px; }
+  .side-nav .tab-btn{
     display:flex;
     align-items:center;
     gap:10px;
-    max-width:260px;
-    margin-left:auto;
+    width:100%;
+    text-align:left;
+    font-family:var(--body);
+    font-weight:600;
+    font-size:13.5px;
+    letter-spacing:0;
+    color:var(--muted);
+    background:transparent;
+    border:1px solid transparent;
+    border-left:3px solid transparent;
+    border-radius:9px;
+    padding:11px 12px;
+  }
+  .side-nav .tab-btn:hover{ background:var(--panel-2); color:var(--text); }
+  .side-nav .tab-btn.active{
+    background:var(--accent-soft);
+    color:var(--accent-dark);
+    border-left-color:var(--accent);
+  }
+  .sidebar-foot{ margin-top:auto; }
+  .sidebar .sponsor-box{
+    margin-top:0;
+    max-width:none;
+    margin-left:0;
+    flex-direction:column;
+    align-items:stretch;
+    gap:8px;
+  }
+  .sidebar .sponsor-box .sponsor-text{ white-space:normal; }
+  .sidebar .sponsor-box .sponsor-link{ justify-content:center; }
+
+  .main-col{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; }
+  .topbar{
+    background:var(--topbar);
+    color:#fff;
+    padding:14px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .topbar-title{ font-family:var(--display); font-weight:600; font-size:15px; }
+  .topbar-title span{ color:var(--muted-2); font-weight:400; font-size:12px; display:block; margin-top:1px; }
+  .clock{
+    font-family:var(--body);
+    font-size:13px;
+    font-weight:500;
+    color:#E7E9F0;
+    text-align:right;
+  }
+
+  .wrap{
+    max-width:1080px;
+    width:100%;
+    margin:0 auto;
+    padding:26px 24px 70px;
+  }
+
+  @media (max-width:880px){
+    .app-shell{ flex-direction:column; }
+    .sidebar{
+      width:100%;
+      height:auto;
+      position:static;
+      flex-direction:row;
+      align-items:center;
+      overflow-x:auto;
+      padding:14px 16px;
+      gap:14px;
+    }
+    .sidebar-brand{ flex-shrink:0; }
+    .side-nav{ flex-direction:row; gap:6px; }
+    .side-nav .tab-btn{ white-space:nowrap; border-left:none; border-bottom:3px solid transparent; }
+    .side-nav .tab-btn.active{ border-bottom-color:var(--accent); }
+    .sidebar-foot{ display:none; }
+    .wrap{ padding:20px 16px 60px; }
+  }
+
+  .sponsor-box{
+    padding:12px 14px;
+    border:1px dashed #FFD3AC;
+    border-radius:12px;
+    background:var(--accent-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    max-width:280px;
   }
   .sponsor-box .sponsor-text{
-    font-family:var(--mono);
-    font-size:11px;
+    font-family:var(--body);
+    font-size:11.5px;
     line-height:1.4;
-    color:var(--muted);
+    color:#9A5B24;
     white-space:nowrap;
   }
   .sponsor-box .sponsor-link{
     display:inline-flex;
     align-items:center;
     gap:6px;
-    padding:7px 12px;
-    font-size:11.5px;
+    padding:8px 12px;
+    font-size:12px;
     white-space:nowrap;
     text-decoration:none;
   }
@@ -146,15 +210,15 @@
     width:54px;height:54px;
     border-radius:50%;
     background:var(--accent);
-    color:#04170D;
+    color:#fff;
     border:none;
     font-size:23px;
     cursor:pointer;
-    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+    box-shadow:0 10px 26px rgba(255,122,26,0.38);
     display:flex;align-items:center;justify-content:center;
     transition:transform .15s ease, filter .15s ease;
   }
-  .feedback-launcher:hover{ filter:brightness(1.08); transform:translateY(-2px); }
+  .feedback-launcher:hover{ filter:brightness(1.05); transform:translateY(-2px); }
   .feedback-widget.open .feedback-launcher{ display:none; }
 
   .feedback-panel{
@@ -166,9 +230,9 @@
     max-width:calc(100vw - 32px);
     background:var(--panel);
     border:1px solid var(--border);
-    border-radius:12px;
+    border-radius:14px;
     padding:16px;
-    box-shadow:0 16px 44px rgba(0,0,0,0.5);
+    box-shadow:0 20px 48px rgba(30,34,51,0.16);
   }
   .feedback-widget.open .feedback-panel{ display:block; }
 
@@ -189,12 +253,12 @@
     font-family:var(--body);
     font-size:13px;
     padding:10px;
-    border-radius:7px;
+    border-radius:9px;
     resize:vertical;
     outline:none;
     min-height:64px;
   }
-  .feedback-textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,226,138,0.15); }
+  .feedback-textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,122,26,0.15); }
   .feedback-textarea::placeholder{ color:var(--muted-2); }
   .feedback-send{ width:100%; margin-top:8px; padding:9px; font-size:12.5px; }
 
@@ -206,7 +270,8 @@
     background:transparent;
     border-left:none; border-right:none; border-bottom:none;
     color:var(--muted);
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:600;
     font-size:11.5px;
     display:flex;
     justify-content:space-between;
@@ -228,7 +293,7 @@
   .feedback-item{
     background:var(--panel-2);
     border:1px solid var(--border-soft);
-    border-radius:7px;
+    border-radius:9px;
     padding:8px 10px;
     font-size:12px;
     color:var(--text);
@@ -237,8 +302,8 @@
   }
   .feedback-item time{
     display:block;
-    font-family:var(--mono);
-    font-size:9.5px;
+    font-family:var(--body);
+    font-size:10px;
     color:var(--muted-2);
     margin-top:4px;
   }
@@ -252,8 +317,9 @@
   .panel{
     background:var(--panel);
     border:1px solid var(--border);
-    border-radius:10px;
-    padding:20px;
+    border-radius:16px;
+    padding:22px;
+    box-shadow:0 1px 2px rgba(30,34,51,0.03);
   }
   .panel + .panel{ margin-top:18px; }
   .panel-head{
@@ -265,15 +331,16 @@
     flex-wrap:wrap;
   }
   .panel-head .eyebrow{
-    font-family:var(--mono);
+    font-family:var(--body);
     font-size:11px;
-    letter-spacing:1.5px;
+    font-weight:600;
+    letter-spacing:0.8px;
     text-transform:uppercase;
-    color:var(--muted-2);
+    color:var(--accent-dark);
   }
   .panel-head h2{
     font-family:var(--display);
-    font-size:15px;
+    font-size:16px;
     margin:2px 0 0;
     font-weight:600;
   }
@@ -286,13 +353,13 @@
     font-family:var(--body);
     font-size:14px;
     padding:11px 12px;
-    border-radius:7px;
+    border-radius:9px;
     outline:none;
     transition:border-color .15s ease, box-shadow .15s ease;
   }
   input:focus{
     border-color:var(--accent);
-    box-shadow:0 0 0 3px rgba(0,226,138,0.15);
+    box-shadow:0 0 0 3px rgba(255,122,26,0.14);
   }
   input::placeholder{ color:var(--muted-2); }
 
@@ -300,22 +367,23 @@
     font-family:var(--body);
     font-weight:600;
     font-size:13.5px;
-    border-radius:7px;
+    border-radius:9px;
     border:1px solid transparent;
     padding:11px 18px;
     cursor:pointer;
     transition:transform .08s ease, filter .15s ease, background .15s ease;
   }
   button:active{ transform:translateY(1px); }
-  .btn-primary{ background:var(--accent); color:#04170D; }
-  .btn-primary:hover{ filter:brightness(1.08); }
+  .btn-primary{ background:var(--accent); color:#fff; }
+  .btn-primary:hover{ filter:brightness(1.06); }
   .btn-primary:disabled{ opacity:.55; cursor:progress; filter:none; }
-  .btn-ghost{ background:transparent; border-color:var(--border); color:var(--muted); }
+  .btn-ghost{ background:var(--panel-2); border-color:var(--border); color:var(--muted); }
   .btn-ghost:hover{ border-color:var(--muted-2); color:var(--text); }
 
   .status-line{
-    font-family:var(--mono);
-    font-size:12px;
+    font-family:var(--body);
+    font-weight:500;
+    font-size:12.5px;
     color:var(--muted);
     margin-top:12px;
     min-height:16px;
@@ -330,10 +398,11 @@
   }
   details.settings summary{
     cursor:pointer;
-    font-family:var(--mono);
-    font-size:11.5px;
+    font-family:var(--body);
+    font-weight:600;
+    font-size:12px;
     color:var(--muted);
-    letter-spacing:0.5px;
+    letter-spacing:0.2px;
     list-style:none;
     display:flex;
     align-items:center;
@@ -354,8 +423,8 @@
     align-items:end;
   }
   .settings-body label{
-    display:block; font-family:var(--mono); font-size:10.5px;
-    letter-spacing:1.2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;
+    display:block; font-family:var(--body); font-weight:600; font-size:11px;
+    letter-spacing:0.4px; text-transform:uppercase; color:var(--muted); margin-bottom:6px;
   }
   .settings-note{
     font-size:12px;
@@ -366,7 +435,7 @@
   .settings-note code{
     background:var(--panel-2);
     border:1px solid var(--border);
-    border-radius:4px;
+    border-radius:5px;
     padding:1px 5px;
     font-family:var(--mono);
     color:var(--muted);
@@ -380,11 +449,11 @@
   }
   .league-group + .league-group{ margin-top:18px; }
   .league-group-title{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:0.8px;
-    text-transform:uppercase;
-    color:var(--accent);
+    font-family:var(--display);
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:0.2px;
+    color:var(--accent-dark);
     padding:4px 2px 8px;
     border-bottom:1px solid var(--border-soft);
     margin-bottom:8px;
@@ -395,48 +464,50 @@
     grid-template-columns:82px 1fr auto auto;
     align-items:center;
     gap:14px;
-    padding:12px 14px;
+    padding:13px 15px;
     border:1px solid var(--border);
-    border-radius:8px;
+    border-radius:12px;
     background:var(--panel-2);
     cursor:pointer;
-    transition:border-color .15s ease, background .15s ease;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
     text-align:left;
   }
-  .today-row:hover, .today-row.selected{ border-color:var(--accent); background:rgba(0,226,138,0.06); }
+  .today-row:hover, .today-row.selected{ border-color:var(--accent); background:var(--accent-soft); }
   .today-time-wrap{ display:flex; flex-direction:column; gap:2px; }
-  .today-date{ font-family:var(--mono); font-size:9.5px; color:var(--muted-2); }
-  .today-time{ font-family:var(--mono); font-size:13px; color:var(--accent); }
-  .today-teams{ font-size:13.5px; color:var(--text); }
+  .today-date{ font-family:var(--body); font-weight:600; font-size:9.5px; color:var(--muted-2); text-transform:uppercase; letter-spacing:0.4px; }
+  .today-time{ font-family:var(--display); font-weight:600; font-size:13px; color:var(--accent-dark); }
+  .today-teams{ font-size:13.5px; color:var(--text); font-weight:500; }
   .today-teams .lg{
     display:block;
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:600;
     font-size:10px;
     color:var(--muted-2);
     text-transform:uppercase;
-    letter-spacing:0.5px;
+    letter-spacing:0.4px;
     margin-bottom:2px;
   }
-  .today-odds{ display:flex; gap:6px; font-family:var(--mono); font-size:11.5px; white-space:nowrap; }
+  .today-odds{ display:flex; gap:6px; font-family:var(--body); font-size:11.5px; white-space:nowrap; }
   .today-odds .odd-chip{
-    padding:3px 8px;
-    border-radius:5px;
+    padding:4px 9px;
+    border-radius:20px;
     border:1px solid var(--border);
     color:var(--muted);
+    font-weight:600;
   }
   .today-odds .odd-chip.fav{
-    border-color:rgba(0,226,138,0.5);
-    color:var(--accent);
-    background:rgba(0,226,138,0.08);
+    border-color:transparent;
+    color:#fff;
+    background:var(--accent);
     font-weight:700;
   }
   .today-odds .odd-chip.empty{ color:var(--muted-2); font-style:italic; border-style:dashed; }
-  .today-cta{ font-family:var(--mono); font-size:11px; color:var(--muted); }
+  .today-cta{ font-family:var(--body); font-weight:600; font-size:11.5px; color:var(--accent-dark); }
 
   .odd-chip.live-chip{
-    border-color:rgba(255,77,94,0.5);
-    color:var(--red);
-    background:rgba(255,77,94,0.08);
+    border-color:transparent;
+    color:#fff;
+    background:var(--red);
     font-weight:700;
     display:inline-flex;
     align-items:center;
@@ -445,7 +516,7 @@
   .live-dot{
     width:6px; height:6px;
     border-radius:50%;
-    background:var(--red);
+    background:#fff;
     display:inline-block;
     animation:live-pulse 1.2s ease-in-out infinite;
   }
@@ -463,7 +534,7 @@
     gap:12px;
   }
   .detail-title{ font-family:var(--display); font-size:17px; font-weight:600; }
-  .detail-sub{ font-family:var(--mono); font-size:11px; color:var(--muted-2); margin-top:3px; text-transform:uppercase; letter-spacing:0.5px; }
+  .detail-sub{ font-family:var(--body); font-weight:600; font-size:11px; color:var(--muted-2); margin-top:3px; text-transform:uppercase; letter-spacing:0.4px; }
 
   .games-grid{
     display:grid;
@@ -474,17 +545,17 @@
   @media (max-width:760px){ .games-grid{ grid-template-columns:1fr; } }
   .games-col{
     border:1px solid var(--border);
-    border-radius:9px;
+    border-radius:14px;
     background:var(--panel-2);
     overflow:hidden;
   }
-  .games-col.home{ border-top:2px solid var(--accent); }
-  .games-col.away{ border-top:2px solid var(--teal); }
+  .games-col.home{ border-top:3px solid var(--accent); }
+  .games-col.away{ border-top:3px solid var(--teal); }
   .games-col-title{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
+    font-family:var(--display);
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:0.2px;
     padding:12px 14px;
     border-bottom:1px solid var(--border);
     display:flex;
@@ -493,25 +564,25 @@
     gap:10px;
     flex-wrap:wrap;
   }
-  .games-col.home .games-col-title{ color:var(--accent); }
+  .games-col.home .games-col-title{ color:var(--accent-dark); }
   .games-col.away .games-col-title{ color:var(--teal); }
   .games-col-controls{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   .games-count{
-    font-family:var(--mono);
-    font-size:10px;
+    font-family:var(--body);
+    font-size:10.5px;
     letter-spacing:0;
     text-transform:none;
     color:var(--muted-2);
   }
   .games-col.home .venue-btn.active{
-    color:var(--accent);
+    color:#fff;
     border-color:var(--accent);
-    background:rgba(0,226,138,0.1);
+    background:var(--accent);
   }
   .games-col.away .venue-btn.active{
-    color:var(--teal);
+    color:#fff;
     border-color:var(--teal);
-    background:rgba(0,194,168,0.1);
+    background:var(--teal);
   }
   .games-list{
     max-height:360px;
@@ -527,23 +598,24 @@
   @media (max-width:760px){ .lineup-grid{ grid-template-columns:1fr; } }
   .lineup-col{
     border:1px solid var(--border);
-    border-radius:9px;
+    border-radius:14px;
     background:var(--panel-2);
     padding:14px;
   }
-  .lineup-col.home{ border-top:2px solid var(--accent); }
-  .lineup-col.away{ border-top:2px solid var(--teal); }
+  .lineup-col.home{ border-top:3px solid var(--accent); }
+  .lineup-col.away{ border-top:3px solid var(--teal); }
   .lineup-col-title{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
+    font-family:var(--display);
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:0.2px;
     margin-bottom:6px;
   }
-  .lineup-col.home .lineup-col-title{ color:var(--accent); }
+  .lineup-col.home .lineup-col-title{ color:var(--accent-dark); }
   .lineup-col.away .lineup-col-title{ color:var(--teal); }
   .lineup-formation{
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:500;
     font-size:11.5px;
     color:var(--muted);
     margin-bottom:8px;
@@ -565,22 +637,25 @@
   }
   .lineup-player:last-child{ border-bottom:none; }
   .lineup-player .num{
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:700;
     font-size:11px;
     color:var(--muted-2);
     width:22px;
     flex-shrink:0;
   }
   .lineup-player .pos{
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:600;
     font-size:10px;
     color:var(--muted-2);
     text-transform:uppercase;
   }
   .lineup-subtitle{
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:600;
     font-size:10.5px;
-    letter-spacing:0.6px;
+    letter-spacing:0.4px;
     text-transform:uppercase;
     color:var(--muted-2);
     margin-bottom:6px;
@@ -615,11 +690,11 @@
     padding:11px 14px;
     margin-bottom:8px;
     border:1px solid var(--border-soft);
-    border-left:3px solid var(--border);
-    border-radius:10px;
+    border-left:4px solid var(--border);
+    border-radius:12px;
     background:var(--panel);
-    font-family:var(--mono);
-    font-size:11px;
+    font-family:var(--body);
+    font-size:11.5px;
     transition:border-color .15s ease, transform .15s ease;
   }
   .game-row:last-child{ margin-bottom:0; }
@@ -631,37 +706,46 @@
     order:1;
     color:var(--muted-2);
     font-size:10px;
+    font-weight:700;
     width:18px; height:18px;
     border-radius:50%;
     border:1px solid var(--border);
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0;
   }
-  .g-date{ order:2; color:var(--muted); font-size:10.5px; }
+  .g-date{ order:2; color:var(--muted); font-size:10.5px; font-weight:500; }
   .g-score{
     order:3;
     color:var(--muted);
     text-align:center;
     background:var(--panel-2);
     border:1px solid var(--border-soft);
-    border-radius:7px;
+    border-radius:8px;
     padding:3px 8px;
     line-height:1.3;
+    font-weight:600;
   }
-  .g-score small{ display:block; color:var(--muted-2); font-size:8px; letter-spacing:0.4px; }
+  .g-score small{ display:block; color:var(--muted-2); font-size:8px; letter-spacing:0.3px; font-weight:600; }
   .g-tag{
     order:4;
     margin-left:auto;
+    width:26px;
+    height:26px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     text-align:center;
     font-weight:700;
-    border-radius:20px;
-    padding:4px 12px;
-    font-size:10.5px;
-    letter-spacing:0.3px;
+    border-radius:50%;
+    padding:0;
+    font-size:11px;
+    letter-spacing:0;
+    color:#fff;
   }
-  .g-tag.win{ background:rgba(0,194,168,0.15); color:var(--green); }
-  .g-tag.loss{ background:rgba(201,59,68,0.15); color:var(--red); }
-  .g-tag.draw{ background:rgba(169,121,26,0.15); color:var(--yellow); }
+  .g-tag.win{ background:var(--green); }
+  .g-tag.loss{ background:var(--red); }
+  .g-tag.draw{ background:var(--yellow); }
   .g-opp-wrap{
     order:5;
     flex:1 1 100%;
@@ -684,33 +768,35 @@
   .g-opp-meta{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
   .g-meta-divider{ display:none; }
   .g-meta-item{
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:600;
     font-size:10px;
-    letter-spacing:0.2px;
+    letter-spacing:0.1px;
     white-space:nowrap;
     cursor:default;
-    padding:2px 8px;
-    border-radius:6px;
+    padding:2px 9px;
+    border-radius:20px;
     border:1px solid transparent;
     background:var(--panel-2);
   }
-  .g-meta-item.yes{ color:var(--green); border-color:rgba(0,226,138,0.3); background:rgba(0,226,138,0.06); }
-  .g-meta-item.no{ color:var(--red); border-color:rgba(255,77,94,0.25); background:rgba(255,77,94,0.05); }
+  .g-meta-item.yes{ color:var(--green); border-color:rgba(22,163,74,0.25); background:rgba(22,163,74,0.08); }
+  .g-meta-item.no{ color:var(--red); border-color:rgba(225,29,72,0.2); background:rgba(225,29,72,0.06); }
   .g-meta-item.unk{ color:var(--muted-2); font-style:italic; }
   .g-corner-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:1px; }
   .g-corner-item{
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:600;
     font-size:10px;
-    letter-spacing:0.2px;
+    letter-spacing:0.1px;
     white-space:nowrap;
     cursor:default;
-    padding:2px 8px;
-    border-radius:6px;
+    padding:2px 9px;
+    border-radius:20px;
     border:1px solid transparent;
     background:var(--panel-2);
   }
-  .g-corner-item.high{ color:var(--green); border-color:rgba(0,226,138,0.35); background:rgba(0,226,138,0.06); }
-  .g-corner-item.low{ color:var(--red); border-color:rgba(255,77,94,0.35); background:rgba(255,77,94,0.06); }
+  .g-corner-item.high{ color:var(--green); border-color:rgba(22,163,74,0.3); background:rgba(22,163,74,0.08); }
+  .g-corner-item.low{ color:var(--red); border-color:rgba(225,29,72,0.3); background:rgba(225,29,72,0.06); }
   .g-corner-item.unk{ color:var(--muted-2); font-style:italic; }
 
   @media (max-width:600px){
@@ -725,8 +811,8 @@
     display:flex;
     gap:14px;
     flex-wrap:wrap;
-    font-family:var(--mono);
-    font-size:10.5px;
+    font-family:var(--body);
+    font-size:11px;
     color:var(--muted-2);
     margin-top:8px;
   }
@@ -742,7 +828,7 @@
     max-height:300px;
     overflow-y:auto;
     border:1px solid var(--border);
-    border-radius:9px;
+    border-radius:14px;
     background:var(--panel-2);
     padding:4px 8px;
   }
@@ -753,9 +839,10 @@
     grid-template-columns:64px 1fr auto;
     gap:8px;
     align-items:center;
-    padding:8px 4px;
-    font-family:var(--mono);
-    font-size:11px;
+    padding:9px 4px;
+    font-family:var(--body);
+    font-weight:500;
+    font-size:11.5px;
     border-bottom:1px solid var(--border-soft);
   }
   .h2h-row:last-child{ border-bottom:none; }
@@ -770,9 +857,11 @@
   }
   .h2h-result{
     font-size:10px;
-    padding:2px 8px;
-    border-radius:5px;
+    font-weight:700;
+    padding:2px 9px;
+    border-radius:20px;
     background:var(--panel);
+    border:1px solid var(--border);
     color:var(--muted);
     white-space:nowrap;
   }
@@ -787,7 +876,7 @@
     margin-top:10px;
     overflow-x:auto;
     border:1px solid var(--border);
-    border-radius:9px;
+    border-radius:14px;
   }
   .standings-table{
     width:100%;
@@ -796,24 +885,25 @@
     min-width:480px;
   }
   .standings-table th, .standings-table td{
-    padding:8px 10px;
+    padding:9px 10px;
     text-align:center;
     border-bottom:1px solid var(--border-soft);
     white-space:nowrap;
   }
   .standings-table th{
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:700;
     font-size:10.5px;
-    letter-spacing:0.5px;
+    letter-spacing:0.3px;
     text-transform:uppercase;
     color:var(--muted-2);
     background:var(--panel-2);
   }
-  .standings-table td.standings-team{ text-align:left; color:var(--text); }
+  .standings-table td.standings-team{ text-align:left; color:var(--text); font-weight:500; }
   .standings-table tr:last-child td{ border-bottom:none; }
-  .standings-table tr.standings-highlight{ background:rgba(0,226,138,0.09); }
-  .standings-table tr.standings-highlight td.standings-team{ color:var(--accent); font-weight:600; }
-  .standings-table td.standings-rank{ font-family:var(--mono); color:var(--muted); }
+  .standings-table tr.standings-highlight{ background:var(--accent-soft); }
+  .standings-table tr.standings-highlight td.standings-team{ color:var(--accent-dark); font-weight:700; }
+  .standings-table td.standings-rank{ font-family:var(--body); font-weight:700; color:var(--muted); }
 
   /* ---------- médias de gols ---------- */
   .avg-grid{
@@ -824,83 +914,86 @@
   @media (max-width:760px){ .avg-grid{ grid-template-columns:1fr; } }
   .avg-col{
     border:1px solid var(--border);
-    border-radius:12px;
-    padding:16px;
-    background:var(--panel-2);
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+    border-radius:16px;
+    padding:18px 18px 8px;
+    background:var(--panel);
+    display:block;
   }
-  .avg-col.home{ border-top:2px solid var(--accent); }
-  .avg-col.away{ border-top:2px solid var(--teal); }
+  .avg-col.home{ border-top:3px solid var(--accent); }
+  .avg-col.away{ border-top:3px solid var(--teal); }
   .avg-col-title{
-    grid-column:1 / -1;
     display:flex;
     align-items:baseline;
     justify-content:space-between;
     gap:10px;
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    margin-bottom:2px;
+    font-family:var(--display);
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:0.2px;
+    margin-bottom:12px;
     flex-wrap:wrap;
   }
-  .avg-col.home .avg-col-title{ color:var(--accent); }
+  .avg-col.home .avg-col-title{ color:var(--accent-dark); }
   .avg-col.away .avg-col-title{ color:var(--teal); }
   .venue-toggle{ display:flex; gap:4px; }
 
   .venue-btn{
-    font-family:var(--mono);
-    font-size:10px;
-    letter-spacing:0.4px;
+    font-family:var(--body);
+    font-weight:600;
+    font-size:10.5px;
+    letter-spacing:0.2px;
     text-transform:uppercase;
     padding:5px 11px;
-    border-radius:6px;
+    border-radius:20px;
     border:1px solid var(--border);
-    background:transparent;
+    background:var(--panel-2);
     color:var(--muted);
     cursor:pointer;
     transition:background .15s ease, color .15s ease, border-color .15s ease;
   }
   .venue-btn:hover{ color:var(--text); }
   .avg-col.home .venue-btn.active{
-    color:var(--accent);
+    color:#fff;
     border-color:var(--accent);
-    background:rgba(0,226,138,0.1);
+    background:var(--accent);
   }
   .avg-col.away .venue-btn.active{
-    color:var(--teal);
+    color:#fff;
     border-color:var(--teal);
-    background:rgba(0,194,168,0.1);
+    background:var(--teal);
   }
   .avg-item{
     display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:5px;
-    padding:11px 12px;
-    border-radius:10px;
-    background:var(--panel);
-    border:1px solid var(--border-soft);
-    font-size:12.5px;
-    transition:transform .15s ease, border-color .15s ease;
+    align-items:baseline;
+    flex-wrap:wrap;
+    column-gap:6px;
+    row-gap:2px;
+    padding:10px 4px 10px 14px;
+    border-left:3px solid var(--border);
+    border-bottom:1px solid var(--border-soft);
+    background:transparent;
+    font-size:13px;
+    transition:border-left-color .15s ease, background .15s ease;
   }
-  .avg-col.home .avg-item:hover{ border-color:rgba(0,226,138,0.4); transform:translateY(-2px); }
-  .avg-col.away .avg-item:hover{ border-color:rgba(0,194,168,0.4); transform:translateY(-2px); }
-  .avg-item span.lbl{ color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:0.5px; }
-  .avg-item span.val{ font-family:var(--mono); font-weight:700; font-size:14px; color:var(--text); line-height:1.4; }
-  .avg-col.home .avg-item span.val{ color:var(--accent); }
+  .avg-col > .avg-item:last-of-type{ border-bottom:none; }
+  .avg-col.home .avg-item{ border-left-color:var(--accent); }
+  .avg-col.away .avg-item{ border-left-color:var(--teal); }
+  .avg-col.home .avg-item:hover{ background:var(--accent-soft); }
+  .avg-col.away .avg-item:hover{ background:var(--teal-soft); }
+  .avg-item span.lbl{ color:var(--muted); font-size:12.5px; text-transform:none; letter-spacing:0; font-weight:600; }
+  .avg-item span.val{ font-family:var(--body); font-weight:700; font-size:13px; color:var(--text); line-height:1.4; }
+  .avg-col.home .avg-item span.val{ color:var(--accent-dark); }
   .avg-col.away .avg-item span.val{ color:var(--teal); }
   .goal-minute-chip{
     display:inline-block;
-    font-family:var(--mono);
+    font-family:var(--body);
+    font-weight:600;
     font-size:10.5px;
     color:var(--green);
-    background:rgba(0,226,138,0.08);
-    border:1px solid rgba(0,226,138,0.3);
-    border-radius:4px;
-    padding:1px 6px;
+    background:rgba(22,163,74,0.08);
+    border:1px solid rgba(22,163,74,0.25);
+    border-radius:20px;
+    padding:1px 8px;
     margin:2px 4px 2px 0;
   }
 
@@ -909,56 +1002,53 @@
      em cima, botões embaixo ocupando a largura toda, e encolhe um pouco o
      texto das frases de estatística pra caber melhor na tela. */
   @media (max-width:600px){
-    .avg-col{ padding:12px; gap:8px; }
+    .avg-col{ padding:14px 14px 6px; }
     .avg-col-title{
       flex-direction:column;
       align-items:flex-start;
       gap:8px;
-      font-size:10px;
-      margin-bottom:0;
+      font-size:11px;
+      margin-bottom:10px;
     }
     .venue-toggle{ width:100%; }
     .venue-toggle .venue-btn{ flex:1; text-align:center; padding:6px 4px; }
-    .avg-item{ padding:9px 10px; }
-    .avg-item span.lbl{ font-size:9.5px; }
+    .avg-item{ padding:9px 4px 9px 12px; }
+    .avg-item span.lbl{ font-size:11.5px; }
     .avg-item span.val{ font-size:12.5px; line-height:1.4; }
   }
-  @media (max-width:400px){
-    .avg-col{ grid-template-columns:1fr; }
-  }
-
 
   .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
 
-  /* ---------- abas ---------- */
+  /* ---------- abas secundárias (dentro de painéis) ---------- */
   .tabs{
     display:flex;
     flex-wrap:wrap;
     gap:4px;
     margin-bottom:20px;
     border:1px solid var(--border);
-    border-radius:9px;
+    border-radius:12px;
     padding:4px;
-    background:var(--panel);
+    background:var(--panel-2);
     width:fit-content;
     max-width:100%;
   }
-  .tab-btn{
-    font-family:var(--mono);
+  .tabs .tab-btn{
+    font-family:var(--body);
+    font-weight:600;
     font-size:12.5px;
-    letter-spacing:0.5px;
+    letter-spacing:0.1px;
     color:var(--muted);
     background:transparent;
     border:1px solid transparent;
-    border-radius:6px;
+    border-radius:9px;
     padding:9px 18px;
     cursor:pointer;
     transition:background .15s ease, color .15s ease;
   }
-  .tab-btn:hover{ color:var(--text); }
-  .tab-btn.active{
-    background:var(--panel-2);
-    color:var(--accent);
+  .tabs .tab-btn:hover{ color:var(--text); }
+  .tabs .tab-btn.active{
+    background:var(--panel);
+    color:var(--accent-dark);
     border-color:var(--border);
   }
   .view{ display:none; }
@@ -969,10 +1059,10 @@
     display:none;
     margin-top:10px;
     padding:12px 14px;
-    border:1px solid rgba(201,59,68,0.4);
-    background:rgba(201,59,68,0.08);
-    border-radius:8px;
-    font-family:var(--mono);
+    border:1px solid rgba(225,29,72,0.25);
+    background:rgba(225,29,72,0.05);
+    border-radius:12px;
+    font-family:var(--body);
     font-size:11.5px;
     color:var(--red);
     line-height:1.6;
@@ -983,7 +1073,7 @@
   .error-box .error-box-title{
     font-weight:700;
     text-transform:uppercase;
-    letter-spacing:0.5px;
+    letter-spacing:0.4px;
     font-size:10.5px;
     margin-bottom:6px;
     display:block;
@@ -992,40 +1082,47 @@
   footer{
     margin-top:30px;
     text-align:center;
-    font-family:var(--mono);
-    font-size:11px;
+    font-family:var(--body);
+    font-size:11.5px;
     color:var(--muted-2);
   }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="app-shell">
 
-  <header class="top">
-    <div class="brand">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
       <div class="mark">⚽</div>
       <div>
-        <span class="welcome">bem-vindo(a) ao</span>
         <h1>Fan de Esporte</h1>
+        <p>Radar de jogos e estatísticas</p>
       </div>
     </div>
-    <div>
-      <div class="clock" id="clock">—</div>
+
+    <nav class="side-nav">
+      <button class="tab-btn active" data-view="jogos">📅 Jogos do Dia</button>
+      <button class="tab-btn" data-view="aovivo">🔴 Ao Vivo</button>
+      <button class="tab-btn" data-view="frios1t">🧊 -2 Gols no 1ºT</button>
+      <button class="tab-btn" data-view="invictos">🛡️ Invictos (10)</button>
+      <button class="tab-btn" data-view="zero1t">🚫 0 Gols no 1ºT (10)</button>
+    </nav>
+
+    <div class="sidebar-foot">
       <div class="sponsor-box">
         <span class="sponsor-text">Seja patrocinador<br>Coloque sua empresa aqui</span>
         <a class="btn-primary sponsor-link" href="https://wa.me/5563992088796" target="_blank" rel="noopener">Entrar em contato</a>
       </div>
     </div>
-  </header>
+  </aside>
 
-  <nav class="tabs">
-    <button class="tab-btn active" data-view="jogos">Jogos do Dia</button>
-    <button class="tab-btn" data-view="aovivo">Ao Vivo</button>
-    <button class="tab-btn" data-view="frios1t">-2 Gols no 1ºT</button>
-    <button class="tab-btn" data-view="doisgols1t">2+ Gols no 1ºT</button>
-    <button class="tab-btn" data-view="invictos">Invictos (5)</button>
-    <button class="tab-btn" data-view="zero1t">0 Gols no 1ºT (5)</button>
-  </nav>
+  <div class="main-col">
+    <header class="topbar">
+      <div class="topbar-title">Fan de Esporte<span>bem-vindo(a) de volta</span></div>
+      <div class="clock" id="clock">—</div>
+    </header>
+
+    <div class="wrap">
 
   <!-- ===== VIEW: JOGOS DO DIA ===== -->
   <div class="view active" id="view-jogos">
@@ -1229,31 +1326,14 @@
 
   </div><!-- /view-frios1t -->
 
-  <!-- ===== VIEW: 2+ GOLS NO 1ºT (5) ===== -->
-  <div class="view" id="view-doisgols1t">
-
-  <section class="panel">
-    <div class="panel-head">
-      <div>
-        <div class="detail-title" style="font-size:16px;">Times 2+ Gols no 1º Tempo</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que fizeram 2 gols ou mais no 1º tempo em CADA UM dos últimos 5 jogos — o oposto da aba "-2 Gols no 1ºT".</div>
-      </div>
-    </div>
-    <div class="status-line" id="doisgols1tStatus"></div>
-    <div class="error-box" id="doisgols1tErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="doisgols1tErrorText"></span></div>
-    <div class="today-list" id="doisgols1tList"></div>
-  </section>
-
-  </div><!-- /view-doisgols1t -->
-
-  <!-- ===== VIEW: INVICTOS (5) ===== -->
+  <!-- ===== VIEW: INVICTOS (10) ===== -->
   <div class="view" id="view-invictos">
 
   <section class="panel">
     <div class="panel-head">
       <div>
-        <div class="detail-title" style="font-size:16px;">Times Invictos nos Últimos 5</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO perderam nenhum dos últimos 5 jogos — ou seja, só venceram ou empataram em CADA UM dos últimos 5 jogos.</div>
+        <div class="detail-title" style="font-size:16px;">Times Invictos nos Últimos 10</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO perderam nenhum dos últimos 10 jogos — ou seja, só venceram ou empataram em CADA UM dos últimos 10 jogos.</div>
       </div>
     </div>
     <div class="status-line" id="invictosStatus"></div>
@@ -1263,14 +1343,14 @@
 
   </div><!-- /view-invictos -->
 
-  <!-- ===== VIEW: 0 GOLS NO 1ºT (5) ===== -->
+  <!-- ===== VIEW: 0 GOLS NO 1ºT (10) ===== -->
   <div class="view" id="view-zero1t">
 
   <section class="panel">
     <div class="panel-head">
       <div>
-        <div class="detail-title" style="font-size:16px;">Times 0 Gols no 1º Tempo (5 jogos)</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO marcaram nenhum gol no 1º tempo em NENHUM dos últimos 5 jogos — mais rígido que a aba "-2 Gols no 1ºT", aqui não pode ter feito nem 1 gol no 1ºT.</div>
+        <div class="detail-title" style="font-size:16px;">Times 0 Gols no 1º Tempo (10 jogos)</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO marcaram nenhum gol no 1º tempo em NENHUM dos últimos 10 jogos — mais rígido que a aba "-2 Gols no 1ºT", aqui não pode ter feito nem 1 gol no 1ºT.</div>
       </div>
     </div>
     <div class="status-line" id="zero1tStatus"></div>
@@ -1281,7 +1361,9 @@
   </div><!-- /view-zero1t -->
 
   <footer>Fan de Esporte · uso analítico — não constitui recomendação financeira</footer>
-</div>
+    </div><!-- /wrap -->
+  </div><!-- /main-col -->
+</div><!-- /app-shell -->
 
 <!-- ===== WIDGET FLUTUANTE DE SUGESTÕES ===== -->
 <div class="feedback-widget" id="feedbackWidget">
@@ -1705,9 +1787,6 @@
   const TARGET_SEASON = 2026;
   const GAMES_LIMIT = 10;
   const FRIOS_GAMES_LIMIT = 5; // a aba "-2 Gols no 1ºT" usa só os últimos 5 jogos, não 10
-  const DOISGOLS1T_GAMES_LIMIT = 5; // aba "2+ Gols no 1ºT" (oposto da "-2 Gols no 1ºT"), últimos 5 jogos
-  const INVICTOS_GAMES_LIMIT = 5; // aba "Invictos", últimos 5 jogos (antes era 10)
-  const ZERO1T_GAMES_LIMIT = 5; // aba "0 Gols no 1ºT", últimos 5 jogos (antes era 10)
 
   async function fetchLastFixtures(teamId, key){
     // Deixa o erro real subir (sem mascarar com "indisponível para este plano"),
@@ -2592,8 +2671,6 @@
     { name: 'Allsvenskan (Suécia)', test: (n,c) => c === 'Sweden' && /allsvenskan/i.test(n) },
     { name: 'La Liga (Espanha)', test: (n,c) => c === 'Spain' && /^la\s*liga$/i.test(n) },
     { name: 'Primera División (Argentina)', test: (n,c) => c === 'Argentina' && /(primera\s*divisi[oó]n|liga\s*profesional)/i.test(n) },
-    { name: 'Primeira Liga (Portugal)', test: (n,c) => c === 'Portugal' && /(primeira\s*liga|liga\s*portugal)/i.test(n) },
-    { name: 'Ligue 1 (França)', test: (n,c) => c === 'France' && /ligue\s*1/i.test(n) },
   ];
 
   function matchAllowedLeague(leagueName, leagueCountry){
@@ -2681,8 +2758,6 @@
 
     const frios1tStatusEl = el('frios1tStatus');
     const frios1tListEl = el('frios1tList');
-    const doisgols1tStatusEl = el('doisgols1tStatus');
-    const doisgols1tListEl = el('doisgols1tList');
     const invictosStatusEl = el('invictosStatus');
     const invictosListEl = el('invictosList');
     const zero1tStatusEl = el('zero1tStatus');
@@ -2692,8 +2767,6 @@
       frios1tStatusEl.className = 'status-line';
       showErrorBox('frios1tErrorBox', 'frios1tErrorText', null);
     }
-    doisgols1tStatusEl.className = 'status-line';
-    showErrorBox('doisgols1tErrorBox', 'doisgols1tErrorText', null);
     invictosStatusEl.className = 'status-line';
     showErrorBox('invictosErrorBox', 'invictosErrorText', null);
     zero1tStatusEl.className = 'status-line';
@@ -2701,8 +2774,6 @@
 
     if(!games || !games.length){
       if(!skipFrios){ frios1tListEl.innerHTML = ''; frios1tStatusEl.textContent = 'Nenhum jogo carregado ainda.'; }
-      doisgols1tListEl.innerHTML = '';
-      doisgols1tStatusEl.textContent = 'Nenhum jogo carregado ainda.';
       invictosListEl.innerHTML = '';
       invictosStatusEl.textContent = 'Nenhum jogo carregado ainda.';
       zero1tListEl.innerHTML = '';
@@ -2717,9 +2788,6 @@
         frios1tStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
         frios1tStatusEl.classList.add('err');
       }
-      doisgols1tListEl.innerHTML = noKeyMsg;
-      doisgols1tStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
-      doisgols1tStatusEl.classList.add('err');
       invictosListEl.innerHTML = noKeyMsg;
       invictosStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
       invictosStatusEl.classList.add('err');
@@ -2755,8 +2823,6 @@
         frios1tListEl.innerHTML = progressMsg;
         frios1tStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
       }
-      doisgols1tListEl.innerHTML = progressMsg;
-      doisgols1tStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
       invictosListEl.innerHTML = progressMsg;
       invictosStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
       zero1tListEl.innerHTML = progressMsg;
@@ -2801,28 +2867,20 @@
       frios1tStatusEl.classList.add(semDado ? 'err' : 'ok');
     }
 
-    const qualifiedDoisGols1t = usable.filter(r =>
-      r.fixtures.length >= DOISGOLS1T_GAMES_LIMIT && r.fixtures.slice(0, DOISGOLS1T_GAMES_LIMIT).every(f => f.gf_ht >= 2)
-    );
-    qualifiedDoisGols1t.sort((a, b) => a.game.time.localeCompare(b.game.time));
-    renderDoisGols1tList(qualifiedDoisGols1t);
-    doisgols1tStatusEl.textContent = qualifiedDoisGols1t.length + ' de ' + usable.length + ' times com dado real fizeram 2+ gols no 1º tempo em todos os últimos ' + DOISGOLS1T_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
-    doisgols1tStatusEl.classList.add(semDado ? 'err' : 'ok');
-
     const qualifiedInvictos = usable.filter(r =>
-      r.fixtures.length >= INVICTOS_GAMES_LIMIT && r.fixtures.slice(0, INVICTOS_GAMES_LIMIT).every(f => f.gf_ft >= f.ga_ft)
+      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ft >= f.ga_ft)
     );
     qualifiedInvictos.sort((a, b) => a.game.time.localeCompare(b.game.time));
     renderInvictosList(qualifiedInvictos);
-    invictosStatusEl.textContent = qualifiedInvictos.length + ' de ' + usable.length + ' times com dado real não perderam nenhum dos últimos ' + INVICTOS_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    invictosStatusEl.textContent = qualifiedInvictos.length + ' de ' + usable.length + ' times com dado real não perderam nenhum dos últimos ' + GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
     invictosStatusEl.classList.add(semDado ? 'err' : 'ok');
 
     const qualifiedZero1t = usable.filter(r =>
-      r.fixtures.length >= ZERO1T_GAMES_LIMIT && r.fixtures.slice(0, ZERO1T_GAMES_LIMIT).every(f => f.gf_ht === 0)
+      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ht === 0)
     );
     qualifiedZero1t.sort((a, b) => a.game.time.localeCompare(b.game.time));
     renderZero1tList(qualifiedZero1t);
-    zero1tStatusEl.textContent = qualifiedZero1t.length + ' de ' + usable.length + ' times com dado real não marcaram nenhum gol no 1º tempo em nenhum dos últimos ' + ZERO1T_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    zero1tStatusEl.textContent = qualifiedZero1t.length + ' de ' + usable.length + ' times com dado real não marcaram nenhum gol no 1º tempo em nenhum dos últimos ' + GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
     zero1tStatusEl.classList.add(semDado ? 'err' : 'ok');
   }
 
@@ -2861,29 +2919,6 @@
     });
   }
 
-  function renderDoisGols1tList(items){
-    const listEl = el('doisgols1tList');
-    if(!items.length){
-      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum time dos jogos de hoje se encaixou nesse padrão.</div>';
-      return;
-    }
-    listEl.innerHTML = items.map((it, i) => {
-      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
-      return (
-        '<button type="button" class="today-row" data-doisgols1t-idx="' + i + '">' +
-          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
-          '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
-          '<span class="today-odds"><span class="odd-chip fav">' + DOISGOLS1T_GAMES_LIMIT + '/' + DOISGOLS1T_GAMES_LIMIT + ' c/ 2+ no 1ºT</span></span>' +
-          '<span class="today-cta">ver análise →</span>' +
-        '</button>'
-      );
-    }).join('');
-
-    listEl.querySelectorAll('.today-row').forEach((row, i) => {
-      row.addEventListener('click', () => goToGameFromList(items[i].game));
-    });
-  }
-
   function renderInvictosList(items){
     const listEl = el('invictosList');
     if(!items.length){
@@ -2896,7 +2931,7 @@
         '<button type="button" class="today-row" data-invictos-idx="' + i + '">' +
           '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
           '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
-          '<span class="today-odds"><span class="odd-chip fav">invicto há ' + INVICTOS_GAMES_LIMIT + '</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">invicto há ' + GAMES_LIMIT + '</span></span>' +
           '<span class="today-cta">ver análise →</span>' +
         '</button>'
       );
@@ -2919,7 +2954,7 @@
         '<button type="button" class="today-row" data-zero1t-idx="' + i + '">' +
           '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
           '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
-          '<span class="today-odds"><span class="odd-chip fav">0/' + ZERO1T_GAMES_LIMIT + ' c/ gol no 1ºT</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">0/' + GAMES_LIMIT + ' c/ gol no 1ºT</span></span>' +
           '<span class="today-cta">ver análise →</span>' +
         '</button>'
       );
