@@ -1180,6 +1180,85 @@
     font-size:11.5px;
     color:var(--muted-2);
   }
+
+  /* ---------- accordion de jogadores ---------- */
+  .players-accordion-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    cursor:pointer;
+    padding:10px 0;
+    user-select:none;
+  }
+  .players-accordion-header:hover .players-accordion-title{ color:var(--accent-dark); }
+  .players-accordion-title{
+    font-family:var(--display);
+    font-size:15px;
+    font-weight:600;
+    color:var(--text);
+    transition:color .15s ease;
+  }
+  .players-accordion-arrow{
+    width:22px; height:22px;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--muted-2);
+    transition:transform .2s ease, color .15s ease;
+    font-size:13px;
+  }
+  .players-accordion-header.open .players-accordion-arrow{
+    transform:rotate(180deg);
+    color:var(--accent-dark);
+  }
+  .players-accordion-body{
+    display:none;
+  }
+  .players-accordion-body.open{
+    display:block;
+  }
+  .players-group-accordion{
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--panel);
+    margin-bottom:8px;
+    overflow:hidden;
+  }
+  .players-group-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 12px;
+    cursor:pointer;
+    background:var(--panel-2);
+    user-select:none;
+  }
+  .players-group-header:hover{ background:var(--accent-soft); }
+  .players-group-header.open{ background:var(--accent-soft); }
+  .players-group-title{
+    font-family:var(--body);
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+  }
+  .players-group-arrow{
+    color:var(--muted-2);
+    transition:transform .2s ease;
+    font-size:12px;
+  }
+  .players-group-header.open .players-group-arrow{
+    transform:rotate(180deg);
+    color:var(--accent-dark);
+  }
+  .players-group-body{
+    display:none;
+    padding:8px 12px;
+  }
+  .players-group-body.open{
+    display:block;
+  }
 </style>
 </head>
 <body>
@@ -1338,18 +1417,23 @@
       </div>
     </div>
     <div class="extra-section" id="extraSection" style="display:none; margin-top:24px;">
-      <div class="detail-title" style="font-size:15px;">Jogadores</div>
-      <div class="empty-note" style="margin-top:4px; max-width:640px;">Dados da temporada atual de cada jogador: gols, chutes no gol, finalizações, faltas, cartões e substituições.</div>
-      <div class="status-line" id="playersStatus"></div>
-      <div class="error-box" id="playersErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="playersErrorText"></span></div>
-      <div class="players-grid" id="playersGrid" style="display:none; margin-top:14px;">
-        <div class="players-col home">
-          <div class="players-col-title" id="playersHomeTitle">Casa</div>
-          <div class="players-list" id="playersHomeList"></div>
-        </div>
-        <div class="players-col away">
-          <div class="players-col-title" id="playersAwayTitle">Fora</div>
-          <div class="players-list" id="playersAwayList"></div>
+      <div class="players-accordion-header" id="playersAccordionHeader">
+        <div class="players-accordion-title">Jogadores</div>
+        <div class="players-accordion-arrow">▼</div>
+      </div>
+      <div class="players-accordion-body" id="playersAccordionBody">
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Dados da temporada atual de cada jogador: gols, chutes no gol, finalizações, faltas, cartões e substituições.</div>
+        <div class="status-line" id="playersStatus"></div>
+        <div class="error-box" id="playersErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="playersErrorText"></span></div>
+        <div class="players-grid" id="playersGrid" style="display:none; margin-top:14px;">
+          <div class="players-col home">
+            <div class="players-col-title" id="playersHomeTitle">Casa</div>
+            <div class="players-list" id="playersHomeList"></div>
+          </div>
+          <div class="players-col away">
+            <div class="players-col-title" id="playersAwayTitle">Fora</div>
+            <div class="players-list" id="playersAwayList"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -1534,6 +1618,23 @@
   }
   document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.addEventListener('click', () => showView(btn.dataset.view));
+  });
+
+  /* accordion interno dos grupos de jogadores */
+  document.addEventListener('click', e => {
+    const groupHeader = e.target.closest('.players-group-header');
+    if(!groupHeader) return;
+    const key = groupHeader.dataset.playersGroup;
+    const body = document.querySelector('.players-group-body[data-players-body="' + key + '"]');
+    if(!body) return;
+    const isOpen = body.classList.contains('open');
+    if(isOpen){
+      body.classList.remove('open');
+      groupHeader.classList.remove('open');
+    } else {
+      body.classList.add('open');
+      groupHeader.classList.add('open');
+    }
   });
 
   /* ---------------- state ---------------- */
@@ -2345,6 +2446,8 @@
 
   /* ---------------- detalhe do confronto selecionado ---------------- */
   async function showGameDetail(g){
+    state.currentGame = g;
+    playersLoadedForGame = null;
     el('detailTitle').textContent = g.home.name + ' vs ' + g.away.name;
     el('detailSub').textContent = g.league + ' · ' + formatGameDate(g.date) + ' ' + g.time;
     el('homeGamesLabel').textContent = g.home.name;
@@ -2352,6 +2455,7 @@
     el('gamesGrid').style.display = 'none';
     el('avgGrid').style.display = 'none';
     el('extraSection').style.display = 'none';
+    togglePlayersAccordion(false);
     el('h2hSection').style.display = 'none';
     el('h2hList').innerHTML = '';
     el('h2hStatus').textContent = '';
@@ -2437,6 +2541,7 @@
     loadStandings(g);
     loadLineupsAndInjuries(g);
     loadPlayers(g);
+    togglePlayersAccordion(false);
   }
 
   /* ---------------- confrontos diretos ---------------- */
@@ -2732,15 +2837,47 @@
       return;
     }
     const groups = groupPlayersByPosition(players);
-    listEl.innerHTML = Object.keys(groups).map(pos => {
+    listEl.innerHTML = Object.keys(groups).map((pos, idx) => {
       const rows = groups[pos].map(renderPlayerRow).join('');
       return (
-        '<div class="players-group">' +
-          '<div class="players-group-title">' + pos + '</div>' +
-          rows +
+        '<div class="players-group-accordion">' +
+          '<div class="players-group-header" data-players-group="' + prefix + '-' + idx + '">' +
+            '<div class="players-group-title">' + pos + '</div>' +
+            '<div class="players-group-arrow">▼</div>' +
+          '</div>' +
+          '<div class="players-group-body" data-players-body="' + prefix + '-' + idx + '">' + rows + '</div>' +
         '</div>'
       );
     }).join('');
+  }
+
+  let playersLoadedForGame = null;
+
+  function togglePlayersAccordion(show){
+    const header = el('playersAccordionHeader');
+    const body = el('playersAccordionBody');
+    if(!header || !body) return;
+    if(show){
+      header.classList.add('open');
+      body.classList.add('open');
+    } else {
+      header.classList.remove('open');
+      body.classList.remove('open');
+    }
+  }
+
+  function attachPlayersAccordionListeners(){
+    const header = el('playersAccordionHeader');
+    if(!header || header.dataset.playersListener) return;
+    header.dataset.playersListener = '1';
+    header.addEventListener('click', () => {
+      const body = el('playersAccordionBody');
+      const isOpen = body.classList.contains('open');
+      togglePlayersAccordion(!isOpen);
+      if(!isOpen && state.currentGame && playersLoadedForGame !== state.currentGame.fixtureId){
+        loadPlayers(state.currentGame);
+      }
+    });
   }
 
   async function loadPlayers(g){
@@ -2751,6 +2888,7 @@
     showErrorBox('playersErrorBox', 'playersErrorText', null);
 
     section.style.display = 'block';
+    attachPlayersAccordionListeners();
 
     if(!state.apiKey || g.home.id == null || g.away.id == null){
       grid.style.display = 'none';
@@ -2772,6 +2910,7 @@
       renderPlayersList('playersHome', g.home.name, aggregatePlayerStats(homeItems));
       renderPlayersList('playersAway', g.away.name, aggregatePlayerStats(awayItems));
 
+      playersLoadedForGame = g.fixtureId;
       grid.style.display = 'grid';
       statusEl.textContent = 'Estatísticas individuais da temporada ' + season + ' carregadas.';
       statusEl.classList.add('ok');
@@ -3592,3 +3731,5 @@
 </script>
 </body>
 </html>
+
+  
