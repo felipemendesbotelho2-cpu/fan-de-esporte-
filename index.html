@@ -551,9 +551,11 @@
     color:var(--muted);
     margin-top:12px;
     min-height:16px;
+    display:none; /* mensagens técnicas de "buscando/carregando dados" ficam ocultas */
   }
   .status-line.err{ color:var(--red); }
   .status-line.ok{ color:var(--teal); }
+  #feedbackStatus{ display:block; } /* essa é feedback real pro usuário, não info técnica */
 
   details.settings{
     margin-top:16px;
@@ -1280,6 +1282,35 @@
     color:var(--text);
   }
   .market-item .lbl{ flex:1 1 auto; }
+
+  /* ---------- prognóstico da tabela ---------- */
+  .prognostico-title{
+    font-family:var(--display);
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--text);
+    margin-bottom:8px;
+  }
+  .prognostico-wrap{ display:flex; flex-direction:column; gap:8px; }
+  .prognostico-card{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    flex-wrap:wrap;
+    padding:10px 12px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-left:3px solid var(--accent);
+    border-radius:10px;
+    font-size:12.5px;
+    line-height:1.5;
+  }
+  .prognostico-card .prognostico-team{
+    font-weight:700;
+    color:var(--text);
+    flex-shrink:0;
+  }
+  .prognostico-card .prognostico-text{ color:var(--muted); }
   .goal-minute-chip{
     display:inline-block;
     font-family:var(--body);
@@ -1352,7 +1383,7 @@
 
   /* ---------- caixa de erro detalhado ---------- */
   .error-box{
-    display:none;
+    display:none !important; /* caixas de "detalhe técnico" de erro ficam sempre ocultas */
     margin-top:10px;
     padding:12px 14px;
     border:1px solid rgba(225,29,72,0.25);
@@ -1365,7 +1396,7 @@
     white-space:pre-wrap;
     word-break:break-word;
   }
-  .error-box.show{ display:block; }
+  .error-box.show{ display:none !important; }
   .error-box .error-box-title{
     font-weight:700;
     text-transform:uppercase;
@@ -1556,6 +1587,11 @@
 
     <div class="status-line" id="detailStatus"></div>
     <div class="error-box" id="detailErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="detailErrorText"></span></div>
+
+    <div class="prognostico-section" id="prognosticoSection" style="display:none; margin-top:16px;">
+      <div class="prognostico-title">🔮 Prognóstico da tabela</div>
+      <div class="prognostico-wrap" id="prognosticoWrap"></div>
+    </div>
 
     <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
       <div class="avg-col home">
@@ -2901,6 +2937,8 @@
     el('standingsTableWrap').innerHTML = '';
     el('standingsStatus').textContent = '';
     el('standingsStatus').className = 'status-line';
+    el('prognosticoSection').style.display = 'none';
+    el('prognosticoWrap').innerHTML = '';
     el('playersGrid').style.display = 'none';
     el('playersHomeList').innerHTML = '';
     el('playersAwayList').innerHTML = '';
@@ -2971,6 +3009,7 @@
 
     loadHeadToHead(g);
     loadStandings(g);
+    loadPrognostico(g);
     loadLineupsAndInjuries(g);
     loadPlayers(g);
     togglePlayersAccordion(false);
@@ -3117,6 +3156,82 @@
         '<thead><tr><th>#</th><th>Time</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th></tr></thead>' +
         '<tbody>' + trs + '</tbody>' +
       '</table>';
+  }
+
+  /* ---------------- prognóstico (pra qual vaga/posição cada time briga) ---------------- */
+  async function loadPrognostico(g){
+    const section = el('prognosticoSection');
+    const wrap = el('prognosticoWrap');
+
+    if(g.leagueId == null){
+      section.style.display = 'none';
+      return;
+    }
+    if(!state.apiKey){
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    wrap.innerHTML = '<div class="status-line">Buscando prognóstico da tabela…</div>';
+
+    try{
+      const season = g.leagueSeason || TARGET_SEASON;
+      const data = await apiGet('/standings?league=' + g.leagueId + '&season=' + season, state.apiKey);
+      const leagueData = ((data.response || [])[0] || {}).league || {};
+      const rows = (leagueData.standings && leagueData.standings[0]) || [];
+      if(!rows.length){
+        section.style.display = 'none';
+        wrap.innerHTML = '';
+        return;
+      }
+
+      const homeRow = rows.find(r => r.team.id === g.home.id);
+      const awayRow = rows.find(r => r.team.id === g.away.id);
+      const cards = [homeRow, awayRow].filter(Boolean).map(r => renderPrognosticoCard(r, rows.length)).join('');
+
+      if(!cards){
+        section.style.display = 'none';
+        wrap.innerHTML = '';
+        return;
+      }
+      wrap.innerHTML = cards;
+    }catch(err){
+      section.style.display = 'none';
+      wrap.innerHTML = '';
+    }
+  }
+
+  function renderPrognosticoCard(r, totalTeams){
+    const objetivo = describePrognostico(r, totalTeams);
+    return (
+      '<div class="prognostico-card">' +
+        '<span class="prognostico-team">' + escapeHtml(r.team.name) + '</span>' +
+        '<span class="prognostico-text">' + r.rank + 'º colocado (' + r.points + ' pts) — ' + escapeHtml(objetivo) + '</span>' +
+      '</div>'
+    );
+  }
+
+  function describePrognostico(r, totalTeams){
+    const desc = (r.description || '').trim();
+    if(desc) return translatePrognosticoDesc(desc);
+    if(!totalTeams) return 'sem informação de posição disponível no momento.';
+    const rank = r.rank;
+    if(rank <= 4) return 'na briga pela liderança / vagas de acesso ao topo da tabela.';
+    if(rank > totalTeams - 4) return 'na briga contra o rebaixamento.';
+    return 'meio de tabela, sem grande pressão na classificação no momento.';
+  }
+
+  function translatePrognosticoDesc(desc){
+    const d = desc.toLowerCase();
+    if(d.includes('champions league')) return 'briga por vaga na Champions League.';
+    if(d.includes('europa league')) return 'briga por vaga na Europa League.';
+    if(d.includes('conference league')) return 'briga por vaga na Conference League.';
+    if(d.includes('libertadores')) return 'briga por vaga na Libertadores.';
+    if(d.includes('sudamericana') || d.includes('sul-americana') || d.includes('sul americana')) return 'briga por vaga na Sul-Americana.';
+    if(d.includes('relegation')) return 'briga contra o rebaixamento.';
+    if(d.includes('promotion')) return 'briga pelo acesso à divisão de cima.';
+    return desc;
   }
 
   /* ---------------- jogadores / estatísticas individuais ---------------- */
