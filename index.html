@@ -1200,15 +1200,19 @@
     transition:color .15s ease;
   }
   .players-accordion-arrow{
-    width:22px; height:22px;
+    width:24px; height:24px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
     display:flex; align-items:center; justify-content:center;
-    color:var(--muted-2);
-    transition:transform .2s ease, color .15s ease;
-    font-size:13px;
+    transition:transform .2s ease, filter .15s ease;
+    font-size:11px;
+    box-shadow:0 4px 10px rgba(255,122,26,0.3);
+    flex-shrink:0;
   }
+  .players-accordion-header:hover .players-accordion-arrow{ filter:brightness(1.08); }
   .players-accordion-header.open .players-accordion-arrow{
     transform:rotate(180deg);
-    color:var(--accent-dark);
   }
   .players-accordion-body{
     display:none;
@@ -1244,13 +1248,19 @@
     color:var(--muted-2);
   }
   .players-group-arrow{
-    color:var(--muted-2);
-    transition:transform .2s ease;
-    font-size:12px;
+    width:22px; height:22px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .2s ease, filter .15s ease;
+    font-size:10px;
+    box-shadow:0 3px 8px rgba(255,122,26,0.3);
+    flex-shrink:0;
   }
+  .players-group-header:hover .players-group-arrow{ filter:brightness(1.08); }
   .players-group-header.open .players-group-arrow{
     transform:rotate(180deg);
-    color:var(--accent-dark);
   }
   .players-group-body{
     display:none;
@@ -1274,7 +1284,7 @@
     </div>
 
     <nav class="side-nav">
-      <button class="tab-btn active" data-view="jogos">📅 Jogos do Dia</button>
+      <button class="tab-btn active" data-view="jogos">🏠 Menu Inicial</button>
       <button class="tab-btn" data-view="aovivo">🔴 Ao Vivo</button>
       <button class="tab-btn" data-view="frios1t">🧊 -2 Gols no 1ºT</button>
       <button class="tab-btn" data-view="invictos">🛡️ Invictos (10)</button>
@@ -3099,10 +3109,27 @@
   // Palavras que indicam categoria de base / time reserva — jogos com essas
   // ligas/competições NÃO entram no site, mesmo que o nome pareça bater com
   // uma das ligas permitidas (ex: "Copa do Brasil Sub-20" não deve aparecer).
-  const YOUTH_OR_RESERVE_KEYWORDS = /sub[\s-]?(13|14|15|16|17|18|19|20|21|22|23)|\bu[\s-]?(13|14|15|16|17|18|19|20|21|22|23)\b|youth|junior|juvenil|jovens|reservas?|academy|aspirantes|women|woman|feminin[ao]|ladies|female|\bW\b|WSL|FAWSL/i;
+  const YOUTH_OR_RESERVE_KEYWORDS = /sub[\s-]?(13|14|15|16|17|18|19|20|21|22|23)|\bu[\s-]?(13|14|15|16|17|18|19|20|21|22|23)\b|youth|junior|juvenil|jovens|reservas?|reserve|academy|aspirantes|amateur|amador(es)?|women|woman|feminin[ao]|ladies|female|\bW\b|WSL|FAWSL/i;
 
   function isYouthOrReserveLeague(leagueName){
     return YOUTH_OR_RESERVE_KEYWORDS.test(leagueName || '');
+  }
+
+  // Mesma checagem, mas aplicada ao NOME DO TIME — pega casos em que a liga
+  // parece normal (ex: "Premier League 2", que na prática é sub-21) mas o
+  // próprio time vem marcado como "Arsenal U21", "Chelsea W", "Santos B", etc.
+  // Cobre também sufixos soltos tipo " II" / " B" que indicam time reserva.
+  const TEAM_YOUTH_OR_RESERVE_SUFFIX = /\s(u[\s-]?(13|14|15|16|17|18|19|20|21|22|23)|sub[\s-]?(13|14|15|16|17|18|19|20|21|22|23)|w|women|ladies|reserves?|II|B)$/i;
+
+  function isYouthOrReserveTeamName(teamName){
+    const n = teamName || '';
+    return YOUTH_OR_RESERVE_KEYWORDS.test(n) || TEAM_YOUTH_OR_RESERVE_SUFFIX.test(n);
+  }
+
+  function isYouthOrReserveFixture(fx){
+    const home = fx.teams && fx.teams.home && fx.teams.home.name;
+    const away = fx.teams && fx.teams.away && fx.teams.away.name;
+    return isYouthOrReserveTeamName(home) || isYouthOrReserveTeamName(away);
   }
 
   const ALLOWED_LEAGUES = [
@@ -3113,7 +3140,9 @@
     { name: 'Copa Libertadores', test: (n,c) => /libertadores/i.test(n) },
     { name: 'Copa Sul-Americana', test: (n,c) => /sudamericana|sul[\s-]*americana/i.test(n) },
     { name: 'Série A (Itália)', test: (n,c) => c === 'Italy' && /^serie\s*a$/i.test(n) },
-    { name: 'Premier League', test: (n,c) => c === 'England' && /premier\s*league/i.test(n) },
+    // Âncoras no início/fim pra não deixar passar variações tipo "Premier League 2"
+    // (liga sub-21/reserva inglesa), que senão bateria só por conter "Premier League".
+    { name: 'Premier League', test: (n,c) => c === 'England' && /^premier\s*league$/i.test(n) },
     { name: 'League Cup (Inglaterra)', test: (n,c) => c === 'England' && /(efl\s*cup|carabao\s*cup|league\s*cup)/i.test(n) },
     { name: 'Champions League', test: (n,c) => /champions\s*league/i.test(n) },
     { name: 'Eliteserien (Noruega)', test: (n,c) => c === 'Norway' && /eliteserien/i.test(n) },
@@ -3121,6 +3150,8 @@
     { name: 'Allsvenskan (Suécia)', test: (n,c) => c === 'Sweden' && /allsvenskan/i.test(n) },
     { name: 'La Liga (Espanha)', test: (n,c) => c === 'Spain' && /^la\s*liga$/i.test(n) },
     { name: 'Primera División (Argentina)', test: (n,c) => c === 'Argentina' && /(primera\s*divisi[oó]n|liga\s*profesional)/i.test(n) },
+    { name: 'Saudi Pro League', test: (n,c) => /saudi/i.test(c) && /pro\s*league/i.test(n) },
+    { name: 'Primeira Divisão (Arábia Saudita)', test: (n,c) => /saudi/i.test(c) && /first\s*division/i.test(n) },
   ];
 
   function matchAllowedLeague(leagueName, leagueCountry){
@@ -3456,7 +3487,8 @@
   function renderFromPreloaded(data){
     const todayStatus = el('todayStatus');
     const games = (data.games || [])
-      .filter(g => matchAllowedLeague(g.league, g.leagueCountry || ''));
+      .filter(g => matchAllowedLeague(g.league, g.leagueCountry || ''))
+      .filter(g => !isYouthOrReserveTeamName(g.home && g.home.name) && !isYouthOrReserveTeamName(g.away && g.away.name));
     renderTodayGames(games);
     state.todayGames = games;
 
@@ -3516,6 +3548,7 @@
       const data = await apiGetNoCache('/fixtures?live=all', state.apiKey);
       const games = (data.response || [])
         .filter(fx => matchAllowedLeague(fx.league && fx.league.name, fx.league && fx.league.country))
+        .filter(fx => !isYouthOrReserveFixture(fx))
         .map(fx => {
           const allowed = matchAllowedLeague(fx.league.name, fx.league.country);
           const goals = fx.goals || {};
@@ -3580,6 +3613,7 @@
       const games = (data.response || [])
         .filter(fx => fx.fixture && fx.fixture.status && ['NS','1H','HT','2H','ET','P'].includes(fx.fixture.status.short))
         .filter(fx => matchAllowedLeague(fx.league && fx.league.name, fx.league && fx.league.country))
+        .filter(fx => !isYouthOrReserveFixture(fx))
         .map(fx => {
           const allowed = matchAllowedLeague(fx.league.name, fx.league.country);
           return {
@@ -3631,19 +3665,21 @@
   .fx-head{ cursor:pointer; display:flex; align-items:center; gap:10px; }
   .fx-head > .fx-arrow{ margin-left:auto; }
   .fx-arrow{
-    border:1px solid var(--border);
-    background:var(--panel-2);
-    color:var(--muted);
-    border-radius:8px;
+    border:none;
+    background:var(--accent);
+    color:#fff;
+    border-radius:50%;
     width:26px; height:26px;
     line-height:1;
     font-size:12px;
     cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     flex-shrink:0;
-    transition:background .15s ease, color .15s ease, border-color .15s ease;
+    box-shadow:0 4px 10px rgba(255,122,26,0.35);
+    transition:transform .2s ease, filter .15s ease;
   }
-  .fx-arrow:hover{ background:var(--accent-soft); color:var(--accent-dark); border-color:var(--accent); }
+  .fx-arrow:hover{ filter:brightness(1.08); }
+  .fx-arrow.open{ transform:rotate(180deg); }
   .fx-collapsed{ display:none !important; }
 </style>
 <script>
@@ -3665,7 +3701,8 @@
 
     let open = false;
     function apply(){
-      btn.textContent = open ? '\u25BE' : '\u25B8';
+      btn.textContent = '\u25BE';
+      btn.classList.toggle('open', open);
       btn.title = open ? 'Recolher' : 'Expandir';
       items.forEach(c => c.classList.toggle('fx-collapsed', !open));
     }
