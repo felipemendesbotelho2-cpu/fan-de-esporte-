@@ -314,6 +314,170 @@
     .feedback-panel{ width:calc(100vw - 28px); }
   }
 
+  /* ---------- widget flutuante da caderneta ---------- */
+  .nb-widget{
+    position:fixed;
+    left:20px;
+    bottom:20px;
+    z-index:999;
+    font-family:var(--body);
+  }
+  .nb-launcher{
+    width:54px;height:54px;
+    border-radius:50%;
+    background:var(--teal);
+    color:#fff;
+    border:none;
+    font-size:22px;
+    cursor:pointer;
+    box-shadow:0 10px 26px rgba(14,165,164,0.38);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, filter .15s ease;
+    position:relative;
+  }
+  .nb-launcher:hover{ filter:brightness(1.05); transform:translateY(-2px); }
+  .nb-widget.open .nb-launcher{ display:none; }
+  .nb-count{
+    position:absolute;
+    top:-4px; right:-4px;
+    min-width:19px; height:19px;
+    padding:0 4px;
+    border-radius:999px;
+    background:var(--accent);
+    color:#fff;
+    font-size:10.5px;
+    font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 2px var(--panel);
+  }
+  .nb-count.hidden{ display:none; }
+
+  .nb-panel{
+    display:none;
+    position:absolute;
+    left:0;
+    bottom:66px;
+    width:320px;
+    max-width:calc(100vw - 32px);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+    box-shadow:0 20px 48px rgba(30,34,51,0.16);
+  }
+  .nb-widget.open .nb-panel{ display:block; }
+
+  .nb-head{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:10px; }
+  .nb-title{ font-family:var(--display); font-size:14px; font-weight:600; color:var(--text); }
+  .nb-sub{ font-size:12px; color:var(--muted); margin-top:5px; line-height:1.45; }
+  .nb-close{
+    background:transparent; border:none; color:var(--muted-2);
+    font-size:19px; line-height:1; cursor:pointer; padding:0 2px; flex-shrink:0;
+  }
+  .nb-close:hover{ color:var(--text); }
+
+  .nb-list{
+    margin-top:4px;
+    max-height:320px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .nb-item{
+    background:var(--panel-2);
+    border:1px solid var(--border-soft);
+    border-left:3px solid var(--teal);
+    border-radius:9px;
+    padding:9px 10px;
+    font-size:12px;
+    color:var(--text);
+    line-height:1.45;
+    word-break:break-word;
+    position:relative;
+  }
+  .nb-item-game{ font-weight:700; font-size:11.5px; color:var(--teal); }
+  .nb-item-stat{ font-weight:600; color:var(--muted); font-size:11px; margin-top:2px; }
+  .nb-item-note{ margin-top:4px; }
+  .nb-item time{
+    display:block;
+    font-family:var(--body);
+    font-size:10px;
+    color:var(--muted-2);
+    margin-top:5px;
+  }
+  .nb-item-remove{
+    position:absolute;
+    top:6px; right:6px;
+    background:transparent;
+    border:none;
+    color:var(--muted-2);
+    font-size:15px;
+    line-height:1;
+    cursor:pointer;
+    padding:2px 4px;
+  }
+  .nb-item-remove:hover{ color:var(--red); }
+  .nb-empty{ font-size:12px; color:var(--muted-2); font-style:italic; padding:6px 2px; }
+  .nb-clear{
+    width:100%;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid var(--border-soft);
+    background:transparent;
+    border-left:none; border-right:none; border-bottom:none;
+    color:var(--muted);
+    font-family:var(--body);
+    font-weight:600;
+    font-size:11.5px;
+    cursor:pointer;
+  }
+  .nb-clear:hover{ color:var(--red); }
+
+  @media (max-width:480px){
+    .nb-widget{ left:14px; bottom:14px; }
+    .nb-panel{ width:calc(100vw - 28px); }
+  }
+
+  /* ---------- modal de anotação (compartilhado pelos botões +) ---------- */
+  .nb-modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(30,34,51,0.45);
+    z-index:1100;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .nb-modal-overlay.open{ display:flex; }
+  .nb-modal{
+    background:var(--panel);
+    border-radius:16px;
+    padding:18px;
+    width:360px;
+    max-width:100%;
+    box-shadow:0 24px 60px rgba(30,34,51,0.28);
+  }
+  .nb-modal-title{ font-family:var(--display); font-size:14.5px; font-weight:600; color:var(--text); margin-bottom:4px; }
+  .nb-modal-sub{ font-size:11.5px; color:var(--muted); margin-bottom:10px; }
+  .nb-modal-textarea{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:var(--body);
+    font-size:13px;
+    padding:10px;
+    border-radius:9px;
+    resize:vertical;
+    outline:none;
+    min-height:76px;
+  }
+  .nb-modal-textarea:focus{ border-color:var(--teal); box-shadow:0 0 0 3px rgba(14,165,164,0.15); }
+  .nb-modal-actions{ display:flex; gap:8px; margin-top:12px; justify-content:flex-end; }
+  .nb-modal-actions .btn-ghost, .nb-modal-actions .btn-primary{ padding:8px 14px; font-size:12.5px; }
+
   .panel{
     background:var(--panel);
     border:1px solid var(--border);
@@ -1078,6 +1242,44 @@
   .avg-item span.val{ font-family:var(--body); font-weight:700; font-size:13px; color:var(--text); line-height:1.4; }
   .avg-col.home .avg-item span.val{ color:var(--accent-dark); }
   .avg-col.away .avg-item span.val{ color:var(--teal); }
+
+  /* ---------- botão "+" de adicionar à caderneta ---------- */
+  .nb-add-btn{
+    margin-left:auto;
+    width:20px; height:20px;
+    border-radius:50%;
+    border:none;
+    background:var(--accent);
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    box-shadow:0 2px 6px rgba(255,122,26,0.35);
+    transition:filter .15s ease, transform .15s ease;
+  }
+  .nb-add-btn:hover{ filter:brightness(1.08); transform:scale(1.1); }
+
+  .market-section .market-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .market-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--text);
+  }
+  .market-item .lbl{ flex:1 1 auto; }
   .goal-minute-chip{
     display:inline-block;
     font-family:var(--body);
@@ -1365,15 +1567,15 @@
             <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
           </div>
         </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Gols por jogo" title="Adicionar à caderneta">+</button></div>
         <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
         <div class="avg-item"><span class="lbl">Minutos dos gols</span><span class="val" id="homeGoalMinutes">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Escanteios" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Finalizações" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Chutes no gol" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Cartões" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Faltas" title="Adicionar à caderneta">+</button></div>
       </div>
       <div class="avg-col away">
         <div class="avg-col-title">
@@ -1384,17 +1586,39 @@
             <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
           </div>
         </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span></div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Gols por jogo" title="Adicionar à caderneta">+</button></div>
         <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
         <div class="avg-item"><span class="lbl">Minutos dos gols</span><span class="val" id="awayGoalMinutes">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Escanteios" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Finalizações" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Chutes no gol" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Cartões" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Faltas" title="Adicionar à caderneta">+</button></div>
       </div>
     </div>
+
+    <div class="market-section" id="marketSection" style="display:none; margin-top:16px;">
+      <div class="market-list">
+        <div class="market-item">
+          <span class="lbl" id="marketHomeWinLbl">Casa vence</span>
+          <button type="button" class="nb-add-btn" data-nb-market="home-win" title="Adicionar à caderneta">+</button>
+        </div>
+        <div class="market-item">
+          <span class="lbl" id="marketAwayWinLbl">Fora vence</span>
+          <button type="button" class="nb-add-btn" data-nb-market="away-win" title="Adicionar à caderneta">+</button>
+        </div>
+        <div class="market-item">
+          <span class="lbl" id="marketDcHomeLbl">Dupla chance: Casa ou Empate</span>
+          <button type="button" class="nb-add-btn" data-nb-market="dc-home" title="Adicionar à caderneta">+</button>
+        </div>
+        <div class="market-item">
+          <span class="lbl" id="marketDcAwayLbl">Dupla chance: Fora ou Empate</span>
+          <button type="button" class="nb-add-btn" data-nb-market="dc-away" title="Adicionar à caderneta">+</button>
+        </div>
+      </div>
+    </div>
+
 
     <div class="games-grid" id="gamesGrid" style="display:none;">
       <div class="games-col home">
@@ -1587,6 +1811,40 @@
   </div>
 </div>
 
+<!-- ===== WIDGET FLUTUANTE DA CADERNETA ===== -->
+<div class="nb-widget" id="nbWidget">
+  <button type="button" class="nb-launcher" id="nbLauncher" aria-label="Abrir caderneta">
+    📒
+    <span class="nb-count hidden" id="nbCount">0</span>
+  </button>
+
+  <div class="nb-panel" id="nbPanel">
+    <div class="nb-head">
+      <div>
+        <div class="nb-title">Minha Caderneta</div>
+        <div class="nb-sub">Estatísticas e apostas que você marcou como interessantes.</div>
+      </div>
+      <button type="button" class="nb-close" id="nbClose" aria-label="Fechar">×</button>
+    </div>
+
+    <div class="nb-list" id="nbList"></div>
+    <button type="button" class="nb-clear" id="nbClear">Limpar caderneta</button>
+  </div>
+</div>
+
+<!-- ===== MODAL DE ANOTAÇÃO (usado pelos botões +) ===== -->
+<div class="nb-modal-overlay" id="nbModalOverlay">
+  <div class="nb-modal">
+    <div class="nb-modal-title" id="nbModalTitle">Adicionar à caderneta</div>
+    <div class="nb-modal-sub" id="nbModalSub"></div>
+    <textarea id="nbModalInput" class="nb-modal-textarea" rows="3" placeholder="Escreva sua anotação..."></textarea>
+    <div class="nb-modal-actions">
+      <button type="button" class="btn-ghost" id="nbModalCancel">Cancelar</button>
+      <button type="button" class="btn-primary" id="nbModalSave">Salvar</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
 
@@ -1755,6 +2013,163 @@
     renderFeedbackList();
     feedbackList.style.display = 'flex';
     feedbackArrow.classList.add('open');
+  });
+
+  /* ---------------- widget flutuante da caderneta ---------------- */
+  const NB_STORAGE_KEY = 'fanDeEsporteCaderneta';
+
+  function loadCaderneta(){
+    try{
+      const raw = localStorage.getItem(NB_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    }catch(_e){ return []; }
+  }
+  function saveCaderneta(items){
+    try{ localStorage.setItem(NB_STORAGE_KEY, JSON.stringify(items)); }catch(_e){ /* localStorage indisponível — segue sem persistir */ }
+  }
+
+  const nbState = { items: loadCaderneta() };
+
+  const nbWidget = el('nbWidget');
+  const nbLauncher = el('nbLauncher');
+  const nbClose = el('nbClose');
+  const nbCount = el('nbCount');
+  const nbListEl = el('nbList');
+  const nbClear = el('nbClear');
+
+  function renderNbList(){
+    const count = nbState.items.length;
+    nbCount.textContent = String(count);
+    nbCount.classList.toggle('hidden', count === 0);
+    if(!count){
+      nbListEl.innerHTML = '<div class="nb-empty">Sua caderneta está vazia. Toque no + ao lado de uma estatística ou mercado pra guardar aqui.</div>';
+      return;
+    }
+    nbListEl.innerHTML = nbState.items.map(item =>
+      '<div class="nb-item">' +
+        '<button type="button" class="nb-item-remove" data-nb-remove="' + item.id + '" aria-label="Remover">×</button>' +
+        '<div class="nb-item-game">' + escapeHtml(item.game) + '</div>' +
+        '<div class="nb-item-stat">' + escapeHtml(item.stat) + '</div>' +
+        '<div class="nb-item-note">' + escapeHtml(item.note) + '</div>' +
+        '<time>' + item.time + '</time>' +
+      '</div>'
+    ).join('');
+  }
+  renderNbList();
+
+  nbLauncher.addEventListener('click', () => nbWidget.classList.add('open'));
+  nbClose.addEventListener('click', () => nbWidget.classList.remove('open'));
+
+  nbListEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-nb-remove]');
+    if(!btn) return;
+    const id = btn.dataset.nbRemove;
+    nbState.items = nbState.items.filter(item => String(item.id) !== id);
+    saveCaderneta(nbState.items);
+    renderNbList();
+  });
+
+  nbClear.addEventListener('click', () => {
+    if(!nbState.items.length) return;
+    if(!confirm('Apagar todas as anotações da caderneta?')) return;
+    nbState.items = [];
+    saveCaderneta(nbState.items);
+    renderNbList();
+  });
+
+  /* ---------------- modal de anotação (botões +) ---------------- */
+  const nbModalOverlay = el('nbModalOverlay');
+  const nbModalTitle = el('nbModalTitle');
+  const nbModalSub = el('nbModalSub');
+  const nbModalInput = el('nbModalInput');
+  const nbModalCancel = el('nbModalCancel');
+  const nbModalSave = el('nbModalSave');
+  let pendingNbEntry = null;
+
+  function openNbModal({ gameLabel, statLabel, defaultText }){
+    pendingNbEntry = { game: gameLabel, stat: statLabel };
+    nbModalTitle.textContent = gameLabel;
+    nbModalSub.textContent = statLabel;
+    nbModalInput.value = defaultText || '';
+    nbModalOverlay.classList.add('open');
+    setTimeout(() => { nbModalInput.focus(); nbModalInput.select(); }, 0);
+  }
+  function closeNbModal(){
+    nbModalOverlay.classList.remove('open');
+    pendingNbEntry = null;
+  }
+
+  nbModalCancel.addEventListener('click', closeNbModal);
+  nbModalOverlay.addEventListener('click', (e) => {
+    if(e.target === nbModalOverlay) closeNbModal();
+  });
+  nbModalSave.addEventListener('click', () => {
+    if(!pendingNbEntry) return;
+    const note = nbModalInput.value.trim();
+    if(!note) return;
+    nbState.items.unshift({
+      id: Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+      game: pendingNbEntry.game,
+      stat: pendingNbEntry.stat,
+      note,
+      time: new Date().toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'})
+    });
+    saveCaderneta(nbState.items);
+    renderNbList();
+    closeNbModal();
+    nbWidget.classList.add('open');
+  });
+
+  /* ---------------- botões "+" das estatísticas e mercados ---------------- */
+  const NB_STAT_VALUE_SUFFIX = {
+    'Gols por jogo': 'AvgTotal',
+    'Escanteios': 'StatCorners',
+    'Finalizações': 'StatShots',
+    'Chutes no gol': 'StatShotsOnGoal',
+    'Cartões': 'StatCards',
+    'Faltas': 'StatFouls'
+  };
+
+  function parseStatValue(raw){
+    const n = parseFloat(String(raw || '').replace(',', '.'));
+    return isNaN(n) ? null : n;
+  }
+
+  function buildStatSuggestion(statLabel, team, num){
+    if(statLabel === 'Gols por jogo') return 'Mais de 1 gol na partida (' + team + ')';
+    const rounded = num !== null ? Math.max(0, Math.floor(num)) : null;
+    const base = rounded !== null ? ('Mais de ' + rounded + ' ') : 'Mais de X ';
+    return base + statLabel.toLowerCase() + ' (' + team + ')';
+  }
+
+  document.querySelectorAll('.nb-add-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const game = state.currentGame;
+      if(!game) return;
+      const gameLabel = game.home.name + ' x ' + game.away.name;
+
+      if(btn.dataset.nbStat){
+        const side = btn.dataset.nbSide;
+        const team = side === 'home' ? game.home.name : game.away.name;
+        const sideLabel = side === 'home' ? 'Casa' : 'Fora';
+        const suffix = NB_STAT_VALUE_SUFFIX[btn.dataset.nbStat] || '';
+        const valEl = el(side + suffix);
+        const num = valEl ? parseStatValue(valEl.textContent) : null;
+        openNbModal({
+          gameLabel,
+          statLabel: btn.dataset.nbStat + ' (' + sideLabel + ')',
+          defaultText: buildStatSuggestion(btn.dataset.nbStat, team, num)
+        });
+      } else if(btn.dataset.nbMarket){
+        const marketLbl = btn.closest('.market-item').querySelector('.lbl').textContent;
+        openNbModal({
+          gameLabel,
+          statLabel: 'Resultado',
+          defaultText: marketLbl
+        });
+      }
+    });
   });
 
   /* ---------------- seeded RNG ---------------- */
@@ -2464,6 +2879,7 @@
     el('awayGamesLabel').textContent = g.away.name;
     el('gamesGrid').style.display = 'none';
     el('avgGrid').style.display = 'none';
+    el('marketSection').style.display = 'none';
     el('extraSection').style.display = 'none';
     togglePlayersAccordion(false);
     el('h2hSection').style.display = 'none';
@@ -2518,6 +2934,12 @@
     renderAverages('home', g.home.name, homeRes.fixtures);
     renderAverages('away', g.away.name, awayRes.fixtures);
     el('avgGrid').style.display = 'grid';
+
+    el('marketHomeWinLbl').textContent = g.home.name + ' vence';
+    el('marketAwayWinLbl').textContent = g.away.name + ' vence';
+    el('marketDcHomeLbl').textContent = 'Dupla chance: ' + g.home.name + ' ou Empate';
+    el('marketDcAwayLbl').textContent = 'Dupla chance: ' + g.away.name + ' ou Empate';
+    el('marketSection').style.display = 'block';
 
     const usedMock = homeRes.source==='unavailable' || awayRes.source==='unavailable';
     const usouPreloaded = homeRes.source === 'preloaded' && awayRes.source === 'preloaded';
@@ -3728,7 +4150,7 @@
     const detail = el('detailPanel');
     if(detail){
       makeCollapsible(detail.querySelector('.detail-head'), [
-        el('detailStatus'), el('detailErrorBox'), el('avgGrid'), el('gamesGrid'),
+        el('detailStatus'), el('detailErrorBox'), el('avgGrid'), el('marketSection'), el('gamesGrid'),
         el('extraSection'), el('lineupSection'), el('h2hSection'), el('standingsSection')
       ]);
     }
