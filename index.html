@@ -679,6 +679,100 @@
     font-size:11.5px;
     text-align:right;
   }
+
+  /* ---------- jogadores / estatísticas individuais ---------- */
+  .players-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){ .players-grid{ grid-template-columns:1fr; } }
+  .players-col{
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--panel-2);
+    overflow:hidden;
+  }
+  .players-col.home{ border-top:3px solid var(--accent); }
+  .players-col.away{ border-top:3px solid var(--teal); }
+  .players-col-title{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:0.2px;
+    padding:12px 14px;
+    border-bottom:1px solid var(--border);
+  }
+  .players-col.home .players-col-title{ color:var(--accent-dark); }
+  .players-col.away .players-col-title{ color:var(--teal); }
+  .players-list{
+    max-height:520px;
+    overflow-y:auto;
+    padding:10px 12px;
+  }
+  .players-group{ margin-bottom:14px; }
+  .players-group:last-child{ margin-bottom:0; }
+  .players-group-title{
+    font-family:var(--body);
+    font-weight:700;
+    font-size:10px;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    color:var(--muted-2);
+    padding:6px 4px;
+    border-bottom:1px solid var(--border-soft);
+    margin-bottom:6px;
+  }
+  .players-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 4px;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .players-row:last-child{ border-bottom:none; }
+  .players-photo{
+    width:32px; height:32px;
+    border-radius:50%;
+    object-fit:cover;
+    background:var(--panel);
+    border:1px solid var(--border);
+    flex-shrink:0;
+  }
+  .players-info{ flex:1; min-width:0; }
+  .players-name{
+    font-size:12px;
+    font-weight:600;
+    color:var(--text);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .players-pos{
+    font-size:10px;
+    color:var(--muted-2);
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+  }
+  .players-stats{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:4px 8px;
+    margin-top:4px;
+  }
+  .players-stat{
+    font-size:10.5px;
+    color:var(--muted);
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .players-stat b{
+    color:var(--text);
+    font-weight:700;
+    font-size:11px;
+  }
+
   /* Cartão de "último jogo": linha de topo com nº/data à esquerda e
      placar+resultado à direita, faixa colorida na lateral conforme
      V/D/E, e embaixo o adversário com as estatísticas em chips. */
@@ -1243,12 +1337,21 @@
         <div class="games-list" id="awayGamesList"></div>
       </div>
     </div>
-    <div class="games-legend" id="gamesLegend" style="display:none;">
-      <span><b>1ºT / 2ºT</b> marcou (com minuto do gol) ou não marcou em cada tempo</span>
-      <span style="color:var(--green);">verde</span> sim ·
-      <span style="color:var(--red);">vermelho</span> não ·
-      <span style="color:var(--muted-2);">cinza</span> sem dado ·
-      <span><b>Escanteios / Finalizações / Chutes no gol / Cartões / Faltas</b> total do jogo (a API não separa por tempo)</span>
+    <div class="extra-section" id="extraSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Jogadores</div>
+      <div class="empty-note" style="margin-top:4px; max-width:640px;">Dados da temporada atual de cada jogador: gols, chutes no gol, finalizações, faltas, cartões e substituições.</div>
+      <div class="status-line" id="playersStatus"></div>
+      <div class="error-box" id="playersErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="playersErrorText"></span></div>
+      <div class="players-grid" id="playersGrid" style="display:none; margin-top:14px;">
+        <div class="players-col home">
+          <div class="players-col-title" id="playersHomeTitle">Casa</div>
+          <div class="players-list" id="playersHomeList"></div>
+        </div>
+        <div class="players-col away">
+          <div class="players-col-title" id="playersAwayTitle">Fora</div>
+          <div class="players-list" id="playersAwayList"></div>
+        </div>
+      </div>
     </div>
 
     <div class="lineup-section" id="lineupSection" style="display:none; margin-top:24px;">
@@ -2248,7 +2351,7 @@
     el('awayGamesLabel').textContent = g.away.name;
     el('gamesGrid').style.display = 'none';
     el('avgGrid').style.display = 'none';
-    el('gamesLegend').style.display = 'none';
+    el('extraSection').style.display = 'none';
     el('h2hSection').style.display = 'none';
     el('h2hList').innerHTML = '';
     el('h2hStatus').textContent = '';
@@ -2268,6 +2371,12 @@
     el('standingsTableWrap').innerHTML = '';
     el('standingsStatus').textContent = '';
     el('standingsStatus').className = 'status-line';
+    el('playersGrid').style.display = 'none';
+    el('playersHomeList').innerHTML = '';
+    el('playersAwayList').innerHTML = '';
+    el('playersStatus').textContent = '';
+    el('playersStatus').className = 'status-line';
+    showErrorBox('playersErrorBox', 'playersErrorText', null);
     showErrorBox('detailErrorBox', 'detailErrorText', null);
 
     venueState.selected = { home: 'geral', away: 'geral' };
@@ -2290,7 +2399,7 @@
     const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
 
     el('gamesGrid').style.display = 'grid';
-    el('gamesLegend').style.display = 'flex';
+    el('extraSection').style.display = 'block';
 
     renderAverages('home', g.home.name, homeRes.fixtures);
     renderAverages('away', g.away.name, awayRes.fixtures);
@@ -2327,6 +2436,7 @@
     loadHeadToHead(g);
     loadStandings(g);
     loadLineupsAndInjuries(g);
+    loadPlayers(g);
   }
 
   /* ---------------- confrontos diretos ---------------- */
@@ -2470,6 +2580,207 @@
         '<thead><tr><th>#</th><th>Time</th><th>P</th><th>J</th><th>V</th><th>E</th><th>D</th><th>GP</th><th>GC</th><th>SG</th></tr></thead>' +
         '<tbody>' + trs + '</tbody>' +
       '</table>';
+  }
+
+  /* ---------------- jogadores / estatísticas individuais ---------------- */
+  const POSITION_ORDER = ['Goleiro', 'Defensor', 'Meio-campista', 'Atacante'];
+  const POSITION_LABELS = {
+    'goalkeeper': 'Goleiro',
+    'goalkeepers': 'Goleiro',
+    'goalie': 'Goleiro',
+    'goleiro': 'Goleiro',
+    'defender': 'Defensor',
+    'defenders': 'Defensor',
+    'defence': 'Defensor',
+    'defense': 'Defensor',
+    'centre-back': 'Defensor',
+    'center-back': 'Defensor',
+    'full-back': 'Defensor',
+    'left-back': 'Defensor',
+    'right-back': 'Defensor',
+    'zagueiro': 'Defensor',
+    'lateral': 'Defensor',
+    'midfielder': 'Meio-campista',
+    'midfielders': 'Meio-campista',
+    'midfield': 'Meio-campista',
+    'volante': 'Meio-campista',
+    'meia': 'Meio-campista',
+    'meio-campista': 'Meio-campista',
+    'attacker': 'Atacante',
+    'attackers': 'Atacante',
+    'forward': 'Atacante',
+    'forwards': 'Atacante',
+    'striker': 'Atacante',
+    'strikers': 'Atacante',
+    'winger': 'Atacante',
+    'wingers': 'Atacante',
+    'atacante': 'Atacante',
+    'ponta': 'Atacante'
+  };
+
+  function normalizePosition(pos){
+    if(!pos) return 'Outro';
+    const key = String(pos).trim().toLowerCase();
+    return POSITION_LABELS[key] || pos || 'Outro';
+  }
+
+  function playerStatValue(stats, path, fallback){
+    const parts = path.split('.');
+    let v = stats;
+    for(const p of parts){
+      if(v == null) return fallback;
+      v = v[p];
+    }
+    return v == null ? fallback : v;
+  }
+
+  function aggregatePlayerStats(items){
+    return items.map(item => {
+      const p = item.player || {};
+      const stats = item.statistics || [];
+      const first = stats[0] || {};
+      const games = first.games || {};
+      const goals = first.goals || {};
+      const shots = first.shots || {};
+      const fouls = first.fouls || {};
+      const cards = first.cards || {};
+      const substitutes = games.substitutes || {};
+      return {
+        id: p.id,
+        name: p.name || '—',
+        photo: p.photo || '',
+        position: normalizePosition(games.position || p.position),
+        appearances: games.appearences ?? 0,
+        goals: goals.total ?? 0,
+        shotsOn: shots.on ?? 0,
+        shotsTotal: shots.total ?? 0,
+        fouls: fouls.committed ?? 0,
+        yellow: cards.yellow ?? 0,
+        red: cards.red ?? 0,
+        subOut: substitutes.out ?? 0
+      };
+    });
+  }
+
+  async function fetchTeamPlayers(teamId, season){
+    if(!teamId || !state.apiKey) return [];
+    const all = [];
+    let page = 1;
+    let totalPages = 1;
+    while(page <= totalPages && page <= 10){
+      const data = await apiGet('/players?team=' + teamId + '&season=' + season + '&page=' + page, state.apiKey);
+      const response = data.response || [];
+      all.push(...response);
+      const paging = data.paging || {};
+      totalPages = paging.total || 1;
+      if(response.length === 0) break;
+      page++;
+    }
+    return all;
+  }
+
+  function groupPlayersByPosition(players){
+    const groups = {};
+    players.forEach(p => {
+      const pos = p.position || 'Outro';
+      if(!groups[pos]) groups[pos] = [];
+      groups[pos].push(p);
+    });
+    const ordered = {};
+    POSITION_ORDER.forEach(pos => {
+      if(groups[pos]){
+        ordered[pos] = groups[pos].sort((a, b) => (b.appearances || 0) - (a.appearances || 0));
+      }
+    });
+    Object.keys(groups).forEach(pos => {
+      if(!ordered[pos]) ordered[pos] = groups[pos].sort((a, b) => (b.appearances || 0) - (a.appearances || 0));
+    });
+    return ordered;
+  }
+
+  function renderPlayerRow(p){
+    const stats = [
+      { l: 'J', v: p.appearances },
+      { l: 'Gols', v: p.goals },
+      { l: 'Chutes no gol', v: p.shotsOn },
+      { l: 'Finalizações', v: p.shotsTotal },
+      { l: 'Faltas', v: p.fouls },
+      { l: 'Amarelos', v: p.yellow },
+      { l: 'Vermelhos', v: p.red },
+      { l: 'Saiu 2ºT', v: p.subOut }
+    ];
+    const statsHtml = stats.map(s =>
+      '<div class="players-stat"><b>' + s.v + '</b> ' + s.l + '</div>'
+    ).join('');
+    return (
+      '<div class="players-row">' +
+        '<img class="players-photo" src="' + (p.photo || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7') + '" alt="" loading="lazy">' +
+        '<div class="players-info">' +
+          '<div class="players-name">' + escapeHtml(p.name) + '</div>' +
+          '<div class="players-stats">' + statsHtml + '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  function renderPlayersList(prefix, teamName, players){
+    const titleEl = el(prefix + 'Title');
+    const listEl = el(prefix + 'List');
+    if(titleEl) titleEl.textContent = teamName;
+    if(!players.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum dado de jogador encontrado.</div>';
+      return;
+    }
+    const groups = groupPlayersByPosition(players);
+    listEl.innerHTML = Object.keys(groups).map(pos => {
+      const rows = groups[pos].map(renderPlayerRow).join('');
+      return (
+        '<div class="players-group">' +
+          '<div class="players-group-title">' + pos + '</div>' +
+          rows +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  async function loadPlayers(g){
+    const section = el('extraSection');
+    const statusEl = el('playersStatus');
+    const grid = el('playersGrid');
+    statusEl.className = 'status-line';
+    showErrorBox('playersErrorBox', 'playersErrorText', null);
+
+    section.style.display = 'block';
+
+    if(!state.apiKey || g.home.id == null || g.away.id == null){
+      grid.style.display = 'none';
+      statusEl.textContent = 'Sem ID real de time — não dá pra buscar estatísticas dos jogadores.';
+      statusEl.classList.add('err');
+      return;
+    }
+
+    grid.style.display = 'none';
+    statusEl.textContent = 'Buscando estatísticas dos jogadores…';
+
+    try{
+      const season = g.leagueSeason || TARGET_SEASON;
+      const [homeItems, awayItems] = await Promise.all([
+        fetchTeamPlayers(g.home.id, season),
+        fetchTeamPlayers(g.away.id, season)
+      ]);
+
+      renderPlayersList('playersHome', g.home.name, aggregatePlayerStats(homeItems));
+      renderPlayersList('playersAway', g.away.name, aggregatePlayerStats(awayItems));
+
+      grid.style.display = 'grid';
+      statusEl.textContent = 'Estatísticas individuais da temporada ' + season + ' carregadas.';
+      statusEl.classList.add('ok');
+    }catch(err){
+      grid.style.display = 'none';
+      statusEl.textContent = 'Não foi possível buscar estatísticas dos jogadores.';
+      statusEl.classList.add('err');
+      showErrorBox('playersErrorBox', 'playersErrorText', describeError(err));
+    }
   }
 
   /* ---------------- escalação e desfalques confirmados ---------------- */
@@ -3173,6 +3484,110 @@
 
   loadTodayGames();
 
+})();
+</script>
+
+<style>
+  .fx-head{ cursor:pointer; display:flex; align-items:center; gap:10px; }
+  .fx-head > .fx-arrow{ margin-left:auto; }
+  .fx-arrow{
+    border:1px solid var(--border);
+    background:var(--panel-2);
+    color:var(--muted);
+    border-radius:8px;
+    width:26px; height:26px;
+    line-height:1;
+    font-size:12px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .fx-arrow:hover{ background:var(--accent-soft); color:var(--accent-dark); border-color:var(--accent); }
+  .fx-collapsed{ display:none !important; }
+</style>
+<script>
+(function(){
+  const el = id => document.getElementById(id);
+
+  function makeCollapsible(header, contents){
+    if(!header || header.dataset.fxDone) return;
+    const items = contents.filter(Boolean);
+    if(!items.length) return;
+    header.dataset.fxDone = '1';
+    header.classList.add('fx-head');
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fx-arrow';
+    btn.setAttribute('aria-label', 'Recolher ou expandir');
+    header.appendChild(btn);
+
+    let open = false;
+    function apply(){
+      btn.textContent = open ? '\u25BE' : '\u25B8';
+      btn.title = open ? 'Recolher' : 'Expandir';
+      items.forEach(c => c.classList.toggle('fx-collapsed', !open));
+    }
+    header.addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if(e.target.closest('.venue-toggle')) return;
+      if(b && !b.classList.contains('fx-arrow')) return;
+      open = !open;
+      apply();
+    });
+    apply();
+  }
+
+  function sectionParts(section, headerSel){
+    const header = section.querySelector(headerSel);
+    if(!header) return null;
+    const contents = Array.from(section.children).filter(c => c !== header && !c.contains(header));
+    return { header, contents };
+  }
+
+  function wire(){
+    // Painel de análise (abre ao clicar num jogo)
+    const detail = el('detailPanel');
+    if(detail){
+      makeCollapsible(detail.querySelector('.detail-head'), [
+        el('detailStatus'), el('detailErrorBox'), el('avgGrid'), el('gamesGrid'),
+        el('extraSection'), el('lineupSection'), el('h2hSection'), el('standingsSection')
+      ]);
+    }
+
+    // Estatísticas escritas (colunas Casa / Fora)
+    document.querySelectorAll('#avgGrid .avg-col').forEach(col => {
+      makeCollapsible(col.querySelector('.avg-col-title'), Array.from(col.querySelectorAll('.avg-item')));
+    });
+
+    // Últimos jogos
+    document.querySelectorAll('#gamesGrid .games-col').forEach(col => {
+      makeCollapsible(col.querySelector('.games-col-title'), [col.querySelector('.games-list')]);
+    });
+
+    // Nova aba, escalação, confrontos diretos e classificação
+    ['extraSection', 'lineupSection', 'h2hSection', 'standingsSection'].forEach(id => {
+      const sec = el(id);
+      if(!sec) return;
+      const parts = sectionParts(sec, '.detail-title');
+      if(parts) makeCollapsible(parts.header, parts.contents);
+    });
+
+    // Painéis das outras abas (Ao Vivo, filtros de times)
+    [['view-aovivo','liveList'], ['view-frios1t','frios1tList'], ['view-invictos','invictosList'], ['view-zero1t','zero1tList']].forEach(([viewId, listId]) => {
+      const view = el(viewId);
+      const list = el(listId);
+      if(!view || !list) return;
+      makeCollapsible(view.querySelector('.detail-title'), [list]);
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', wire);
+  } else {
+    wire();
+  }
 })();
 </script>
 </body>
