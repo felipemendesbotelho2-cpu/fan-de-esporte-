@@ -3099,7 +3099,7 @@
   // Palavras que indicam categoria de base / time reserva — jogos com essas
   // ligas/competições NÃO entram no site, mesmo que o nome pareça bater com
   // uma das ligas permitidas (ex: "Copa do Brasil Sub-20" não deve aparecer).
-  const YOUTH_OR_RESERVE_KEYWORDS = /sub[\s-]?(13|14|15|16|17|18|19|20|21|22|23)|\bu[\s-]?(13|14|15|16|17|18|19|20|21|22|23)\b|youth|junior|juvenil|jovens|reservas?|academy|aspirantes/i;
+  const YOUTH_OR_RESERVE_KEYWORDS = /sub[\s-]?(13|14|15|16|17|18|19|20|21|22|23)|\bu[\s-]?(13|14|15|16|17|18|19|20|21|22|23)\b|youth|junior|juvenil|jovens|reservas?|academy|aspirantes|women|woman|feminin[ao]|ladies|female|\bW\b|WSL|FAWSL/i;
 
   function isYouthOrReserveLeague(leagueName){
     return YOUTH_OR_RESERVE_KEYWORDS.test(leagueName || '');
@@ -3455,7 +3455,8 @@
 
   function renderFromPreloaded(data){
     const todayStatus = el('todayStatus');
-    const games = data.games || [];
+    const games = (data.games || [])
+      .filter(g => matchAllowedLeague(g.league, g.leagueCountry || ''));
     renderTodayGames(games);
     state.todayGames = games;
 
@@ -3731,5 +3732,3 @@
 </script>
 </body>
 </html>
-
-  
