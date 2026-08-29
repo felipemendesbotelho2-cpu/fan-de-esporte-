@@ -4023,11 +4023,14 @@
 
   function renderFromPreloaded(data){
     const todayStatus = el('todayStatus');
+    // O robô já filtra as ligas permitidas antes de salvar o dados.json (usando
+    // o nome cru da API). Aqui g.league já vem traduzido pro nome de exibição
+    // (ex: "Brasileirão Série A"), então NÃO filtramos de novo por liga aqui —
+    // isso descartaria todos os jogos, pois o filtro espera o nome cru, não o traduzido.
     const games = (data.games || [])
-      .filter(g => matchAllowedLeague(g.league, g.leagueCountry || ''))
       .filter(g => !isYouthOrReserveTeamName(g.home && g.home.name) && !isYouthOrReserveTeamName(g.away && g.away.name));
     renderTodayGames(games);
-    state.todayGames = games;
+    state.todayGames = games; // necessário pra "voltar ao jogo" funcionar nas abas de padrão (goToGameFromList)
 
     const updatedAt = formatUpdatedAt(data.updatedAt);
     todayStatus.textContent = games.length + ' jogos encontrados para hoje nas ligas selecionadas.' +
