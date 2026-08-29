@@ -1633,13 +1633,6 @@
       <button class="tab-btn" data-view="aovivo">🔴 Ao Vivo</button>
       <button class="tab-btn" data-view="filtros">🔎 Filtros</button>
     </nav>
-
-    <div class="sidebar-foot">
-      <div class="sponsor-box">
-        <span class="sponsor-text">Seja patrocinador<br>Coloque sua empresa aqui</span>
-        <a class="btn-primary sponsor-link" href="https://wa.me/5563992088796" target="_blank" rel="noopener">Entrar em contato</a>
-      </div>
-    </div>
   </aside>
 
   <div class="main-col">
@@ -1663,7 +1656,11 @@
   <section class="panel">
     <div class="panel-head">
       <div></div>
-      <div style="display:flex; gap:8px;">
+      <div class="sponsor-box" style="margin:0;">
+        <span class="sponsor-text">Seja patrocinador<br>Coloque sua empresa aqui</span>
+        <a class="btn-primary sponsor-link" href="https://wa.me/5563992088796" target="_blank" rel="noopener">Entrar em contato</a>
+      </div>
+      <div style="display:none;">
         <button class="btn-ghost" id="btnForceRefresh" title="Ignora o cache de hoje e busca de novo na API (gasta cota)">Forçar nova busca</button>
         <button class="btn-ghost" id="btnLoadToday">Atualizar</button>
       </div>
@@ -1751,27 +1748,6 @@
         <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Cartões" title="Adicionar à caderneta">+</button></div>
         <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Faltas" title="Adicionar à caderneta">+</button></div>
       </div>
-      </div>
-
-      <div class="market-section" id="marketSection" style="margin-top:16px;">
-        <div class="market-list">
-          <div class="market-item">
-            <span class="lbl" id="marketHomeWinLbl">Casa vence</span>
-            <button type="button" class="nb-add-btn" data-nb-market="home-win" title="Adicionar à caderneta">+</button>
-          </div>
-          <div class="market-item">
-            <span class="lbl" id="marketAwayWinLbl">Fora vence</span>
-            <button type="button" class="nb-add-btn" data-nb-market="away-win" title="Adicionar à caderneta">+</button>
-          </div>
-          <div class="market-item">
-            <span class="lbl" id="marketDcHomeLbl">Dupla chance: Casa ou Empate</span>
-            <button type="button" class="nb-add-btn" data-nb-market="dc-home" title="Adicionar à caderneta">+</button>
-          </div>
-          <div class="market-item">
-            <span class="lbl" id="marketDcAwayLbl">Dupla chance: Fora ou Empate</span>
-            <button type="button" class="nb-add-btn" data-nb-market="dc-away" title="Adicionar à caderneta">+</button>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -3180,7 +3156,6 @@
     el('awayGamesLabel').textContent = g.away.name;
     el('gamesGrid').style.display = 'none';
     el('avgGrid').style.display = 'none';
-    el('marketSection').style.display = 'none';
     el('statsSection').style.display = 'none';
     el('lastGamesSection').style.display = 'none';
     el('extraSection').style.display = 'none';
@@ -3241,12 +3216,6 @@
     renderAverages('away', g.away.name, awayRes.fixtures);
     el('avgGrid').style.display = 'grid';
     el('statsSection').style.display = 'block';
-
-    el('marketHomeWinLbl').textContent = g.home.name + ' vence';
-    el('marketAwayWinLbl').textContent = g.away.name + ' vence';
-    el('marketDcHomeLbl').textContent = 'Dupla chance: ' + g.home.name + ' ou Empate';
-    el('marketDcAwayLbl').textContent = 'Dupla chance: ' + g.away.name + ' ou Empate';
-    el('marketSection').style.display = 'block';
 
     const usedMock = homeRes.source==='unavailable' || awayRes.source==='unavailable';
     const usouPreloaded = homeRes.source === 'preloaded' && awayRes.source === 'preloaded';
@@ -4583,22 +4552,22 @@
       ], true);
     }
 
-    // Estatísticas escritas (colunas Casa / Fora) — expandidas por padrão
+    // Estatísticas escritas (colunas Casa / Fora) — continuam colapsadas até o usuário clicar
     document.querySelectorAll('#avgGrid .avg-col').forEach(col => {
-      makeCollapsible(col.querySelector('.avg-col-title'), Array.from(col.querySelectorAll('.avg-item')), true);
+      makeCollapsible(col.querySelector('.avg-col-title'), Array.from(col.querySelectorAll('.avg-item')));
     });
 
-    // Últimos jogos — expandidos por padrão
+    // Últimos jogos — continuam colapsados até o usuário clicar
     document.querySelectorAll('#gamesGrid .games-col').forEach(col => {
-      makeCollapsible(col.querySelector('.games-col-title'), [col.querySelector('.games-list')], true);
+      makeCollapsible(col.querySelector('.games-col-title'), [col.querySelector('.games-list')]);
     });
 
-    // Estatísticas, últimos 10 jogos, jogadores, escalação, confrontos diretos e classificação — expandidos por padrão
+    // Estatísticas, últimos 10 jogos, jogadores, escalação, confrontos diretos e classificação — continuam colapsados até o usuário clicar
     ['statsSection', 'lastGamesSection', 'extraSection', 'lineupSection', 'h2hSection', 'standingsSection'].forEach(id => {
       const sec = el(id);
       if(!sec) return;
       const parts = sectionParts(sec, '.detail-title');
-      if(parts) makeCollapsible(parts.header, parts.contents, true);
+      if(parts) makeCollapsible(parts.header, parts.contents);
     });
 
     // Painéis das outras abas (Ao Vivo, filtros de times)
