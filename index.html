@@ -613,9 +613,9 @@
     gap:6px;
   }
   details.settings summary::-webkit-details-marker{ display:none; }
-  details.settings[open] summary:before{ transform:rotate(90deg); }
+  details.settings[open] summary:before{ transform:rotate(180deg); }
   details.settings summary:before{
-    content:"▸";
+    content:"▼";
     color:var(--muted-2);
     transition:transform .15s ease;
   }
@@ -1358,22 +1358,30 @@
   /* ---------- botão "+" de adicionar à caderneta ---------- */
   .nb-add-btn{
     margin-left:auto;
-    width:20px; height:20px;
-    border-radius:50%;
+    display:inline-flex; align-items:center; gap:5px;
+    padding:2px 8px 2px 4px;
+    height:auto; min-height:20px;
+    border-radius:999px;
     border:none;
     background:var(--accent);
     color:#fff;
-    font-size:13px;
-    font-weight:700;
+    font-size:10px;
+    font-weight:600;
     line-height:1;
-    display:flex; align-items:center; justify-content:center;
     cursor:pointer;
     flex-shrink:0;
     box-shadow:0 2px 6px rgba(255,122,26,0.35);
     transition:filter .15s ease, transform .15s ease;
   }
-  .nb-add-btn:hover{ filter:brightness(1.08); transform:scale(1.1); }
-
+  .nb-add-btn .nb-add-icon{
+    width:16px; height:16px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700;
+  }
+  .nb-add-btn .nb-add-label{
+    font-size:9.5px; letter-spacing:0.2px; white-space:nowrap;
+  }
+  .nb-add-btn:hover{ filter:brightness(1.08); transform:scale(1.03); }
   .market-section .market-list{
     display:flex;
     flex-direction:column;
@@ -1543,6 +1551,14 @@
     font-weight:600;
     color:var(--text);
     transition:color .15s ease;
+  }
+  .players-accordion-arrow-wrap{
+    display:flex; align-items:center; gap:6px;
+    margin-left:auto;
+  }
+  .players-accordion-hint{
+    font-size:10px; font-weight:500; color:var(--muted-2);
+    letter-spacing:0.2px; white-space:nowrap;
   }
   .players-accordion-arrow{
     width:24px; height:24px;
@@ -1720,15 +1736,15 @@
             <button type="button" class="venue-btn" data-prefix="home" data-venue="away">Fora</button>
           </div>
         </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Gols por jogo" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="homeAvgTotal">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Gols por jogo" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
         <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="homeAvgHT">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="homeAvgST">—</span></div>
         <div class="avg-item"><span class="lbl">Minutos dos gols</span><span class="val" id="homeGoalMinutes">—</span></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Escanteios" title="Adicionar à caderneta">+</button></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Finalizações" title="Adicionar à caderneta">+</button></div>
-        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Chutes no gol" title="Adicionar à caderneta">+</button></div>
-        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Cartões" title="Adicionar à caderneta">+</button></div>
-        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Faltas" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCornersLbl">Escanteios</span><span class="val" id="homeStatCorners">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Escanteios" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsLbl">Finalizações</span><span class="val" id="homeStatShots">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Finalizações" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
+        <div class="avg-item"><span class="lbl" id="homeStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="homeStatShotsOnGoal">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Chutes no gol" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
+        <div class="avg-item"><span class="lbl" id="homeStatCardsLbl">Cartões</span><span class="val" id="homeStatCards">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Cartões" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
+        <div class="avg-item"><span class="lbl" id="homeStatFoulsLbl">Faltas</span><span class="val" id="homeStatFouls">—</span><button type="button" class="nb-add-btn" data-nb-side="home" data-nb-stat="Faltas" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
       </div>
       <div class="avg-col away">
         <div class="avg-col-title">
@@ -1739,15 +1755,15 @@
             <button type="button" class="venue-btn" data-prefix="away" data-venue="away">Fora</button>
           </div>
         </div>
-        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Gols por jogo" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl">Gols por jogo</span><span class="val" id="awayAvgTotal">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Gols por jogo" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
         <div class="avg-item"><span class="lbl">Gols no 1º tempo</span><span class="val" id="awayAvgHT">—</span></div>
         <div class="avg-item"><span class="lbl">Gols no 2º tempo</span><span class="val" id="awayAvgST">—</span></div>
         <div class="avg-item"><span class="lbl">Minutos dos gols</span><span class="val" id="awayGoalMinutes">—</span></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Escanteios" title="Adicionar à caderneta">+</button></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Finalizações" title="Adicionar à caderneta">+</button></div>
-        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Chutes no gol" title="Adicionar à caderneta">+</button></div>
-        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Cartões" title="Adicionar à caderneta">+</button></div>
-        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Faltas" title="Adicionar à caderneta">+</button></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCornersLbl">Escanteios</span><span class="val" id="awayStatCorners">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Escanteios" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsLbl">Finalizações</span><span class="val" id="awayStatShots">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Finalizações" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
+        <div class="avg-item"><span class="lbl" id="awayStatShotsOnGoalLbl">Chutes no gol</span><span class="val" id="awayStatShotsOnGoal">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Chutes no gol" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
+        <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Cartões" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
+        <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Faltas" title="Adicionar à caderneta"><span class="nb-add-icon">+</span><span class="nb-add-label">adicionar na caderneta</span></button></div>
       </div>
       </div>
     </div>
@@ -1789,7 +1805,10 @@
     <div class="extra-section" id="extraSection" style="display:none; margin-top:24px;">
       <div class="players-accordion-header" id="playersAccordionHeader">
         <div class="players-accordion-title">Jogadores</div>
-        <div class="players-accordion-arrow">▼</div>
+        <div class="players-accordion-arrow-wrap">
+          <span class="players-accordion-hint">abre aqui</span>
+          <div class="players-accordion-arrow">▼</div>
+        </div>
       </div>
       <div class="players-accordion-body" id="playersAccordionBody">
         <div class="empty-note" style="margin-top:4px; max-width:640px;">Dados da temporada atual de cada jogador: gols, chutes no gol, finalizações, faltas, cartões e substituições.</div>
@@ -1966,7 +1985,7 @@
 
     <button type="button" class="feedback-toggle" id="feedbackToggle">
       <span id="feedbackToggleLabel">Ver sugestões (0)</span>
-      <span class="feedback-arrow" id="feedbackArrow">▾</span>
+      <span class="feedback-arrow" id="feedbackArrow">▼</span>
     </button>
     <div class="feedback-list" id="feedbackList" style="display:none;"></div>
   </div>
@@ -2387,49 +2406,7 @@
     };
   }
 
-  /* ---------------- mock data fallback ---------------- */
-  const MOCK_OPPONENTS = ['Atlético','União FC','Real Norte','Estrela Azul','Sport Vale','Clube Central','Aliança EC','Norte United','Vitória SC','Cidade FC','Nacional AC','Rio Verde EC','Ferroviário','Costa Alta FC','Serra Clube'];
-
-  function generateMockFixtures(teamName){
-    const rand = mulberry32(hashString(teamName || 'time'));
-    const fixtures = [];
-    const today = new Date();
-    for(let i=0;i<GAMES_LIMIT;i++){
-      const gf_ht = rand() < 0.55 ? Math.floor(rand()*2) : 0;
-      const gf_st = Math.floor(rand()*2.4);
-      const gf_ft = gf_ht + gf_st;
-      const ga_ht = rand() < 0.4 ? Math.floor(rand()*2) : 0;
-      const ga_st = Math.floor(rand()*2);
-      const ga_ft = ga_ht + ga_st;
-      const d = new Date(today);
-      d.setDate(d.getDate() - (i * 7 + Math.floor(rand()*3)));
-      const minutesScored = [];
-      for(let k=0;k<gf_ht;k++) minutesScored.push(1 + Math.floor(rand()*45));
-      for(let k=0;k<gf_st;k++) minutesScored.push(46 + Math.floor(rand()*45));
-      const cornersTotal = 3 + Math.floor(rand()*8);
-      const totalShots = 6 + Math.floor(rand()*14);
-      const shotsOnGoal = Math.min(totalShots, 2 + Math.floor(rand()*7));
-      const yellowCards = Math.floor(rand()*5);
-      const redCards = rand() < 0.08 ? 1 : 0;
-      const foulsCommitted = 5 + Math.floor(rand()*14);
-      fixtures.push({
-        gf_ht, ga_ht, gf_ft, ga_ft,
-        date: d.toISOString(),
-        opponent: MOCK_OPPONENTS[i % MOCK_OPPONENTS.length],
-        isHome: rand() < 0.5,
-        minutesScored,
-        cornersTotal,
-        totalShots,
-        shotsOnGoal,
-        yellowCards,
-        redCards,
-        foulsCommitted
-      });
-    }
-    return fixtures;
-  }
-
-  /* ---------------- API-Football ---------------- */
+    /* ---------------- API-Football ---------------- */
   const API_BASE = 'https://v3.football.api-sports.io';
   const CACHE_PREFIX = 'fanEsporte_apiCache_';
   const cacheStats = { hits: 0, misses: 0 };
@@ -2953,7 +2930,7 @@
   function renderGamesList(listId, fixtures, emptyMessage){
     const target = el(listId);
     if(!fixtures || !fixtures.length){
-      target.innerHTML = '<div class="empty-note" style="padding:12px;">' + (emptyMessage || 'Nenhum jogo carregado ainda.') + '</div>';
+      target.innerHTML = '<div class="empty-note" style="padding:12px;">' + (emptyMessage || 'sem dados') + '</div>';
       return;
     }
     target.innerHTML = fixtures.map((f, i) => {
@@ -3951,22 +3928,6 @@
     return ALLOWED_LEAGUES.find(l => l.test(n, c)) || null;
   }
 
-  function generateMockTodayGames(){
-    const demoLeagues = ['Série A','Série B','Copa do Brasil','Copa Libertadores','Série C','Copa Sul-Americana'];
-    const pairs = [
-      ['Internacional','Remo'], ['Flamengo','Vasco'], ['Palmeiras','Santos'],
-      ['Grêmio','Juventude'], ['Bahia','Vitória'], ['Corinthians','São Paulo']
-    ];
-    return pairs.map((p, i) => {
-      return {
-        time: String(15 + i).padStart(2,'0') + ':00',
-        date: new Date().toISOString(),
-        league: demoLeagues[i % demoLeagues.length] + ' (exemplo)',
-        home: { id: null, name: p[0] },
-        away: { id: null, name: p[1] }
-      };
-    });
-  }
 
   function renderTodayGames(games){
     const list = el('todayList');
@@ -4044,11 +4005,11 @@
     showErrorBox('zero1tErrorBox', 'zero1tErrorText', null);
 
     if(!games || !games.length){
-      if(!skipFrios){ frios1tListEl.innerHTML = ''; frios1tStatusEl.textContent = 'Nenhum jogo carregado ainda.'; }
+      if(!skipFrios){ frios1tListEl.innerHTML = ''; frios1tStatusEl.textContent = 'sem dados'; }
       invictosListEl.innerHTML = '';
-      invictosStatusEl.textContent = 'Nenhum jogo carregado ainda.';
+      invictosStatusEl.textContent = 'sem dados';
       zero1tListEl.innerHTML = '';
-      zero1tStatusEl.textContent = 'Nenhum jogo carregado ainda.';
+      zero1tStatusEl.textContent = 'sem dados';
       return;
     }
 
@@ -4429,13 +4390,11 @@
     state.preloaded = null;
 
     if(!state.apiKey){
-      const games = generateMockTodayGames();
-      renderTodayGames(games);
-      todayStatus.textContent = 'dados.json indisponível e nenhuma API key informada — mostrando jogos de exemplo.';
-      todayStatus.classList.add('ok');
+      el('todayList').innerHTML = '<div class="empty-note" style="padding:8px 4px;">sem dados</div>';
+      todayStatus.textContent = 'sem dados';
+      todayStatus.classList.add('err');
       el('btnLoadToday').disabled = false;
-      state.todayGames = games;
-      scanTeamStreaks(games);
+      state.todayGames = [];
       return;
     }
 
@@ -4472,14 +4431,12 @@
       scanTeamStreaks(games);
     }catch(err){
       const msg = describeError(err);
-      console.warn('Falha ao buscar jogos de ' + dateLabel + ', usando fallback mockado:', msg);
-      const games = generateMockTodayGames();
-      renderTodayGames(games);
-      todayStatus.textContent = 'Não foi possível buscar jogos reais de ' + dateLabel + ' — mostrando exemplos.';
+      console.warn('Falha ao buscar jogos de ' + dateLabel + ':', msg);
+      el('todayList').innerHTML = '<div class="empty-note" style="padding:8px 4px;">sem dados</div>';
+      todayStatus.textContent = 'sem dados';
       todayStatus.classList.add('err');
       showErrorBox('todayErrorBox', 'todayErrorText', msg);
-      state.todayGames = games;
-      scanTeamStreaks(games);
+      state.todayGames = [];
     }
     el('btnLoadToday').disabled = false;
   }
@@ -4499,18 +4456,18 @@
   .fx-head{ cursor:pointer; display:flex; align-items:center; gap:10px; }
   .fx-head > .fx-arrow{ margin-left:auto; }
   .fx-arrow{
-    border:none;
+    width:24px; height:24px;
+    border-radius:50%;
     background:var(--accent);
     color:#fff;
-    border-radius:50%;
-    width:26px; height:26px;
-    line-height:1;
-    font-size:12px;
-    cursor:pointer;
+    border:none;
     display:flex; align-items:center; justify-content:center;
-    flex-shrink:0;
-    box-shadow:0 4px 10px rgba(255,122,26,0.35);
     transition:transform .2s ease, filter .15s ease;
+    font-size:11px;
+    box-shadow:0 4px 10px rgba(255,122,26,0.3);
+    flex-shrink:0;
+    cursor:pointer;
+    padding:0;
   }
   .fx-arrow:hover{ filter:brightness(1.08); }
   .fx-arrow.open{ transform:rotate(180deg); }
@@ -4527,15 +4484,26 @@
     header.dataset.fxDone = '1';
     header.classList.add('fx-head');
 
+    const wrap = document.createElement('div');
+    wrap.className = 'players-accordion-arrow-wrap';
+    wrap.style.marginLeft = 'auto';
+
+    const hint = document.createElement('span');
+    hint.className = 'players-accordion-hint';
+    hint.textContent = 'abre aqui';
+
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'fx-arrow';
     btn.setAttribute('aria-label', 'Recolher ou expandir');
-    header.appendChild(btn);
+    btn.textContent = '\u25BC';
+
+    wrap.appendChild(hint);
+    wrap.appendChild(btn);
+    header.appendChild(wrap);
 
     let open = !!defaultOpen;
     function apply(){
-      btn.textContent = '\u25BE';
       btn.classList.toggle('open', open);
       btn.title = open ? 'Recolher' : 'Expandir';
       items.forEach(c => c.classList.toggle('fx-collapsed', !open));
