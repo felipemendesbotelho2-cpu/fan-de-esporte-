@@ -34,4 +34,6 @@ jobs:
           git config user.email "robo@users.noreply.github.com"
           git add dados.json
           git diff --cached --quiet || git commit -m "Atualiza dados.json"
+          git pull --rebase origin main
           git push
+          'corrige push do robo' 
