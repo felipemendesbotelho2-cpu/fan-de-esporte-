@@ -1637,7 +1637,10 @@
       <div class="prognostico-wrap" id="prognosticoWrap"></div>
     </div>
 
-    <div class="avg-grid" id="avgGrid" style="display:none; margin-top:18px;">
+    <div class="stats-section" id="statsSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Estatísticas</div>
+
+      <div class="avg-grid" id="avgGrid" style="margin-top:18px;">
       <div class="avg-col home">
         <div class="avg-col-title">
           <span id="homeAvgLabel">Casa</span>
@@ -1676,31 +1679,34 @@
         <div class="avg-item"><span class="lbl" id="awayStatCardsLbl">Cartões</span><span class="val" id="awayStatCards">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Cartões" title="Adicionar à caderneta">+</button></div>
         <div class="avg-item"><span class="lbl" id="awayStatFoulsLbl">Faltas</span><span class="val" id="awayStatFouls">—</span><button type="button" class="nb-add-btn" data-nb-side="away" data-nb-stat="Faltas" title="Adicionar à caderneta">+</button></div>
       </div>
-    </div>
+      </div>
 
-    <div class="market-section" id="marketSection" style="display:none; margin-top:16px;">
-      <div class="market-list">
-        <div class="market-item">
-          <span class="lbl" id="marketHomeWinLbl">Casa vence</span>
-          <button type="button" class="nb-add-btn" data-nb-market="home-win" title="Adicionar à caderneta">+</button>
-        </div>
-        <div class="market-item">
-          <span class="lbl" id="marketAwayWinLbl">Fora vence</span>
-          <button type="button" class="nb-add-btn" data-nb-market="away-win" title="Adicionar à caderneta">+</button>
-        </div>
-        <div class="market-item">
-          <span class="lbl" id="marketDcHomeLbl">Dupla chance: Casa ou Empate</span>
-          <button type="button" class="nb-add-btn" data-nb-market="dc-home" title="Adicionar à caderneta">+</button>
-        </div>
-        <div class="market-item">
-          <span class="lbl" id="marketDcAwayLbl">Dupla chance: Fora ou Empate</span>
-          <button type="button" class="nb-add-btn" data-nb-market="dc-away" title="Adicionar à caderneta">+</button>
+      <div class="market-section" id="marketSection" style="margin-top:16px;">
+        <div class="market-list">
+          <div class="market-item">
+            <span class="lbl" id="marketHomeWinLbl">Casa vence</span>
+            <button type="button" class="nb-add-btn" data-nb-market="home-win" title="Adicionar à caderneta">+</button>
+          </div>
+          <div class="market-item">
+            <span class="lbl" id="marketAwayWinLbl">Fora vence</span>
+            <button type="button" class="nb-add-btn" data-nb-market="away-win" title="Adicionar à caderneta">+</button>
+          </div>
+          <div class="market-item">
+            <span class="lbl" id="marketDcHomeLbl">Dupla chance: Casa ou Empate</span>
+            <button type="button" class="nb-add-btn" data-nb-market="dc-home" title="Adicionar à caderneta">+</button>
+          </div>
+          <div class="market-item">
+            <span class="lbl" id="marketDcAwayLbl">Dupla chance: Fora ou Empate</span>
+            <button type="button" class="nb-add-btn" data-nb-market="dc-away" title="Adicionar à caderneta">+</button>
+          </div>
         </div>
       </div>
     </div>
 
+    <div class="last-games-section" id="lastGamesSection" style="display:none; margin-top:24px;">
+      <div class="detail-title" style="font-size:15px;">Últimos 10 jogos</div>
 
-    <div class="games-grid" id="gamesGrid" style="display:none;">
+      <div class="games-grid" id="gamesGrid" style="margin-top:14px;">
       <div class="games-col home">
         <div class="games-col-title">
           <span id="homeGamesLabel">Casa</span>
@@ -1728,6 +1734,7 @@
           </div>
         </div>
         <div class="games-list" id="awayGamesList"></div>
+      </div>
       </div>
     </div>
     <div class="extra-section" id="extraSection" style="display:none; margin-top:24px;">
@@ -2982,6 +2989,8 @@
     el('gamesGrid').style.display = 'none';
     el('avgGrid').style.display = 'none';
     el('marketSection').style.display = 'none';
+    el('statsSection').style.display = 'none';
+    el('lastGamesSection').style.display = 'none';
     el('extraSection').style.display = 'none';
     togglePlayersAccordion(false);
     el('h2hSection').style.display = 'none';
@@ -3033,11 +3042,13 @@
     const cacheNote = cacheStats.hits ? ' (' + cacheStats.hits + ' consulta(s) reaproveitada(s) do cache de hoje)' : '';
 
     el('gamesGrid').style.display = 'grid';
+    el('lastGamesSection').style.display = 'block';
     el('extraSection').style.display = 'block';
 
     renderAverages('home', g.home.name, homeRes.fixtures);
     renderAverages('away', g.away.name, awayRes.fixtures);
     el('avgGrid').style.display = 'grid';
+    el('statsSection').style.display = 'block';
 
     el('marketHomeWinLbl').textContent = g.home.name + ' vence';
     el('marketAwayWinLbl').textContent = g.away.name + ' vence';
@@ -4340,7 +4351,7 @@
     const detail = el('detailPanel');
     if(detail){
       makeCollapsible(detail.querySelector('.detail-head'), [
-        el('detailStatus'), el('detailErrorBox'), el('avgGrid'), el('marketSection'), el('gamesGrid'),
+        el('detailStatus'), el('detailErrorBox'), el('statsSection'), el('lastGamesSection'),
         el('extraSection'), el('lineupSection'), el('h2hSection'), el('standingsSection')
       ]);
     }
@@ -4355,8 +4366,8 @@
       makeCollapsible(col.querySelector('.games-col-title'), [col.querySelector('.games-list')]);
     });
 
-    // Nova aba, escalação, confrontos diretos e classificação
-    ['extraSection', 'lineupSection', 'h2hSection', 'standingsSection'].forEach(id => {
+    // Estatísticas, últimos 10 jogos, jogadores, escalação, confrontos diretos e classificação
+    ['statsSection', 'lastGamesSection', 'extraSection', 'lineupSection', 'h2hSection', 'standingsSection'].forEach(id => {
       const sec = el(id);
       if(!sec) return;
       const parts = sectionParts(sec, '.detail-title');
