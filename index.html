@@ -1221,6 +1221,72 @@
     line-height:1.5;
   }
 
+  /* ---------- gráfico de pressão (Ao Vivo) ---------- */
+  .live-pressure-wrap{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid var(--border-soft);
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .live-pressure-title{
+    font-family:var(--body);
+    font-weight:700;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .live-pressure-bar{
+    display:flex;
+    height:24px;
+    border-radius:8px;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .live-pressure-fill-home,
+  .live-pressure-fill-away{
+    display:flex;
+    align-items:center;
+    height:100%;
+    transition:width .4s ease;
+    min-width:34px;
+  }
+  .live-pressure-fill-home{
+    background:var(--teal);
+    justify-content:flex-start;
+    padding-left:8px;
+  }
+  .live-pressure-fill-away{
+    background:var(--accent);
+    justify-content:flex-end;
+    padding-right:8px;
+  }
+  .live-pressure-pct{
+    font-family:var(--body);
+    font-weight:800;
+    font-size:11px;
+    color:#fff;
+    text-shadow:0 1px 2px rgba(0,0,0,.35);
+    white-space:nowrap;
+  }
+  .live-pressure-names{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    font-family:var(--body);
+    font-size:10.5px;
+    font-weight:600;
+  }
+  .live-pressure-names .home{ color:var(--teal); }
+  .live-pressure-names .away{ color:var(--accent-dark); }
+  .live-pressure-note{
+    font-family:var(--body);
+    font-size:10.5px;
+    color:var(--muted-2);
+    font-style:italic;
+    line-height:1.5;
+  }
+
   /* ---------- confrontos diretos ---------- */
   /* Confronto Direto: mesmo padrão de "caixa" do games-list (borda, fundo,
      rolagem própria), mas com linhas simples — só data, placar e resultado,
@@ -2720,6 +2786,46 @@
         renderZoneHeatmapTeam(game.home.name, game.home.zones) +
         renderZoneHeatmapTeam(game.away.name, game.away.zones) +
         '<div class="live-heatmap-note">Estimativa por terço de campo com base em chutes, escanteios, posse de bola e passes do jogo — a API não fornece a posição real dos jogadores em campo.</div>' +
+      '</div>'
+    );
+  }
+
+  // ---------- gráfico de pressão (Ao Vivo) ----------
+  // Reaproveita as mesmas zonas (attack/midfield) já buscadas pra o mapa de
+  // calor — não faz nenhuma chamada de API extra. "Pressão" aqui é uma
+  // combinação de finalizações/escanteios (peso maior) com posse/passes
+  // (peso menor), pra estimar quem está no controle do jogo agora.
+  function computePressure(homeZones, awayZones){
+    const pressureScore = z => !z ? 0 : (z.attack * 1 + z.midfield * 0.35);
+    const homeRaw = pressureScore(homeZones);
+    const awayRaw = pressureScore(awayZones);
+    const total = homeRaw + awayRaw;
+    if(total <= 0) return { homePct: 50, awayPct: 50 };
+    // trava entre 8% e 92% pra a barra nunca "sumir" um dos lados de vez
+    let homePct = Math.round((homeRaw / total) * 100);
+    homePct = Math.max(8, Math.min(92, homePct));
+    return { homePct, awayPct: 100 - homePct };
+  }
+
+  function renderLivePressureBar(game){
+    if(!game.home.zones && !game.away.zones) return '';
+    const { homePct, awayPct } = computePressure(game.home.zones, game.away.zones);
+    return (
+      '<div class="live-pressure-wrap">' +
+        '<div class="live-pressure-title">Pressão no jogo</div>' +
+        '<div class="live-pressure-bar">' +
+          '<div class="live-pressure-fill-home" style="width:' + homePct + '%;">' +
+            '<span class="live-pressure-pct">' + homePct + '%</span>' +
+          '</div>' +
+          '<div class="live-pressure-fill-away" style="width:' + awayPct + '%;">' +
+            '<span class="live-pressure-pct">' + awayPct + '%</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="live-pressure-names">' +
+          '<span class="home">' + escapeHtml(game.home.name) + '</span>' +
+          '<span class="away">' + escapeHtml(game.away.name) + '</span>' +
+        '</div>' +
+        '<div class="live-pressure-note">Estimativa com base em finalizações, escanteios, posse de bola e passes no momento — atualiza a cada nova busca do Ao Vivo.</div>' +
       '</div>'
     );
   }
@@ -4353,6 +4459,7 @@
             '<span class="today-odds"><span class="odd-chip live-chip"><span class="live-dot"></span>AO VIVO</span></span>' +
           '</div>' +
           renderLiveHeatmapBlock(g) +
+          renderLivePressureBar(g) +
         '</div>'
       );
     }).join('');
