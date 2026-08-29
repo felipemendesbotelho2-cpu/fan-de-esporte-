@@ -1118,6 +1118,78 @@
 
   .empty-note{ font-size:12.5px; color:var(--muted-2); font-style:italic; }
 
+  /* ---------- jogos ao vivo: bloco do jogo + mapa de calor por zona ---------- */
+  .live-game-block{
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--panel-2);
+    padding:13px 15px;
+    margin-bottom:10px;
+  }
+  .live-game-block:last-child{ margin-bottom:0; }
+  .live-game-row{
+    display:grid;
+    grid-template-columns:82px 1fr auto;
+    align-items:center;
+    gap:14px;
+  }
+  .live-heatmap-wrap{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid var(--border-soft);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .live-heatmap-legend{
+    font-family:var(--body);
+    font-size:10.5px;
+    color:var(--muted-2);
+    display:flex;
+    align-items:center;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .live-heatmap-legend .swatch{
+    display:inline-block;
+    width:10px; height:10px;
+    border-radius:3px;
+    flex-shrink:0;
+  }
+  .live-heatmap-team-name{
+    font-family:var(--body);
+    font-weight:700;
+    font-size:11px;
+    color:var(--muted);
+    margin-bottom:5px;
+  }
+  .live-heatmap-field{
+    display:flex;
+    border-radius:8px;
+    overflow:hidden;
+    height:36px;
+    border:1px solid var(--border);
+  }
+  .live-heatmap-zone{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--body);
+    font-size:10.5px;
+    font-weight:700;
+    color:#fff;
+    text-shadow:0 1px 2px rgba(0,0,0,0.35);
+    transition:background .3s ease;
+  }
+  .live-heatmap-note{
+    font-family:var(--body);
+    font-size:10.5px;
+    color:var(--muted-2);
+    font-style:italic;
+    line-height:1.5;
+  }
+
   /* ---------- confrontos diretos ---------- */
   /* Confronto Direto: mesmo padrão de "caixa" do games-list (borda, fundo,
      rolagem própria), mas com linhas simples — só data, placar e resultado,
@@ -1805,10 +1877,10 @@
     <div class="panel-head">
       <div>
         <div class="detail-title" style="font-size:16px;">Jogos Ao Vivo</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Recurso temporariamente desativado.</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Mostra, entre os jogos de hoje, quais estão rolando agora — com placar, minuto e um mapa estimado de em qual terço do campo (defesa/meio/ataque) cada time está concentrando mais movimentação. Atualiza sozinho a cada 3 minutos.</div>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="btn-ghost" id="btnLoadLive" disabled>Atualizar</button>
+        <button class="btn-ghost" id="btnLoadLive">Atualizar</button>
       </div>
     </div>
     <div class="status-line" id="liveStatus"></div>
@@ -1968,8 +2040,11 @@
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('view-' + name).classList.add('active');
     document.querySelector('.tab-btn[data-view="' + name + '"]').classList.add('active');
-    // Ao Vivo desativado: nunca inicia o auto-refresh, mesmo abrindo essa aba.
-    stopLiveAutoRefresh();
+    if(name === 'aovivo'){
+      startLiveAutoRefresh();
+    } else {
+      stopLiveAutoRefresh();
+    }
   }
   document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.addEventListener('click', () => showView(btn.dataset.view));
@@ -2515,6 +2590,101 @@
       redCards: findStatValue(stats, /red\s*cards/i),
       foulsCommitted: findStatValue(stats, /^fouls$/i)
     };
+  }
+
+  // Extrai um valor percentual tipo "58%" retornado pela API (ex: posse de bola).
+  function findPercentStatValue(stats, regex){
+    const found = stats.find(s => regex.test(s.type || ''));
+    if(!found || found.value == null) return null;
+    const n = parseFloat(String(found.value).replace('%', ''));
+    return isNaN(n) ? null : n;
+  }
+
+  // ---------- mapa de calor por zona de campo (Ao Vivo) ----------
+  // A API-Football (nem no plano usado aqui) não retorna coordenadas reais de
+  // posição em campo — não existe um "heatmap" de verdade disponível. O que
+  // fazemos aqui é uma ESTIMATIVA: usamos estatísticas do jogo que já temos
+  // (chutes dentro/fora da área, escanteios, posse de bola, passes, faltas,
+  // chutes bloqueados) como indício indireto de em qual terço do campo
+  // (defesa/meio/ataque) cada time está concentrando mais jogadas. Não é uma
+  // medição de posição real dos jogadores.
+  async function fetchLiveZoneStats(fixtureId, teamId, key){
+    const data = await apiGetNoCache('/fixtures/statistics?fixture=' + fixtureId + '&team=' + teamId, key);
+    const stats = (data.response && data.response[0] && data.response[0].statistics) || [];
+
+    const shotsInside = findStatValue(stats, /shots\s*insidebox/i) || 0;
+    const shotsOutside = findStatValue(stats, /shots\s*outsidebox/i) || 0;
+    const corners = findStatValue(stats, /corner/i) || 0;
+    const totalShots = findStatValue(stats, /^total\s*shots$/i) || 0;
+    const totalPasses = findStatValue(stats, /^total\s*passes$/i) || 0;
+    const possession = findPercentStatValue(stats, /ball\s*possession/i) || 0;
+    const fouls = findStatValue(stats, /^fouls$/i) || 0;
+    const blockedShots = findStatValue(stats, /blocked\s*shots/i) || 0;
+
+    return {
+      // proxy de atividade no ataque: finalizações (dentro/fora da área) e escanteios
+      attack: shotsInside * 2 + shotsOutside + corners * 1.5 + totalShots * 0.5,
+      // proxy de atividade no meio-campo: volume de passes e posse de bola
+      midfield: totalPasses * 0.04 + possession * 0.4,
+      // proxy de atividade na defesa: faltas cometidas e chutes bloqueados
+      defense: fouls * 1.4 + blockedShots * 2
+    };
+  }
+
+  // Converte uma intensidade 0..1 numa cor azul (quase zero) → laranja (médio) → vermelho (muito).
+  function zoneHeatColor(intensity){
+    intensity = Math.max(0, Math.min(1, isNaN(intensity) ? 0 : intensity));
+    const blue = [37, 99, 235], orange = [245, 158, 11], red = [220, 38, 38];
+    let c1, c2, t;
+    if(intensity < 0.5){ c1 = blue; c2 = orange; t = intensity / 0.5; }
+    else { c1 = orange; c2 = red; t = (intensity - 0.5) / 0.5; }
+    const mix = c1.map((v, i) => Math.round(v + (c2[i] - v) * t));
+    return 'rgb(' + mix.join(',') + ')';
+  }
+
+  // Cada zona usa um "K" diferente na fórmula raw/(raw+K) pra virar 0..1 —
+  // ajustado pra que valores típicos de um jogo ao vivo (ainda em andamento)
+  // já produzam alguma cor visível, sem esperar o jogo terminar.
+  const ZONE_K = { defense: 6, midfield: 40, attack: 6 };
+
+  function renderZoneHeatmapTeam(teamName, zones){
+    const items = [
+      { key: 'defense', label: 'Defesa' },
+      { key: 'midfield', label: 'Meio' },
+      { key: 'attack', label: 'Ataque' }
+    ];
+    const zonesHtml = items.map(z => {
+      const raw = (zones && zones[z.key]) || 0;
+      const intensity = raw / (raw + ZONE_K[z.key]);
+      const color = zoneHeatColor(intensity);
+      const pct = Math.round(intensity * 100);
+      return '<div class="live-heatmap-zone" style="background:' + color + ';" title="' +
+        z.label + ': movimentação estimada em ' + pct + '%">' + z.label + '</div>';
+    }).join('');
+    return (
+      '<div>' +
+        '<div class="live-heatmap-team-name">' + escapeHtml(teamName) + '</div>' +
+        '<div class="live-heatmap-field">' + zonesHtml + '</div>' +
+      '</div>'
+    );
+  }
+
+  function renderLiveHeatmapBlock(game){
+    if(!game.home.zones && !game.away.zones){
+      return '';
+    }
+    return (
+      '<div class="live-heatmap-wrap">' +
+        '<div class="live-heatmap-legend">' +
+          '<span class="swatch" style="background:rgb(37,99,235);"></span> pouco movimento' +
+          '<span class="swatch" style="background:rgb(245,158,11);"></span> movimento médio' +
+          '<span class="swatch" style="background:rgb(220,38,38);"></span> muito movimento' +
+        '</div>' +
+        renderZoneHeatmapTeam(game.home.name, game.home.zones) +
+        renderZoneHeatmapTeam(game.away.name, game.away.zones) +
+        '<div class="live-heatmap-note">Estimativa por terço de campo com base em chutes, escanteios, posse de bola e passes do jogo — a API não fornece a posição real dos jogadores em campo.</div>' +
+      '</div>'
+    );
   }
 
   async function fetchFixturesBySeason(teamId, season, key){
@@ -4130,16 +4300,19 @@
   function renderLiveGames(games){
     const listEl = el('liveList');
     if(!games.length){
-      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogo ao vivo agora nas ligas selecionadas.</div>';
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogo dos jogos de hoje está ao vivo neste momento.</div>';
       return;
     }
     listEl.innerHTML = games.map(g => {
       const minuto = g.elapsed != null ? (g.elapsed + "'") : '—';
       return (
-        '<div class="today-row" style="cursor:default;">' +
-          '<span class="today-time-wrap"><span class="today-date">' + liveStatusLabel(g.statusShort) + '</span><span class="today-time">' + minuto + '</span></span>' +
-          '<span class="today-teams"><span class="lg">' + g.league + '</span>' + g.home.name + ' ' + (g.home.goals ?? 0) + ' x ' + (g.away.goals ?? 0) + ' ' + g.away.name + '</span>' +
-          '<span class="today-odds"><span class="odd-chip live-chip"><span class="live-dot"></span>AO VIVO</span></span>' +
+        '<div class="live-game-block">' +
+          '<div class="live-game-row">' +
+            '<span class="today-time-wrap"><span class="today-date">' + liveStatusLabel(g.statusShort) + '</span><span class="today-time">' + minuto + '</span></span>' +
+            '<span class="today-teams"><span class="lg">' + g.league + '</span>' + g.home.name + ' ' + (g.home.goals ?? 0) + ' x ' + (g.away.goals ?? 0) + ' ' + g.away.name + '</span>' +
+            '<span class="today-odds"><span class="odd-chip live-chip"><span class="live-dot"></span>AO VIVO</span></span>' +
+          '</div>' +
+          renderLiveHeatmapBlock(g) +
         '</div>'
       );
     }).join('');
@@ -4150,7 +4323,7 @@
     const listEl = el('liveList');
     el('btnLoadLive').disabled = true;
     statusEl.className = 'status-line';
-    statusEl.textContent = 'Buscando jogos ao vivo…';
+    statusEl.textContent = 'Buscando jogos ao vivo entre os jogos de hoje…';
     showErrorBox('liveErrorBox', 'liveErrorText', null);
 
     if(!state.apiKey){
@@ -4161,26 +4334,58 @@
       return;
     }
 
+    // Ao Vivo é baseado nos jogos já listados em "Jogos do Dia" — só entram
+    // aqui os que também aparecem em state.todayGames (mesmo fixtureId).
+    const todayFixtureIds = new Set(
+      (state.todayGames || []).map(g => g.fixtureId).filter(id => id != null)
+    );
+
+    if(!todayFixtureIds.size){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum jogo real carregado em "Jogos do Dia" ainda pra cruzar com o Ao Vivo.</div>';
+      statusEl.textContent = 'Sem jogos do dia carregados.';
+      statusEl.classList.add('err');
+      el('btnLoadLive').disabled = false;
+      return;
+    }
+
     try{
       const data = await apiGetNoCache('/fixtures?live=all', state.apiKey);
       const games = (data.response || [])
+        .filter(fx => todayFixtureIds.has(fx.fixture.id))
         .filter(fx => matchAllowedLeague(fx.league && fx.league.name, fx.league && fx.league.country))
         .filter(fx => !isYouthOrReserveFixture(fx))
         .map(fx => {
           const allowed = matchAllowedLeague(fx.league.name, fx.league.country);
           const goals = fx.goals || {};
           return {
+            fixtureId: fx.fixture.id,
             league: allowed.name,
             statusShort: fx.fixture.status.short,
             elapsed: fx.fixture.status.elapsed,
-            home: { name: fx.teams.home.name, goals: goals.home },
-            away: { name: fx.teams.away.name, goals: goals.away }
+            home: { id: fx.teams.home.id, name: fx.teams.home.name, goals: goals.home },
+            away: { id: fx.teams.away.id, name: fx.teams.away.name, goals: goals.away }
           };
         })
         .sort((a, b) => (b.elapsed || 0) - (a.elapsed || 0));
 
+      // Busca as estatísticas de cada time (pra estimar o mapa de calor por
+      // zona de campo) em paralelo, sem cache — dado ao vivo muda o tempo todo.
+      await Promise.all(games.map(async g => {
+        try{
+          const [homeZones, awayZones] = await Promise.all([
+            fetchLiveZoneStats(g.fixtureId, g.home.id, state.apiKey),
+            fetchLiveZoneStats(g.fixtureId, g.away.id, state.apiKey)
+          ]);
+          g.home.zones = homeZones;
+          g.away.zones = awayZones;
+        }catch(err){
+          g.home.zones = null;
+          g.away.zones = null;
+        }
+      }));
+
       renderLiveGames(games);
-      statusEl.textContent = games.length + ' jogo(s) ao vivo agora nas ligas selecionadas.';
+      statusEl.textContent = games.length + ' de ' + todayFixtureIds.size + ' jogo(s) de hoje estão ao vivo neste momento.';
       statusEl.classList.add('ok');
     }catch(err){
       const msg = describeError(err);
