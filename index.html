@@ -2115,10 +2115,16 @@
   // Criado porque a busca de jogos "de hoje" às vezes falha dependendo do
   // fuso/horário em que a API-Football já considera o dia seguinte — essa
   // caixinha deixa escolher manualmente qual data usar na busca.
+  // IMPORTANTE: usa a data LOCAL (fuso do usuário), nunca toISOString(),
+  // que converte pra UTC e faz "hoje" virar "amanhã" à noite no Brasil.
+  const APP_TZ = 'America/Sao_Paulo';
   function getTargetDateStr(offset){
     const d = new Date();
     d.setDate(d.getDate() + offset);
-    return d.toISOString().slice(0, 10);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return y + '-' + m + '-' + day;
   }
 
   document.querySelectorAll('.date-switch-btn').forEach(btn => {
@@ -2412,7 +2418,7 @@
   const cacheStats = { hits: 0, misses: 0 };
 
   function todayKey(){
-    return new Date().toISOString().slice(0, 10);
+    return getTargetDateStr(0);
   }
 
   // Dado de uma partida que JÁ TERMINOU nunca muda (o minuto do gol e os chutes
@@ -3705,7 +3711,7 @@
     if(!state.apiKey || g.home.id == null || g.away.id == null) return null;
     try{
       const dateStr = (g.date || new Date().toISOString()).slice(0,10);
-      const data = await apiGet('/fixtures?date=' + dateStr + '&team=' + g.home.id, state.apiKey);
+      const data = await apiGet('/fixtures?date=' + dateStr + '&timezone=' + APP_TZ + '&team=' + g.home.id, state.apiKey);
       const match = (data.response || []).find(fx =>
         fx.teams && fx.teams.home.id === g.home.id && fx.teams.away.id === g.away.id
       );
@@ -4401,7 +4407,7 @@
     try{
       cacheStats.hits = 0;
       cacheStats.misses = 0;
-      const data = await apiGet('/fixtures?date=' + targetDate, state.apiKey);
+      const data = await apiGet('/fixtures?date=' + targetDate + '&timezone=' + APP_TZ, state.apiKey);
       const cacheNote = cacheStats.hits ? ' (dados reaproveitados do cache — sem gastar cota)' : '';
       const games = (data.response || [])
         .filter(fx => fx.fixture && fx.fixture.status && ['NS','1H','HT','2H','ET','P'].includes(fx.fixture.status.short))
