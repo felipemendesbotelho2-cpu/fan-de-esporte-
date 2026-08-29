@@ -1469,7 +1469,7 @@
     width:fit-content;
     max-width:100%;
   }
-  .tabs .tab-btn{
+  .tabs .tab-btn, .tabs .subtab-btn{
     font-family:var(--body);
     font-weight:600;
     font-size:12.5px;
@@ -1482,14 +1482,16 @@
     cursor:pointer;
     transition:background .15s ease, color .15s ease;
   }
-  .tabs .tab-btn:hover{ color:var(--text); }
-  .tabs .tab-btn.active{
+  .tabs .tab-btn:hover, .tabs .subtab-btn:hover{ color:var(--text); }
+  .tabs .tab-btn.active, .tabs .subtab-btn.active{
     background:var(--panel);
     color:var(--accent-dark);
     border-color:var(--border);
   }
   .view{ display:none; }
   .view.active{ display:block; }
+  .subview{ display:none; }
+  .subview.active{ display:block; }
 
   /* ---------- caixa de erro detalhado ---------- */
   .error-box{
@@ -1629,9 +1631,7 @@
     <nav class="side-nav">
       <button class="tab-btn active" data-view="jogos">🏠 Menu Inicial</button>
       <button class="tab-btn" data-view="aovivo">🔴 Ao Vivo</button>
-      <button class="tab-btn" data-view="frios1t">🧊 -2 Gols no 1ºT</button>
-      <button class="tab-btn" data-view="invictos">🛡️ Invictos (10)</button>
-      <button class="tab-btn" data-view="zero1t">🚫 0 Gols no 1ºT (10)</button>
+      <button class="tab-btn" data-view="filtros">🔎 Filtros</button>
     </nav>
 
     <div class="sidebar-foot">
@@ -1890,8 +1890,17 @@
 
   </div><!-- /view-aovivo -->
 
-  <!-- ===== VIEW: FRIOS NO 1º TEMPO ===== -->
-  <div class="view" id="view-frios1t">
+  <!-- ===== VIEW: FILTROS (agrupa -2 Gols no 1ºT / Invictos / 0 Gols no 1ºT) ===== -->
+  <div class="view" id="view-filtros">
+
+  <div class="tabs" id="filtrosSubTabs">
+    <button type="button" class="subtab-btn active" data-subview="frios1t">🧊 -2 Gols no 1ºT</button>
+    <button type="button" class="subtab-btn" data-subview="invictos">🛡️ Invictos (10)</button>
+    <button type="button" class="subtab-btn" data-subview="zero1t">🚫 0 Gols no 1ºT (10)</button>
+  </div>
+
+  <!-- ---- SUB-ABA: FRIOS NO 1º TEMPO ---- -->
+  <div class="subview active" id="view-frios1t">
 
   <section class="panel">
     <div class="panel-head">
@@ -1906,8 +1915,8 @@
 
   </div><!-- /view-frios1t -->
 
-  <!-- ===== VIEW: INVICTOS (10) ===== -->
-  <div class="view" id="view-invictos">
+  <!-- ---- SUB-ABA: INVICTOS (10) ---- -->
+  <div class="subview" id="view-invictos">
 
   <section class="panel">
     <div class="panel-head">
@@ -1923,8 +1932,8 @@
 
   </div><!-- /view-invictos -->
 
-  <!-- ===== VIEW: 0 GOLS NO 1ºT (10) ===== -->
-  <div class="view" id="view-zero1t">
+  <!-- ---- SUB-ABA: 0 GOLS NO 1ºT (10) ---- -->
+  <div class="subview" id="view-zero1t">
 
   <section class="panel">
     <div class="panel-head">
@@ -1939,6 +1948,8 @@
   </section>
 
   </div><!-- /view-zero1t -->
+
+  </div><!-- /view-filtros -->
 
   <footer>Fan de Esporte · uso analítico — não constitui recomendação financeira</footer>
     </div><!-- /wrap -->
@@ -2048,6 +2059,17 @@
   }
   document.querySelectorAll('.tab-btn').forEach(btn=>{
     btn.addEventListener('click', () => showView(btn.dataset.view));
+  });
+
+  /* sub-abas dentro de "Filtros" (-2 Gols no 1ºT / Invictos / 0 Gols no 1ºT) */
+  function showFiltroSub(name){
+    document.querySelectorAll('#view-filtros .subview').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('#filtrosSubTabs .subtab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.querySelector('#filtrosSubTabs .subtab-btn[data-subview="' + name + '"]').classList.add('active');
+  }
+  document.querySelectorAll('#filtrosSubTabs .subtab-btn').forEach(btn=>{
+    btn.addEventListener('click', () => showFiltroSub(btn.dataset.subview));
   });
 
   /* accordion interno dos grupos de jogadores */
@@ -4514,7 +4536,7 @@
 (function(){
   const el = id => document.getElementById(id);
 
-  function makeCollapsible(header, contents){
+  function makeCollapsible(header, contents, defaultOpen){
     if(!header || header.dataset.fxDone) return;
     const items = contents.filter(Boolean);
     if(!items.length) return;
@@ -4527,7 +4549,7 @@
     btn.setAttribute('aria-label', 'Recolher ou expandir');
     header.appendChild(btn);
 
-    let open = false;
+    let open = !!defaultOpen;
     function apply(){
       btn.textContent = '\u25BE';
       btn.classList.toggle('open', open);
@@ -4552,31 +4574,31 @@
   }
 
   function wire(){
-    // Painel de análise (abre ao clicar num jogo)
+    // Painel de análise (abre ao clicar num jogo) — já vem expandido, sem precisar clicar na seta
     const detail = el('detailPanel');
     if(detail){
       makeCollapsible(detail.querySelector('.detail-head'), [
         el('detailStatus'), el('detailErrorBox'), el('statsSection'), el('lastGamesSection'),
         el('extraSection'), el('lineupSection'), el('h2hSection'), el('standingsSection')
-      ]);
+      ], true);
     }
 
-    // Estatísticas escritas (colunas Casa / Fora)
+    // Estatísticas escritas (colunas Casa / Fora) — expandidas por padrão
     document.querySelectorAll('#avgGrid .avg-col').forEach(col => {
-      makeCollapsible(col.querySelector('.avg-col-title'), Array.from(col.querySelectorAll('.avg-item')));
+      makeCollapsible(col.querySelector('.avg-col-title'), Array.from(col.querySelectorAll('.avg-item')), true);
     });
 
-    // Últimos jogos
+    // Últimos jogos — expandidos por padrão
     document.querySelectorAll('#gamesGrid .games-col').forEach(col => {
-      makeCollapsible(col.querySelector('.games-col-title'), [col.querySelector('.games-list')]);
+      makeCollapsible(col.querySelector('.games-col-title'), [col.querySelector('.games-list')], true);
     });
 
-    // Estatísticas, últimos 10 jogos, jogadores, escalação, confrontos diretos e classificação
+    // Estatísticas, últimos 10 jogos, jogadores, escalação, confrontos diretos e classificação — expandidos por padrão
     ['statsSection', 'lastGamesSection', 'extraSection', 'lineupSection', 'h2hSection', 'standingsSection'].forEach(id => {
       const sec = el(id);
       if(!sec) return;
       const parts = sectionParts(sec, '.detail-title');
-      if(parts) makeCollapsible(parts.header, parts.contents);
+      if(parts) makeCollapsible(parts.header, parts.contents, true);
     });
 
     // Painéis das outras abas (Ao Vivo, filtros de times)
