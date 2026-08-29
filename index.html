@@ -4439,20 +4439,40 @@
 
   el('btnLoadLive').addEventListener('click', loadLiveGames);
 
-  async function loadTodayGames(){
+  /* ---------------- usar dados.json pra lista de hoje, quando estiver fresco ---------------- */
+  function preloadedDateStr(){
+    if(!state.preloaded || !state.preloaded.updatedAt) return null;
+    const d = new Date(state.preloaded.updatedAt);
+    if(isNaN(d)) return null;
+    return new Intl.DateTimeFormat('en-CA', { timeZone: APP_TZ }).format(d);
+  }
+  // "Fresco" = o robô rodou HOJE (no fuso do site) e trouxe pelo menos 1 jogo.
+  // Só vale pra data-offset 0 (Hoje) — o dados.json nunca guarda o dia seguinte.
+  function preloadedIsFreshForToday(){
+    return !!(state.preloaded && Array.isArray(state.preloaded.games) && state.preloaded.games.length &&
+      state.dateOffset === 0 && preloadedDateStr() === getTargetDateStr(0));
+  }
+
+  async function loadTodayGames(opts){
+    const forceApi = !!(opts && opts.forceApi);
     const todayStatus = el('todayStatus');
     el('btnLoadToday').disabled = true;
     todayStatus.className = 'status-line';
 
     const targetDate = getTargetDateStr(state.dateOffset);
     const dateLabel = state.dateOffset === 0 ? 'hoje' : 'amanhã';
-    todayStatus.textContent = 'Buscando jogos de ' + dateLabel + ' (' + targetDate.split('-').reverse().join('/') + ')…';
     showErrorBox('todayErrorBox', 'todayErrorText', null);
 
-    // A lista principal sempre vem da API para a data selecionada. Um dados.json
-    // antigo podia conter partidas de amanhã e substituir silenciosamente a
-    // consulta de hoje. O pré-carregado continua reservado às estatísticas.
-    state.preloaded = null;
+    // Se o dados.json (gerado pelo robô) já trouxe os jogos de hoje nesta
+    // execução, usa direto — sem nenhuma chamada de API ao abrir o site.
+    // O botão "Forçar atualização" (forceApi) sempre ignora isso de propósito.
+    if(!forceApi && preloadedIsFreshForToday()){
+      renderFromPreloaded(state.preloaded);
+      el('btnLoadToday').disabled = false;
+      return;
+    }
+
+    todayStatus.textContent = 'Buscando jogos de ' + dateLabel + ' (' + targetDate.split('-').reverse().join('/') + ')…';
 
     if(!state.apiKey){
       el('todayList').innerHTML = '<div class="empty-note" style="padding:8px 4px;">sem dados</div>';
@@ -4509,10 +4529,17 @@
   el('btnLoadToday').addEventListener('click', loadTodayGames);
   el('btnForceRefresh').addEventListener('click', () => {
     clearApiCache();
-    loadTodayGames();
+    loadTodayGames({ forceApi: true });
   });
 
-  loadTodayGames();
+  // Carrega o dados.json (gerado pelo robô) UMA VEZ ao abrir o site, antes de
+  // buscar a lista de jogos. Isso preenche state.preloaded.teamStats, que o
+  // pullTeamFixtures() usa pra pular as ~20 chamadas de API por time quando o
+  // robô já tiver os últimos jogos daquele time salvos no arquivo.
+  (async function initApp(){
+    state.preloaded = await loadPreloadedData();
+    loadTodayGames();
+  })();
 
 })();
 </script>
