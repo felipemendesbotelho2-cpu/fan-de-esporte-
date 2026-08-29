@@ -595,6 +595,37 @@
   .status-line.ok{ color:var(--teal); }
   #feedbackStatus{ display:block; } /* essa é feedback real pro usuário, não info técnica */
 
+  /* ---------- indicador de carregamento (piscando) do painel de análise ---------- */
+  .detail-loading{
+    display:none;
+    align-items:center;
+    gap:8px;
+    margin-top:12px;
+    padding:10px 14px;
+    background:var(--accent-soft);
+    border:1px solid #FFD3AC;
+    border-radius:10px;
+    font-family:var(--body);
+    font-weight:600;
+    font-size:13px;
+    color:var(--accent-dark);
+  }
+  .detail-loading.show{ display:flex; }
+  .detail-loading .loading-text{
+    animation:fx-blink 1s ease-in-out infinite;
+  }
+  .detail-loading .loading-counter{
+    font-family:var(--mono);
+    font-weight:600;
+    font-size:13px;
+    min-width:26px;
+    text-align:left;
+  }
+  @keyframes fx-blink{
+    0%, 100%{ opacity:1; }
+    50%{ opacity:0.35; }
+  }
+
   details.settings{
     margin-top:16px;
     border-top:1px solid var(--border-soft);
@@ -1713,6 +1744,10 @@
         <div class="detail-title" id="detailTitle">Selecione um jogo acima</div>
         <div class="detail-sub" id="detailSub"></div>
       </div>
+    </div>
+
+    <div class="detail-loading" id="detailLoading">
+      <span class="loading-text">⏳ Carregando dados</span><span class="loading-counter" id="detailLoadingCounter">0</span>
     </div>
 
     <div class="status-line" id="detailStatus"></div>
@@ -3132,6 +3167,28 @@
     });
   });
 
+  /* ---------------- indicador de carregamento (piscando + contador) ---------------- */
+  let detailLoadingTimer = null;
+  function showDetailLoading(){
+    const box = el('detailLoading');
+    const counter = el('detailLoadingCounter');
+    if(!box || !counter) return;
+    let n = 0;
+    counter.textContent = n;
+    box.classList.add('show');
+    clearInterval(detailLoadingTimer);
+    detailLoadingTimer = setInterval(() => {
+      n++;
+      counter.textContent = n;
+    }, 250);
+  }
+  function hideDetailLoading(){
+    clearInterval(detailLoadingTimer);
+    detailLoadingTimer = null;
+    const box = el('detailLoading');
+    if(box) box.classList.remove('show');
+  }
+
   /* ---------------- abrir análise inline abaixo do jogo clicado ---------------- */
   function openGameDetailInline(row, g){
     const panel = el('detailPanel');
@@ -3141,12 +3198,14 @@
 
     if(jaAberto){
       panel.style.display = 'none';
+      hideDetailLoading();
       return;
     }
 
     row.classList.add('selected');
     row.insertAdjacentElement('afterend', panel);
     panel.style.display = 'block';
+    showDetailLoading();
     showGameDetail(g);
   }
 
@@ -3248,6 +3307,8 @@
       detailStatus.textContent = 'Estatísticas puxadas com sucesso.' + fonteNote + aviso + cacheNote;
       detailStatus.classList.add('ok');
     }
+
+    hideDetailLoading();
 
     loadHeadToHead(g);
     loadStandings(g);
