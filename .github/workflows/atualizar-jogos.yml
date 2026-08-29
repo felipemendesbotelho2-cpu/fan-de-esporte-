@@ -36,4 +36,4 @@ jobs:
           git diff --cached --quiet || git commit -m "Atualiza dados.json"
           git pull --rebase origin main
           git push
-          'corrige push do robo' 
+      
