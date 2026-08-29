@@ -2119,12 +2119,18 @@
   // que converte pra UTC e faz "hoje" virar "amanhã" à noite no Brasil.
   const APP_TZ = 'America/Sao_Paulo';
   function getTargetDateStr(offset){
-    const d = new Date();
-    d.setDate(d.getDate() + offset);
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return y + '-' + m + '-' + day;
+    // Obtém primeiro o dia civil em São Paulo. Assim o resultado não depende
+    // do fuso configurado no celular, navegador ou computador do usuário.
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: APP_TZ,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).formatToParts(new Date());
+    const values = {};
+    parts.forEach(part => { if(part.type !== 'literal') values[part.type] = part.value; });
+    const base = new Date(Date.UTC(Number(values.year), Number(values.month) - 1, Number(values.day) + offset, 12));
+    return base.getUTCFullYear() + '-' + String(base.getUTCMonth() + 1).padStart(2, '0') + '-' + String(base.getUTCDate()).padStart(2, '0');
   }
 
   document.querySelectorAll('.date-switch-btn').forEach(btn => {
@@ -4379,20 +4385,12 @@
 
     const targetDate = getTargetDateStr(state.dateOffset);
     const dateLabel = state.dateOffset === 0 ? 'hoje' : 'amanhã';
-    todayStatus.textContent = 'Buscando jogos de ' + dateLabel + '…';
+    todayStatus.textContent = 'Buscando jogos de ' + dateLabel + ' (' + targetDate.split('-').reverse().join('/') + ')…';
     showErrorBox('todayErrorBox', 'todayErrorText', null);
 
-    // O dados.json pré-gerado pelo robô é feito só pra data de hoje — se o
-    // usuário escolheu "Amanhã", ignora o preloaded e vai direto pra API.
-    if(state.dateOffset === 0){
-      const preloaded = await loadPreloadedData();
-      if(preloaded){
-        state.preloaded = preloaded;
-        renderFromPreloaded(preloaded);
-        el('btnLoadToday').disabled = false;
-        return;
-      }
-    }
+    // A lista principal sempre vem da API para a data selecionada. Um dados.json
+    // antigo podia conter partidas de amanhã e substituir silenciosamente a
+    // consulta de hoje. O pré-carregado continua reservado às estatísticas.
     state.preloaded = null;
 
     if(!state.apiKey){
@@ -4416,7 +4414,7 @@
         .map(fx => {
           const allowed = matchAllowedLeague(fx.league.name, fx.league.country);
           return {
-            time: new Date(fx.fixture.date).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}),
+            time: new Date(fx.fixture.date).toLocaleTimeString('pt-BR', { timeZone: APP_TZ, hour:'2-digit', minute:'2-digit' }),
             date: fx.fixture.date,
             league: allowed.name,
             leagueId: fx.league.id,
@@ -4431,7 +4429,7 @@
 
       if(!games.length) throw apiError('Nenhum jogo das ligas selecionadas encontrado para ' + dateLabel + ' (a API respondeu OK, mas sem jogos de Série A nessa data).');
       renderTodayGames(games);
-      todayStatus.textContent = games.length + ' jogos encontrados para ' + dateLabel + ' nas ligas selecionadas.' + cacheNote;
+      todayStatus.textContent = games.length + ' jogos encontrados para ' + dateLabel + ' (' + targetDate.split('-').reverse().join('/') + ') nas ligas selecionadas.' + cacheNote;
       todayStatus.classList.add('ok');
       state.todayGames = games;
       scanTeamStreaks(games);
