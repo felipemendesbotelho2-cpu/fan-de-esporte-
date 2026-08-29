@@ -144,6 +144,44 @@
     text-align:right;
   }
 
+  /* ---------- seletor de data (Hoje / Amanhã) ---------- */
+  .topbar-right{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .date-switch{
+    display:flex;
+    gap:2px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:10px;
+    padding:3px;
+  }
+  .date-switch-btn{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:11.5px;
+    letter-spacing:0.1px;
+    color:#C7CAD6;
+    background:transparent;
+    border:1px solid transparent;
+    border-radius:7px;
+    padding:6px 12px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .date-switch-btn:hover{ color:#fff; }
+  .date-switch-btn.active{
+    background:var(--accent);
+    color:#fff;
+  }
+  @media (max-width:600px){
+    .topbar{ flex-direction:column; align-items:flex-start; gap:10px; }
+    .topbar-right{ width:100%; justify-content:space-between; }
+  }
+
   .wrap{
     max-width:1080px;
     width:100%;
@@ -1535,7 +1573,13 @@
   <div class="main-col">
     <header class="topbar">
       <div class="topbar-title">Fan de Esporte<span>bem-vindo(a) de volta</span></div>
-      <div class="clock" id="clock">—</div>
+      <div class="topbar-right">
+        <div class="date-switch" id="dateSwitch">
+          <button type="button" class="date-switch-btn active" id="dateSwitchToday" data-offset="0">Hoje</button>
+          <button type="button" class="date-switch-btn" id="dateSwitchTomorrow" data-offset="1">Amanhã</button>
+        </div>
+        <div class="clock" id="clock">—</div>
+      </div>
     </header>
 
     <div class="wrap">
@@ -1946,11 +1990,33 @@
   const state = {
     apiKey: (el('apiKey') && el('apiKey').value.trim()) || '',
     fdApiKey: '',
-    preloaded: null
+    preloaded: null,
+    dateOffset: 0 // 0 = hoje, 1 = amanhã
   };
 
   try{ state.fdApiKey = localStorage.getItem('fanEsporte_fdApiKey') || ''; }catch(err){ state.fdApiKey = ''; }
   if(el('fdApiKey')) el('fdApiKey').value = state.fdApiKey;
+
+  /* ---------------- seletor de data (Hoje / Amanhã) ---------------- */
+  // Criado porque a busca de jogos "de hoje" às vezes falha dependendo do
+  // fuso/horário em que a API-Football já considera o dia seguinte — essa
+  // caixinha deixa escolher manualmente qual data usar na busca.
+  function getTargetDateStr(offset){
+    const d = new Date();
+    d.setDate(d.getDate() + offset);
+    return d.toISOString().slice(0, 10);
+  }
+
+  document.querySelectorAll('.date-switch-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const offset = Number(btn.dataset.offset);
+      if(offset === state.dateOffset) return;
+      state.dateOffset = offset;
+      document.querySelectorAll('.date-switch-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      loadTodayGames();
+    });
+  });
 
   if(el('btnSaveFdKey')){
     el('btnSaveFdKey').addEventListener('click', () => {
@@ -4121,15 +4187,22 @@
     const todayStatus = el('todayStatus');
     el('btnLoadToday').disabled = true;
     todayStatus.className = 'status-line';
-    todayStatus.textContent = 'Buscando jogos de hoje…';
+
+    const targetDate = getTargetDateStr(state.dateOffset);
+    const dateLabel = state.dateOffset === 0 ? 'hoje' : 'amanhã';
+    todayStatus.textContent = 'Buscando jogos de ' + dateLabel + '…';
     showErrorBox('todayErrorBox', 'todayErrorText', null);
 
-    const preloaded = await loadPreloadedData();
-    if(preloaded){
-      state.preloaded = preloaded;
-      renderFromPreloaded(preloaded);
-      el('btnLoadToday').disabled = false;
-      return;
+    // O dados.json pré-gerado pelo robô é feito só pra data de hoje — se o
+    // usuário escolheu "Amanhã", ignora o preloaded e vai direto pra API.
+    if(state.dateOffset === 0){
+      const preloaded = await loadPreloadedData();
+      if(preloaded){
+        state.preloaded = preloaded;
+        renderFromPreloaded(preloaded);
+        el('btnLoadToday').disabled = false;
+        return;
+      }
     }
     state.preloaded = null;
 
@@ -4145,11 +4218,10 @@
     }
 
     try{
-      const today = new Date().toISOString().slice(0,10);
       cacheStats.hits = 0;
       cacheStats.misses = 0;
-      const data = await apiGet('/fixtures?date=' + today, state.apiKey);
-      const cacheNote = cacheStats.hits ? ' (dados de hoje reaproveitados do cache — sem gastar cota)' : '';
+      const data = await apiGet('/fixtures?date=' + targetDate, state.apiKey);
+      const cacheNote = cacheStats.hits ? ' (dados reaproveitados do cache — sem gastar cota)' : '';
       const games = (data.response || [])
         .filter(fx => fx.fixture && fx.fixture.status && ['NS','1H','HT','2H','ET','P'].includes(fx.fixture.status.short))
         .filter(fx => matchAllowedLeague(fx.league && fx.league.name, fx.league && fx.league.country))
@@ -4170,18 +4242,18 @@
         .sort((a,b) => a.time.localeCompare(b.time))
         .slice(0, 40);
 
-      if(!games.length) throw apiError('Nenhum jogo das ligas selecionadas encontrado para hoje (a API respondeu OK, mas sem jogos de Série A na data de hoje).');
+      if(!games.length) throw apiError('Nenhum jogo das ligas selecionadas encontrado para ' + dateLabel + ' (a API respondeu OK, mas sem jogos de Série A nessa data).');
       renderTodayGames(games);
-      todayStatus.textContent = games.length + ' jogos encontrados para hoje nas ligas selecionadas.' + cacheNote;
+      todayStatus.textContent = games.length + ' jogos encontrados para ' + dateLabel + ' nas ligas selecionadas.' + cacheNote;
       todayStatus.classList.add('ok');
       state.todayGames = games;
       scanTeamStreaks(games);
     }catch(err){
       const msg = describeError(err);
-      console.warn('Falha ao buscar jogos de hoje, usando fallback mockado:', msg);
+      console.warn('Falha ao buscar jogos de ' + dateLabel + ', usando fallback mockado:', msg);
       const games = generateMockTodayGames();
       renderTodayGames(games);
-      todayStatus.textContent = 'Não foi possível buscar jogos reais — mostrando exemplos.';
+      todayStatus.textContent = 'Não foi possível buscar jogos reais de ' + dateLabel + ' — mostrando exemplos.';
       todayStatus.classList.add('err');
       showErrorBox('todayErrorBox', 'todayErrorText', msg);
       state.todayGames = games;
