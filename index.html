@@ -4802,19 +4802,50 @@
     { key:'over25',  label:'Mais de 2.5 gols no jogo',       test: f => (f.gf_ft + f.ga_ft) >= 3 }
   ];
 
-  function geradorBestPick(homeFx, awayFx){
-    const all = [].concat(homeFx || [], awayFx || []);
-    if(all.length < GERADOR_MIN_GAMES) return { pick:null, n: all.length, reason:'poucos jogos' };
+  // Mercados avaliados por time individual (não combinam casa+fora) —
+  // usam o histórico só daquele time pra decidir o palpite sobre ele.
+  const GERADOR_MERCADOS_TIME = [
+    { key:'sub4_sem1t', test: f => f.gf_ht === 0 && f.gf_ft < 4,
+      label: teamName => 'Menos de 4 gols do ' + teamName + ' (sem marcar no 1ºT)' },
+    { key:'dupla_chance', test: f => f.gf_ft >= f.ga_ft,
+      label: teamName => 'Dupla chance — ' + teamName + ' não perde' },
+    { key:'vencedor', test: f => f.gf_ft > f.ga_ft,
+      label: teamName => 'Vitória do ' + teamName }
+  ];
+
+  function geradorBestPickForTeam(fx, teamName){
+    if(!fx || fx.length < GERADOR_MIN_GAMES) return null;
     let best = null;
-    GERADOR_MERCADOS.forEach(m => {
-      const hits = all.filter(m.test).length;
-      const rate = hits / all.length;
-      // exige que os DOIS times sustentem o padrão, não só a média somada
-      const hRate = homeFx.length ? homeFx.filter(m.test).length / homeFx.length : 0;
-      const aRate = awayFx.length ? awayFx.filter(m.test).length / awayFx.length : 0;
-      const score = Math.min(rate, hRate, aRate);
-      if(!best || score > best.score) best = { label:m.label, rate, hRate, aRate, score, hits };
+    GERADOR_MERCADOS_TIME.forEach(m => {
+      const hits = fx.filter(m.test).length;
+      const rate = hits / fx.length;
+      if(!best || rate > best.score) best = { label:m.label(teamName), score:rate, kind:'team', teamName, teamGames: fx.length };
     });
+    return best;
+  }
+
+  function geradorBestPick(homeFx, awayFx, homeName, awayName){
+    const all = [].concat(homeFx || [], awayFx || []);
+    let best = null;
+
+    // mercados combinados (casa + fora sustentando o mesmo padrão)
+    if(all.length >= GERADOR_MIN_GAMES && (homeFx || []).length && (awayFx || []).length){
+      GERADOR_MERCADOS.forEach(m => {
+        const rate = all.filter(m.test).length / all.length;
+        const hRate = homeFx.length ? homeFx.filter(m.test).length / homeFx.length : 0;
+        const aRate = awayFx.length ? awayFx.filter(m.test).length / awayFx.length : 0;
+        const score = Math.min(rate, hRate, aRate);
+        if(!best || score > best.score) best = { label:m.label, score, kind:'combined', hRate, aRate };
+      });
+    }
+
+    // mercados por time (casa e fora avaliados separadamente)
+    const homeBest = geradorBestPickForTeam(homeFx, homeName);
+    const awayBest = geradorBestPickForTeam(awayFx, awayName);
+    [homeBest, awayBest].forEach(cand => {
+      if(cand && (!best || cand.score > best.score)) best = cand;
+    });
+
     if(!best || best.score < GERADOR_MIN_RATE) return { pick:null, n: all.length, best };
     return { pick:best, n: all.length };
   }
@@ -4836,12 +4867,18 @@
       body = '<span class="today-cta" style="color:var(--muted);">Sem palpite para este jogo</span>';
     }
 
-    const detail = result && result.pick
-      ? '<div class="empty-note" style="padding:2px 4px 8px; font-size:11.5px;">Base: ' + result.n +
+    let detail;
+    if(result && result.pick && result.pick.kind === 'team'){
+      detail = '<div class="empty-note" style="padding:2px 4px 8px; font-size:11.5px;">Base: ' +
+        result.pick.teamGames + ' jogos recentes do ' + escapeHtml(result.pick.teamName) + '.</div>';
+    } else if(result && result.pick){
+      detail = '<div class="empty-note" style="padding:2px 4px 8px; font-size:11.5px;">Base: ' + result.n +
         ' jogos recentes · ' + escapeHtml(g.home.name) + ' ' + Math.round(result.pick.hRate * 100) + '% · ' +
-        escapeHtml(g.away.name) + ' ' + Math.round(result.pick.aRate * 100) + '%</div>'
-      : '<div class="empty-note" style="padding:2px 4px 8px; font-size:11.5px;">Nenhum mercado atingiu 60% de acertividade' +
+        escapeHtml(g.away.name) + ' ' + Math.round(result.pick.aRate * 100) + '%</div>';
+    } else {
+      detail = '<div class="empty-note" style="padding:2px 4px 8px; font-size:11.5px;">Nenhum mercado atingiu 60% de acertividade' +
         (result && result.n ? ' (base: ' + result.n + ' jogos)' : ' (dados insuficientes)') + '.</div>';
+    }
 
     return '<div class="league-group"><button type="button" class="today-row">' + header + body + '</button>' + detail + '</div>';
   }
@@ -4876,11 +4913,13 @@
         statusEl.textContent = 'Analisando ' + (done + 1) + ' de ' + games.length + ': ' + g.home.name + ' vs ' + g.away.name;
         let result = { pick:null, n:0 };
         try{
-          const [homeFx, awayFx] = await Promise.all([
+          const [homeRes, awayRes] = await Promise.all([
             pullTeamFixtures(g.home.name, state.apiKey, g.home.id),
             pullTeamFixtures(g.away.name, state.apiKey, g.away.id)
           ]);
-          result = geradorBestPick(homeFx || [], awayFx || []);
+          const homeFx = (homeRes && homeRes.fixtures) || [];
+          const awayFx = (awayRes && awayRes.fixtures) || [];
+          result = geradorBestPick(homeFx, awayFx, g.home.name, g.away.name);
         }catch(err){
           result = { pick:null, n:0 };
         }
