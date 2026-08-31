@@ -1992,8 +1992,10 @@
 
   <div class="tabs" id="filtrosSubTabs">
     <button type="button" class="subtab-btn active" data-subview="frios1t">🧊 -2 Gols no 1ºT</button>
-    <button type="button" class="subtab-btn" data-subview="invictos">🛡️ Invictos (10)</button>
-    <button type="button" class="subtab-btn" data-subview="zero1t">🚫 0 Gols no 1ºT (10)</button>
+    <button type="button" class="subtab-btn" data-subview="invictos">🛡️ Invictos (5)</button>
+    <button type="button" class="subtab-btn" data-subview="zero1t">🚫 0 Gols no 1ºT (5)</button>
+    <button type="button" class="subtab-btn" data-subview="venceu1t">🥇 Vence o 1ºT (5)</button>
+    <button type="button" class="subtab-btn" data-subview="naolevougol">🔒 Não Levou Gol (5)</button>
   </div>
 
   <!-- ---- SUB-ABA: FRIOS NO 1º TEMPO ---- -->
@@ -2012,14 +2014,14 @@
 
   </div><!-- /view-frios1t -->
 
-  <!-- ---- SUB-ABA: INVICTOS (10) ---- -->
+  <!-- ---- SUB-ABA: INVICTOS (5) ---- -->
   <div class="subview" id="view-invictos">
 
   <section class="panel">
     <div class="panel-head">
       <div>
-        <div class="detail-title" style="font-size:16px;">Times Invictos nos Últimos 10</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO perderam nenhum dos últimos 10 jogos — ou seja, só venceram ou empataram em CADA UM dos últimos 10 jogos.</div>
+        <div class="detail-title" style="font-size:16px;">Times Invictos nos Últimos 5</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO perderam nenhum dos últimos 5 jogos — ou seja, só venceram ou empataram em CADA UM dos últimos 5 jogos.</div>
       </div>
     </div>
     <div class="status-line" id="invictosStatus"></div>
@@ -2029,14 +2031,14 @@
 
   </div><!-- /view-invictos -->
 
-  <!-- ---- SUB-ABA: 0 GOLS NO 1ºT (10) ---- -->
+  <!-- ---- SUB-ABA: 0 GOLS NO 1ºT (5) ---- -->
   <div class="subview" id="view-zero1t">
 
   <section class="panel">
     <div class="panel-head">
       <div>
-        <div class="detail-title" style="font-size:16px;">Times 0 Gols no 1º Tempo (10 jogos)</div>
-        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO marcaram nenhum gol no 1º tempo em NENHUM dos últimos 10 jogos — mais rígido que a aba "-2 Gols no 1ºT", aqui não pode ter feito nem 1 gol no 1ºT.</div>
+        <div class="detail-title" style="font-size:16px;">Times 0 Gols no 1º Tempo (5 jogos)</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO marcaram nenhum gol no 1º tempo em NENHUM dos últimos 5 jogos — mais rígido que a aba "-2 Gols no 1ºT", aqui não pode ter feito nem 1 gol no 1ºT.</div>
       </div>
     </div>
     <div class="status-line" id="zero1tStatus"></div>
@@ -2045,6 +2047,40 @@
   </section>
 
   </div><!-- /view-zero1t -->
+
+  <!-- ---- SUB-ABA: VENCE O 1ºT (5) ---- -->
+  <div class="subview" id="view-venceu1t">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Times que Vencem o 1º Tempo</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que VENCERAM o 1º tempo em CADA UM dos últimos 5 jogos — ou seja, foram para o intervalo na frente no placar em todos eles.</div>
+      </div>
+    </div>
+    <div class="status-line" id="venceu1tStatus"></div>
+    <div class="error-box" id="venceu1tErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="venceu1tErrorText"></span></div>
+    <div class="today-list" id="venceu1tList"></div>
+  </section>
+
+  </div><!-- /view-venceu1t -->
+
+  <!-- ---- SUB-ABA: NÃO LEVOU GOL (5) ---- -->
+  <div class="subview" id="view-naolevougol">
+
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="detail-title" style="font-size:16px;">Times que Não Levam Gol</div>
+        <div class="empty-note" style="margin-top:4px; max-width:640px;">Busca automática pelos times que jogam hoje e que NÃO SOFRERAM nenhum gol (no jogo inteiro) em NENHUM dos últimos 5 jogos.</div>
+      </div>
+    </div>
+    <div class="status-line" id="naolevougolStatus"></div>
+    <div class="error-box" id="naolevougolErrorBox"><span class="error-box-title">Detalhe técnico</span><span id="naolevougolErrorText"></span></div>
+    <div class="today-list" id="naolevougolList"></div>
+  </section>
+
+  </div><!-- /view-naolevougol -->
 
   </div><!-- /view-filtros -->
 
@@ -2838,6 +2874,10 @@
   const TARGET_SEASON = 2026;
   const GAMES_LIMIT = 10;
   const FRIOS_GAMES_LIMIT = 5; // a aba "-2 Gols no 1ºT" usa só os últimos 5 jogos, não 10
+  const INVICTOS_GAMES_LIMIT = 5; // a aba "Invictos" usa só os últimos 5 jogos, não 10
+  const ZERO1T_GAMES_LIMIT = 5; // a aba "0 Gols no 1ºT" usa só os últimos 5 jogos, não 10
+  const VENCEU1T_GAMES_LIMIT = 5; // a aba "Vence o 1ºT" usa os últimos 5 jogos
+  const NAOLEVOUGOL_GAMES_LIMIT = 5; // a aba "Não Levou Gol" usa os últimos 5 jogos
 
   async function fetchLastFixtures(teamId, key){
     // Deixa o erro real subir (sem mascarar com "indisponível para este plano"),
@@ -4173,6 +4213,10 @@
     const invictosListEl = el('invictosList');
     const zero1tStatusEl = el('zero1tStatus');
     const zero1tListEl = el('zero1tList');
+    const venceu1tStatusEl = el('venceu1tStatus');
+    const venceu1tListEl = el('venceu1tList');
+    const naolevougolStatusEl = el('naolevougolStatus');
+    const naolevougolListEl = el('naolevougolList');
 
     if(!skipFrios){
       frios1tStatusEl.className = 'status-line';
@@ -4182,6 +4226,10 @@
     showErrorBox('invictosErrorBox', 'invictosErrorText', null);
     zero1tStatusEl.className = 'status-line';
     showErrorBox('zero1tErrorBox', 'zero1tErrorText', null);
+    venceu1tStatusEl.className = 'status-line';
+    showErrorBox('venceu1tErrorBox', 'venceu1tErrorText', null);
+    naolevougolStatusEl.className = 'status-line';
+    showErrorBox('naolevougolErrorBox', 'naolevougolErrorText', null);
 
     if(!games || !games.length){
       if(!skipFrios){ frios1tListEl.innerHTML = ''; frios1tStatusEl.textContent = 'sem dados'; }
@@ -4189,6 +4237,10 @@
       invictosStatusEl.textContent = 'sem dados';
       zero1tListEl.innerHTML = '';
       zero1tStatusEl.textContent = 'sem dados';
+      venceu1tListEl.innerHTML = '';
+      venceu1tStatusEl.textContent = 'sem dados';
+      naolevougolListEl.innerHTML = '';
+      naolevougolStatusEl.textContent = 'sem dados';
       return;
     }
 
@@ -4205,6 +4257,12 @@
       zero1tListEl.innerHTML = noKeyMsg;
       zero1tStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
       zero1tStatusEl.classList.add('err');
+      venceu1tListEl.innerHTML = noKeyMsg;
+      venceu1tStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      venceu1tStatusEl.classList.add('err');
+      naolevougolListEl.innerHTML = noKeyMsg;
+      naolevougolStatusEl.textContent = 'Nenhuma API key informada — sem dados reais disponíveis.';
+      naolevougolStatusEl.classList.add('err');
       return;
     }
 
@@ -4238,6 +4296,10 @@
       invictosStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
       zero1tListEl.innerHTML = progressMsg;
       zero1tStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+      venceu1tListEl.innerHTML = progressMsg;
+      venceu1tStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
+      naolevougolListEl.innerHTML = progressMsg;
+      naolevougolStatusEl.textContent = 'Analisando… ' + done + ' de ' + total + ' times verificados.';
     }
     updateProgress();
 
@@ -4279,20 +4341,36 @@
     }
 
     const qualifiedInvictos = usable.filter(r =>
-      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ft >= f.ga_ft)
+      r.fixtures.length >= INVICTOS_GAMES_LIMIT && r.fixtures.slice(0, INVICTOS_GAMES_LIMIT).every(f => f.gf_ft >= f.ga_ft)
     );
     qualifiedInvictos.sort((a, b) => a.game.time.localeCompare(b.game.time));
     renderInvictosList(qualifiedInvictos);
-    invictosStatusEl.textContent = qualifiedInvictos.length + ' de ' + usable.length + ' times com dado real não perderam nenhum dos últimos ' + GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    invictosStatusEl.textContent = qualifiedInvictos.length + ' de ' + usable.length + ' times com dado real não perderam nenhum dos últimos ' + INVICTOS_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
     invictosStatusEl.classList.add(semDado ? 'err' : 'ok');
 
     const qualifiedZero1t = usable.filter(r =>
-      r.fixtures.length >= GAMES_LIMIT && r.fixtures.slice(0, GAMES_LIMIT).every(f => f.gf_ht === 0)
+      r.fixtures.length >= ZERO1T_GAMES_LIMIT && r.fixtures.slice(0, ZERO1T_GAMES_LIMIT).every(f => f.gf_ht === 0)
     );
     qualifiedZero1t.sort((a, b) => a.game.time.localeCompare(b.game.time));
     renderZero1tList(qualifiedZero1t);
-    zero1tStatusEl.textContent = qualifiedZero1t.length + ' de ' + usable.length + ' times com dado real não marcaram nenhum gol no 1º tempo em nenhum dos últimos ' + GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    zero1tStatusEl.textContent = qualifiedZero1t.length + ' de ' + usable.length + ' times com dado real não marcaram nenhum gol no 1º tempo em nenhum dos últimos ' + ZERO1T_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
     zero1tStatusEl.classList.add(semDado ? 'err' : 'ok');
+
+    const qualifiedVenceu1t = usable.filter(r =>
+      r.fixtures.length >= VENCEU1T_GAMES_LIMIT && r.fixtures.slice(0, VENCEU1T_GAMES_LIMIT).every(f => f.gf_ht > f.ga_ht)
+    );
+    qualifiedVenceu1t.sort((a, b) => a.game.time.localeCompare(b.game.time));
+    renderVenceu1TList(qualifiedVenceu1t);
+    venceu1tStatusEl.textContent = qualifiedVenceu1t.length + ' de ' + usable.length + ' times com dado real venceram o 1º tempo em CADA UM dos últimos ' + VENCEU1T_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    venceu1tStatusEl.classList.add(semDado ? 'err' : 'ok');
+
+    const qualifiedNaoLevouGol = usable.filter(r =>
+      r.fixtures.length >= NAOLEVOUGOL_GAMES_LIMIT && r.fixtures.slice(0, NAOLEVOUGOL_GAMES_LIMIT).every(f => f.ga_ft === 0)
+    );
+    qualifiedNaoLevouGol.sort((a, b) => a.game.time.localeCompare(b.game.time));
+    renderNaoLevouGolList(qualifiedNaoLevouGol);
+    naolevougolStatusEl.textContent = qualifiedNaoLevouGol.length + ' de ' + usable.length + ' times com dado real não sofreram gol em nenhum dos últimos ' + NAOLEVOUGOL_GAMES_LIMIT + ' jogos.' + semDadoNote + cacheNote;
+    naolevougolStatusEl.classList.add(semDado ? 'err' : 'ok');
   }
 
   function goToGameFromList(game){
@@ -4342,7 +4420,7 @@
         '<button type="button" class="today-row" data-invictos-idx="' + i + '">' +
           '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
           '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
-          '<span class="today-odds"><span class="odd-chip fav">invicto há ' + GAMES_LIMIT + '</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">invicto há ' + INVICTOS_GAMES_LIMIT + '</span></span>' +
           '<span class="today-cta">ver análise →</span>' +
         '</button>'
       );
@@ -4365,7 +4443,53 @@
         '<button type="button" class="today-row" data-zero1t-idx="' + i + '">' +
           '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
           '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
-          '<span class="today-odds"><span class="odd-chip fav">0/' + GAMES_LIMIT + ' c/ gol no 1ºT</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">0/' + ZERO1T_GAMES_LIMIT + ' c/ gol no 1ºT</span></span>' +
+          '<span class="today-cta">ver análise →</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    listEl.querySelectorAll('.today-row').forEach((row, i) => {
+      row.addEventListener('click', () => goToGameFromList(items[i].game));
+    });
+  }
+
+  function renderVenceu1TList(items){
+    const listEl = el('venceu1tList');
+    if(!items.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum time dos jogos de hoje se encaixou nesse padrão.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map((it, i) => {
+      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+      return (
+        '<button type="button" class="today-row" data-venceu1t-idx="' + i + '">' +
+          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">' + VENCEU1T_GAMES_LIMIT + '/' + VENCEU1T_GAMES_LIMIT + ' vence 1ºT</span></span>' +
+          '<span class="today-cta">ver análise →</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    listEl.querySelectorAll('.today-row').forEach((row, i) => {
+      row.addEventListener('click', () => goToGameFromList(items[i].game));
+    });
+  }
+
+  function renderNaoLevouGolList(items){
+    const listEl = el('naolevougolList');
+    if(!items.length){
+      listEl.innerHTML = '<div class="empty-note" style="padding:8px 4px;">Nenhum time dos jogos de hoje se encaixou nesse padrão.</div>';
+      return;
+    }
+    listEl.innerHTML = items.map((it, i) => {
+      const opponent = it.side === 'home' ? it.game.away.name : it.game.home.name;
+      return (
+        '<button type="button" class="today-row" data-naolevougol-idx="' + i + '">' +
+          '<span class="today-time-wrap"><span class="today-date">' + (it.side === 'home' ? 'CASA' : 'FORA') + '</span><span class="today-time">' + it.game.time + '</span></span>' +
+          '<span class="today-teams"><span class="lg">' + it.game.league + '</span>' + it.name + ' <span style="color:var(--muted-2);">(vs ' + opponent + ')</span></span>' +
+          '<span class="today-odds"><span class="odd-chip fav">0/' + NAOLEVOUGOL_GAMES_LIMIT + ' sofreu gol</span></span>' +
           '<span class="today-cta">ver análise →</span>' +
         '</button>'
       );
@@ -4753,7 +4877,7 @@
     });
 
     // Painéis das outras abas (Ao Vivo, filtros de times)
-    [['view-aovivo','liveList'], ['view-frios1t','frios1tList'], ['view-invictos','invictosList'], ['view-zero1t','zero1tList']].forEach(([viewId, listId]) => {
+    [['view-aovivo','liveList'], ['view-frios1t','frios1tList'], ['view-invictos','invictosList'], ['view-zero1t','zero1tList'], ['view-venceu1t','venceu1tList'], ['view-naolevougol','naolevougolList']].forEach(([viewId, listId]) => {
       const view = el(viewId);
       const list = el(listId);
       if(!view || !list) return;
