@@ -594,6 +594,7 @@
   .status-line.err{ color:var(--red); }
   .status-line.ok{ color:var(--teal); }
   #feedbackStatus{ display:block; } /* essa é feedback real pro usuário, não info técnica */
+  #geradorStatus{ display:block; } /* progresso do gerador de aposta é feedback real pro usuário */
 
   /* ---------- indicador de carregamento (piscando) do painel de análise ---------- */
   .detail-loading{
@@ -4783,85 +4784,7 @@
   (async function initApp(){
     state.preloaded = await loadPreloadedData();
     loadTodayGames();
-  })();
-
-})();
-</script>
-
-<style>
-  .fx-head{ cursor:pointer; display:flex; align-items:center; gap:10px; }
-  .fx-head > .fx-arrow{ margin-left:auto; }
-  .fx-arrow{
-    width:24px; height:24px;
-    border-radius:50%;
-    background:var(--accent);
-    color:#fff;
-    border:none;
-    display:flex; align-items:center; justify-content:center;
-    transition:transform .2s ease, filter .15s ease;
-    font-size:11px;
-    box-shadow:0 4px 10px rgba(255,122,26,0.3);
-    flex-shrink:0;
-    cursor:pointer;
-    padding:0;
-  }
-  .fx-arrow:hover{ filter:brightness(1.08); }
-  .fx-arrow.open{ transform:rotate(180deg); }
-  .fx-collapsed{ display:none !important; }
-</style>
-<script>
-(function(){
-  const el = id => document.getElementById(id);
-
-  function makeCollapsible(header, contents, defaultOpen){
-    if(!header || header.dataset.fxDone) return;
-    const items = contents.filter(Boolean);
-    if(!items.length) return;
-    header.dataset.fxDone = '1';
-    header.classList.add('fx-head');
-
-    const wrap = document.createElement('div');
-    wrap.className = 'players-accordion-arrow-wrap';
-    wrap.style.marginLeft = 'auto';
-
-    const hint = document.createElement('span');
-    hint.className = 'players-accordion-hint';
-    hint.textContent = 'abre aqui';
-
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'fx-arrow';
-    btn.setAttribute('aria-label', 'Recolher ou expandir');
-    btn.textContent = '\u25BC';
-
-    wrap.appendChild(hint);
-    wrap.appendChild(btn);
-    header.appendChild(wrap);
-
-    let open = !!defaultOpen;
-    function apply(){
-      btn.classList.toggle('open', open);
-      btn.title = open ? 'Recolher' : 'Expandir';
-      items.forEach(c => c.classList.toggle('fx-collapsed', !open));
-    }
-    header.addEventListener('click', (e) => {
-      const b = e.target.closest('button');
-      if(e.target.closest('.venue-toggle')) return;
-      if(b && !b.classList.contains('fx-arrow')) return;
-      open = !open;
-      apply();
-    });
-    apply();
-  }
-
-  function sectionParts(section, headerSel){
-    const header = section.querySelector(headerSel);
-    if(!header) return null;
-    const contents = Array.from(section.children).filter(c => c !== header && !c.contains(header));
-    return { header, contents };
-  }
-
-  /* ---------------- GERADOR DE APOSTA ---------------- */
+    /* ---------------- GERADOR DE APOSTA ---------------- */
   // Corte mínimo de acertividade histórica pra virar palpite.
   const GERADOR_MIN_RATE = 0.80;
   const GERADOR_MIN_GAMES = 10;   // mínimo de jogos analisados (somando os dois times)
@@ -4974,10 +4897,98 @@
     }
   }
 
-  function wire(){
+  function wireGerador(){
     const btnGer = el('btnGerarPalpites');
-    if(btnGer) btnGer.addEventListener('click', gerarPalpites);
+    if(btnGer && !btnGer.dataset.wired){
+      btnGer.dataset.wired = '1';
+      btnGer.addEventListener('click', gerarPalpites);
+    }
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', wireGerador);
+  } else {
+    wireGerador();
+  }
 
+})();
+
+})();
+</script>
+
+<style>
+  .fx-head{ cursor:pointer; display:flex; align-items:center; gap:10px; }
+  .fx-head > .fx-arrow{ margin-left:auto; }
+  .fx-arrow{
+    width:24px; height:24px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .2s ease, filter .15s ease;
+    font-size:11px;
+    box-shadow:0 4px 10px rgba(255,122,26,0.3);
+    flex-shrink:0;
+    cursor:pointer;
+    padding:0;
+  }
+  .fx-arrow:hover{ filter:brightness(1.08); }
+  .fx-arrow.open{ transform:rotate(180deg); }
+  .fx-collapsed{ display:none !important; }
+</style>
+<script>
+(function(){
+  const el = id => document.getElementById(id);
+
+  function makeCollapsible(header, contents, defaultOpen){
+    if(!header || header.dataset.fxDone) return;
+    const items = contents.filter(Boolean);
+    if(!items.length) return;
+    header.dataset.fxDone = '1';
+    header.classList.add('fx-head');
+
+    const wrap = document.createElement('div');
+    wrap.className = 'players-accordion-arrow-wrap';
+    wrap.style.marginLeft = 'auto';
+
+    const hint = document.createElement('span');
+    hint.className = 'players-accordion-hint';
+    hint.textContent = 'abre aqui';
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fx-arrow';
+    btn.setAttribute('aria-label', 'Recolher ou expandir');
+    btn.textContent = '\u25BC';
+
+    wrap.appendChild(hint);
+    wrap.appendChild(btn);
+    header.appendChild(wrap);
+
+    let open = !!defaultOpen;
+    function apply(){
+      btn.classList.toggle('open', open);
+      btn.title = open ? 'Recolher' : 'Expandir';
+      items.forEach(c => c.classList.toggle('fx-collapsed', !open));
+    }
+    header.addEventListener('click', (e) => {
+      const b = e.target.closest('button');
+      if(e.target.closest('.venue-toggle')) return;
+      if(b && !b.classList.contains('fx-arrow')) return;
+      open = !open;
+      apply();
+    });
+    apply();
+  }
+
+  function sectionParts(section, headerSel){
+    const header = section.querySelector(headerSel);
+    if(!header) return null;
+    const contents = Array.from(section.children).filter(c => c !== header && !c.contains(header));
+    return { header, contents };
+  }
+
+  function wire(){
     // Painel de análise (abre ao clicar num jogo) — já vem expandido, sem precisar clicar na seta
     const detail = el('detailPanel');
     if(detail){
