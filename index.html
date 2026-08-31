@@ -4843,7 +4843,7 @@
       : '<div class="empty-note" style="padding:2px 4px 8px; font-size:11.5px;">Nenhum mercado atingiu 80% de acertividade' +
         (result && result.n ? ' (base: ' + result.n + ' jogos)' : ' (dados insuficientes)') + '.</div>';
 
-    return '<div class="league-group"><div class="today-row" style="cursor:default;">' + header + body + '</div>' + detail + '</div>';
+    return '<div class="league-group"><button type="button" class="today-row">' + header + body + '</button>' + detail + '</div>';
   }
 
   async function gerarPalpites(){
@@ -4885,6 +4885,12 @@
           result = { pick:null, n:0 };
         }
         listEl.insertAdjacentHTML('beforeend', geradorRowHtml(g, result));
+        const insertedRow = listEl.querySelector('.league-group:last-child .today-row');
+        if(insertedRow){
+          insertedRow.addEventListener('click', () => {
+            openGameDetailInline(insertedRow, g);
+          });
+        }
         done++;
       }
       statusEl.textContent = 'Pronto — ' + done + ' jogo(s) analisado(s). Só entram palpites com 80% ou mais de acertividade.';
