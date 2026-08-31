@@ -2094,7 +2094,7 @@
         <div class="detail-title" style="font-size:16px;">Gerador de Aposta</div>
         <div class="empty-note" style="margin-top:4px; max-width:660px;">
           Puxa os jogos do dia e calcula, a partir dos últimos jogos dos dois times, qual mercado tem
-          pelo menos <strong>80% de acertividade histórica</strong>. Se nenhum mercado bate esse corte,
+          pelo menos <strong>60% de acertividade histórica</strong>. Se nenhum mercado bate esse corte,
           o jogo aparece como <em>sem palpite</em>.
         </div>
       </div>
@@ -4786,7 +4786,7 @@
     loadTodayGames();
     /* ---------------- GERADOR DE APOSTA ---------------- */
   // Corte mínimo de acertividade histórica pra virar palpite.
-  const GERADOR_MIN_RATE = 0.80;
+  const GERADOR_MIN_RATE = 0.60;
   const GERADOR_MIN_GAMES = 10;   // mínimo de jogos analisados (somando os dois times)
   const GERADOR_MAX_JOGOS = 12;   // limite de jogos processados por rodada (cota de API)
   let geradorRunning = false;
@@ -4840,7 +4840,7 @@
       ? '<div class="empty-note" style="padding:2px 4px 8px; font-size:11.5px;">Base: ' + result.n +
         ' jogos recentes · ' + escapeHtml(g.home.name) + ' ' + Math.round(result.pick.hRate * 100) + '% · ' +
         escapeHtml(g.away.name) + ' ' + Math.round(result.pick.aRate * 100) + '%</div>'
-      : '<div class="empty-note" style="padding:2px 4px 8px; font-size:11.5px;">Nenhum mercado atingiu 80% de acertividade' +
+      : '<div class="empty-note" style="padding:2px 4px 8px; font-size:11.5px;">Nenhum mercado atingiu 60% de acertividade' +
         (result && result.n ? ' (base: ' + result.n + ' jogos)' : ' (dados insuficientes)') + '.</div>';
 
     return '<div class="league-group"><button type="button" class="today-row">' + header + body + '</button>' + detail + '</div>';
@@ -4893,7 +4893,7 @@
         }
         done++;
       }
-      statusEl.textContent = 'Pronto — ' + done + ' jogo(s) analisado(s). Só entram palpites com 80% ou mais de acertividade.';
+      statusEl.textContent = 'Pronto — ' + done + ' jogo(s) analisado(s). Só entram palpites com 60% ou mais de acertividade.';
     }catch(err){
       showErrorBox('geradorErrorBox', 'geradorErrorText', describeError(err));
       statusEl.textContent = '';
