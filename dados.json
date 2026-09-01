@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-01T11:07:29.501Z",
+  "updatedAt": "2026-09-01T14:07:45.507Z",
   "games": [
     {
       "time": "15:00",
@@ -85,14 +85,14 @@
           "opponent": "Atletico-MG",
           "isHome": true,
           "minutesScored": [
-            60
+            70
           ],
-          "cornersTotal": 4,
-          "totalShots": 12,
-          "shotsOnGoal": 1,
-          "yellowCards": 1,
+          "cornersTotal": 3,
+          "totalShots": 9,
+          "shotsOnGoal": 3,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 15
+          "foulsCommitted": 19
         },
         {
           "fixtureId": 1492344,
@@ -530,13 +530,15 @@
           "date": "2026-08-04T22:30:00+00:00",
           "opponent": "Atletico-MG",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 3,
+          "minutesScored": [
+            90
+          ],
+          "cornersTotal": 4,
           "totalShots": 15,
           "shotsOnGoal": 3,
-          "yellowCards": 2,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 18
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1546844,
@@ -548,10 +550,10 @@
           "opponent": "Atletico-MG",
           "isHome": false,
           "minutesScored": [],
-          "cornersTotal": 1,
-          "totalShots": 11,
-          "shotsOnGoal": 2,
-          "yellowCards": 2,
+          "cornersTotal": 7,
+          "totalShots": 17,
+          "shotsOnGoal": 6,
+          "yellowCards": 1,
           "redCards": null,
           "foulsCommitted": 12
         },
@@ -1016,7 +1018,7 @@
           "opponent": "Al-Hilal Saudi FC",
           "isHome": true,
           "minutesScored": [
-            81
+            39
           ],
           "cornersTotal": null,
           "totalShots": null,
