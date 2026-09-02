@@ -1354,6 +1354,67 @@
     line-height:1.5;
   }
 
+  /* ---------- gráfico de momentum / pressão a cada 3min (Ao Vivo) ---------- */
+  .live-momentum-wrap{
+    margin-top:12px;
+    padding-top:12px;
+    border-top:1px solid var(--border-soft);
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .live-momentum-title{
+    font-family:var(--body);
+    font-weight:700;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .live-momentum-hint{
+    font-weight:500;
+    color:var(--muted-2);
+    font-size:10px;
+  }
+  .live-momentum-chart{
+    display:flex;
+    align-items:stretch;
+    gap:2px;
+    padding:2px 4px 0;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--panel-2);
+    overflow-x:auto;
+  }
+  .live-momentum-col{
+    flex:0 0 auto;
+    width:7px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .live-momentum-half{
+    width:100%;
+    height:46px;
+    display:flex;
+  }
+  .live-momentum-half-top{
+    align-items:flex-end;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .live-momentum-half-bottom{
+    align-items:flex-start;
+  }
+  .live-momentum-seg{ width:100%; }
+  .live-momentum-seg.home{ background:var(--teal); border-radius:2px 2px 0 0; }
+  .live-momentum-seg.away{ background:var(--accent); border-radius:0 0 2px 2px; }
+  .live-momentum-tick{
+    height:14px;
+    margin-top:2px;
+    font-family:var(--body);
+    font-size:8.5px;
+    color:var(--muted-2);
+    white-space:nowrap;
+  }
+
   /* ---------- confrontos diretos ---------- */
   /* Confronto Direto: mesmo padrão de "caixa" do games-list (borda, fundo,
      rolagem própria), mas com linhas simples — só data, placar e resultado,
@@ -2943,6 +3004,74 @@
           '<span class="away">' + escapeHtml(game.away.name) + '</span>' +
         '</div>' +
         '<div class="live-pressure-note">Estimativa com base em finalizações, escanteios, posse de bola e passes no momento — atualiza a cada nova busca do Ao Vivo.</div>' +
+      '</div>'
+    );
+  }
+
+  // ---------- gráfico de momentum (Ao Vivo) — barras a cada 3 minutos ----------
+  // Estilo "match momentum" (Sofascore / casas de aposta): uma barra por
+  // janela de tempo, subindo (cor do mandante) quando ele domina o trecho e
+  // descendo (cor do visitante) quando é o visitante que domina. Como o Ao
+  // Vivo já atualiza sozinho a cada 3 minutos (ver LIVE_REFRESH_INTERVAL_MS),
+  // a cada atualização guardamos um novo "instantâneo" de pressão (mesma
+  // fórmula de computePressure, sem chamada de API extra) e vamos empilhando
+  // o histórico do jogo enquanto a aba Ao Vivo estiver aberta.
+  const MOMENTUM_BUCKET_MIN = 3;
+  const MOMENTUM_MAX_HALF_PX = 46;
+  const liveMomentumHistory = {}; // fixtureId -> [{ bucket, homePct }]
+
+  function recordMomentumSnapshot(fixtureId, elapsed, homePct){
+    if(fixtureId == null || homePct == null) return;
+    if(!liveMomentumHistory[fixtureId]) liveMomentumHistory[fixtureId] = [];
+    const hist = liveMomentumHistory[fixtureId];
+    const bucket = Math.max(0, Math.floor((elapsed || 0) / MOMENTUM_BUCKET_MIN) * MOMENTUM_BUCKET_MIN);
+    const existing = hist.find(h => h.bucket === bucket);
+    if(existing){
+      existing.homePct = homePct;
+    } else {
+      hist.push({ bucket, homePct });
+      hist.sort((a, b) => a.bucket - b.bucket);
+    }
+  }
+
+  function renderLiveMomentumChart(game){
+    const hist = liveMomentumHistory[game.fixtureId];
+    if(!hist || !hist.length){
+      // Ainda não temos nenhum instantâneo salvo pra esse jogo (acabou de
+      // começar a ser acompanhado) — mostra a barra de pressão instantânea
+      // como fallback até a primeira janela de 3min fechar.
+      return renderLivePressureBar(game);
+    }
+
+    const cols = hist.map(h => {
+      const diff = h.homePct - 50;
+      // computePressure trava o resultado entre 8% e 92%, então a diferença
+      // máxima possível é 42 — usamos isso pra a barra conseguir chegar na
+      // altura máxima em vez de ficar sempre "curtinha".
+      const intensity = Math.min(1, Math.abs(diff) / 42);
+      const px = Math.round(intensity * MOMENTUM_MAX_HALF_PX);
+      const homeSeg = diff > 0 ? '<div class="live-momentum-seg home" style="height:' + px + 'px;"></div>' : '';
+      const awaySeg = diff < 0 ? '<div class="live-momentum-seg away" style="height:' + px + 'px;"></div>' : '';
+      const tick = (h.bucket % 15 === 0) ? (h.bucket + "'") : '';
+      const title = h.bucket + "' — " + h.homePct + '% ' + escapeHtml(game.home.name) + ' / ' + (100 - h.homePct) + '% ' + escapeHtml(game.away.name);
+      return (
+        '<div class="live-momentum-col" title="' + title + '">' +
+          '<div class="live-momentum-half live-momentum-half-top">' + homeSeg + '</div>' +
+          '<div class="live-momentum-half live-momentum-half-bottom">' + awaySeg + '</div>' +
+          '<div class="live-momentum-tick">' + tick + '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    return (
+      '<div class="live-momentum-wrap">' +
+        '<div class="live-momentum-title">Momentum do jogo <span class="live-momentum-hint">(barra a cada ' + MOMENTUM_BUCKET_MIN + ' min)</span></div>' +
+        '<div class="live-momentum-chart">' + cols + '</div>' +
+        '<div class="live-pressure-names">' +
+          '<span class="home">' + escapeHtml(game.home.name) + '</span>' +
+          '<span class="away">' + escapeHtml(game.away.name) + '</span>' +
+        '</div>' +
+        '<div class="live-pressure-note">Cada barra resume um trecho de ' + MOMENTUM_BUCKET_MIN + ' minutos (chutes, escanteios, posse e passes) — pra cima quando ' + escapeHtml(game.home.name) + ' domina o trecho, pra baixo quando é o ' + escapeHtml(game.away.name) + '. Vai se completando sozinho enquanto a aba Ao Vivo fica aberta.</div>' +
       '</div>'
     );
   }
@@ -4776,7 +4905,7 @@
             '<span class="today-odds"><span class="odd-chip live-chip"><span class="live-dot"></span>AO VIVO</span></span>' +
           '</div>' +
           renderLiveHeatmapBlock(g) +
-          renderLivePressureBar(g) +
+          renderLiveMomentumChart(g) +
         '</div>'
       );
     }).join('');
@@ -4842,6 +4971,10 @@
           ]);
           g.home.zones = homeZones;
           g.away.zones = awayZones;
+          // guarda o instantâneo de pressão dessa rodada de atualização (a
+          // cada 3 minutos) pra construir o gráfico de momentum aos poucos.
+          const { homePct } = computePressure(homeZones, awayZones);
+          recordMomentumSnapshot(g.fixtureId, g.elapsed, homePct);
         }catch(err){
           g.home.zones = null;
           g.away.zones = null;
