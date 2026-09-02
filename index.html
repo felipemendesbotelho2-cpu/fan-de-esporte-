@@ -768,41 +768,42 @@
   .aposta-badges{
     display:flex;
     flex-wrap:wrap;
-    gap:6px;
-    margin-top:7px;
+    gap:10px;
+    margin-top:8px;
     padding:0 2px;
   }
-  .aposta-chip{
+  .aposta-item{
+    flex:1 1 200px;
+    min-width:170px;
+  }
+  .aposta-btn{
+    width:100%;
+    font-family:var(--body);
+    font-weight:600;
+    font-size:11.5px;
+    padding:8px 10px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--panel-2);
+    color:var(--text);
+    cursor:pointer;
+    text-align:center;
+    transition:border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .aposta-btn:hover{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent-dark); }
+  .aposta-btn:disabled{ cursor:default; opacity:0.75; }
+  .aposta-result{ margin-top:6px; }
+  .aposta-result:empty{ margin-top:0; }
+  .aposta-result-line{ font-family:var(--body); font-weight:700; font-size:11.5px; }
+  .aposta-result-ok{ color:var(--green); }
+  .aposta-result-low{ color:var(--yellow); }
+  .aposta-result-na{ color:var(--muted-2); font-style:italic; font-weight:600; }
+  .aposta-result-note{
+    margin-top:3px;
     font-family:var(--body);
     font-size:10.5px;
-    font-weight:600;
-    padding:4px 9px;
-    border-radius:20px;
-    border:1px solid var(--border);
-    color:var(--muted-2);
-    background:var(--panel-2);
-    white-space:nowrap;
-  }
-  .aposta-chip.aposta-ok{
-    background:#E9FAF0;
-    border-color:transparent;
-    color:var(--green);
-  }
-  .aposta-chip.aposta-no{
-    background:var(--panel-2);
-    border-color:var(--border);
-    color:var(--muted-2);
-  }
-  .aposta-chip.aposta-na{
-    background:var(--panel-2);
-    border-color:var(--border);
-    color:var(--muted-2);
-    font-style:italic;
-  }
-  .aposta-chip.aposta-loading{
-    background:var(--panel-2);
-    border-color:var(--border);
-    color:var(--muted-2);
+    color:var(--muted);
+    line-height:1.4;
   }
 
   .odd-chip.live-chip{
@@ -4263,9 +4264,15 @@
             '<span class="today-teams">' + g.home.name + ' vs ' + g.away.name + '</span>' +
             '<span class="today-cta">ver últimos 10 →</span>' +
           '</button>' +
-          '<div class="aposta-badges" data-idx="' + idxOf.get(g) + '">' +
-            apostaChipHtml('Lay Goleada', 'loading') +
-            apostaChipHtml('Dupla Chance', 'loading') +
+          '<div class="aposta-badges">' +
+            '<div class="aposta-item">' +
+              '<button type="button" class="aposta-btn" data-idx="' + idxOf.get(g) + '" data-check="laygoleada">🔎 Lay Goleada</button>' +
+              '<div class="aposta-result"></div>' +
+            '</div>' +
+            '<div class="aposta-item">' +
+              '<button type="button" class="aposta-btn" data-idx="' + idxOf.get(g) + '" data-check="duplachance">🔎 Dupla Chance</button>' +
+              '<div class="aposta-result"></div>' +
+            '</div>' +
           '</div>' +
         '</div>'
       ).join('');
@@ -4284,59 +4291,105 @@
       });
     });
 
-    scanApostaChecks(games);
+    list.querySelectorAll('.aposta-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        runApostaCheck(btn);
+      });
+    });
   }
 
   /* ---------------- verificadores de aposta: Lay Goleada / Dupla Chance ---------------- */
   // Ambos os critérios olham só pro time da casa, usando os fixtures já
   // trazidos por pullTeamFixtures (mesma função e mesmo cache do Gerador de Aposta).
+  // Em vez de exigir 100% de acerto, cada verificador calcula uma % de acerto
+  // (quantas vezes o critério bateu / total de vezes que foi checado) e a partir
+  // de 80% considera o mercado válido.
   const LAYGOLEADA_GAMES_LIMIT = 10;
+  const LAYGOLEADA_HT_GAMES_LIMIT = 5;
   const DUPLACHANCE_GAMES_LIMIT = 5;
+  const APOSTA_VALID_THRESHOLD = 0.80;
 
-  // Lay Goleada: nos últimos 10 jogos do time da casa, ele nunca fez 4+ gols
-  // na partida E nunca marcou no 1º tempo (evita times "gandula" que costumam
-  // abrir o placar cedo e/ou aplicar goleadas).
-  function checkLayGoleada(fixtures){
-    if(!fixtures || fixtures.length < LAYGOLEADA_GAMES_LIMIT) return null;
-    return fixtures.slice(0, LAYGOLEADA_GAMES_LIMIT).every(f => f.gf_ft < 4 && f.gf_ht === 0);
+  // Lay Goleada: % de acerto combinando duas checagens —
+  // "não fez 4+ gols" nos últimos 10 jogos e "não marcou no 1º tempo" nos
+  // últimos 5 jogos.
+  function evalLayGoleada(fixtures){
+    if(!fixtures || fixtures.length < LAYGOLEADA_GAMES_LIMIT) return { available:false };
+    const last10 = fixtures.slice(0, LAYGOLEADA_GAMES_LIMIT);
+    const last5 = fixtures.slice(0, LAYGOLEADA_HT_GAMES_LIMIT);
+    const hits4gols = last10.filter(f => f.gf_ft < 4).length;
+    const hitsHt = last5.filter(f => f.gf_ht === 0).length;
+    const totalChecks = last10.length + last5.length;
+    const totalHits = hits4gols + hitsHt;
+    const rate = totalHits / totalChecks;
+    return {
+      available: true,
+      pct: Math.round(rate * 100),
+      valid: rate >= APOSTA_VALID_THRESHOLD,
+      justification:
+        hits4gols + ' de ' + last10.length + ' últimos jogos sem fazer 4 gols ou mais · ' +
+        hitsHt + ' de ' + last5.length + ' últimos jogos sem marcar no 1º tempo.'
+    };
   }
 
-  // Dupla Chance: nos últimos 5 jogos do time da casa, ele não perdeu nenhum,
-  // marcou pelo menos 1 gol no 1º tempo em TODOS eles e não sofreu gol no 1º
-  // tempo em nenhum — ou seja, sempre foi o time que abriu (e só ele marcou)
-  // no 1º tempo.
-  function checkDuplaChance(fixtures){
-    if(!fixtures || fixtures.length < DUPLACHANCE_GAMES_LIMIT) return null;
-    return fixtures.slice(0, DUPLACHANCE_GAMES_LIMIT).every(f =>
-      f.gf_ft >= f.ga_ft && f.gf_ht >= 1 && f.ga_ht === 0
-    );
+  // Dupla Chance: % de acerto combinando três checagens nos últimos 5 jogos —
+  // não perdeu, marcou no 1º tempo e não sofreu gol no 1º tempo.
+  function evalDuplaChance(fixtures){
+    if(!fixtures || fixtures.length < DUPLACHANCE_GAMES_LIMIT) return { available:false };
+    const last5 = fixtures.slice(0, DUPLACHANCE_GAMES_LIMIT);
+    const hitsNaoPerdeu = last5.filter(f => f.gf_ft >= f.ga_ft).length;
+    const hitsMarcou1t = last5.filter(f => f.gf_ht >= 1).length;
+    const hitsNaoSofreu1t = last5.filter(f => f.ga_ht === 0).length;
+    const totalChecks = last5.length * 3;
+    const totalHits = hitsNaoPerdeu + hitsMarcou1t + hitsNaoSofreu1t;
+    const rate = totalHits / totalChecks;
+    return {
+      available: true,
+      pct: Math.round(rate * 100),
+      valid: rate >= APOSTA_VALID_THRESHOLD,
+      justification:
+        hitsNaoPerdeu + ' de ' + last5.length + ' últimos jogos sem perder · ' +
+        hitsMarcou1t + ' de ' + last5.length + ' marcou no 1º tempo · ' +
+        hitsNaoSofreu1t + ' de ' + last5.length + ' não sofreu no 1º tempo.'
+    };
   }
 
-  function apostaChipHtml(label, status){
-    if(status === 'loading') return '<span class="aposta-chip aposta-loading">' + label + ': verificando…</span>';
-    if(status === 'na') return '<span class="aposta-chip aposta-na">' + label + ': sem dados</span>';
-    if(status === 'ok') return '<span class="aposta-chip aposta-ok">✅ ' + label + '</span>';
-    return '<span class="aposta-chip aposta-no">' + label + ': não bate</span>';
+  function renderApostaResult(resultEl, result){
+    if(!result || !result.available){
+      resultEl.innerHTML = '<div class="aposta-result-line aposta-result-na">Dados insuficientes (time ainda sem jogos suficientes na base).</div>';
+      return;
+    }
+    const cls = result.valid ? 'aposta-result-ok' : 'aposta-result-low';
+    const icon = result.valid ? '✅' : '⚠️';
+    resultEl.innerHTML =
+      '<div class="aposta-result-line ' + cls + '">' + icon + ' ' + result.pct + '% de acerto' +
+        (result.valid ? ' — considerado válido (≥80%)' : ' — abaixo de 80%, não considerado válido') +
+      '</div>' +
+      '<div class="aposta-result-note">' + result.justification + '</div>';
   }
 
-  async function scanApostaChecks(games){
-    if(!games || !games.length) return;
-    await Promise.all(games.map(async (g, idx) => {
-      const box = document.querySelector('#todayList .aposta-badges[data-idx="' + idx + '"]');
-      if(!box) return;
-      let fixtures = null;
-      try{
-        const res = await pullTeamFixtures(g.home.name, state.apiKey, g.home.id);
-        fixtures = res && res.fixtures;
-      }catch(err){
-        fixtures = null;
-      }
-      const lay = checkLayGoleada(fixtures);
-      const dc = checkDuplaChance(fixtures);
-      box.innerHTML =
-        apostaChipHtml('Lay Goleada', lay === null ? 'na' : (lay ? 'ok' : 'no')) +
-        apostaChipHtml('Dupla Chance', dc === null ? 'na' : (dc ? 'ok' : 'no'));
-    }));
+  async function runApostaCheck(btn){
+    if(btn.disabled) return;
+    const idx = Number(btn.dataset.idx);
+    const checkType = btn.dataset.check;
+    const label = checkType === 'laygoleada' ? '🔎 Lay Goleada' : '🔎 Dupla Chance';
+    const g = (state.todayGames || [])[idx];
+    const resultEl = btn.parentElement.querySelector('.aposta-result');
+    if(!g || !resultEl) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Verificando…';
+    try{
+      const res = await pullTeamFixtures(g.home.name, state.apiKey, g.home.id);
+      const fixtures = res && res.fixtures;
+      const result = checkType === 'laygoleada' ? evalLayGoleada(fixtures) : evalDuplaChance(fixtures);
+      renderApostaResult(resultEl, result);
+    }catch(err){
+      resultEl.innerHTML = '<div class="aposta-result-line aposta-result-na">Não foi possível verificar (' + describeError(err) + ').</div>';
+    }finally{
+      btn.disabled = false;
+      btn.textContent = label;
+    }
   }
 
   /* ---------------- times frios no 1º tempo ---------------- */
