@@ -762,6 +762,49 @@
   .today-odds .odd-chip.empty{ color:var(--muted-2); font-style:italic; border-style:dashed; }
   .today-cta{ font-family:var(--body); font-weight:600; font-size:11.5px; color:var(--accent-dark); }
 
+  /* ---------- verificadores de aposta (Lay Goleada / Dupla Chance) ---------- */
+  .today-row-wrap{ display:block; }
+  .league-group .today-row-wrap + .today-row-wrap{ margin-top:8px; }
+  .aposta-badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:7px;
+    padding:0 2px;
+  }
+  .aposta-chip{
+    font-family:var(--body);
+    font-size:10.5px;
+    font-weight:600;
+    padding:4px 9px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    color:var(--muted-2);
+    background:var(--panel-2);
+    white-space:nowrap;
+  }
+  .aposta-chip.aposta-ok{
+    background:#E9FAF0;
+    border-color:transparent;
+    color:var(--green);
+  }
+  .aposta-chip.aposta-no{
+    background:var(--panel-2);
+    border-color:var(--border);
+    color:var(--muted-2);
+  }
+  .aposta-chip.aposta-na{
+    background:var(--panel-2);
+    border-color:var(--border);
+    color:var(--muted-2);
+    font-style:italic;
+  }
+  .aposta-chip.aposta-loading{
+    background:var(--panel-2);
+    border-color:var(--border);
+    color:var(--muted-2);
+  }
+
   .odd-chip.live-chip{
     border-color:transparent;
     color:#fff;
@@ -4214,11 +4257,17 @@
     list.innerHTML = leagueNames.map(leagueName => {
       const leagueGames = byLeague.get(leagueName);
       const rows = leagueGames.map(g =>
-        '<button type="button" class="today-row" data-idx="' + idxOf.get(g) + '">' +
-          '<span class="today-time-wrap"><span class="today-date">' + formatGameDate(g.date) + '</span><span class="today-time">' + g.time + '</span></span>' +
-          '<span class="today-teams">' + g.home.name + ' vs ' + g.away.name + '</span>' +
-          '<span class="today-cta">ver últimos 10 →</span>' +
-        '</button>'
+        '<div class="today-row-wrap">' +
+          '<button type="button" class="today-row" data-idx="' + idxOf.get(g) + '">' +
+            '<span class="today-time-wrap"><span class="today-date">' + formatGameDate(g.date) + '</span><span class="today-time">' + g.time + '</span></span>' +
+            '<span class="today-teams">' + g.home.name + ' vs ' + g.away.name + '</span>' +
+            '<span class="today-cta">ver últimos 10 →</span>' +
+          '</button>' +
+          '<div class="aposta-badges" data-idx="' + idxOf.get(g) + '">' +
+            apostaChipHtml('Lay Goleada', 'loading') +
+            apostaChipHtml('Dupla Chance', 'loading') +
+          '</div>' +
+        '</div>'
       ).join('');
       return (
         '<div class="league-group">' +
@@ -4234,6 +4283,60 @@
         openGameDetailInline(row, g);
       });
     });
+
+    scanApostaChecks(games);
+  }
+
+  /* ---------------- verificadores de aposta: Lay Goleada / Dupla Chance ---------------- */
+  // Ambos os critérios olham só pro time da casa, usando os fixtures já
+  // trazidos por pullTeamFixtures (mesma função e mesmo cache do Gerador de Aposta).
+  const LAYGOLEADA_GAMES_LIMIT = 10;
+  const DUPLACHANCE_GAMES_LIMIT = 5;
+
+  // Lay Goleada: nos últimos 10 jogos do time da casa, ele nunca fez 4+ gols
+  // na partida E nunca marcou no 1º tempo (evita times "gandula" que costumam
+  // abrir o placar cedo e/ou aplicar goleadas).
+  function checkLayGoleada(fixtures){
+    if(!fixtures || fixtures.length < LAYGOLEADA_GAMES_LIMIT) return null;
+    return fixtures.slice(0, LAYGOLEADA_GAMES_LIMIT).every(f => f.gf_ft < 4 && f.gf_ht === 0);
+  }
+
+  // Dupla Chance: nos últimos 5 jogos do time da casa, ele não perdeu nenhum,
+  // marcou pelo menos 1 gol no 1º tempo em TODOS eles e não sofreu gol no 1º
+  // tempo em nenhum — ou seja, sempre foi o time que abriu (e só ele marcou)
+  // no 1º tempo.
+  function checkDuplaChance(fixtures){
+    if(!fixtures || fixtures.length < DUPLACHANCE_GAMES_LIMIT) return null;
+    return fixtures.slice(0, DUPLACHANCE_GAMES_LIMIT).every(f =>
+      f.gf_ft >= f.ga_ft && f.gf_ht >= 1 && f.ga_ht === 0
+    );
+  }
+
+  function apostaChipHtml(label, status){
+    if(status === 'loading') return '<span class="aposta-chip aposta-loading">' + label + ': verificando…</span>';
+    if(status === 'na') return '<span class="aposta-chip aposta-na">' + label + ': sem dados</span>';
+    if(status === 'ok') return '<span class="aposta-chip aposta-ok">✅ ' + label + '</span>';
+    return '<span class="aposta-chip aposta-no">' + label + ': não bate</span>';
+  }
+
+  async function scanApostaChecks(games){
+    if(!games || !games.length) return;
+    await Promise.all(games.map(async (g, idx) => {
+      const box = document.querySelector('#todayList .aposta-badges[data-idx="' + idx + '"]');
+      if(!box) return;
+      let fixtures = null;
+      try{
+        const res = await pullTeamFixtures(g.home.name, state.apiKey, g.home.id);
+        fixtures = res && res.fixtures;
+      }catch(err){
+        fixtures = null;
+      }
+      const lay = checkLayGoleada(fixtures);
+      const dc = checkDuplaChance(fixtures);
+      box.innerHTML =
+        apostaChipHtml('Lay Goleada', lay === null ? 'na' : (lay ? 'ok' : 'no')) +
+        apostaChipHtml('Dupla Chance', dc === null ? 'na' : (dc ? 'ok' : 'no'));
+    }));
   }
 
   /* ---------------- times frios no 1º tempo ---------------- */
