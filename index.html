@@ -134,8 +134,30 @@
     gap:16px;
     flex-wrap:wrap;
   }
+  .topbar-left{ display:flex; flex-direction:column; gap:9px; }
   .topbar-title{ font-family:var(--display); font-weight:600; font-size:15px; }
   .topbar-title span{ color:var(--muted-2); font-weight:400; font-size:12px; display:block; margin-top:1px; }
+  .topbar-nav{ display:flex; flex-wrap:wrap; gap:6px; }
+  .topbar-nav.side-nav{ flex-direction:row; }
+  .topbar-nav .tab-btn{
+    font-family:var(--body);
+    font-weight:600;
+    font-size:10.5px;
+    letter-spacing:0.1px;
+    color:#C7CAD6;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    border-left:1px solid rgba(255,255,255,0.12);
+    border-radius:7px;
+    padding:6px 10px;
+    white-space:nowrap;
+  }
+  .topbar-nav .tab-btn:hover{ background:rgba(255,255,255,0.12); color:#fff; }
+  .topbar-nav .tab-btn.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
   .clock{
     font-family:var(--body);
     font-size:13px;
@@ -1741,18 +1763,19 @@
         <p>Radar de jogos e estatísticas</p>
       </div>
     </div>
-
-    <nav class="side-nav">
-      <button class="tab-btn active" data-view="jogos">🏠 Menu Inicial</button>
-      <button class="tab-btn" data-view="aovivo">🔴 Ao Vivo</button>
-      <button class="tab-btn" data-view="filtros">🔎 Filtros</button>
-      <button class="tab-btn" data-view="gerador">🎲 Gerador de Aposta</button>
-    </nav>
   </aside>
 
   <div class="main-col">
     <header class="topbar">
-      <div class="topbar-title">Fan de Esporte<span>bem-vindo(a) de volta</span></div>
+      <div class="topbar-left">
+        <div class="topbar-title">Fan de Esporte<span>bem-vindo(a) de volta</span></div>
+        <nav class="side-nav topbar-nav">
+          <button class="tab-btn active" data-view="jogos">🏠 Menu Inicial</button>
+          <button class="tab-btn" data-view="aovivo">🔴 Ao Vivo</button>
+          <button class="tab-btn" data-view="filtros">🔎 Filtros</button>
+          <button class="tab-btn" data-view="gerador">🎲 Gerador de Aposta</button>
+        </nav>
+      </div>
       <div class="topbar-right">
         <div class="date-switch" id="dateSwitch">
           <button type="button" class="date-switch-btn active" id="dateSwitchToday" data-offset="0">Hoje</button>
