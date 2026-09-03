@@ -4402,6 +4402,10 @@
               '<button type="button" class="aposta-btn" data-idx="' + idxOf.get(g) + '" data-check="duplachance">🔎 Dupla Chance</button>' +
               '<div class="aposta-result"></div>' +
             '</div>' +
+            '<div class="aposta-item">' +
+              '<button type="button" class="aposta-btn" data-idx="' + idxOf.get(g) + '" data-check="timevencedor">🔎 Time Vencedor</button>' +
+              '<div class="aposta-result"></div>' +
+            '</div>' +
           '</div>' +
         '</div>'
       ).join('');
@@ -4428,8 +4432,8 @@
     });
   }
 
-  /* ---------------- verificadores de aposta: Lay Goleada / Dupla Chance ---------------- */
-  // Ambos os critérios olham só pro time da casa, usando os fixtures já
+  /* ---------------- verificadores de aposta: Lay Goleada / Dupla Chance / Time Vencedor ---------------- */
+  // Os três critérios olham só pro time da casa, usando os fixtures já
   // trazidos por pullTeamFixtures (mesma função e mesmo cache do Gerador de Aposta).
   // Em vez de exigir 100% de acerto, cada verificador calcula uma % de acerto
   // (quantas vezes o critério bateu / total de vezes que foi checado) e a partir
@@ -4437,6 +4441,7 @@
   const LAYGOLEADA_GAMES_LIMIT = 10;
   const LAYGOLEADA_HT_GAMES_LIMIT = 5;
   const DUPLACHANCE_GAMES_LIMIT = 5;
+  const TIMEVENCEDOR_GAMES_LIMIT = 5;
   const APOSTA_VALID_THRESHOLD = 0.80;
 
   // Lay Goleada: % de acerto combinando duas checagens —
@@ -4451,13 +4456,15 @@
     const totalChecks = last10.length + last5.length;
     const totalHits = hits4gols + hitsHt;
     const rate = totalHits / totalChecks;
+    const fez4gols = last10.length - hits4gols;
+    const marcou1t = last5.length - hitsHt;
     return {
       available: true,
       pct: Math.round(rate * 100),
       valid: rate >= APOSTA_VALID_THRESHOLD,
       justification:
-        hits4gols + ' de ' + last10.length + ' últimos jogos sem fazer 4 gols ou mais · ' +
-        hitsHt + ' de ' + last5.length + ' últimos jogos sem marcar no 1º tempo.'
+        'Últimos ' + last10.length + ' jogos: apenas ' + fez4gols + ' jogo(s) fez 4 gols ou mais.<br>' +
+        'Últimos ' + last5.length + ' jogos: apenas ' + marcou1t + ' jogo(s) marcou no 1º tempo.'
     };
   }
 
@@ -4477,9 +4484,31 @@
       pct: Math.round(rate * 100),
       valid: rate >= APOSTA_VALID_THRESHOLD,
       justification:
-        hitsNaoPerdeu + ' de ' + last5.length + ' últimos jogos sem perder · ' +
-        hitsMarcou1t + ' de ' + last5.length + ' marcou no 1º tempo · ' +
-        hitsNaoSofreu1t + ' de ' + last5.length + ' não sofreu no 1º tempo.'
+        'Últimos ' + last5.length + ' jogos: apenas ' + hitsNaoPerdeu + ' jogo(s) não perdeu (venceu ou empatou).<br>' +
+        'Últimos ' + last5.length + ' jogos: apenas ' + hitsMarcou1t + ' jogo(s) marcou no 1º tempo.<br>' +
+        'Últimos ' + last5.length + ' jogos: apenas ' + hitsNaoSofreu1t + ' jogo(s) não sofreu no 1º tempo.'
+    };
+  }
+
+  // Time Vencedor: % de acerto combinando três checagens nos últimos 5 jogos —
+  // venceu (vitória, não conta empate), marcou no 1º tempo e não sofreu gol no 1º tempo.
+  function evalTimeVencedor(fixtures){
+    if(!fixtures || fixtures.length < TIMEVENCEDOR_GAMES_LIMIT) return { available:false };
+    const last5 = fixtures.slice(0, TIMEVENCEDOR_GAMES_LIMIT);
+    const hitsVenceu = last5.filter(f => f.gf_ft > f.ga_ft).length;
+    const hitsMarcou1t = last5.filter(f => f.gf_ht >= 1).length;
+    const hitsNaoSofreu1t = last5.filter(f => f.ga_ht === 0).length;
+    const totalChecks = last5.length * 3;
+    const totalHits = hitsVenceu + hitsMarcou1t + hitsNaoSofreu1t;
+    const rate = totalHits / totalChecks;
+    return {
+      available: true,
+      pct: Math.round(rate * 100),
+      valid: rate >= APOSTA_VALID_THRESHOLD,
+      justification:
+        'Últimos ' + last5.length + ' jogos: o time venceu ' + hitsVenceu + ' jogo(s).<br>' +
+        'Últimos ' + last5.length + ' jogos: o time marcou no 1º tempo em ' + hitsMarcou1t + ' jogo(s).<br>' +
+        'Últimos ' + last5.length + ' jogos: o time não levou gol no 1º tempo em ' + hitsNaoSofreu1t + ' jogo(s).'
     };
   }
 
@@ -4501,7 +4530,8 @@
     if(btn.disabled) return;
     const idx = Number(btn.dataset.idx);
     const checkType = btn.dataset.check;
-    const label = checkType === 'laygoleada' ? '🔎 Lay Goleada' : '🔎 Dupla Chance';
+    const APOSTA_LABELS = { laygoleada:'🔎 Lay Goleada', duplachance:'🔎 Dupla Chance', timevencedor:'🔎 Time Vencedor' };
+    const label = APOSTA_LABELS[checkType] || '🔎 Verificar';
     const g = (state.todayGames || [])[idx];
     const resultEl = btn.parentElement.querySelector('.aposta-result');
     if(!g || !resultEl) return;
@@ -4511,7 +4541,9 @@
     try{
       const res = await pullTeamFixtures(g.home.name, state.apiKey, g.home.id);
       const fixtures = res && res.fixtures;
-      const result = checkType === 'laygoleada' ? evalLayGoleada(fixtures) : evalDuplaChance(fixtures);
+      const APOSTA_EVALUATORS = { laygoleada:evalLayGoleada, duplachance:evalDuplaChance, timevencedor:evalTimeVencedor };
+      const evaluator = APOSTA_EVALUATORS[checkType] || evalLayGoleada;
+      const result = evaluator(fixtures);
       renderApostaResult(resultEl, result);
     }catch(err){
       resultEl.innerHTML = '<div class="aposta-result-line aposta-result-na">Não foi possível verificar (' + describeError(err) + ').</div>';
