@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-07T11:09:25.764Z",
+  "updatedAt": "2026-09-07T14:08:03.944Z",
   "games": [
     {
       "time": "12:30",
@@ -801,16 +801,13 @@
           "date": "2026-09-03T17:00:00+00:00",
           "opponent": "Mjallby AIF",
           "isHome": false,
-          "minutesScored": [
-            60,
-            64
-          ],
-          "cornersTotal": 3,
-          "totalShots": 13,
-          "shotsOnGoal": 5,
+          "minutesScored": [],
+          "cornersTotal": 0,
+          "totalShots": 12,
+          "shotsOnGoal": 4,
           "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 14
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1494258,
@@ -821,18 +818,13 @@
           "date": "2026-08-31T17:00:00+00:00",
           "opponent": "Mjallby AIF",
           "isHome": true,
-          "minutesScored": [
-            5,
-            14,
-            26,
-            87
-          ],
-          "cornersTotal": 4,
-          "totalShots": 16,
-          "shotsOnGoal": 7,
-          "yellowCards": 0,
+          "minutesScored": [],
+          "cornersTotal": 1,
+          "totalShots": 2,
+          "shotsOnGoal": 0,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 9
+          "foulsCommitted": 20
         },
         {
           "fixtureId": 1494253,
@@ -843,17 +835,13 @@
           "date": "2026-08-24T17:00:00+00:00",
           "opponent": "Malmo FF",
           "isHome": false,
-          "minutesScored": [
-            35,
-            58,
-            82
-          ],
-          "cornersTotal": 7,
-          "totalShots": 14,
+          "minutesScored": [],
+          "cornersTotal": 3,
+          "totalShots": 11,
           "shotsOnGoal": 5,
-          "yellowCards": 1,
+          "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 12
+          "foulsCommitted": 16
         },
         {
           "fixtureId": 1494243,
@@ -865,14 +853,16 @@
           "opponent": "AIK Stockholm",
           "isHome": true,
           "minutesScored": [
-            50
+            10,
+            25,
+            39
           ],
-          "cornersTotal": 5,
-          "totalShots": 15,
-          "shotsOnGoal": 3,
-          "yellowCards": 1,
+          "cornersTotal": 1,
+          "totalShots": 11,
+          "shotsOnGoal": 4,
+          "yellowCards": 5,
           "redCards": null,
-          "foulsCommitted": 15
+          "foulsCommitted": 17
         },
         {
           "fixtureId": 1494240,
@@ -1105,16 +1095,15 @@
           "opponent": "Kalmar FF",
           "isHome": true,
           "minutesScored": [
-            13,
-            77,
-            81
+            9,
+            84
           ],
-          "cornersTotal": 13,
-          "totalShots": 18,
-          "shotsOnGoal": 7,
-          "yellowCards": 1,
+          "cornersTotal": 1,
+          "totalShots": 7,
+          "shotsOnGoal": 3,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 6
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1607583,
@@ -1324,15 +1313,14 @@
           "opponent": "Mjallby AIF",
           "isHome": true,
           "minutesScored": [
-            17,
-            69
+            3
           ],
-          "cornersTotal": 3,
-          "totalShots": 7,
-          "shotsOnGoal": 3,
-          "yellowCards": 1,
+          "cornersTotal": 2,
+          "totalShots": 6,
+          "shotsOnGoal": 2,
+          "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 19
         },
         {
           "fixtureId": 1494214,
@@ -1344,15 +1332,15 @@
           "opponent": "Malmo FF",
           "isHome": true,
           "minutesScored": [
-            13,
-            33
+            29,
+            64
           ],
-          "cornersTotal": 2,
-          "totalShots": 11,
-          "shotsOnGoal": 4,
-          "yellowCards": 0,
+          "cornersTotal": 5,
+          "totalShots": 17,
+          "shotsOnGoal": 3,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 8
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1494204,
@@ -2919,12 +2907,12 @@
           "opponent": "Real Sociedad",
           "isHome": false,
           "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 7,
-          "shotsOnGoal": 2,
-          "yellowCards": 3,
+          "cornersTotal": 11,
+          "totalShots": 16,
+          "shotsOnGoal": 5,
+          "yellowCards": 2,
           "redCards": 0,
-          "foulsCommitted": 11
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1570355,
@@ -4354,13 +4342,17 @@
           "date": "2026-09-03T16:30:00+00:00",
           "opponent": "NEOM",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 2,
-          "totalShots": 8,
-          "shotsOnGoal": 0,
+          "minutesScored": [
+            37,
+            39,
+            45
+          ],
+          "cornersTotal": 4,
+          "totalShots": 13,
+          "shotsOnGoal": 5,
           "yellowCards": 2,
           "redCards": 0,
-          "foulsCommitted": 13
+          "foulsCommitted": 10
         },
         {
           "fixtureId": 1603000,
@@ -4372,15 +4364,18 @@
           "opponent": "Al-Hilal Saudi FC",
           "isHome": true,
           "minutesScored": [
-            38,
-            67
+            15,
+            29,
+            40,
+            43,
+            45
           ],
-          "cornersTotal": 3,
-          "totalShots": 12,
-          "shotsOnGoal": 4,
+          "cornersTotal": 2,
+          "totalShots": 23,
+          "shotsOnGoal": 7,
           "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 5
+          "foulsCommitted": 7
         },
         {
           "fixtureId": 1602992,
@@ -4754,15 +4749,13 @@
           "date": "2026-08-28T15:50:00+00:00",
           "opponent": "NEOM",
           "isHome": true,
-          "minutesScored": [
-            61
-          ],
+          "minutesScored": [],
           "cornersTotal": 5,
-          "totalShots": 10,
+          "totalShots": 12,
           "shotsOnGoal": 3,
-          "yellowCards": 3,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 9
         },
         {
           "fixtureId": 1602995,
