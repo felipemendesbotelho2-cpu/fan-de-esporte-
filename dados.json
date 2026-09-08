@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-08T11:10:47.631Z",
+  "updatedAt": "2026-09-08T14:09:04.712Z",
   "games": [
     {
       "time": "12:30",
@@ -338,15 +338,15 @@
           "opponent": "Bournemouth",
           "isHome": true,
           "minutesScored": [
-            37,
-            88
+            9,
+            35
           ],
-          "cornersTotal": 4,
-          "totalShots": 8,
-          "shotsOnGoal": 2,
-          "yellowCards": 2,
+          "cornersTotal": 3,
+          "totalShots": 17,
+          "shotsOnGoal": 5,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 19
+          "foulsCommitted": 17
         },
         {
           "fixtureId": 1557386,
@@ -582,12 +582,13 @@
           "opponent": "Manchester City",
           "isHome": false,
           "minutesScored": [
-            26
+            84,
+            90
           ],
-          "cornersTotal": 3,
-          "totalShots": 5,
-          "shotsOnGoal": 4,
-          "yellowCards": 2,
+          "cornersTotal": 8,
+          "totalShots": 13,
+          "shotsOnGoal": 6,
+          "yellowCards": 1,
           "redCards": null,
           "foulsCommitted": 11
         },
@@ -620,8 +621,8 @@
           "opponent": "Real Betis",
           "isHome": false,
           "minutesScored": [
-            41,
-            60
+            57,
+            81
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -725,17 +726,14 @@
           "opponent": "Crystal Palace",
           "isHome": false,
           "minutesScored": [
-            17,
-            54,
-            59,
-            84
+            56
           ],
-          "cornersTotal": 6,
-          "totalShots": 18,
-          "shotsOnGoal": 9,
-          "yellowCards": 2,
+          "cornersTotal": 2,
+          "totalShots": 9,
+          "shotsOnGoal": 1,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 8
         },
         {
           "fixtureId": 1557374,
@@ -826,11 +824,11 @@
           "opponent": "Inter",
           "isHome": true,
           "minutesScored": [
-            14,
+            20,
+            121,
             122,
             123,
-            124,
-            121
+            124
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -1242,12 +1240,12 @@
           "opponent": "Aston Villa",
           "isHome": true,
           "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 11,
-          "shotsOnGoal": 4,
-          "yellowCards": 2,
+          "cornersTotal": 4,
+          "totalShots": 13,
+          "shotsOnGoal": 1,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 5
         },
         {
           "fixtureId": 1557380,
@@ -1564,7 +1562,8 @@
           "opponent": "FC Porto",
           "isHome": false,
           "minutesScored": [
-            12
+            5,
+            41
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -1709,13 +1708,12 @@
           "opponent": "Lincoln",
           "isHome": true,
           "minutesScored": [
-            62,
-            90
+            12
           ],
           "cornersTotal": 5,
-          "totalShots": 23,
-          "shotsOnGoal": 7,
-          "yellowCards": 0,
+          "totalShots": 10,
+          "shotsOnGoal": 2,
+          "yellowCards": 2,
           "redCards": null,
           "foulsCommitted": 12
         },
@@ -1969,15 +1967,13 @@
           "date": "2026-09-06T00:00:00+00:00",
           "opponent": "Vasco DA Gama",
           "isHome": true,
-          "minutesScored": [
-            61
-          ],
+          "minutesScored": [],
           "cornersTotal": 6,
-          "totalShots": 8,
+          "totalShots": 15,
           "shotsOnGoal": 4,
           "yellowCards": 4,
           "redCards": 0,
-          "foulsCommitted": 11
+          "foulsCommitted": 20
         },
         {
           "fixtureId": 1492350,
@@ -2106,14 +2102,16 @@
           "opponent": "Vasco DA Gama",
           "isHome": true,
           "minutesScored": [
-            77
+            34,
+            52,
+            90
           ],
-          "cornersTotal": 1,
-          "totalShots": 13,
-          "shotsOnGoal": 4,
-          "yellowCards": 3,
+          "cornersTotal": 5,
+          "totalShots": 14,
+          "shotsOnGoal": 7,
+          "yellowCards": 5,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 25
         },
         {
           "fixtureId": 1546850,
@@ -2356,16 +2354,13 @@
           "date": "2026-09-04T22:30:00+00:00",
           "opponent": "Cuiaba",
           "isHome": true,
-          "minutesScored": [
-            19,
-            53
-          ],
-          "cornersTotal": 4,
-          "totalShots": 8,
-          "shotsOnGoal": 1,
-          "yellowCards": 2,
+          "minutesScored": [],
+          "cornersTotal": 2,
+          "totalShots": 11,
+          "shotsOnGoal": 0,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 16
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1520843,
@@ -2450,13 +2445,16 @@
           "date": "2026-08-09T14:00:00+00:00",
           "opponent": "Athletic Club",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 6,
-          "totalShots": 13,
+          "minutesScored": [
+            5,
+            55
+          ],
+          "cornersTotal": 5,
+          "totalShots": 7,
           "shotsOnGoal": 2,
           "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 9
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1520793,
@@ -3163,9 +3161,7 @@
           "date": "2026-08-15T17:30:00+00:00",
           "opponent": "Real Betis",
           "isHome": true,
-          "minutesScored": [
-            82
-          ],
+          "minutesScored": [],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -3469,14 +3465,14 @@
           "opponent": "Real Betis",
           "isHome": false,
           "minutesScored": [
-            94
+            81
           ],
-          "cornersTotal": 10,
-          "totalShots": 20,
-          "shotsOnGoal": 8,
-          "yellowCards": 4,
+          "cornersTotal": 6,
+          "totalShots": 10,
+          "shotsOnGoal": 5,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1570360,
@@ -5994,12 +5990,12 @@
           "opponent": "Al-Hazm",
           "isHome": true,
           "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 6,
-          "shotsOnGoal": 2,
-          "yellowCards": 2,
+          "cornersTotal": 7,
+          "totalShots": 13,
+          "shotsOnGoal": 3,
+          "yellowCards": 5,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 21
         },
         {
           "fixtureId": 1603006,
@@ -6011,14 +6007,16 @@
           "opponent": "Al-Qadisiyah FC",
           "isHome": false,
           "minutesScored": [
-            12
+            5,
+            30,
+            56
           ],
-          "cornersTotal": 2,
-          "totalShots": 5,
-          "shotsOnGoal": 2,
-          "yellowCards": 3,
+          "cornersTotal": 4,
+          "totalShots": 17,
+          "shotsOnGoal": 9,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 7
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1602996,
@@ -6102,7 +6100,12 @@
           "date": "2025-09-21T18:00:00+00:00",
           "opponent": "Al Taawon",
           "isHome": true,
-          "minutesScored": [],
+          "minutesScored": [
+            4,
+            21,
+            68,
+            89
+          ],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -6184,13 +6187,15 @@
           "date": "2026-08-21T18:00:00+00:00",
           "opponent": "Al-Ittihad FC",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 15,
-          "totalShots": 26,
-          "shotsOnGoal": 9,
-          "yellowCards": 1,
-          "redCards": 0,
-          "foulsCommitted": 11
+          "minutesScored": [
+            45
+          ],
+          "cornersTotal": 1,
+          "totalShots": 5,
+          "shotsOnGoal": 2,
+          "yellowCards": 2,
+          "redCards": 1,
+          "foulsCommitted": 8
         },
         {
           "fixtureId": 1602974,
@@ -6278,9 +6283,7 @@
           "opponent": "Al-Hazm",
           "isHome": true,
           "minutesScored": [
-            22,
-            54,
-            63
+            9
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -6541,12 +6544,12 @@
           "opponent": "Al-Fayha",
           "isHome": true,
           "minutesScored": [],
-          "cornersTotal": 12,
-          "totalShots": 26,
-          "shotsOnGoal": 6,
+          "cornersTotal": 3,
+          "totalShots": 12,
+          "shotsOnGoal": 5,
           "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 8
         },
         {
           "fixtureId": 1602987,
@@ -6717,16 +6720,15 @@
           "opponent": "Al-Hazm",
           "isHome": true,
           "minutesScored": [
-            34,
-            41,
-            81
+            18,
+            59
           ],
-          "cornersTotal": 4,
-          "totalShots": 15,
-          "shotsOnGoal": 6,
+          "cornersTotal": 3,
+          "totalShots": 8,
+          "shotsOnGoal": 2,
           "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 21
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1602985,
