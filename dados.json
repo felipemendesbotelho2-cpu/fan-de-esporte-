@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-10T11:09:55.418Z",
+  "updatedAt": "2026-09-10T14:07:09.737Z",
   "games": [
     {
       "time": "12:00",
@@ -681,15 +681,14 @@
           "opponent": "Londrina",
           "isHome": true,
           "minutesScored": [
-            11,
-            43
+            30
           ],
-          "cornersTotal": 1,
-          "totalShots": 12,
-          "shotsOnGoal": 4,
+          "cornersTotal": 3,
+          "totalShots": 15,
+          "shotsOnGoal": 3,
           "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1520809,
@@ -700,15 +699,13 @@
           "date": "2026-08-08T19:00:00+00:00",
           "opponent": "Vila Nova",
           "isHome": false,
-          "minutesScored": [
-            6
-          ],
-          "cornersTotal": 2,
-          "totalShots": 5,
-          "shotsOnGoal": 3,
-          "yellowCards": 5,
+          "minutesScored": [],
+          "cornersTotal": 14,
+          "totalShots": 15,
+          "shotsOnGoal": 1,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 19
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1520799,
@@ -739,14 +736,14 @@
           "opponent": "Goias",
           "isHome": false,
           "minutesScored": [
-            22
+            88
           ],
-          "cornersTotal": 2,
-          "totalShots": 6,
+          "cornersTotal": 9,
+          "totalShots": 15,
           "shotsOnGoal": 3,
-          "yellowCards": 0,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1520779,
@@ -1005,13 +1002,16 @@
           "date": "2026-09-06T21:30:00+00:00",
           "opponent": "São Bernardo",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 2,
-          "totalShots": 11,
-          "shotsOnGoal": 1,
-          "yellowCards": 3,
-          "redCards": 1,
-          "foulsCommitted": 16
+          "minutesScored": [
+            45,
+            79
+          ],
+          "cornersTotal": 9,
+          "totalShots": 14,
+          "shotsOnGoal": 6,
+          "yellowCards": 2,
+          "redCards": 0,
+          "foulsCommitted": 19
         },
         {
           "fixtureId": 1520840,
@@ -1056,13 +1056,20 @@
           "date": "2026-08-19T23:30:00+00:00",
           "opponent": "Vila Nova",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 4,
-          "totalShots": 4,
-          "shotsOnGoal": 2,
-          "yellowCards": 3,
+          "minutesScored": [
+            9,
+            13,
+            40,
+            64,
+            66,
+            80
+          ],
+          "cornersTotal": 9,
+          "totalShots": 25,
+          "shotsOnGoal": 15,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 18
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1520817,
@@ -1152,14 +1159,16 @@
           "opponent": "Goias",
           "isHome": true,
           "minutesScored": [
-            45
+            7,
+            45,
+            66
           ],
-          "cornersTotal": 5,
-          "totalShots": 14,
-          "shotsOnGoal": 4,
-          "yellowCards": 1,
+          "cornersTotal": 2,
+          "totalShots": 8,
+          "shotsOnGoal": 2,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 20
+          "foulsCommitted": 19
         },
         {
           "fixtureId": 1520767,
@@ -1469,13 +1478,15 @@
           "date": "2026-08-10T22:30:00+00:00",
           "opponent": "Goias",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 8,
-          "totalShots": 16,
-          "shotsOnGoal": 4,
+          "minutesScored": [
+            19
+          ],
+          "cornersTotal": 5,
+          "totalShots": 14,
+          "shotsOnGoal": 5,
           "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 12
+          "foulsCommitted": 9
         },
         {
           "fixtureId": 1520796,
@@ -1582,15 +1593,14 @@
           "opponent": "São Bernardo",
           "isHome": true,
           "minutesScored": [
-            13,
-            67
+            59
           ],
-          "cornersTotal": 4,
-          "totalShots": 14,
+          "cornersTotal": 9,
+          "totalShots": 11,
           "shotsOnGoal": 4,
-          "yellowCards": 1,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 14
+          "foulsCommitted": 19
         },
         {
           "fixtureId": 1520834,
@@ -1861,9 +1871,7 @@
           "opponent": "RB Leipzig",
           "isHome": true,
           "minutesScored": [
-            13,
-            57,
-            81
+            52
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -4151,12 +4159,7 @@
           "date": "2026-09-06T15:00:00+00:00",
           "opponent": "Foresters",
           "isHome": true,
-          "minutesScored": [
-            22,
-            38,
-            57,
-            81
-          ],
+          "minutesScored": [],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
