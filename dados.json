@@ -1,23 +1,6 @@
 {
-  "updatedAt": "2026-09-10T14:07:09.737Z",
+  "updatedAt": "2026-09-10T17:07:12.987Z",
   "games": [
-    {
-      "time": "12:00",
-      "date": "2026-09-10T12:00:00-03:00",
-      "league": "Champions League",
-      "leagueCountry": "World",
-      "leagueId": 12,
-      "leagueSeason": 2026,
-      "fixtureId": 1619087,
-      "home": {
-        "id": 24438,
-        "name": "Foresters"
-      },
-      "away": {
-        "id": 6383,
-        "name": "Wiliete"
-      }
-    },
     {
       "time": "13:45",
       "date": "2026-09-10T13:45:00-03:00",
@@ -4148,95 +4131,6 @@
         }
       ]
     },
-    "6383": {
-      "fixtures": [
-        {
-          "fixtureId": 1619079,
-          "gf_ht": 2,
-          "ga_ht": 0,
-          "gf_ft": 4,
-          "ga_ft": 0,
-          "date": "2026-09-06T15:00:00+00:00",
-          "opponent": "Foresters",
-          "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1627263,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 1,
-          "ga_ft": 0,
-          "date": "2026-08-31T14:30:00+00:00",
-          "opponent": "Desportivo Huíla",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1627253,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 2,
-          "ga_ft": 1,
-          "date": "2026-08-27T15:00:00+00:00",
-          "opponent": "Recreativo da Caála",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1627248,
-          "gf_ht": 2,
-          "ga_ht": 0,
-          "gf_ft": 2,
-          "ga_ft": 0,
-          "date": "2026-08-23T16:30:00+00:00",
-          "opponent": "Académica do Lobito",
-          "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1627243,
-          "gf_ht": 0,
-          "ga_ht": 1,
-          "gf_ft": 0,
-          "ga_ft": 1,
-          "date": "2026-08-16T14:30:00+00:00",
-          "opponent": "Petro de Luanda",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        }
-      ]
-    },
     "7865": {
       "fixtures": [
         {
@@ -4643,27 +4537,6 @@
           "foulsCommitted": null
         }
       ]
-    },
-    "24438": {
-      "fixtures": [
-        {
-          "fixtureId": 1619079,
-          "gf_ht": 0,
-          "ga_ht": 2,
-          "gf_ft": 0,
-          "ga_ft": 4,
-          "date": "2026-09-06T15:00:00+00:00",
-          "opponent": "Wiliete",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        }
-      ]
     }
   },
   "frios1t": {
@@ -4845,7 +4718,7 @@
         }
       }
     ],
-    "totalTeams": 24,
-    "usableTeams": 24
+    "totalTeams": 22,
+    "usableTeams": 22
   }
 }
