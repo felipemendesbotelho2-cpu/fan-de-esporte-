@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-11T14:07:34.001Z",
+  "updatedAt": "2026-09-11T17:06:27.149Z",
   "games": [
     {
       "time": "11:00",
@@ -16,23 +16,6 @@
       "away": {
         "id": 6419,
         "name": "Fomboni Club"
-      }
-    },
-    {
-      "time": "11:00",
-      "date": "2026-09-11T11:00:00-03:00",
-      "league": "Champions League",
-      "leagueCountry": "World",
-      "leagueId": 12,
-      "leagueSeason": 2026,
-      "fixtureId": 1619084,
-      "home": {
-        "id": 5468,
-        "name": "AS Sobemap"
-      },
-      "away": {
-        "id": 5176,
-        "name": "Enugu Rangers"
       }
     },
     {
@@ -3655,199 +3638,6 @@
         }
       ]
     },
-    "5176": {
-      "fixtures": [
-        {
-          "fixtureId": 1619072,
-          "gf_ht": 1,
-          "ga_ht": 0,
-          "gf_ft": 1,
-          "ga_ft": 1,
-          "date": "2026-09-06T15:00:00+00:00",
-          "opponent": "AS Sobemap",
-          "isHome": true,
-          "minutesScored": [
-            46
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1550784,
-          "gf_ht": 0,
-          "ga_ht": 2,
-          "gf_ft": 2,
-          "ga_ft": 3,
-          "date": "2026-06-01T15:00:00+00:00",
-          "opponent": "Rivers United",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1446882,
-          "gf_ht": 1,
-          "ga_ht": 0,
-          "gf_ft": 2,
-          "ga_ft": 1,
-          "date": "2026-05-24T15:00:00+00:00",
-          "opponent": "Ikorodu City",
-          "isHome": false,
-          "minutesScored": [
-            30,
-            52
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1446985,
-          "gf_ht": 1,
-          "ga_ht": 1,
-          "gf_ft": 2,
-          "ga_ft": 1,
-          "date": "2026-05-10T15:00:00+00:00",
-          "opponent": "Bendel Insurance",
-          "isHome": true,
-          "minutesScored": [
-            15,
-            65
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1446867,
-          "gf_ht": 1,
-          "ga_ht": 0,
-          "gf_ft": 2,
-          "ga_ft": 0,
-          "date": "2026-05-03T15:00:00+00:00",
-          "opponent": "Bayelsa United",
-          "isHome": false,
-          "minutesScored": [
-            31,
-            85
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1446857,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 2,
-          "ga_ft": 1,
-          "date": "2026-04-19T15:00:00+00:00",
-          "opponent": "Enyimba",
-          "isHome": true,
-          "minutesScored": [
-            61,
-            68
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1446848,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 0,
-          "ga_ft": 0,
-          "date": "2026-04-12T15:00:00+00:00",
-          "opponent": "Niger Tornadoes",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1446836,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 0,
-          "ga_ft": 0,
-          "date": "2026-04-05T15:00:00+00:00",
-          "opponent": "Barau FC",
-          "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1446825,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 1,
-          "ga_ft": 3,
-          "date": "2026-03-29T15:00:00+00:00",
-          "opponent": "Shooting Stars",
-          "isHome": false,
-          "minutesScored": [
-            70
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1446818,
-          "gf_ht": 1,
-          "ga_ht": 0,
-          "gf_ft": 2,
-          "ga_ft": 0,
-          "date": "2026-03-22T15:00:00+00:00",
-          "opponent": "El Kanemi Warriors",
-          "isHome": true,
-          "minutesScored": [
-            36,
-            79
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        }
-      ]
-    },
     "5309": {
       "fixtures": [
         {
@@ -3888,29 +3678,6 @@
         }
       ]
     },
-    "5468": {
-      "fixtures": [
-        {
-          "fixtureId": 1619072,
-          "gf_ht": 0,
-          "ga_ht": 1,
-          "gf_ft": 1,
-          "ga_ft": 1,
-          "date": "2026-09-06T15:00:00+00:00",
-          "opponent": "Enugu Rangers",
-          "isHome": false,
-          "minutesScored": [
-            46
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        }
-      ]
-    },
     "6419": {
       "fixtures": []
     },
@@ -3941,28 +3708,6 @@
   },
   "frios1t": {
     "qualified": [
-      {
-        "id": 5176,
-        "name": "Enugu Rangers",
-        "side": "away",
-        "game": {
-          "time": "11:00",
-          "date": "2026-09-11T11:00:00-03:00",
-          "league": "Champions League",
-          "leagueCountry": "World",
-          "leagueId": 12,
-          "leagueSeason": 2026,
-          "fixtureId": 1619084,
-          "home": {
-            "id": 5468,
-            "name": "AS Sobemap"
-          },
-          "away": {
-            "id": 5176,
-            "name": "Enugu Rangers"
-          }
-        }
-      },
       {
         "id": 2930,
         "name": "Al-Faisaly FC",
@@ -4206,7 +3951,7 @@
         }
       }
     ],
-    "totalTeams": 24,
-    "usableTeams": 24
+    "totalTeams": 22,
+    "usableTeams": 22
   }
 }
