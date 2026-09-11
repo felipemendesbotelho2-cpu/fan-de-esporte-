@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-11T11:09:06.167Z",
+  "updatedAt": "2026-09-11T14:07:34.001Z",
   "games": [
     {
       "time": "11:00",
@@ -887,14 +887,14 @@
           "opponent": "Defensa Y Justicia",
           "isHome": true,
           "minutesScored": [
-            4
+            79
           ],
-          "cornersTotal": 6,
-          "totalShots": 10,
-          "shotsOnGoal": 3,
-          "yellowCards": 4,
+          "cornersTotal": 9,
+          "totalShots": 20,
+          "shotsOnGoal": 6,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 15
+          "foulsCommitted": 19
         },
         {
           "fixtureId": 1493050,
@@ -1080,15 +1080,14 @@
           "opponent": "Newells Old Boys",
           "isHome": true,
           "minutesScored": [
-            32,
-            68
+            83
           ],
-          "cornersTotal": 3,
-          "totalShots": 16,
-          "shotsOnGoal": 6,
-          "yellowCards": 3,
-          "redCards": 0,
-          "foulsCommitted": 14
+          "cornersTotal": 7,
+          "totalShots": 10,
+          "shotsOnGoal": 4,
+          "yellowCards": 2,
+          "redCards": 1,
+          "foulsCommitted": 10
         },
         {
           "fixtureId": 1493036,
@@ -1177,14 +1176,15 @@
           "opponent": "Gimnasia M.",
           "isHome": false,
           "minutesScored": [
-            12
+            30,
+            73
           ],
-          "cornersTotal": 7,
-          "totalShots": 11,
-          "shotsOnGoal": 4,
+          "cornersTotal": 2,
+          "totalShots": 8,
+          "shotsOnGoal": 3,
           "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 12
+          "foulsCommitted": 10
         }
       ]
     },
@@ -2564,15 +2564,16 @@
           "opponent": "Al-Qadisiyah FC",
           "isHome": false,
           "minutesScored": [
-            63,
-            82
+            14,
+            45,
+            45
           ],
-          "cornersTotal": 5,
-          "totalShots": 8,
-          "shotsOnGoal": 5,
-          "yellowCards": 1,
+          "cornersTotal": 6,
+          "totalShots": 11,
+          "shotsOnGoal": 7,
+          "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 21
+          "foulsCommitted": 16
         },
         {
           "fixtureId": 1603012,
@@ -2762,12 +2763,12 @@
           "opponent": "Al-Ettifaq",
           "isHome": false,
           "minutesScored": [],
-          "cornersTotal": 2,
-          "totalShots": 3,
-          "shotsOnGoal": 1,
+          "cornersTotal": 5,
+          "totalShots": 15,
+          "shotsOnGoal": 5,
           "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 8
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1603014,
@@ -2779,12 +2780,12 @@
           "opponent": "Al-Hazm",
           "isHome": true,
           "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 6,
-          "shotsOnGoal": 2,
-          "yellowCards": 2,
+          "cornersTotal": 7,
+          "totalShots": 13,
+          "shotsOnGoal": 3,
+          "yellowCards": 5,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 21
         },
         {
           "fixtureId": 1603006,
@@ -2796,14 +2797,16 @@
           "opponent": "Al-Qadisiyah FC",
           "isHome": false,
           "minutesScored": [
-            12
+            5,
+            30,
+            56
           ],
-          "cornersTotal": 2,
-          "totalShots": 5,
-          "shotsOnGoal": 2,
-          "yellowCards": 3,
+          "cornersTotal": 4,
+          "totalShots": 17,
+          "shotsOnGoal": 9,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 7
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1602996,
@@ -2990,13 +2993,15 @@
           "date": "2026-08-21T18:00:00+00:00",
           "opponent": "Al-Ittihad FC",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 15,
-          "totalShots": 26,
-          "shotsOnGoal": 9,
-          "yellowCards": 1,
-          "redCards": 0,
-          "foulsCommitted": 11
+          "minutesScored": [
+            45
+          ],
+          "cornersTotal": 1,
+          "totalShots": 5,
+          "shotsOnGoal": 2,
+          "yellowCards": 2,
+          "redCards": 1,
+          "foulsCommitted": 8
         },
         {
           "fixtureId": 1602974,
@@ -3084,9 +3089,7 @@
           "opponent": "Al-Hazm",
           "isHome": true,
           "minutesScored": [
-            22,
-            54,
-            63
+            9
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -3364,16 +3367,15 @@
           "opponent": "Al-Hazm",
           "isHome": true,
           "minutesScored": [
-            34,
-            41,
-            81
+            18,
+            59
           ],
-          "cornersTotal": 4,
-          "totalShots": 15,
-          "shotsOnGoal": 6,
+          "cornersTotal": 3,
+          "totalShots": 8,
+          "shotsOnGoal": 2,
           "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 21
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1602985,
@@ -3665,7 +3667,7 @@
           "opponent": "AS Sobemap",
           "isHome": true,
           "minutesScored": [
-            32
+            46
           ],
           "cornersTotal": null,
           "totalShots": null,
