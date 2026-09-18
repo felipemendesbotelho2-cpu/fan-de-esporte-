@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-18T11:08:55.655Z",
+  "updatedAt": "2026-09-18T14:07:23.549Z",
   "games": [
     {
       "time": "14:00",
@@ -553,14 +553,15 @@
           "opponent": "São Bernardo",
           "isHome": true,
           "minutesScored": [
-            68
+            80,
+            88
           ],
-          "cornersTotal": 5,
-          "totalShots": 14,
-          "shotsOnGoal": 4,
-          "yellowCards": 2,
+          "cornersTotal": 4,
+          "totalShots": 15,
+          "shotsOnGoal": 7,
+          "yellowCards": 3,
           "redCards": 0,
-          "foulsCommitted": 15
+          "foulsCommitted": 17
         },
         {
           "fixtureId": 1520860,
@@ -647,13 +648,18 @@
           "date": "2026-08-20T23:30:00+00:00",
           "opponent": "Novorizontino",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 2,
-          "totalShots": 7,
-          "shotsOnGoal": 2,
-          "yellowCards": 2,
+          "minutesScored": [
+            23,
+            39,
+            81,
+            90
+          ],
+          "cornersTotal": 13,
+          "totalShots": 24,
+          "shotsOnGoal": 8,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 12
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1520810,
@@ -764,14 +770,15 @@
           "opponent": "Atletico Goianiense",
           "isHome": false,
           "minutesScored": [
-            39
+            7,
+            12
           ],
-          "cornersTotal": 7,
-          "totalShots": 25,
-          "shotsOnGoal": 5,
-          "yellowCards": 3,
-          "redCards": 0,
-          "foulsCommitted": 12
+          "cornersTotal": 3,
+          "totalShots": 10,
+          "shotsOnGoal": 2,
+          "yellowCards": 1,
+          "redCards": 1,
+          "foulsCommitted": 18
         },
         {
           "fixtureId": 1520851,
@@ -802,13 +809,16 @@
           "date": "2026-08-30T21:30:00+00:00",
           "opponent": "Vila Nova",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 7,
-          "totalShots": 7,
-          "shotsOnGoal": 3,
-          "yellowCards": 3,
+          "minutesScored": [
+            16,
+            75
+          ],
+          "cornersTotal": 5,
+          "totalShots": 16,
+          "shotsOnGoal": 7,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 18
         },
         {
           "fixtureId": 1520832,
@@ -896,17 +906,16 @@
           "opponent": "São Bernardo",
           "isHome": false,
           "minutesScored": [
-            47,
-            62,
-            74,
-            90
+            23,
+            59,
+            81
           ],
-          "cornersTotal": 3,
-          "totalShots": 17,
-          "shotsOnGoal": 8,
-          "yellowCards": 2,
-          "redCards": 0,
-          "foulsCommitted": 20
+          "cornersTotal": 10,
+          "totalShots": 18,
+          "shotsOnGoal": 5,
+          "yellowCards": 1,
+          "redCards": 1,
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1520783,
@@ -1055,16 +1064,13 @@
           "date": "2026-08-15T19:00:00+00:00",
           "opponent": "Atletico Goianiense",
           "isHome": false,
-          "minutesScored": [
-            45,
-            73
-          ],
-          "cornersTotal": 3,
-          "totalShots": 7,
+          "minutesScored": [],
+          "cornersTotal": 15,
+          "totalShots": 11,
           "shotsOnGoal": 3,
-          "yellowCards": 2,
+          "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 15
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1520809,
