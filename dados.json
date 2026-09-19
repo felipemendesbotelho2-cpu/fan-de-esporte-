@@ -1,40 +1,6 @@
 {
-  "updatedAt": "2026-09-19T11:12:57.077Z",
+  "updatedAt": "2026-09-19T14:07:08.655Z",
   "games": [
-    {
-      "time": "08:30",
-      "date": "2026-09-19T08:30:00-03:00",
-      "league": "Premier League",
-      "leagueCountry": "England",
-      "leagueId": 39,
-      "leagueSeason": 2026,
-      "fixtureId": 1557416,
-      "home": {
-        "id": 47,
-        "name": "Tottenham"
-      },
-      "away": {
-        "id": 66,
-        "name": "Aston Villa"
-      }
-    },
-    {
-      "time": "09:00",
-      "date": "2026-09-19T09:00:00-03:00",
-      "league": "La Liga (Espanha)",
-      "leagueCountry": "Spain",
-      "leagueId": 140,
-      "leagueSeason": 2026,
-      "fixtureId": 1570399,
-      "home": {
-        "id": 727,
-        "name": "Osasuna"
-      },
-      "away": {
-        "id": 728,
-        "name": "Rayo Vallecano"
-      }
-    },
     {
       "time": "10:00",
       "date": "2026-09-19T10:00:00-03:00",
@@ -684,16 +650,13 @@
           "date": "2026-08-29T16:30:00+00:00",
           "opponent": "Tottenham",
           "isHome": false,
-          "minutesScored": [
-            62,
-            72
-          ],
-          "cornersTotal": 7,
-          "totalShots": 11,
-          "shotsOnGoal": 2,
-          "yellowCards": 2,
+          "minutesScored": [],
+          "cornersTotal": 9,
+          "totalShots": 17,
+          "shotsOnGoal": 6,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 9
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1623089,
@@ -789,7 +752,9 @@
           "opponent": "Everton",
           "isHome": true,
           "minutesScored": [
-            85
+            27,
+            36,
+            73
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -832,17 +797,15 @@
           "opponent": "Ipswich",
           "isHome": false,
           "minutesScored": [
-            7,
-            16,
-            47,
-            58
+            62,
+            91
           ],
-          "cornersTotal": 2,
-          "totalShots": 12,
-          "shotsOnGoal": 6,
-          "yellowCards": 0,
+          "cornersTotal": 3,
+          "totalShots": 8,
+          "shotsOnGoal": 3,
+          "yellowCards": 2,
           "redCards": 0,
-          "foulsCommitted": 13
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1557405,
@@ -912,16 +875,13 @@
           "date": "2026-08-31T19:00:00+00:00",
           "opponent": "Aston Villa",
           "isHome": false,
-          "minutesScored": [
-            55,
-            59
-          ],
-          "cornersTotal": 4,
+          "minutesScored": [],
+          "cornersTotal": 2,
           "totalShots": 7,
-          "shotsOnGoal": 2,
-          "yellowCards": 1,
+          "shotsOnGoal": 0,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 6
+          "foulsCommitted": 17
         },
         {
           "fixtureId": 1557367,
@@ -932,17 +892,13 @@
           "date": "2026-08-21T19:00:00+00:00",
           "opponent": "Coventry",
           "isHome": true,
-          "minutesScored": [
-            15,
-            23,
-            49
-          ],
-          "cornersTotal": 8,
-          "totalShots": 20,
-          "shotsOnGoal": 6,
+          "minutesScored": [],
+          "cornersTotal": 2,
+          "totalShots": 4,
+          "shotsOnGoal": 1,
           "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1582365,
@@ -1061,12 +1017,12 @@
           "opponent": "Tottenham",
           "isHome": false,
           "minutesScored": [],
-          "cornersTotal": 6,
-          "totalShots": 12,
-          "shotsOnGoal": 3,
-          "yellowCards": 2,
+          "cornersTotal": 5,
+          "totalShots": 14,
+          "shotsOnGoal": 2,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 8
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1557390,
@@ -1230,200 +1186,6 @@
         }
       ]
     },
-    "47": {
-      "fixtures": [
-        {
-          "fixtureId": 1635563,
-          "gf_ht": 0,
-          "ga_ht": 1,
-          "gf_ft": 1,
-          "ga_ft": 3,
-          "date": "2026-09-15T19:00:00+00:00",
-          "opponent": "Liverpool",
-          "isHome": false,
-          "minutesScored": [
-            69
-          ],
-          "cornersTotal": 9,
-          "totalShots": 17,
-          "shotsOnGoal": 6,
-          "yellowCards": 2,
-          "redCards": 0,
-          "foulsCommitted": 11
-        },
-        {
-          "fixtureId": 1557406,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 0,
-          "ga_ft": 0,
-          "date": "2026-09-12T16:30:00+00:00",
-          "opponent": "Everton",
-          "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 5,
-          "totalShots": 14,
-          "shotsOnGoal": 2,
-          "yellowCards": 0,
-          "redCards": null,
-          "foulsCommitted": 14
-        },
-        {
-          "fixtureId": 1557396,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 0,
-          "ga_ft": 0,
-          "date": "2026-09-05T14:00:00+00:00",
-          "opponent": "Nottingham Forest",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 10,
-          "totalShots": 11,
-          "shotsOnGoal": 0,
-          "yellowCards": 2,
-          "redCards": null,
-          "foulsCommitted": 14
-        },
-        {
-          "fixtureId": 1557386,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 0,
-          "ga_ft": 2,
-          "date": "2026-08-29T16:30:00+00:00",
-          "opponent": "Newcastle",
-          "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 9,
-          "totalShots": 17,
-          "shotsOnGoal": 6,
-          "yellowCards": 1,
-          "redCards": null,
-          "foulsCommitted": 15
-        },
-        {
-          "fixtureId": 1623092,
-          "gf_ht": 2,
-          "ga_ht": 0,
-          "gf_ft": 5,
-          "ga_ft": 1,
-          "date": "2026-08-26T18:45:00+00:00",
-          "opponent": "Charlton",
-          "isHome": true,
-          "minutesScored": [
-            41,
-            45,
-            67,
-            82,
-            85
-          ],
-          "cornersTotal": 11,
-          "totalShots": 20,
-          "shotsOnGoal": 11,
-          "yellowCards": 1,
-          "redCards": null,
-          "foulsCommitted": 5
-        },
-        {
-          "fixtureId": 1557372,
-          "gf_ht": 0,
-          "ga_ht": 2,
-          "gf_ft": 0,
-          "ga_ft": 3,
-          "date": "2026-08-22T16:30:00+00:00",
-          "opponent": "Brentford",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 9,
-          "shotsOnGoal": 4,
-          "yellowCards": 1,
-          "redCards": null,
-          "foulsCommitted": 14
-        },
-        {
-          "fixtureId": 1598622,
-          "gf_ht": 2,
-          "ga_ht": 1,
-          "gf_ft": 2,
-          "ga_ft": 2,
-          "date": "2026-08-16T11:00:00+00:00",
-          "opponent": "1899 Hoffenheim",
-          "isHome": true,
-          "minutesScored": [
-            20,
-            45
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1598627,
-          "gf_ht": 1,
-          "ga_ht": 0,
-          "gf_ft": 3,
-          "ga_ft": 0,
-          "date": "2026-08-15T14:00:00+00:00",
-          "opponent": "1899 Hoffenheim",
-          "isHome": true,
-          "minutesScored": [
-            35,
-            59,
-            79
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1585061,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 1,
-          "ga_ft": 1,
-          "date": "2026-08-08T14:00:00+00:00",
-          "opponent": "Getafe",
-          "isHome": true,
-          "minutesScored": [
-            70
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1502105,
-          "gf_ht": 1,
-          "ga_ht": 1,
-          "gf_ft": 2,
-          "ga_ft": 1,
-          "date": "2026-08-01T09:45:00+00:00",
-          "opponent": "Chelsea",
-          "isHome": false,
-          "minutesScored": [
-            17,
-            90
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        }
-      ]
-    },
     "51": {
       "fixtures": [
         {
@@ -1456,19 +1218,13 @@
           "date": "2026-09-13T13:00:00+00:00",
           "opponent": "Coventry",
           "isHome": false,
-          "minutesScored": [
-            35,
-            51,
-            70,
-            83,
-            90
-          ],
-          "cornersTotal": 3,
-          "totalShots": 22,
-          "shotsOnGoal": 7,
+          "minutesScored": [],
+          "cornersTotal": 5,
+          "totalShots": 14,
+          "shotsOnGoal": 6,
           "yellowCards": null,
-          "redCards": 0,
-          "foulsCommitted": 15
+          "redCards": 1,
+          "foulsCommitted": 9
         },
         {
           "fixtureId": 1557389,
@@ -1541,18 +1297,13 @@
           "date": "2026-08-23T13:00:00+00:00",
           "opponent": "Aston Villa",
           "isHome": true,
-          "minutesScored": [
-            8,
-            18,
-            30,
-            31
-          ],
-          "cornersTotal": 5,
-          "totalShots": 21,
-          "shotsOnGoal": 6,
-          "yellowCards": 2,
-          "redCards": 0,
-          "foulsCommitted": 12
+          "minutesScored": [],
+          "cornersTotal": 2,
+          "totalShots": 6,
+          "shotsOnGoal": 0,
+          "yellowCards": 3,
+          "redCards": 1,
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1623406,
@@ -1580,9 +1331,7 @@
           "date": "2026-08-15T14:00:00+00:00",
           "opponent": "Bologna",
           "isHome": true,
-          "minutesScored": [
-            59
-          ],
+          "minutesScored": [],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -1599,11 +1348,7 @@
           "date": "2026-08-08T14:00:00+00:00",
           "opponent": "AS Roma",
           "isHome": true,
-          "minutesScored": [
-            29,
-            40,
-            49
-          ],
+          "minutesScored": [],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -1787,11 +1532,7 @@
           "date": "2026-08-08T14:00:00+00:00",
           "opponent": "Rayo Vallecano",
           "isHome": true,
-          "minutesScored": [
-            12,
-            17,
-            34
-          ],
+          "minutesScored": [],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -1886,12 +1627,12 @@
           "opponent": "Aston Villa",
           "isHome": true,
           "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 11,
-          "shotsOnGoal": 4,
-          "yellowCards": 2,
+          "cornersTotal": 4,
+          "totalShots": 13,
+          "shotsOnGoal": 1,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 5
         },
         {
           "fixtureId": 1557380,
@@ -1902,15 +1643,13 @@
           "date": "2026-08-29T14:00:00+00:00",
           "opponent": "Coventry",
           "isHome": false,
-          "minutesScored": [
-            82
-          ],
-          "cornersTotal": 2,
-          "totalShots": 6,
-          "shotsOnGoal": 2,
-          "yellowCards": 4,
+          "minutesScored": [],
+          "cornersTotal": 6,
+          "totalShots": 11,
+          "shotsOnGoal": 3,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 8
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1623097,
@@ -2038,15 +1777,14 @@
           "opponent": "Aston Villa",
           "isHome": false,
           "minutesScored": [
-            46,
-            88
+            74
           ],
-          "cornersTotal": 1,
-          "totalShots": 22,
-          "shotsOnGoal": 7,
-          "yellowCards": 5,
+          "cornersTotal": 6,
+          "totalShots": 7,
+          "shotsOnGoal": 5,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 16
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1557396,
@@ -2185,7 +1923,9 @@
           "date": "2026-08-08T18:00:00+00:00",
           "opponent": "Udinese",
           "isHome": false,
-          "minutesScored": [],
+          "minutesScored": [
+            28
+          ],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -2214,200 +1954,6 @@
         }
       ]
     },
-    "66": {
-      "fixtures": [
-        {
-          "fixtureId": 1635557,
-          "gf_ht": 2,
-          "ga_ht": 1,
-          "gf_ft": 3,
-          "ga_ft": 1,
-          "date": "2026-09-16T19:00:00+00:00",
-          "opponent": "Coventry",
-          "isHome": false,
-          "minutesScored": [
-            7,
-            40,
-            59
-          ],
-          "cornersTotal": 9,
-          "totalShots": 18,
-          "shotsOnGoal": 9,
-          "yellowCards": 3,
-          "redCards": 0,
-          "foulsCommitted": 12
-        },
-        {
-          "fixtureId": 1557397,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 1,
-          "ga_ft": 2,
-          "date": "2026-09-12T14:00:00+00:00",
-          "opponent": "Nottingham Forest",
-          "isHome": true,
-          "minutesScored": [
-            74
-          ],
-          "cornersTotal": 6,
-          "totalShots": 7,
-          "shotsOnGoal": 5,
-          "yellowCards": 2,
-          "redCards": null,
-          "foulsCommitted": 11
-        },
-        {
-          "fixtureId": 1635643,
-          "gf_ht": 3,
-          "ga_ht": 1,
-          "gf_ft": 3,
-          "ga_ft": 2,
-          "date": "2026-09-08T16:45:00+00:00",
-          "opponent": "Club Brugge KV",
-          "isHome": false,
-          "minutesScored": [
-            11,
-            22,
-            43
-          ],
-          "cornersTotal": 5,
-          "totalShots": 21,
-          "shotsOnGoal": 9,
-          "yellowCards": 3,
-          "redCards": null,
-          "foulsCommitted": 14
-        },
-        {
-          "fixtureId": 1557392,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 0,
-          "ga_ft": 0,
-          "date": "2026-09-05T16:30:00+00:00",
-          "opponent": "Hull City",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 4,
-          "totalShots": 13,
-          "shotsOnGoal": 1,
-          "yellowCards": 0,
-          "redCards": null,
-          "foulsCommitted": 5
-        },
-        {
-          "fixtureId": 1557377,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 0,
-          "ga_ft": 1,
-          "date": "2026-08-31T19:00:00+00:00",
-          "opponent": "Arsenal",
-          "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 2,
-          "totalShots": 7,
-          "shotsOnGoal": 0,
-          "yellowCards": 3,
-          "redCards": null,
-          "foulsCommitted": 17
-        },
-        {
-          "fixtureId": 1557373,
-          "gf_ht": 0,
-          "ga_ht": 4,
-          "gf_ft": 0,
-          "ga_ft": 4,
-          "date": "2026-08-23T13:00:00+00:00",
-          "opponent": "Brighton",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 2,
-          "totalShots": 6,
-          "shotsOnGoal": 0,
-          "yellowCards": 3,
-          "redCards": 1,
-          "foulsCommitted": 11
-        },
-        {
-          "fixtureId": 1550628,
-          "gf_ht": 0,
-          "ga_ht": 2,
-          "gf_ft": 1,
-          "ga_ft": 2,
-          "date": "2026-08-15T13:30:00+00:00",
-          "opponent": "Borussia Mönchengladbach",
-          "isHome": false,
-          "minutesScored": [
-            69
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1583664,
-          "gf_ht": 1,
-          "ga_ht": 1,
-          "gf_ft": 1,
-          "ga_ft": 2,
-          "date": "2026-08-12T19:00:00+00:00",
-          "opponent": "Paris Saint Germain",
-          "isHome": false,
-          "minutesScored": [
-            45
-          ],
-          "cornersTotal": 2,
-          "totalShots": 15,
-          "shotsOnGoal": 4,
-          "yellowCards": 3,
-          "redCards": null,
-          "foulsCommitted": 13
-        },
-        {
-          "fixtureId": 1542348,
-          "gf_ht": 0,
-          "ga_ht": 1,
-          "gf_ft": 1,
-          "ga_ft": 2,
-          "date": "2026-08-07T12:00:00+00:00",
-          "opponent": "Bayern München",
-          "isHome": false,
-          "minutesScored": [
-            83
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1583613,
-          "gf_ht": 2,
-          "ga_ht": 0,
-          "gf_ft": 3,
-          "ga_ft": 1,
-          "date": "2026-08-04T13:00:00+00:00",
-          "opponent": "BG Pathum United",
-          "isHome": false,
-          "minutesScored": [
-            12,
-            31,
-            62
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        }
-      ]
-    },
     "119": {
       "fixtures": [
         {
@@ -2420,15 +1966,14 @@
           "opponent": "Chapecoense-sc",
           "isHome": false,
           "minutesScored": [
-            25,
-            67
+            45
           ],
-          "cornersTotal": 2,
-          "totalShots": 4,
+          "cornersTotal": 4,
+          "totalShots": 13,
           "shotsOnGoal": 2,
-          "yellowCards": 3,
+          "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 19
         },
         {
           "fixtureId": 1492366,
@@ -2440,15 +1985,16 @@
           "opponent": "Santos",
           "isHome": true,
           "minutesScored": [
-            49,
-            90
+            8,
+            29,
+            39
           ],
-          "cornersTotal": 7,
-          "totalShots": 15,
-          "shotsOnGoal": 6,
+          "cornersTotal": 2,
+          "totalShots": 5,
+          "shotsOnGoal": 3,
           "yellowCards": 4,
-          "redCards": 1,
-          "foulsCommitted": 18
+          "redCards": 0,
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1623074,
@@ -2516,12 +2062,12 @@
           "opponent": "Atletico-MG",
           "isHome": true,
           "minutesScored": [],
-          "cornersTotal": 6,
-          "totalShots": 23,
-          "shotsOnGoal": 3,
-          "yellowCards": 5,
+          "cornersTotal": 5,
+          "totalShots": 11,
+          "shotsOnGoal": 5,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 18
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1492335,
@@ -2533,14 +2079,14 @@
           "opponent": "Remo",
           "isHome": true,
           "minutesScored": [
-            3
+            90
           ],
-          "cornersTotal": 4,
-          "totalShots": 11,
+          "cornersTotal": 5,
+          "totalShots": 12,
           "shotsOnGoal": 3,
-          "yellowCards": 1,
+          "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1492327,
@@ -3054,16 +2600,13 @@
           "date": "2026-09-05T21:30:00+00:00",
           "opponent": "Atletico-MG",
           "isHome": true,
-          "minutesScored": [
-            67,
-            69
-          ],
-          "cornersTotal": 16,
-          "totalShots": 23,
-          "shotsOnGoal": 5,
+          "minutesScored": [],
+          "cornersTotal": 2,
+          "totalShots": 4,
+          "shotsOnGoal": 0,
           "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 19
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1492358,
@@ -3094,13 +2637,15 @@
           "date": "2026-08-23T21:30:00+00:00",
           "opponent": "Chapecoense-sc",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 22,
-          "shotsOnGoal": 5,
-          "yellowCards": 1,
+          "minutesScored": [
+            26
+          ],
+          "cornersTotal": 7,
+          "totalShots": 13,
+          "shotsOnGoal": 4,
+          "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 7
+          "foulsCommitted": 17
         },
         {
           "fixtureId": 1607653,
@@ -3133,14 +2678,14 @@
           "opponent": "Coritiba",
           "isHome": true,
           "minutesScored": [
-            43
+            57
           ],
-          "cornersTotal": 6,
-          "totalShots": 19,
-          "shotsOnGoal": 6,
-          "yellowCards": 2,
+          "cornersTotal": 3,
+          "totalShots": 8,
+          "shotsOnGoal": 1,
+          "yellowCards": 1,
           "redCards": 0,
-          "foulsCommitted": 15
+          "foulsCommitted": 10
         },
         {
           "fixtureId": 1607649,
@@ -3194,19 +2739,21 @@
           "opponent": "Atletico-MG",
           "isHome": false,
           "minutesScored": [
-            28,
-            72,
-            91,
+            1,
+            20,
+            41,
             92,
-            94,
+            91,
+            93,
+            95,
             96
           ],
-          "cornersTotal": 6,
-          "totalShots": 18,
-          "shotsOnGoal": 4,
-          "yellowCards": 2,
+          "cornersTotal": 4,
+          "totalShots": 12,
+          "shotsOnGoal": 5,
+          "yellowCards": 0,
           "redCards": 0,
-          "foulsCommitted": 10
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1492379,
@@ -3237,16 +2784,13 @@
           "date": "2026-09-09T22:00:00+00:00",
           "opponent": "Atletico-MG",
           "isHome": true,
-          "minutesScored": [
-            31,
-            68
-          ],
-          "cornersTotal": 6,
-          "totalShots": 14,
-          "shotsOnGoal": 7,
+          "minutesScored": [],
+          "cornersTotal": 2,
+          "totalShots": 9,
+          "shotsOnGoal": 3,
           "yellowCards": 0,
           "redCards": 0,
-          "foulsCommitted": 9
+          "foulsCommitted": 8
         },
         {
           "fixtureId": 1492366,
@@ -3332,14 +2876,14 @@
           "opponent": "Mirassol",
           "isHome": true,
           "minutesScored": [
-            68
+            36
           ],
-          "cornersTotal": 10,
-          "totalShots": 21,
-          "shotsOnGoal": 7,
-          "yellowCards": 2,
-          "redCards": 0,
-          "foulsCommitted": 9
+          "cornersTotal": 2,
+          "totalShots": 5,
+          "shotsOnGoal": 3,
+          "yellowCards": 3,
+          "redCards": 1,
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1606078,
@@ -3367,17 +2911,13 @@
           "date": "2026-08-16T19:00:00+00:00",
           "opponent": "Vasco DA Gama",
           "isHome": false,
-          "minutesScored": [
-            68,
-            77,
-            81
-          ],
-          "cornersTotal": 2,
-          "totalShots": 11,
-          "shotsOnGoal": 5,
-          "yellowCards": 0,
+          "minutesScored": [],
+          "cornersTotal": 4,
+          "totalShots": 19,
+          "shotsOnGoal": 3,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 14
         }
       ]
     },
@@ -3491,14 +3031,15 @@
           "opponent": "Coritiba",
           "isHome": false,
           "minutesScored": [
-            90
+            31,
+            82
           ],
-          "cornersTotal": 6,
-          "totalShots": 12,
-          "shotsOnGoal": 3,
+          "cornersTotal": 5,
+          "totalShots": 15,
+          "shotsOnGoal": 4,
           "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1546852,
@@ -3802,14 +3343,15 @@
           "opponent": "Mirassol",
           "isHome": true,
           "minutesScored": [
-            61
+            64,
+            84
           ],
-          "cornersTotal": 5,
-          "totalShots": 17,
-          "shotsOnGoal": 6,
-          "yellowCards": 2,
+          "cornersTotal": 7,
+          "totalShots": 19,
+          "shotsOnGoal": 7,
+          "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 14
+          "foulsCommitted": 10
         },
         {
           "fixtureId": 1492357,
@@ -3821,16 +3363,16 @@
           "opponent": "Remo",
           "isHome": false,
           "minutesScored": [
-            47,
-            76,
-            90
+            61,
+            64,
+            64
           ],
-          "cornersTotal": 4,
-          "totalShots": 11,
-          "shotsOnGoal": 5,
-          "yellowCards": 1,
+          "cornersTotal": 9,
+          "totalShots": 34,
+          "shotsOnGoal": 7,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1492343,
@@ -3974,13 +3516,16 @@
           "date": "2026-09-13T21:00:00+00:00",
           "opponent": "Athletic Club",
           "isHome": true,
-          "minutesScored": [],
+          "minutesScored": [
+            70,
+            97
+          ],
           "cornersTotal": 3,
-          "totalShots": 20,
-          "shotsOnGoal": 8,
-          "yellowCards": 3,
+          "totalShots": 8,
+          "shotsOnGoal": 3,
+          "yellowCards": 2,
           "redCards": 0,
-          "foulsCommitted": 18
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1520863,
@@ -4161,13 +3706,15 @@
           "date": "2026-09-15T18:45:00+00:00",
           "opponent": "Kilmarnock",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 15,
-          "totalShots": 23,
+          "minutesScored": [
+            40
+          ],
+          "cornersTotal": 7,
+          "totalShots": 13,
           "shotsOnGoal": 7,
-          "yellowCards": 0,
-          "redCards": 0,
-          "foulsCommitted": 8
+          "yellowCards": 1,
+          "redCards": 1,
+          "foulsCommitted": 10
         },
         {
           "fixtureId": 1629024,
@@ -4200,14 +3747,15 @@
           "opponent": "ST Johnstone",
           "isHome": false,
           "minutesScored": [
-            29
+            17,
+            41
           ],
-          "cornersTotal": 7,
-          "totalShots": 14,
-          "shotsOnGoal": 3,
-          "yellowCards": 0,
+          "cornersTotal": 2,
+          "totalShots": 9,
+          "shotsOnGoal": 4,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 10
         },
         {
           "fixtureId": 1556655,
@@ -4219,14 +3767,16 @@
           "opponent": "Heart Of Midlothian",
           "isHome": true,
           "minutesScored": [
-            51
+            13,
+            43,
+            66
           ],
-          "cornersTotal": 7,
-          "totalShots": 17,
-          "shotsOnGoal": 4,
-          "yellowCards": 3,
-          "redCards": 1,
-          "foulsCommitted": 16
+          "cornersTotal": 8,
+          "totalShots": 12,
+          "shotsOnGoal": 5,
+          "yellowCards": 0,
+          "redCards": 0,
+          "foulsCommitted": 9
         },
         {
           "fixtureId": 1556648,
@@ -4238,15 +3788,14 @@
           "opponent": "Dundee",
           "isHome": false,
           "minutesScored": [
-            25,
-            61
+            83
           ],
-          "cornersTotal": 5,
-          "totalShots": 25,
-          "shotsOnGoal": 7,
+          "cornersTotal": 3,
+          "totalShots": 11,
+          "shotsOnGoal": 3,
           "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 14
+          "foulsCommitted": 8
         },
         {
           "fixtureId": 1623416,
@@ -4376,14 +3925,14 @@
           "opponent": "Aberdeen",
           "isHome": true,
           "minutesScored": [
-            58
+            52
           ],
-          "cornersTotal": 7,
+          "cornersTotal": 8,
           "totalShots": null,
-          "shotsOnGoal": 6,
+          "shotsOnGoal": 3,
           "yellowCards": 3,
-          "redCards": 0,
-          "foulsCommitted": 14
+          "redCards": 1,
+          "foulsCommitted": 16
         },
         {
           "fixtureId": 1556658,
@@ -4395,11 +3944,11 @@
           "opponent": "Aberdeen",
           "isHome": false,
           "minutesScored": [],
-          "cornersTotal": 7,
-          "totalShots": 11,
-          "shotsOnGoal": 4,
-          "yellowCards": 3,
-          "redCards": 1,
+          "cornersTotal": 6,
+          "totalShots": 10,
+          "shotsOnGoal": 2,
+          "yellowCards": 5,
+          "redCards": 0,
           "foulsCommitted": 13
         },
         {
@@ -4411,13 +3960,15 @@
           "date": "2026-09-02T18:45:00+00:00",
           "opponent": "ST Mirren",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 7,
-          "totalShots": 9,
-          "shotsOnGoal": 2,
+          "minutesScored": [
+            4
+          ],
+          "cornersTotal": 3,
+          "totalShots": 10,
+          "shotsOnGoal": 1,
           "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 12
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1556650,
@@ -4428,13 +3979,18 @@
           "date": "2026-08-29T14:00:00+00:00",
           "opponent": "Dundee Utd",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 16,
-          "shotsOnGoal": 4,
+          "minutesScored": [
+            12,
+            36,
+            41,
+            77
+          ],
+          "cornersTotal": 5,
+          "totalShots": 21,
+          "shotsOnGoal": 8,
           "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1603961,
@@ -4486,16 +4042,17 @@
           "opponent": "ST Johnstone",
           "isHome": false,
           "minutesScored": [
-            37,
-            49,
-            53
+            16,
+            47,
+            69,
+            80
           ],
-          "cornersTotal": 3,
-          "totalShots": 7,
-          "shotsOnGoal": 4,
+          "cornersTotal": 6,
+          "totalShots": 15,
+          "shotsOnGoal": 5,
           "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 6
         },
         {
           "fixtureId": 1548179,
@@ -4608,16 +4165,17 @@
           "opponent": "Motherwell",
           "isHome": true,
           "minutesScored": [
-            39,
-            44,
-            45
+            2,
+            15,
+            24,
+            90
           ],
           "cornersTotal": 7,
-          "totalShots": 23,
-          "shotsOnGoal": 9,
+          "totalShots": 22,
+          "shotsOnGoal": 7,
           "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 14
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1603962,
@@ -4649,14 +4207,14 @@
           "opponent": "ST Johnstone",
           "isHome": true,
           "minutesScored": [
-            73
+            49
           ],
-          "cornersTotal": 5,
-          "totalShots": 13,
-          "shotsOnGoal": 4,
-          "yellowCards": 2,
+          "cornersTotal": 2,
+          "totalShots": 9,
+          "shotsOnGoal": 2,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 8
         },
         {
           "fixtureId": 1556629,
@@ -4667,14 +4225,11 @@
           "date": "2026-08-01T14:00:00+00:00",
           "opponent": "Falkirk",
           "isHome": false,
-          "minutesScored": [
-            11,
-            87
-          ],
+          "minutesScored": [],
           "cornersTotal": 7,
-          "totalShots": 15,
-          "shotsOnGoal": 5,
-          "yellowCards": 4,
+          "totalShots": 10,
+          "shotsOnGoal": 1,
+          "yellowCards": 0,
           "redCards": null,
           "foulsCommitted": 18
         },
@@ -4752,18 +4307,13 @@
           "date": "2026-09-15T18:45:00+00:00",
           "opponent": "Motherwell",
           "isHome": false,
-          "minutesScored": [
-            38,
-            46,
-            76,
-            87
-          ],
-          "cornersTotal": 2,
-          "totalShots": 12,
-          "shotsOnGoal": 4,
-          "yellowCards": 3,
+          "minutesScored": [],
+          "cornersTotal": 5,
+          "totalShots": 13,
+          "shotsOnGoal": 5,
+          "yellowCards": 2,
           "redCards": 0,
-          "foulsCommitted": 12
+          "foulsCommitted": 7
         },
         {
           "fixtureId": 1629022,
@@ -4844,11 +4394,7 @@
           "date": "2026-08-15T14:00:00+00:00",
           "opponent": "Dundee",
           "isHome": true,
-          "minutesScored": [
-            51,
-            57,
-            63
-          ],
+          "minutesScored": [],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -4865,13 +4411,16 @@
           "date": "2026-08-08T14:00:00+00:00",
           "opponent": "Dundee",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 4,
-          "totalShots": 9,
-          "shotsOnGoal": 3,
-          "yellowCards": 3,
+          "minutesScored": [
+            9,
+            56
+          ],
+          "cornersTotal": 5,
+          "totalShots": 18,
+          "shotsOnGoal": 7,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 12
+          "foulsCommitted": 9
         },
         {
           "fixtureId": 1556630,
@@ -4950,14 +4499,15 @@
           "opponent": "Heart Of Midlothian",
           "isHome": false,
           "minutesScored": [
-            17
+            84,
+            90
           ],
-          "cornersTotal": 2,
-          "totalShots": 4,
-          "shotsOnGoal": 1,
-          "yellowCards": 3,
-          "redCards": 1,
-          "foulsCommitted": 19
+          "cornersTotal": 14,
+          "totalShots": 27,
+          "shotsOnGoal": 7,
+          "yellowCards": 2,
+          "redCards": 0,
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1556653,
@@ -4969,14 +4519,14 @@
           "opponent": "ST Johnstone",
           "isHome": true,
           "minutesScored": [
-            87
+            90
           ],
-          "cornersTotal": 2,
-          "totalShots": 10,
-          "shotsOnGoal": 2,
-          "yellowCards": 0,
+          "cornersTotal": 5,
+          "totalShots": 15,
+          "shotsOnGoal": 3,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 16
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1556648,
@@ -5006,14 +4556,11 @@
           "date": "2026-08-22T16:45:00+00:00",
           "opponent": "Dundee Utd",
           "isHome": false,
-          "minutesScored": [
-            43,
-            57
-          ],
+          "minutesScored": [],
           "cornersTotal": 6,
-          "totalShots": 14,
-          "shotsOnGoal": 4,
-          "yellowCards": 3,
+          "totalShots": 24,
+          "shotsOnGoal": 5,
+          "yellowCards": 4,
           "redCards": null,
           "foulsCommitted": 11
         },
@@ -5151,14 +4698,15 @@
           "opponent": "Falkirk",
           "isHome": false,
           "minutesScored": [
-            22
+            8,
+            68
           ],
-          "cornersTotal": 4,
-          "totalShots": 9,
+          "cornersTotal": 3,
+          "totalShots": 13,
           "shotsOnGoal": 4,
-          "yellowCards": 3,
+          "yellowCards": 4,
           "redCards": 0,
-          "foulsCommitted": 13
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1629025,
@@ -5232,15 +4780,14 @@
           "opponent": "ST Johnstone",
           "isHome": true,
           "minutesScored": [
-            9,
-            39
+            48
           ],
-          "cornersTotal": 8,
-          "totalShots": 16,
-          "shotsOnGoal": 7,
+          "cornersTotal": 4,
+          "totalShots": 9,
+          "shotsOnGoal": 4,
           "yellowCards": null,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1623429,
@@ -5334,16 +4881,11 @@
           "date": "2026-08-09T14:00:00+00:00",
           "opponent": "Dundee Utd",
           "isHome": true,
-          "minutesScored": [
-            4,
-            12,
-            56,
-            67
-          ],
-          "cornersTotal": 7,
-          "totalShots": 12,
-          "shotsOnGoal": 7,
-          "yellowCards": 1,
+          "minutesScored": [],
+          "cornersTotal": 2,
+          "totalShots": 10,
+          "shotsOnGoal": 0,
+          "yellowCards": 2,
           "redCards": null,
           "foulsCommitted": 11
         }
@@ -5394,17 +4936,13 @@
           "date": "2026-09-02T18:45:00+00:00",
           "opponent": "Dundee Utd",
           "isHome": true,
-          "minutesScored": [
-            19,
-            65,
-            67
-          ],
-          "cornersTotal": 9,
-          "totalShots": 25,
-          "shotsOnGoal": 8,
-          "yellowCards": 1,
-          "redCards": 0,
-          "foulsCommitted": 8
+          "minutesScored": [],
+          "cornersTotal": 3,
+          "totalShots": 5,
+          "shotsOnGoal": 1,
+          "yellowCards": 0,
+          "redCards": 1,
+          "foulsCommitted": 6
         },
         {
           "fixtureId": 1556651,
@@ -5514,11 +5052,11 @@
           "isHome": true,
           "minutesScored": [],
           "cornersTotal": 2,
-          "totalShots": 11,
+          "totalShots": 10,
           "shotsOnGoal": 1,
           "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 17
+          "foulsCommitted": 16
         },
         {
           "fixtureId": 1607586,
@@ -5832,15 +5370,15 @@
           "opponent": "Molde",
           "isHome": true,
           "minutesScored": [
-            25,
-            76
+            98,
+            90
           ],
-          "cornersTotal": 1,
-          "totalShots": 10,
-          "shotsOnGoal": 2,
-          "yellowCards": 2,
+          "cornersTotal": 12,
+          "totalShots": 28,
+          "shotsOnGoal": 10,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 10
         },
         {
           "fixtureId": 1494720,
@@ -5906,13 +5444,18 @@
           "date": "2026-07-12T15:00:00+00:00",
           "opponent": "Rosenborg",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 7,
-          "totalShots": 13,
-          "shotsOnGoal": 2,
-          "yellowCards": 1,
+          "minutesScored": [
+            25,
+            31,
+            53,
+            73
+          ],
+          "cornersTotal": 8,
+          "totalShots": 17,
+          "shotsOnGoal": 9,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 22
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1548748,
@@ -6116,15 +5659,15 @@
           "opponent": "Aalesund",
           "isHome": false,
           "minutesScored": [
-            18,
-            31
+            14,
+            90
           ],
-          "cornersTotal": 7,
-          "totalShots": 20,
-          "shotsOnGoal": 8,
-          "yellowCards": 3,
+          "cornersTotal": 2,
+          "totalShots": 9,
+          "shotsOnGoal": 4,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 18
         },
         {
           "fixtureId": 1550525,
@@ -6434,15 +5977,13 @@
           "date": "2026-08-30T14:30:00+00:00",
           "opponent": "Orgryte IS",
           "isHome": true,
-          "minutesScored": [
-            61
-          ],
-          "cornersTotal": 11,
-          "totalShots": 20,
+          "minutesScored": [],
+          "cornersTotal": 5,
+          "totalShots": 13,
           "shotsOnGoal": 5,
-          "yellowCards": 2,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1494251,
@@ -6590,15 +6131,13 @@
           "date": "2026-09-05T15:30:00+00:00",
           "opponent": "Vasteras SK FK",
           "isHome": false,
-          "minutesScored": [
-            51
-          ],
-          "cornersTotal": 2,
-          "totalShots": 10,
-          "shotsOnGoal": 4,
-          "yellowCards": 0,
+          "minutesScored": [],
+          "cornersTotal": 8,
+          "totalShots": 12,
+          "shotsOnGoal": 2,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 12
+          "foulsCommitted": 16
         },
         {
           "fixtureId": 1494264,
@@ -6609,13 +6148,15 @@
           "date": "2026-08-31T17:00:00+00:00",
           "opponent": "Malmo FF",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 7,
-          "totalShots": 17,
-          "shotsOnGoal": 2,
+          "minutesScored": [
+            44
+          ],
+          "cornersTotal": 4,
+          "totalShots": 15,
+          "shotsOnGoal": 6,
           "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 16
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1548377,
@@ -6685,15 +6226,15 @@
           "opponent": "IF Brommapojkarna",
           "isHome": true,
           "minutesScored": [
-            17,
-            23
+            25,
+            28
           ],
-          "cornersTotal": 8,
-          "totalShots": 20,
-          "shotsOnGoal": 9,
-          "yellowCards": 2,
+          "cornersTotal": 4,
+          "totalShots": 11,
+          "shotsOnGoal": 4,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 18
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1494232,
@@ -6868,16 +6409,14 @@
           "opponent": "Orgryte IS",
           "isHome": true,
           "minutesScored": [
-            28,
-            63,
-            87
+            59
           ],
-          "cornersTotal": 8,
-          "totalShots": 20,
-          "shotsOnGoal": 4,
-          "yellowCards": 0,
+          "cornersTotal": 7,
+          "totalShots": 11,
+          "shotsOnGoal": 3,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 9
         },
         {
           "fixtureId": 1494239,
@@ -6909,14 +6448,16 @@
           "opponent": "Malmo FF",
           "isHome": true,
           "minutesScored": [
-            77
+            9,
+            51,
+            86
           ],
           "cornersTotal": 4,
-          "totalShots": 11,
-          "shotsOnGoal": 3,
-          "yellowCards": 2,
+          "totalShots": 18,
+          "shotsOnGoal": 8,
+          "yellowCards": 5,
           "redCards": null,
-          "foulsCommitted": 11
+          "foulsCommitted": 21
         },
         {
           "fixtureId": 1494217,
@@ -6970,17 +6511,14 @@
           "opponent": "Orgryte IS",
           "isHome": true,
           "minutesScored": [
-            58,
-            71,
-            90,
-            94
+            82
           ],
-          "cornersTotal": 5,
-          "totalShots": 26,
-          "shotsOnGoal": 12,
-          "yellowCards": 3,
+          "cornersTotal": 3,
+          "totalShots": 7,
+          "shotsOnGoal": 1,
+          "yellowCards": 0,
           "redCards": 0,
-          "foulsCommitted": 19
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1494269,
@@ -7230,15 +6768,16 @@
           "opponent": "Gimnasia M.",
           "isHome": true,
           "minutesScored": [
-            46,
-            62
+            17,
+            39,
+            76
           ],
-          "cornersTotal": 6,
-          "totalShots": 15,
-          "shotsOnGoal": 5,
-          "yellowCards": 0,
+          "cornersTotal": 1,
+          "totalShots": 14,
+          "shotsOnGoal": 6,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 4
+          "foulsCommitted": 24
         },
         {
           "fixtureId": 1598011,
@@ -7250,7 +6789,7 @@
           "opponent": "Deportivo Riestra",
           "isHome": false,
           "minutesScored": [
-            53,
+            38,
             121,
             122,
             123,
@@ -7329,13 +6868,11 @@
           "date": "2026-07-29T22:15:00+00:00",
           "opponent": "River Plate",
           "isHome": true,
-          "minutesScored": [
-            80
-          ],
-          "cornersTotal": 3,
-          "totalShots": 14,
+          "minutesScored": [],
+          "cornersTotal": 8,
+          "totalShots": 10,
           "shotsOnGoal": 3,
-          "yellowCards": 1,
+          "yellowCards": 2,
           "redCards": null,
           "foulsCommitted": 11
         },
@@ -7414,16 +6951,15 @@
           "opponent": "Banfield",
           "isHome": false,
           "minutesScored": [
-            32,
-            41,
-            69
+            64,
+            84
           ],
-          "cornersTotal": 2,
-          "totalShots": 19,
-          "shotsOnGoal": 8,
-          "yellowCards": 0,
+          "cornersTotal": 4,
+          "totalShots": 14,
+          "shotsOnGoal": 5,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 9
         },
         {
           "fixtureId": 1607652,
@@ -7566,14 +7102,15 @@
           "opponent": "Talleres Cordoba",
           "isHome": false,
           "minutesScored": [
-            90
+            39,
+            75
           ],
-          "cornersTotal": 4,
-          "totalShots": 17,
-          "shotsOnGoal": 4,
-          "yellowCards": 3,
+          "cornersTotal": 11,
+          "totalShots": 22,
+          "shotsOnGoal": 7,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1493120,
@@ -7585,16 +7122,15 @@
           "opponent": "Instituto Cordoba",
           "isHome": true,
           "minutesScored": [
-            25,
-            48,
-            74
+            13,
+            87
           ],
-          "cornersTotal": 2,
-          "totalShots": 9,
-          "shotsOnGoal": 4,
-          "yellowCards": 1,
+          "cornersTotal": 7,
+          "totalShots": 11,
+          "shotsOnGoal": 2,
+          "yellowCards": 5,
           "redCards": 1,
-          "foulsCommitted": 6
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1493106,
@@ -7701,13 +7237,16 @@
           "date": "2026-08-01T18:30:00+00:00",
           "opponent": "Gimnasia M.",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 5,
-          "totalShots": 13,
-          "shotsOnGoal": 4,
-          "yellowCards": 0,
+          "minutesScored": [
+            45,
+            50
+          ],
+          "cornersTotal": 9,
+          "totalShots": 15,
+          "shotsOnGoal": 7,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 15
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1493012,
@@ -7817,12 +7356,12 @@
           "opponent": "Deportivo Riestra",
           "isHome": true,
           "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 12,
-          "shotsOnGoal": 4,
-          "yellowCards": 0,
+          "cornersTotal": 4,
+          "totalShots": 13,
+          "shotsOnGoal": 2,
+          "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 9
+          "foulsCommitted": 21
         },
         {
           "fixtureId": 1493075,
@@ -7969,7 +7508,7 @@
           "opponent": "Deportivo Riestra",
           "isHome": false,
           "minutesScored": [
-            50
+            45
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -8183,13 +7722,17 @@
           "date": "2026-08-30T22:15:00+00:00",
           "opponent": "Gimnasia M.",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 7,
+          "minutesScored": [
+            42,
+            53,
+            60
+          ],
+          "cornersTotal": 4,
           "totalShots": 11,
           "shotsOnGoal": 4,
           "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 7
+          "foulsCommitted": 15
         },
         {
           "fixtureId": 1493084,
@@ -8409,14 +7952,17 @@
           "opponent": "Gimnasia M.",
           "isHome": false,
           "minutesScored": [
-            85
+            9,
+            20,
+            51,
+            83
           ],
-          "cornersTotal": 3,
-          "totalShots": 15,
-          "shotsOnGoal": 5,
+          "cornersTotal": 7,
+          "totalShots": 18,
+          "shotsOnGoal": 6,
           "yellowCards": 3,
           "redCards": 1,
-          "foulsCommitted": 8
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1493059,
@@ -8832,16 +8378,13 @@
           "date": "2026-08-09T00:30:00+00:00",
           "opponent": "Gimnasia M.",
           "isHome": true,
-          "minutesScored": [
-            76,
-            80
-          ],
-          "cornersTotal": 3,
-          "totalShots": 15,
-          "shotsOnGoal": 7,
-          "yellowCards": 4,
+          "minutesScored": [],
+          "cornersTotal": 2,
+          "totalShots": 5,
+          "shotsOnGoal": 1,
+          "yellowCards": 5,
           "redCards": null,
-          "foulsCommitted": 17
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1493040,
@@ -8933,15 +8476,14 @@
           "opponent": "Udinese",
           "isHome": false,
           "minutesScored": [
-            75,
-            88
+            49
           ],
-          "cornersTotal": 8,
-          "totalShots": 19,
+          "cornersTotal": 2,
+          "totalShots": 10,
           "shotsOnGoal": 6,
-          "yellowCards": 1,
+          "yellowCards": 5,
           "redCards": null,
-          "foulsCommitted": 9
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1550102,
@@ -8971,15 +8513,13 @@
           "date": "2026-08-24T16:30:00+00:00",
           "opponent": "Bologna",
           "isHome": false,
-          "minutesScored": [
-            59
-          ],
-          "cornersTotal": 6,
-          "totalShots": 10,
-          "shotsOnGoal": 3,
+          "minutesScored": [],
+          "cornersTotal": 8,
+          "totalShots": 14,
+          "shotsOnGoal": 5,
           "yellowCards": 4,
           "redCards": null,
-          "foulsCommitted": 19
+          "foulsCommitted": 18
         },
         {
           "fixtureId": 1564801,
@@ -9180,13 +8720,15 @@
           "date": "2026-08-30T18:45:00+00:00",
           "opponent": "Inter",
           "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 8,
-          "totalShots": 10,
-          "shotsOnGoal": 0,
-          "yellowCards": 2,
+          "minutesScored": [
+            9
+          ],
+          "cornersTotal": 6,
+          "totalShots": 31,
+          "shotsOnGoal": 7,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 6
+          "foulsCommitted": 5
         },
         {
           "fixtureId": 1550093,
@@ -9313,13 +8855,15 @@
           "opponent": "Inter",
           "isHome": false,
           "minutesScored": [
-            9,
-            16,
-            90
+            26,
+            35,
+            57,
+            67,
+            79
           ],
-          "cornersTotal": 1,
-          "totalShots": 6,
-          "shotsOnGoal": 5,
+          "cornersTotal": 10,
+          "totalShots": 27,
+          "shotsOnGoal": 12,
           "yellowCards": 1,
           "redCards": null,
           "foulsCommitted": 9
@@ -9353,15 +8897,14 @@
           "opponent": "Venezia",
           "isHome": true,
           "minutesScored": [
-            34,
-            53
+            9
           ],
-          "cornersTotal": 8,
-          "totalShots": 16,
-          "shotsOnGoal": 8,
-          "yellowCards": 1,
+          "cornersTotal": 2,
+          "totalShots": 11,
+          "shotsOnGoal": 4,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 18
+          "foulsCommitted": 8
         },
         {
           "fixtureId": 1550104,
@@ -9431,9 +8974,7 @@
           "date": "2026-08-08T20:00:00+00:00",
           "opponent": "Barcelona",
           "isHome": true,
-          "minutesScored": [
-            45
-          ],
+          "minutesScored": [],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -9511,16 +9052,13 @@
           "date": "2026-09-14T16:30:00+00:00",
           "opponent": "Torino",
           "isHome": false,
-          "minutesScored": [
-            40,
-            90
-          ],
-          "cornersTotal": 8,
-          "totalShots": 14,
-          "shotsOnGoal": 5,
-          "yellowCards": 2,
+          "minutesScored": [],
+          "cornersTotal": 1,
+          "totalShots": 8,
+          "shotsOnGoal": 3,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 20
+          "foulsCommitted": 7
         },
         {
           "fixtureId": 1635659,
@@ -10517,21 +10055,15 @@
           "opponent": "Racing Santander",
           "isHome": true,
           "minutesScored": [
-            8,
-            25,
-            36,
-            42,
-            45,
-            67,
-            79,
-            89
+            30,
+            65
           ],
-          "cornersTotal": 18,
-          "totalShots": 30,
-          "shotsOnGoal": 9,
-          "yellowCards": 3,
+          "cornersTotal": 0,
+          "totalShots": 5,
+          "shotsOnGoal": 3,
+          "yellowCards": 2,
           "redCards": 0,
-          "foulsCommitted": 10
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1570376,
@@ -10611,18 +10143,15 @@
           "opponent": "Rayo Vallecano",
           "isHome": true,
           "minutesScored": [
-            19,
-            21,
-            51,
-            71,
-            90
+            12,
+            59
           ],
-          "cornersTotal": 9,
-          "totalShots": 26,
-          "shotsOnGoal": 9,
-          "yellowCards": 0,
+          "cornersTotal": 5,
+          "totalShots": 11,
+          "shotsOnGoal": 5,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 4
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1570335,
@@ -10633,16 +10162,13 @@
           "date": "2026-08-27T19:00:00+00:00",
           "opponent": "Athletic Club",
           "isHome": true,
-          "minutesScored": [
-            37,
-            82
-          ],
-          "cornersTotal": 12,
-          "totalShots": 22,
-          "shotsOnGoal": 10,
-          "yellowCards": 1,
+          "minutesScored": [],
+          "cornersTotal": 5,
+          "totalShots": 5,
+          "shotsOnGoal": 0,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 6
         },
         {
           "fixtureId": 1570346,
@@ -10781,16 +10307,13 @@
           "date": "2026-08-30T19:30:00+00:00",
           "opponent": "Celta Vigo",
           "isHome": false,
-          "minutesScored": [
-            20,
-            22
-          ],
-          "cornersTotal": 7,
-          "totalShots": 17,
-          "shotsOnGoal": 7,
-          "yellowCards": 3,
+          "minutesScored": [],
+          "cornersTotal": 4,
+          "totalShots": 8,
+          "shotsOnGoal": 2,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 17
+          "foulsCommitted": 8
         },
         {
           "fixtureId": 1570335,
@@ -10819,14 +10342,16 @@
           "opponent": "Sevilla",
           "isHome": true,
           "minutesScored": [
-            70
+            15,
+            50,
+            57
           ],
-          "cornersTotal": 10,
-          "totalShots": 18,
-          "shotsOnGoal": 8,
-          "yellowCards": 2,
-          "redCards": 1,
-          "foulsCommitted": 11
+          "cornersTotal": 3,
+          "totalShots": 7,
+          "shotsOnGoal": 4,
+          "yellowCards": 5,
+          "redCards": 0,
+          "foulsCommitted": 16
         },
         {
           "fixtureId": 1607295,
@@ -10907,11 +10432,7 @@
           "date": "2026-07-29T17:00:00+00:00",
           "opponent": "Racing Santander",
           "isHome": false,
-          "minutesScored": [
-            8,
-            78,
-            82
-          ],
+          "minutesScored": [],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -11030,14 +10551,13 @@
           "opponent": "Rayo Vallecano",
           "isHome": true,
           "minutesScored": [
-            52,
-            90
+            4
           ],
-          "cornersTotal": 1,
-          "totalShots": 13,
-          "shotsOnGoal": 4,
+          "cornersTotal": 2,
+          "totalShots": 6,
+          "shotsOnGoal": 3,
           "yellowCards": 4,
-          "redCards": 1,
+          "redCards": 0,
           "foulsCommitted": 18
         },
         {
@@ -11221,14 +10741,15 @@
           "opponent": "Osasuna",
           "isHome": true,
           "minutesScored": [
-            14
+            54,
+            64
           ],
-          "cornersTotal": 5,
-          "totalShots": 4,
-          "shotsOnGoal": 2,
+          "cornersTotal": 3,
+          "totalShots": 13,
+          "shotsOnGoal": 5,
           "yellowCards": 1,
-          "redCards": 1,
-          "foulsCommitted": 7
+          "redCards": 0,
+          "foulsCommitted": 16
         },
         {
           "fixtureId": 1570352,
@@ -11339,14 +10860,15 @@
           "opponent": "Racing Santander",
           "isHome": false,
           "minutesScored": [
-            18
+            38,
+            53
           ],
-          "cornersTotal": 6,
-          "totalShots": 16,
-          "shotsOnGoal": 8,
-          "yellowCards": 3,
-          "redCards": 0,
-          "foulsCommitted": 17
+          "cornersTotal": 4,
+          "totalShots": 11,
+          "shotsOnGoal": 4,
+          "yellowCards": 2,
+          "redCards": 1,
+          "foulsCommitted": 16
         },
         {
           "fixtureId": 1570363,
@@ -11358,18 +10880,15 @@
           "opponent": "Osasuna",
           "isHome": true,
           "minutesScored": [
-            27,
-            36,
-            51,
-            68,
-            90
+            46,
+            64
           ],
-          "cornersTotal": 4,
-          "totalShots": 12,
-          "shotsOnGoal": 7,
-          "yellowCards": 1,
+          "cornersTotal": 1,
+          "totalShots": 7,
+          "shotsOnGoal": 5,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 14
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1570353,
@@ -11400,14 +10919,14 @@
           "opponent": "Rayo Vallecano",
           "isHome": false,
           "minutesScored": [
-            84
+            48
           ],
-          "cornersTotal": 7,
-          "totalShots": 15,
+          "cornersTotal": 9,
+          "totalShots": 8,
           "shotsOnGoal": 3,
-          "yellowCards": 2,
+          "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1570333,
@@ -11440,7 +10959,7 @@
           "opponent": "Racing Santander",
           "isHome": false,
           "minutesScored": [
-            45,
+            68,
             121,
             122,
             123,
@@ -11509,394 +11028,6 @@
           "isHome": true,
           "minutesScored": [
             66
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        }
-      ]
-    },
-    "727": {
-      "fixtures": [
-        {
-          "fixtureId": 1570384,
-          "gf_ht": 0,
-          "ga_ht": 1,
-          "gf_ft": 0,
-          "ga_ft": 4,
-          "date": "2026-09-16T17:00:00+00:00",
-          "opponent": "Atletico Madrid",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 0,
-          "totalShots": 3,
-          "shotsOnGoal": 1,
-          "yellowCards": 2,
-          "redCards": 0,
-          "foulsCommitted": 12
-        },
-        {
-          "fixtureId": 1570377,
-          "gf_ht": 0,
-          "ga_ht": 2,
-          "gf_ft": 0,
-          "ga_ft": 2,
-          "date": "2026-09-12T14:15:00+00:00",
-          "opponent": "Espanyol",
-          "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 3,
-          "totalShots": 11,
-          "shotsOnGoal": 4,
-          "yellowCards": 2,
-          "redCards": null,
-          "foulsCommitted": 10
-        },
-        {
-          "fixtureId": 1570363,
-          "gf_ht": 0,
-          "ga_ht": 2,
-          "gf_ft": 2,
-          "ga_ft": 5,
-          "date": "2026-09-06T16:30:00+00:00",
-          "opponent": "Alaves",
-          "isHome": false,
-          "minutesScored": [
-            46,
-            64
-          ],
-          "cornersTotal": 1,
-          "totalShots": 7,
-          "shotsOnGoal": 5,
-          "yellowCards": 2,
-          "redCards": null,
-          "foulsCommitted": 13
-        },
-        {
-          "fixtureId": 1570358,
-          "gf_ht": 1,
-          "ga_ht": 0,
-          "gf_ft": 1,
-          "ga_ft": 0,
-          "date": "2026-08-31T17:30:00+00:00",
-          "opponent": "Getafe",
-          "isHome": true,
-          "minutesScored": [
-            45
-          ],
-          "cornersTotal": 1,
-          "totalShots": 10,
-          "shotsOnGoal": 2,
-          "yellowCards": 5,
-          "redCards": null,
-          "foulsCommitted": 17
-        },
-        {
-          "fixtureId": 1570336,
-          "gf_ht": 0,
-          "ga_ht": 1,
-          "gf_ft": 2,
-          "ga_ft": 1,
-          "date": "2026-08-27T18:30:00+00:00",
-          "opponent": "Celta Vigo",
-          "isHome": false,
-          "minutesScored": [
-            54,
-            64
-          ],
-          "cornersTotal": 3,
-          "totalShots": 13,
-          "shotsOnGoal": 5,
-          "yellowCards": 1,
-          "redCards": 0,
-          "foulsCommitted": 16
-        },
-        {
-          "fixtureId": 1570350,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 0,
-          "ga_ft": 0,
-          "date": "2026-08-24T17:30:00+00:00",
-          "opponent": "Levante",
-          "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": 9,
-          "totalShots": 12,
-          "shotsOnGoal": 7,
-          "yellowCards": 2,
-          "redCards": null,
-          "foulsCommitted": 9
-        },
-        {
-          "fixtureId": 1604781,
-          "gf_ht": 0,
-          "ga_ht": 1,
-          "gf_ft": 0,
-          "ga_ft": 2,
-          "date": "2026-08-08T18:00:00+00:00",
-          "opponent": "Al Ain",
-          "isHome": true,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1598586,
-          "gf_ht": 0,
-          "ga_ht": 1,
-          "gf_ft": 1,
-          "ga_ft": 2,
-          "date": "2026-08-05T16:30:00+00:00",
-          "opponent": "Napoli",
-          "isHome": false,
-          "minutesScored": [
-            69
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1548939,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 2,
-          "ga_ft": 1,
-          "date": "2026-08-01T14:00:00+00:00",
-          "opponent": "Norwich",
-          "isHome": false,
-          "minutesScored": [
-            67,
-            90
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1583493,
-          "gf_ht": 1,
-          "ga_ht": 0,
-          "gf_ft": 2,
-          "ga_ft": 1,
-          "date": "2026-07-29T18:45:00+00:00",
-          "opponent": "Ipswich",
-          "isHome": false,
-          "minutesScored": [
-            5,
-            81
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        }
-      ]
-    },
-    "728": {
-      "fixtures": [
-        {
-          "fixtureId": 1570391,
-          "gf_ht": 2,
-          "ga_ht": 0,
-          "gf_ft": 2,
-          "ga_ft": 1,
-          "date": "2026-09-15T17:00:00+00:00",
-          "opponent": "Espanyol",
-          "isHome": true,
-          "minutesScored": [
-            3,
-            26
-          ],
-          "cornersTotal": 3,
-          "totalShots": 16,
-          "shotsOnGoal": 2,
-          "yellowCards": 5,
-          "redCards": 0,
-          "foulsCommitted": 10
-        },
-        {
-          "fixtureId": 1570379,
-          "gf_ht": 0,
-          "ga_ht": 3,
-          "gf_ft": 1,
-          "ga_ft": 4,
-          "date": "2026-09-12T19:00:00+00:00",
-          "opponent": "Real Madrid",
-          "isHome": false,
-          "minutesScored": [
-            51
-          ],
-          "cornersTotal": 5,
-          "totalShots": 18,
-          "shotsOnGoal": 7,
-          "yellowCards": 1,
-          "redCards": null,
-          "foulsCommitted": 13
-        },
-        {
-          "fixtureId": 1570370,
-          "gf_ht": 2,
-          "ga_ht": 2,
-          "gf_ft": 3,
-          "ga_ft": 2,
-          "date": "2026-09-05T16:30:00+00:00",
-          "opponent": "Racing Santander",
-          "isHome": true,
-          "minutesScored": [
-            17,
-            43,
-            47
-          ],
-          "cornersTotal": 9,
-          "totalShots": 16,
-          "shotsOnGoal": 10,
-          "yellowCards": 3,
-          "redCards": 2,
-          "foulsCommitted": 15
-        },
-        {
-          "fixtureId": 1570354,
-          "gf_ht": 1,
-          "ga_ht": 2,
-          "gf_ft": 2,
-          "ga_ft": 5,
-          "date": "2026-08-31T19:30:00+00:00",
-          "opponent": "Barcelona",
-          "isHome": false,
-          "minutesScored": [
-            12,
-            59
-          ],
-          "cornersTotal": 5,
-          "totalShots": 11,
-          "shotsOnGoal": 5,
-          "yellowCards": 1,
-          "redCards": null,
-          "foulsCommitted": 11
-        },
-        {
-          "fixtureId": 1570351,
-          "gf_ht": 0,
-          "ga_ht": 0,
-          "gf_ft": 1,
-          "ga_ft": 1,
-          "date": "2026-08-20T19:00:00+00:00",
-          "opponent": "Alaves",
-          "isHome": true,
-          "minutesScored": [
-            48
-          ],
-          "cornersTotal": 9,
-          "totalShots": 8,
-          "shotsOnGoal": 3,
-          "yellowCards": 1,
-          "redCards": null,
-          "foulsCommitted": 14
-        },
-        {
-          "fixtureId": 1570341,
-          "gf_ht": 1,
-          "ga_ht": 0,
-          "gf_ft": 1,
-          "ga_ft": 2,
-          "date": "2026-08-15T19:30:00+00:00",
-          "opponent": "Sevilla",
-          "isHome": false,
-          "minutesScored": [
-            4
-          ],
-          "cornersTotal": 2,
-          "totalShots": 6,
-          "shotsOnGoal": 3,
-          "yellowCards": 4,
-          "redCards": 0,
-          "foulsCommitted": 18
-        },
-        {
-          "fixtureId": 1585060,
-          "gf_ht": 0,
-          "ga_ht": 3,
-          "gf_ft": 0,
-          "ga_ft": 3,
-          "date": "2026-08-08T14:00:00+00:00",
-          "opponent": "Ipswich",
-          "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1583589,
-          "gf_ht": 1,
-          "ga_ht": 0,
-          "gf_ft": 3,
-          "ga_ft": 2,
-          "date": "2026-08-01T17:00:00+00:00",
-          "opponent": "Charleroi",
-          "isHome": false,
-          "minutesScored": [
-            24,
-            61,
-            90
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1548029,
-          "gf_ht": 1,
-          "ga_ht": 1,
-          "gf_ft": 1,
-          "ga_ft": 2,
-          "date": "2026-07-26T12:00:00+00:00",
-          "opponent": "Feyenoord",
-          "isHome": false,
-          "minutesScored": [
-            41
-          ],
-          "cornersTotal": null,
-          "totalShots": null,
-          "shotsOnGoal": null,
-          "yellowCards": null,
-          "redCards": null,
-          "foulsCommitted": null
-        },
-        {
-          "fixtureId": 1560635,
-          "gf_ht": 0,
-          "ga_ht": 2,
-          "gf_ft": 1,
-          "ga_ft": 2,
-          "date": "2026-07-17T18:45:00+00:00",
-          "opponent": "Heart Of Midlothian",
-          "isHome": false,
-          "minutesScored": [
-            60
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -13081,14 +12212,14 @@
           "opponent": "Falkirk",
           "isHome": true,
           "minutesScored": [
-            90
+            4
           ],
-          "cornersTotal": 14,
-          "totalShots": 27,
-          "shotsOnGoal": 9,
-          "yellowCards": 3,
+          "cornersTotal": 5,
+          "totalShots": 12,
+          "shotsOnGoal": 4,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 16
+          "foulsCommitted": 14
         },
         {
           "fixtureId": 1556657,
@@ -13628,13 +12759,16 @@
           "date": "2026-07-24T17:00:00+00:00",
           "opponent": "Vasteras SK FK",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 5,
-          "totalShots": 13,
-          "shotsOnGoal": 2,
-          "yellowCards": 1,
+          "minutesScored": [
+            13,
+            59
+          ],
+          "cornersTotal": 2,
+          "totalShots": 16,
+          "shotsOnGoal": 8,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 13
+          "foulsCommitted": 17
         },
         {
           "fixtureId": 1494216,
@@ -14836,28 +13970,6 @@
   "frios1t": {
     "qualified": [
       {
-        "id": 727,
-        "name": "Osasuna",
-        "side": "home",
-        "game": {
-          "time": "09:00",
-          "date": "2026-09-19T09:00:00-03:00",
-          "league": "La Liga (Espanha)",
-          "leagueCountry": "Spain",
-          "leagueId": 140,
-          "leagueSeason": 2026,
-          "fixtureId": 1570399,
-          "home": {
-            "id": 727,
-            "name": "Osasuna"
-          },
-          "away": {
-            "id": 728,
-            "name": "Rayo Vallecano"
-          }
-        }
-      },
-      {
         "id": 371,
         "name": "IF Brommapojkarna",
         "side": "home",
@@ -15628,7 +14740,7 @@
         }
       }
     ],
-    "totalTeams": 72,
-    "usableTeams": 72
+    "totalTeams": 68,
+    "usableTeams": 68
   }
 }
