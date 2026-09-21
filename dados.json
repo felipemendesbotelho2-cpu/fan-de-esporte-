@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-21T07:33:39.243Z",
+  "updatedAt": "2026-09-21T16:44:56.671Z",
   "games": [
     {
       "time": "14:30",
@@ -133,16 +133,13 @@
           "date": "2026-09-04T22:30:00+00:00",
           "opponent": "Cuiaba",
           "isHome": true,
-          "minutesScored": [
-            19,
-            53
-          ],
-          "cornersTotal": 4,
-          "totalShots": 8,
-          "shotsOnGoal": 1,
-          "yellowCards": 2,
+          "minutesScored": [],
+          "cornersTotal": 2,
+          "totalShots": 11,
+          "shotsOnGoal": 0,
+          "yellowCards": 0,
           "redCards": null,
-          "foulsCommitted": 16
+          "foulsCommitted": 11
         },
         {
           "fixtureId": 1520843,
@@ -245,10 +242,10 @@
           "opponent": "Nautico Recife",
           "isHome": true,
           "minutesScored": [],
-          "cornersTotal": 7,
-          "totalShots": 16,
-          "shotsOnGoal": 5,
-          "yellowCards": 0,
+          "cornersTotal": 4,
+          "totalShots": 12,
+          "shotsOnGoal": 4,
+          "yellowCards": 4,
           "redCards": null,
           "foulsCommitted": 18
         },
@@ -571,9 +568,7 @@
           "opponent": "Barracas Central",
           "isHome": true,
           "minutesScored": [
-            40,
-            51,
-            88
+            84
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -677,7 +672,7 @@
           "opponent": "Independ. Rivadavia",
           "isHome": false,
           "minutesScored": [
-            90
+            45
           ],
           "cornersTotal": null,
           "totalShots": null,
@@ -871,16 +866,17 @@
           "opponent": "Independ. Rivadavia",
           "isHome": false,
           "minutesScored": [
-            13,
-            59,
-            90
+            10,
+            19,
+            45,
+            75
           ],
-          "cornersTotal": 6,
-          "totalShots": 25,
-          "shotsOnGoal": 9,
-          "yellowCards": 2,
+          "cornersTotal": 2,
+          "totalShots": 15,
+          "shotsOnGoal": 8,
+          "yellowCards": 3,
           "redCards": null,
-          "foulsCommitted": 10
+          "foulsCommitted": 13
         },
         {
           "fixtureId": 1493107,
@@ -931,7 +927,10 @@
           "date": "2026-08-26T22:15:00+00:00",
           "opponent": "Independ. Rivadavia",
           "isHome": true,
-          "minutesScored": [],
+          "minutesScored": [
+            18,
+            90
+          ],
           "cornersTotal": null,
           "totalShots": null,
           "shotsOnGoal": null,
@@ -1022,13 +1021,15 @@
           "date": "2026-07-29T17:30:00+00:00",
           "opponent": "Barracas Central",
           "isHome": false,
-          "minutesScored": [],
-          "cornersTotal": 8,
-          "totalShots": 9,
-          "shotsOnGoal": 1,
+          "minutesScored": [
+            40
+          ],
+          "cornersTotal": 1,
+          "totalShots": 10,
+          "shotsOnGoal": 4,
           "yellowCards": 1,
           "redCards": null,
-          "foulsCommitted": 17
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1493004,
@@ -1259,16 +1260,16 @@
           "opponent": "Operario-PR",
           "isHome": true,
           "minutesScored": [
-            1,
-            83,
-            88
+            47,
+            94,
+            95
           ],
-          "cornersTotal": 4,
-          "totalShots": 21,
+          "cornersTotal": 2,
+          "totalShots": 16,
           "shotsOnGoal": 6,
-          "yellowCards": 2,
+          "yellowCards": 4,
           "redCards": 0,
-          "foulsCommitted": 23
+          "foulsCommitted": 10
         },
         {
           "fixtureId": 1520860,
@@ -1550,15 +1551,13 @@
           "date": "2026-08-19T23:30:00+00:00",
           "opponent": "Operario-PR",
           "isHome": true,
-          "minutesScored": [
-            74
-          ],
-          "cornersTotal": 4,
-          "totalShots": 6,
-          "shotsOnGoal": 1,
-          "yellowCards": 3,
+          "minutesScored": [],
+          "cornersTotal": 9,
+          "totalShots": 21,
+          "shotsOnGoal": 3,
+          "yellowCards": 2,
           "redCards": null,
-          "foulsCommitted": 16
+          "foulsCommitted": 12
         },
         {
           "fixtureId": 1520812,
