@@ -1,10 +1,45 @@
 {
-  "updatedAt": "2026-09-25T01:06:32.226Z",
-  "games": [],
+  "updatedAt": "2026-09-25T07:01:53.319Z",
+  "games": [
+    {
+      "time": "19:30",
+      "date": "2026-09-25T19:30:00-03:00",
+      "league": "Brasileirão Série B",
+      "leagueCountry": "Brazil",
+      "leagueId": 72,
+      "leagueSeason": 2026,
+      "fixtureId": 1520897,
+      "home": {
+        "id": 7834,
+        "name": "Novorizontino"
+      },
+      "away": {
+        "id": 7865,
+        "name": "São Bernardo"
+      }
+    },
+    {
+      "time": "20:30",
+      "date": "2026-09-25T20:30:00-03:00",
+      "league": "Brasileirão Série B",
+      "leagueCountry": "Brazil",
+      "leagueId": 72,
+      "leagueSeason": 2026,
+      "fixtureId": 1520899,
+      "home": {
+        "id": 142,
+        "name": "Vila Nova"
+      },
+      "away": {
+        "id": 148,
+        "name": "Londrina"
+      }
+    }
+  ],
   "teamStats": {},
   "frios1t": {
     "qualified": [],
-    "totalTeams": 0,
+    "totalTeams": 4,
     "usableTeams": 0
   }
 }
