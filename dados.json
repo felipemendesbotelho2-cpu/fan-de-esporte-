@@ -1,28 +1,113 @@
 {
-  "updatedAt": "2026-09-26T01:07:53.417Z",
+  "updatedAt": "2026-09-26T06:59:31.143Z",
   "games": [
     {
-      "time": "20:30",
-      "date": "2026-09-25T20:30:00-03:00",
+      "time": "16:30",
+      "date": "2026-09-26T16:30:00-03:00",
       "league": "Brasileirão Série B",
       "leagueCountry": "Brazil",
       "leagueId": 72,
       "leagueSeason": 2026,
-      "fixtureId": 1520899,
+      "fixtureId": 1520896,
       "home": {
-        "id": 142,
-        "name": "Vila Nova"
+        "id": 755,
+        "name": "Nautico Recife"
       },
       "away": {
-        "id": 148,
-        "name": "Londrina"
+        "id": 123,
+        "name": "Sport Recife"
+      }
+    },
+    {
+      "time": "16:30",
+      "date": "2026-09-26T16:30:00-03:00",
+      "league": "Brasileirão Série B",
+      "leagueCountry": "Brazil",
+      "leagueId": 72,
+      "leagueSeason": 2026,
+      "fixtureId": 1520898,
+      "home": {
+        "id": 1223,
+        "name": "Operario-PR"
+      },
+      "away": {
+        "id": 129,
+        "name": "Ceara"
+      }
+    },
+    {
+      "time": "17:00",
+      "date": "2026-09-26T17:00:00-03:00",
+      "league": "Brasileirão Série C",
+      "leagueCountry": "Brazil",
+      "leagueId": 75,
+      "leagueSeason": 2026,
+      "fixtureId": 1637844,
+      "home": {
+        "id": 1197,
+        "name": "Botafogo PB"
+      },
+      "away": {
+        "id": 7833,
+        "name": "Maringá"
+      }
+    },
+    {
+      "time": "17:00",
+      "date": "2026-09-26T17:00:00-03:00",
+      "league": "Brasileirão Série C",
+      "leagueCountry": "Brazil",
+      "leagueId": 75,
+      "leagueSeason": 2026,
+      "fixtureId": 1637845,
+      "home": {
+        "id": 7774,
+        "name": "Floresta"
+      },
+      "away": {
+        "id": 753,
+        "name": "Santa Cruz"
+      }
+    },
+    {
+      "time": "18:30",
+      "date": "2026-09-26T18:30:00-03:00",
+      "league": "Brasileirão Série B",
+      "leagueCountry": "Brazil",
+      "leagueId": 72,
+      "leagueSeason": 2026,
+      "fixtureId": 1520895,
+      "home": {
+        "id": 151,
+        "name": "Goias"
+      },
+      "away": {
+        "id": 144,
+        "name": "Atletico Goianiense"
+      }
+    },
+    {
+      "time": "19:30",
+      "date": "2026-09-26T19:30:00-03:00",
+      "league": "Brasileirão Série C",
+      "leagueCountry": "Brazil",
+      "leagueId": 75,
+      "leagueSeason": 2026,
+      "fixtureId": 1637846,
+      "home": {
+        "id": 1201,
+        "name": "Inter De Limeira"
+      },
+      "away": {
+        "id": 149,
+        "name": "Paysandu"
       }
     }
   ],
   "teamStats": {},
   "frios1t": {
     "qualified": [],
-    "totalTeams": 2,
+    "totalTeams": 12,
     "usableTeams": 0
   }
 }
