@@ -1,23 +1,6 @@
 {
-  "updatedAt": "2026-09-25T20:12:29.162Z",
+  "updatedAt": "2026-09-26T01:07:53.417Z",
   "games": [
-    {
-      "time": "19:30",
-      "date": "2026-09-25T19:30:00-03:00",
-      "league": "Brasileirão Série B",
-      "leagueCountry": "Brazil",
-      "leagueId": 72,
-      "leagueSeason": 2026,
-      "fixtureId": 1520897,
-      "home": {
-        "id": 7834,
-        "name": "Novorizontino"
-      },
-      "away": {
-        "id": 7865,
-        "name": "São Bernardo"
-      }
-    },
     {
       "time": "20:30",
       "date": "2026-09-25T20:30:00-03:00",
@@ -39,7 +22,7 @@
   "teamStats": {},
   "frios1t": {
     "qualified": [],
-    "totalTeams": 4,
+    "totalTeams": 2,
     "usableTeams": 0
   }
 }
