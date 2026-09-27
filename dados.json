@@ -1,10 +1,79 @@
 {
-  "updatedAt": "2026-09-27T01:03:38.615Z",
-  "games": [],
+  "updatedAt": "2026-09-27T07:29:53.290Z",
+  "games": [
+    {
+      "time": "11:00",
+      "date": "2026-09-27T11:00:00-03:00",
+      "league": "Brasileirão Série B",
+      "leagueCountry": "Brazil",
+      "leagueId": 72,
+      "leagueSeason": 2026,
+      "fixtureId": 1520893,
+      "home": {
+        "id": 140,
+        "name": "Criciuma"
+      },
+      "away": {
+        "id": 145,
+        "name": "Avai"
+      }
+    },
+    {
+      "time": "16:00",
+      "date": "2026-09-27T16:00:00-03:00",
+      "league": "Brasileirão Série B",
+      "leagueCountry": "Brazil",
+      "leagueId": 72,
+      "leagueSeason": 2026,
+      "fixtureId": 1520892,
+      "home": {
+        "id": 146,
+        "name": "CRB"
+      },
+      "away": {
+        "id": 1193,
+        "name": "Cuiaba"
+      }
+    },
+    {
+      "time": "18:30",
+      "date": "2026-09-27T18:30:00-03:00",
+      "league": "Brasileirão Série B",
+      "leagueCountry": "Brazil",
+      "leagueId": 72,
+      "leagueSeason": 2026,
+      "fixtureId": 1520894,
+      "home": {
+        "id": 154,
+        "name": "Fortaleza EC"
+      },
+      "away": {
+        "id": 13975,
+        "name": "Athletic Club"
+      }
+    },
+    {
+      "time": "18:30",
+      "date": "2026-09-27T18:30:00-03:00",
+      "league": "Brasileirão Série C",
+      "leagueCountry": "Brazil",
+      "leagueId": 75,
+      "leagueSeason": 2026,
+      "fixtureId": 1637847,
+      "home": {
+        "id": 1211,
+        "name": "Brusque"
+      },
+      "away": {
+        "id": 7826,
+        "name": "Ferroviária"
+      }
+    }
+  ],
   "teamStats": {},
   "frios1t": {
     "qualified": [],
-    "totalTeams": 0,
+    "totalTeams": 8,
     "usableTeams": 0
   }
 }
