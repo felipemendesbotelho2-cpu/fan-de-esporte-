@@ -1,23 +1,6 @@
 {
-  "updatedAt": "2026-09-27T19:56:45.252Z",
+  "updatedAt": "2026-09-27T22:49:56.031Z",
   "games": [
-    {
-      "time": "16:00",
-      "date": "2026-09-27T16:00:00-03:00",
-      "league": "Brasileirão Série B",
-      "leagueCountry": "Brazil",
-      "leagueId": 72,
-      "leagueSeason": 2026,
-      "fixtureId": 1520892,
-      "home": {
-        "id": 146,
-        "name": "CRB"
-      },
-      "away": {
-        "id": 1193,
-        "name": "Cuiaba"
-      }
-    },
     {
       "time": "18:30",
       "date": "2026-09-27T18:30:00-03:00",
@@ -56,7 +39,7 @@
   "teamStats": {},
   "frios1t": {
     "qualified": [],
-    "totalTeams": 6,
+    "totalTeams": 4,
     "usableTeams": 0
   }
 }
