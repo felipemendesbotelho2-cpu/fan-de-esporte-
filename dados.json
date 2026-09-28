@@ -1,45 +1,10 @@
 {
-  "updatedAt": "2026-09-27T22:49:56.031Z",
-  "games": [
-    {
-      "time": "18:30",
-      "date": "2026-09-27T18:30:00-03:00",
-      "league": "Brasileirão Série B",
-      "leagueCountry": "Brazil",
-      "leagueId": 72,
-      "leagueSeason": 2026,
-      "fixtureId": 1520894,
-      "home": {
-        "id": 154,
-        "name": "Fortaleza EC"
-      },
-      "away": {
-        "id": 13975,
-        "name": "Athletic Club"
-      }
-    },
-    {
-      "time": "18:30",
-      "date": "2026-09-27T18:30:00-03:00",
-      "league": "Brasileirão Série C",
-      "leagueCountry": "Brazil",
-      "leagueId": 75,
-      "leagueSeason": 2026,
-      "fixtureId": 1637847,
-      "home": {
-        "id": 1211,
-        "name": "Brusque"
-      },
-      "away": {
-        "id": 7826,
-        "name": "Ferroviária"
-      }
-    }
-  ],
+  "updatedAt": "2026-09-28T01:21:19.285Z",
+  "games": [],
   "teamStats": {},
   "frios1t": {
     "qualified": [],
-    "totalTeams": 4,
+    "totalTeams": 0,
     "usableTeams": 0
   }
 }
