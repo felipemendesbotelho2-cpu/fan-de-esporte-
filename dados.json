@@ -1,21 +1,21 @@
 {
-  "updatedAt": "2026-09-29T00:08:00.757Z",
+  "updatedAt": "2026-09-29T07:48:03.900Z",
   "games": [
     {
       "time": "19:30",
-      "date": "2026-09-28T19:30:00-03:00",
+      "date": "2026-09-29T19:30:00-03:00",
       "league": "Brasileirão Série B",
       "leagueCountry": "Brazil",
       "leagueId": 72,
       "leagueSeason": 2026,
-      "fixtureId": 1520890,
+      "fixtureId": 1520891,
       "home": {
-        "id": 125,
-        "name": "America Mineiro"
+        "id": 2618,
+        "name": "Botafogo SP"
       },
       "away": {
-        "id": 152,
-        "name": "Juventude"
+        "id": 139,
+        "name": "Ponte Preta"
       }
     }
   ],
